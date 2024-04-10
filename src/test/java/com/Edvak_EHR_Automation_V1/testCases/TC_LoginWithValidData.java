@@ -22,6 +22,7 @@ public class TC_LoginWithValidData extends BaseClass {
 
 	@Test(priority=0)
 	public void testIfLoginPageOpened() {
+		//Test comments
 		LoginPage lp = new LoginPage(driver);
 		logger.info("********Test Starts Here********");
 		logger.info("'testIfLoginPageOpened' test execution starts here:");
