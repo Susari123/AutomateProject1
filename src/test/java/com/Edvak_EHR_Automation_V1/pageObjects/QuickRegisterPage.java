@@ -12,17 +12,23 @@ public class QuickRegisterPage {
 		ldriver = rdriver;
 		PageFactory.initElements(rdriver, this);
 	}
+	@FindBy(xpath="//*[@id=\"sidemenuWrapper\"]/main/nav/a[2]/span[1]")
+	WebElement PatientIcon;
+	
+	@FindBy(xpath= "/html[1]/body[1]/app-root[1]/div[1]/div[2]/app-find-a-patient[1]/div[1]/header[1]/div[1]/div[1]/div[1]")
+	WebElement PlusButton;
+	
 	@FindBy(xpath ="/html/body/app-root/div/div[2]/app-find-a-patient/div/header/div[1]/div/div/div/ul/li[1]/a")
-	WebElement quickRegistration;
+	WebElement QuickRegistration;
 
 	@FindBy(xpath ="//*[@id=\"main\"]/ed-drawer/ed-drawer-header/h2")
-	WebElement quickRegistrationText;
+	WebElement QuickRegistrationText;
 	
 	@FindBy(xpath ="//*[@id=\"main\"]/ed-drawer/ed-drawer-body/form/div/div[1]/header/h6")
 	WebElement basicInfoText;
 	
 	@FindBy(xpath ="/html/body/app-root/div/div[2]/app-right-side-bar/ed-modal/app-quick-registration/main/ed-drawer/ed-drawer-header/sl-icon-button//button")
-	WebElement crossButton;
+	WebElement CrossButton;
 	
 	@FindBy(xpath ="//*[@id=\"main\"]/ed-drawer/ed-drawer-body/form/div/div[1]/div/div[1]/label")
 	WebElement MRNText;
@@ -38,6 +44,9 @@ public class QuickRegisterPage {
 	
 	@FindBy(xpath ="//input[@name='dob']")
 	WebElement Dob;
+	
+	@FindBy(xpath ="//select[@class='form-select ng-tns-c150-4 ng-pristine ng-invalid is-invalid ng-touched']")
+	WebElement SexAtBirth;
 	
 	@FindBy(xpath ="//input[@type='tel']")
 	WebElement MobilePhone;
@@ -69,14 +78,59 @@ public class QuickRegisterPage {
 	@FindBy(xpath ="//label[@for='billingStatus1']")
 	WebElement BillingType;
 	
+	@FindBy(xpath ="//input[@placeholder='Search insurance plan']")
+	WebElement InsuranceName;
+	
+	@FindBy(xpath ="//div[@class='flex rounded border relative border-transparent w-full']//input[@type='text']")
+	WebElement PolicyNumber;
+	
 	@FindBy(xpath ="//textarea[@class='form-textarea h-14 ng-tns-c150-2 ng-untouched ng-pristine ng-valid']")
 	WebElement NoteText;
 	
 	@FindBy(xpath ="This element is inside Shadow DOM & for such elements XPath won't support.")
-	WebElement closeButton;
+	WebElement CloseButton;
 	
 	@FindBy(xpath ="This element is inside Shadow DOM and for such elements XPath won't support.")
 	WebElement SaveButton;
+	
+//	public void clickQuickPatientIcon()
+//	{
+//		PatientIcon.click();
+//
+//	}
+	public void clickQuickRegistration()
+	{
+		QuickRegistration.click();
+
+	}
+	
+	public void clickPlusButton()
+	{
+		PlusButton.click();
+
+	}
+	
+	public void getTextForQuickRegistrationText() 
+	{
+		QuickRegistrationText.getText();
+	}
+	
+	
+	public void clickcrossButton()
+	{
+		CrossButton.click();
+
+	}
+	
+	public void getTextForMRNText() 
+	{
+		MRNText.getText();
+	}
+	
+	public void getTextForMRNnumber() 
+	{
+		MRNnumber.getText();
+	}
 	
 	public void setFirstName(String fname) {
 		FirstName.sendKeys(fname);
@@ -90,13 +144,76 @@ public class QuickRegisterPage {
 		Dob.sendKeys(dob);
 	}
 	
+	public void setSexAtBirth(String sexAtBirth) {
+		SexAtBirth.sendKeys(sexAtBirth);
+	}
+	
+	
 	public void setMobilePhone(String mobilePhone) {
 		MobilePhone.sendKeys(mobilePhone);
 	}
 	
-	
-	
-	public void setHomePhone(String email) {
+	public void setHomePhone(String homePhone) {
+		HomePhone.sendKeys(homePhone);
+	}
+	public void setEmail(String email) {
 		Email.sendKeys(email);
 	}
+	
+	public void setAddressLine1(String addressLine1) {
+		AddressLine1.sendKeys(addressLine1);
+	}
+	
+	public void setAddressline2(String addressline2) {
+		Addressline2.sendKeys(addressline2);
+	}
+	
+	public void setCity(String city) {
+		City.sendKeys(city);
+	}
+	
+	public void setState(String state) {
+		State.sendKeys(state);
+	}
+	
+	public void setZipcode(String zipcode) {
+		Zipcode.sendKeys(zipcode);
+	}
+	
+	public void setReferingProvider(String referingProvider) {
+		ReferingProvider.sendKeys(referingProvider);
+	}
+	
+	public void setBillingType(String billingType) {
+		BillingType.sendKeys(billingType);
+	}
+	
+	public void setInsuranceName(String insuranceName) {
+		InsuranceName.sendKeys(insuranceName);
+	}
+	
+	public void setPolicyNumber(String policyNumber) {
+		PolicyNumber.sendKeys(policyNumber);
+	}
+	
+	public void setNoteText(String noteText) {
+		NoteText.sendKeys(noteText);
+	}
+	
+	public void clickCloseButton()
+	{
+		CloseButton.click();
+	}
+	
+	public void clickSaveButton()
+	{
+		SaveButton.click();
+	}
+
+
+	public void clickQuickPatientIcon() {
+		PatientIcon.click();
+	}
+
+	
 }
