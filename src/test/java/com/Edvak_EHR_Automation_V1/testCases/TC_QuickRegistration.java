@@ -2,13 +2,16 @@ package com.Edvak_EHR_Automation_V1.testCases;
 
 import java.time.Duration;
 
+
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.Keys;
 import org.testng.annotations.Test;
 
 import com.Edvak_EHR_Automation_V1.pageObjects.LoginPage;
@@ -46,16 +49,7 @@ public class TC_QuickRegistration extends BaseClass {
 		WebElement element1 = driver
 				.findElement(By.xpath("/html[1]/body[1]/app-root[1]/div[1]/aside[1]/main[1]/nav[1]/a[2]/span[1]/.."));
 		element1.click();
-		//wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("/html[1]/body[1]/app-root[1]/div[1]/div[2]/div[1]/app-header[1]/header[1]/div[1]/section[1]/div[2]/button[1]")));
-		//lp.clickUserIconDashboard();
-		/*try {
-            Alert alert = driver.switchTo().alert();
-            alert.dismiss();
-        } catch (Exception e) {
-            System.out.println("No alert present. Continuing with the test.");
-        }*/
-		//Actions actions1 = new Actions(driver);
-		//actions1.moveToElement(element1).click().build().perform();
+		
 		logger.info("Clicked on dashboard Patient Icon");
 		
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("/html/body/app-root/div/div[2]/app-find-a-patient/div/header/div[1]/div/div/sl-icon-button")));
@@ -75,9 +69,7 @@ public class TC_QuickRegistration extends BaseClass {
 
 		String text =driver.findElement(By.xpath("/html[1]/body[1]/app-root[1]/div[1]/div[2]/app-right-side-bar[1]/ed-modal[1]/app-quick-registration[1]/main[1]/ed-drawer[1]/ed-drawer-header[1]/h2[1]")).getText();
         logger.info(text);		
-//        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("/html[1]/body[1]/app-root[1]/div[1]/div[2]/app-right-side-bar[1]/ed-modal[1]/app-quick-registration[1]/main[1]/ed-drawer[1]/ed-drawer-header[1]")));
-//		WebElement element4 = driver
-//				.findElement(By.xpath("//li[1]//a[1]"));
+//       
 		logger.info("Quick Register Text is visible");
 		String text2 =driver.findElement(By.xpath("/html[1]/body[1]/app-root[1]/div[1]/div[2]/app-right-side-bar[1]/ed-modal[1]/app-quick-registration[1]/main[1]/ed-drawer[1]/ed-drawer-body[1]/form[1]/div[1]/div[1]/div[1]/div[1]/label[1]")).getText();
         logger.info(text2);		
@@ -86,25 +78,62 @@ public class TC_QuickRegistration extends BaseClass {
         String text3 =driver.findElement(By.xpath("/html[1]/body[1]/app-root[1]/div[1]/div[2]/app-right-side-bar[1]/ed-modal[1]/app-quick-registration[1]/main[1]/ed-drawer[1]/ed-drawer-body[1]/form[1]/div[1]/div[1]/div[1]/div[1]/span[1]")).getText();
         logger.info(text3);
 		logger.info("mrn Number  is visible");
-		qr.setFirstName("sourav");
+		WebElement FirstName = driver.findElement(By.xpath("/html[1]/body[1]/app-root[1]/div[1]/div[2]/app-right-side-bar[1]/ed-modal[1]/app-quick-registration[1]/main[1]/ed-drawer[1]/ed-drawer-body[1]/form[1]/div[1]/div[1]/div[1]/div[2]/div[1]/div[2]/input[1]"));
+		FirstName.sendKeys("sourav");
 		logger.info("First name is entered");
-		qr.setLastName("Susari");
+		WebElement LastName = driver.findElement(By.xpath("/html[1]/body[1]/app-root[1]/div[1]/div[2]/app-right-side-bar[1]/ed-modal[1]/app-quick-registration[1]/main[1]/ed-drawer[1]/ed-drawer-body[1]/form[1]/div[1]/div[1]/div[1]/div[2]/div[2]/div[2]/input[1]"));
+		LastName.sendKeys("susari");
 		logger.info("Last name is entered");
-		qr.setDob("");
+		WebElement dobField = driver.findElement(By.xpath("/html[1]/body[1]/app-root[1]/div[1]/div[2]/app-right-side-bar[1]/ed-modal[1]/app-quick-registration[1]/main[1]/ed-drawer[1]/ed-drawer-body[1]/form[1]/div[1]/div[1]/div[1]/div[3]/div[1]/div[2]/input[1]"));
+        dobField.sendKeys("11-09-2000");
 		logger.info("Date of Birth is entered");
-		qr.setSexAtBirth("null");
+		
+		WebElement genderDropdown = driver.findElement(By.xpath("/html[1]/body[1]/app-root[1]/div[1]/div[2]/app-right-side-bar[1]/ed-modal[1]/app-quick-registration[1]/main[1]/ed-drawer[1]/ed-drawer-body[1]/form[1]/div[1]/div[1]/div[1]/div[3]/div[2]/div[2]/select[1]"));
+        Select genderSelect = new Select(genderDropdown);
+        genderSelect.selectByVisibleText("Male");
 		logger.info("Clicked Select Sex AT Birth");
-		qr.setMobilePhone("123456789");
+		
+		WebElement mobileNumber = driver.findElement(By.xpath("/html[1]/body[1]/app-root[1]/div[1]/div[2]/app-right-side-bar[1]/ed-modal[1]/app-quick-registration[1]/main[1]/ed-drawer[1]/ed-drawer-body[1]/form[1]/div[1]/div[1]/div[1]/div[4]/div[1]/div[2]/input[1]"));
+		mobileNumber.sendKeys("0123456789");
 		logger.info("mobile number entered");
-		qr.setEmail("sourav@gmail.com");
+		WebElement email = driver.findElement(By.xpath("/html[1]/body[1]/app-root[1]/div[1]/div[2]/app-right-side-bar[1]/ed-modal[1]/app-quick-registration[1]/main[1]/ed-drawer[1]/ed-drawer-body[1]/form[1]/div[1]/div[1]/div[1]/div[5]/div[1]/div[1]/input[1]"));
+		email.sendKeys("sourav12@gmail.com");		
 		logger.info("email entered");
-		qr.setAddressLine1("Houston");
-		logger.info("Address Entered");
-		qr.setCity("Houston");
-		logger.info("city is entered");
-		qr.setState("newyork");
-		qr.setZipcode("768003");
-		qr.setReferingProvider("marcia glitia");
+		WebElement address1 = driver.findElement(By.xpath("/html[1]/body[1]/app-root[1]/div[1]/div[2]/app-right-side-bar[1]/ed-modal[1]/app-quick-registration[1]/main[1]/ed-drawer[1]/ed-drawer-body[1]/form[1]/div[1]/div[1]/div[1]/div[6]/div[1]/div[1]/div[2]/input[1]"));
+        address1.sendKeys("123 Main Street");
+		WebElement cityField = driver.findElement(By.xpath("/html[1]/body[1]/app-root[1]/div[1]/div[2]/app-right-side-bar[1]/ed-modal[1]/app-quick-registration[1]/main[1]/ed-drawer[1]/ed-drawer-body[1]/form[1]/div[1]/div[1]/div[1]/div[6]/div[2]/div[1]/div[2]/app-editable-control[1]/ed-form-row[1]/div[1]/input[1]"));
+        
+		cityField.sendKeys("new York", Keys.TAB);
+		Thread.sleep(300);
+       // wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("")));
+        WebElement stateField = driver.findElement(By.xpath("//select[@aria-label='State']"));
+        Select S1= new Select(stateField);
+        logger.info("wait-------");
+        Thread.sleep(300);
+        S1.selectByVisibleText(" NY ");
+
+
+        logger.info("---------");
+
+		WebElement zipcode = driver.findElement(By.xpath("/html[1]/body[1]/app-root[1]/div[1]/div[2]/app-right-side-bar[1]/ed-modal[1]/app-quick-registration[1]/main[1]/ed-drawer[1]/ed-drawer-body[1]/form[1]/div[1]/div[1]/div[1]/div[6]/div[2]/div[3]/div[2]/app-editable-control[1]/ed-form-row[1]/div[1]/input[1]"));
+        zipcode.sendKeys("32216");
+        logger.info("Zipcode entered");
+        
+        WebElement referingProvider = driver.findElement(By.xpath("/html[1]/body[1]/app-root[1]/div[1]/div[2]/app-right-side-bar[1]/ed-modal[1]/app-quick-registration[1]/main[1]/ed-drawer[1]/ed-drawer-body[1]/form[1]/div[1]/div[1]/div[1]/div[7]/div[1]/div[1]/type-ahead[1]/div[1]/input[1]"));
+        referingProvider.sendKeys("marry smith");
+        
+        logger.info("---------");
+//        WebElement radioButton = driver.findElement(By.xpath("/html[1]/body[1]/app-root[1]/div[1]/div[2]/app-right-side-bar[1]/ed-modal[1]/app-quick-registration[1]/main[1]/ed-drawer[1]/ed-drawer-body[1]/form[1]/div[1]/div[2]"));
+//        if (!radioButton.isSelected()) {
+//            radioButton.click();
+//        }
+		WebElement Notes = driver.findElement(By.xpath("/html[1]/body[1]/app-root[1]/div[1]/div[2]/app-right-side-bar[1]/ed-modal[1]/app-quick-registration[1]/main[1]/ed-drawer[1]/ed-drawer-body[1]/form[1]/div[1]/div[4]/textarea[1]"));
+		Notes.sendKeys("Notes added");
+		logger.info("Notes added sucessufully");
+		WebElement save = driver.findElement(By.xpath("//*[@id=\"main\"]/ed-drawer/ed-drawer-footer/sl-button[2]"));
+		save.click();
+		WebElement cancel = driver.findElement(By.xpath("//*[@id=\"main\"]/ed-drawer/ed-drawer-footer/sl-button[1]"));
+		cancel.click();
 		
 	}
 

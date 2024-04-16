@@ -1,9 +1,11 @@
 package com.Edvak_EHR_Automation_V1.pageObjects;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.Select;
 
 public class QuickRegisterPage {
 	WebDriver ldriver;
@@ -66,8 +68,8 @@ public class QuickRegisterPage {
 	@FindBy(xpath ="/html[1]/body[1]/app-root[1]/div[1]/div[2]/app-right-side-bar[1]/ed-modal[1]/app-quick-registration[1]/main[1]/ed-drawer[1]/ed-drawer-body[1]/form[1]/div[1]/div[1]/div[1]/div[6]/div[2]/div[1]/div[2]/app-editable-control[1]/ed-form-row[1]/div[1]/input[1]")
 	WebElement City;
 	
-	@FindBy(xpath ="//select[@aria-label='State']")
-	WebElement State;
+	@FindBy(xpath ="//*[@id=\"main\"]/ed-drawer/ed-drawer-body/form/div/div[1]/div/div[6]/div[2]/div[2]/div[2]/select")
+	WebElement selectStateDropdown;
 	
 	@FindBy(xpath ="//*[@id=\"main\"]/ed-drawer/ed-drawer-body/form/div/div[1]/div/div[6]/div[2]/div[3]/div[2]/app-editable-control/ed-form-row/div/input")
 	WebElement Zipcode;
@@ -172,8 +174,10 @@ public class QuickRegisterPage {
 		City.sendKeys(city);
 	}
 	
-	public void setState(String state) {
-		State.sendKeys(state);
+	public void setSelectCountryDropdown(String state)
+	{
+	Select selectStateDropdown = new Select(ldriver.findElement(By.xpath("//*[@id=\"main\"]/ed-drawer/ed-drawer-body/form/div/div[1]/div/div[6]/div[2]/div[2]/div[2]/select")));
+    selectStateDropdown.selectByVisibleText(state);
 	}
 	
 	public void setZipcode(String zipcode) {
