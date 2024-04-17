@@ -10,7 +10,7 @@ import org.openqa.selenium.support.ui.Select;
 public class QuickRegisterPage {
 	WebDriver ldriver;
 
-	public void quickRegisterPage(WebDriver rdriver) {
+	public QuickRegisterPage(WebDriver rdriver) {
 		ldriver = rdriver;
 		PageFactory.initElements(rdriver, this);
 	}
@@ -50,7 +50,7 @@ public class QuickRegisterPage {
 	@FindBy(xpath ="//select[@class='form-select ng-tns-c150-4 ng-pristine ng-invalid is-invalid ng-touched']")
 	WebElement SexAtBirth;
 	
-	@FindBy(xpath ="//input[@type='tel']")
+	@FindBy(xpath ="/html[1]/body[1]/app-root[1]/div[1]/div[2]/app-right-side-bar[1]/ed-modal[1]/app-quick-registration[1]/main[1]/ed-drawer[1]/ed-drawer-body[1]/form[1]/div[1]/div[1]/div[1]/div[4]/div[1]/div[2]/input[1]")
 	WebElement MobilePhone;
 	
 	@FindBy(xpath ="//*[@id=\"main\"]/ed-drawer/ed-drawer-body/form/div/div[1]/div/div[4]/div[2]/div/div/input")
