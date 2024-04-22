@@ -126,7 +126,7 @@
                     <!-- Suite testng xml file to consider for test execution -->
                     <suiteXmlFiles>
                        
-                        <suiteXmlFile>QuickRegistrationTestNG.xml</suiteXmlFile>
+                        <suiteXmlFile>FacesheetAllergiesTestNG.xml</suiteXmlFile>
                                                               
                     </suiteXmlFiles>
                 </configuration>

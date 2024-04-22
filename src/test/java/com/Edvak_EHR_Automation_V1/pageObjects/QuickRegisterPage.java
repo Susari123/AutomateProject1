@@ -193,6 +193,7 @@ public class QuickRegisterPage {
 	}
 	
 	public void setInsuranceName(String insuranceName) {
+		Select s1= new Select(InsuranceName);
 		InsuranceName.sendKeys(insuranceName);
 	}
 	
