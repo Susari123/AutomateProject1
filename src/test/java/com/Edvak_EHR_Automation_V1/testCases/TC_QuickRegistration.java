@@ -76,7 +76,7 @@ public class TC_QuickRegistration extends BaseClass {
 		logger.info("Last name is entered Sucessfullly");
 		qr.setDob("11-09-2000");
 		logger.info("Date of Birth is entered Sucessfullly");		
-		WebElement genderDropdown = driver.findElement(By.xpath("/html[1]/body[1]/app-root[1]/div[1]/div[2]/app-right-side-bar[1]/ed-modal[1]/app-quick-registration[1]/main[1]/ed-drawer[1]/ed-drawer-body[1]/form[1]/div[1]/div[1]/div[1]/div[3]/div[2]/div[2]/select[1]"));
+		WebElement genderDropdown = driver.findElement(By.xpath("//ed-drawer-header/div/sl-icon-button"));
         Select genderSelect = new Select(genderDropdown);
         genderSelect.selectByVisibleText("Male");
 		logger.info("Clicked Select Sex AT Birth");
