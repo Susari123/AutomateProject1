@@ -135,6 +135,28 @@ public class TC_FacesheetAllergies extends BaseClass{
         
 		WebElement save = driver.findElement(By.xpath("/html/body/app-root/div/div[2]/app-right-side-bar/ed-modal/app-allergies/div[1]/ed-drawer[1]/ed-drawer-footer/sl-button[2]"));
 		save.click();
+		
+		WebElement CheckOption= driver.findElement(By.xpath("/html/body/app-root/div/div[2]/app-right-side-bar/ed-modal/app-allergies/div[1]/ed-drawer[2]/ed-drawer-body/div/div[1]/div/div[1]/sl-checkbox"));
+		CheckOption.click();
+		WebElement InactiveButton= driver.findElement(By.xpath("/html/body/app-root/div/div[2]/app-right-side-bar/ed-modal/app-allergies/div[1]/ed-drawer[2]/div[2]/div/sl-button[1]"));
+		InactiveButton.click();
+        WebElement Inactive = driver.findElement(By.xpath("//nav/button[2]"));
+		Inactive.click();
+		WebElement CheckOption1= driver.findElement(By.xpath("//ed-drawer-body/div/div/div/div/sl-checkbox"));
+		CheckOption1.click();
+		WebElement MarkaserrorButton= driver.findElement(By.xpath("/html/body/app-root/div/div[2]/app-right-side-bar/ed-modal/app-allergies/div[1]/ed-drawer/div[2]/div/sl-button[2]"));
+		MarkaserrorButton.click();
+		
+		
+		WebElement MarkasError = driver.findElement(By.xpath("//nav/button[3]"));
+		MarkasError.click();
+		WebElement CheckOption2= driver.findElement(By.xpath("/html/body/app-root/div/div[2]/app-right-side-bar/ed-modal/app-allergies/div[1]/ed-drawer/ed-drawer-body/div/div/div/div[1]/sl-checkbox"));
+		CheckOption2.click();
+		WebElement Active= driver.findElement(By.xpath("/html/body/app-root/div/div[2]/app-right-side-bar/ed-modal/app-allergies/div[1]/ed-drawer/div[2]/div/sl-button[1]"));
+		Active.click();
+		
+		WebElement print= driver.findElement(By.xpath("//span[@class='material-symbols-rounded sm ng-tns-c306-3']"));
+		print.click();
        }
 	}
 	
