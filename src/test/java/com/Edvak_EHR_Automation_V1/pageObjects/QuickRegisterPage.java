@@ -23,7 +23,7 @@ public class QuickRegisterPage {
 	@FindBy(xpath ="/html/body/app-root/div/div[2]/app-find-a-patient/div/header/div[1]/div/div/div/ul/li[1]/a")
 	WebElement QuickRegistration;
 
-	@FindBy(xpath ="//*[@id=\"main\"]/ed-drawer/ed-drawer-header/h2")
+	@FindBy(xpath ="//*[@id=\"main\"]/ed-drawer/ed-drawer-header/div/h2")
 	WebElement QuickRegistrationText;
 	
 	@FindBy(xpath ="//*[@id=\"main\"]/ed-drawer/ed-drawer-body/form/div/div[1]/header/h6")
@@ -32,7 +32,7 @@ public class QuickRegisterPage {
 	@FindBy(xpath ="/html/body/app-root/div/div[2]/app-right-side-bar/ed-modal/app-quick-registration/main/ed-drawer/ed-drawer-header/sl-icon-button//button")
 	WebElement CrossButton;
 	
-	@FindBy(xpath ="//*[@id=\"main\"]/ed-drawer/ed-drawer-body/form/div/div[1]/div/div[1]/label")
+	@FindBy(xpath ="//*[@id=\"main\"]/ed-drawer/ed-drawer-header/div/span")
 	WebElement MRNText;
 	
 	@FindBy(xpath ="//*[@id=\"main\"]/ed-drawer/ed-drawer-body/form/div/div[1]/div/div[1]/span")
@@ -50,19 +50,19 @@ public class QuickRegisterPage {
 	@FindBy(xpath ="//select[@class='form-select ng-tns-c150-4 ng-pristine ng-invalid is-invalid ng-touched']")
 	WebElement SexAtBirth;
 	
-	@FindBy(xpath ="/html[1]/body[1]/app-root[1]/div[1]/div[2]/app-right-side-bar[1]/ed-modal[1]/app-quick-registration[1]/main[1]/ed-drawer[1]/ed-drawer-body[1]/form[1]/div[1]/div[1]/div[1]/div[4]/div[1]/div[2]/input[1]")
+	@FindBy(xpath ="//*[@id=\"main\"]/ed-drawer/ed-drawer-body/form/div/div[1]/div/div[3]/div[1]/div[2]/input")
 	WebElement MobilePhone;
 	
 	@FindBy(xpath ="//*[@id=\"main\"]/ed-drawer/ed-drawer-body/form/div/div[1]/div/div[4]/div[2]/div/div/input")
 	WebElement HomePhone;
 	
-	@FindBy(xpath ="//input[@name='email']")
+	@FindBy(xpath ="//*[@id=\"main\"]/ed-drawer/ed-drawer-body/form/div/div[1]/div/div[3]/div[3]/div/div/input")
 	WebElement Email;
 	
 	@FindBy(xpath ="//input[@placeholder='Enter/Search a address']")
 	WebElement AddressLine1;
 	
-	@FindBy(xpath ="/html[1]/body[1]/app-root[1]/div[1]/div[2]/app-right-side-bar[1]/ed-modal[1]/app-quick-registration[1]/main[1]/ed-drawer[1]/ed-drawer-body[1]/form[1]/div[1]/div[1]/div[1]/div[6]/div[1]/div[2]/div[2]/input[1]")
+	@FindBy(xpath ="//*[@id=\"main\"]/ed-drawer/ed-drawer-body/form/div/div[1]/div/div[4]/div[1]/div[2]/div[2]/input")
 	WebElement Addressline2;
 	
 	@FindBy(xpath ="/html[1]/body[1]/app-root[1]/div[1]/div[2]/app-right-side-bar[1]/ed-modal[1]/app-quick-registration[1]/main[1]/ed-drawer[1]/ed-drawer-body[1]/form[1]/div[1]/div[1]/div[1]/div[6]/div[2]/div[1]/div[2]/app-editable-control[1]/ed-form-row[1]/div[1]/input[1]")
@@ -71,7 +71,7 @@ public class QuickRegisterPage {
 	@FindBy(xpath ="//*[@id=\"main\"]/ed-drawer/ed-drawer-body/form/div/div[1]/div/div[6]/div[2]/div[2]/div[2]/select")
 	WebElement selectStateDropdown;
 	
-	@FindBy(xpath ="//*[@id=\"main\"]/ed-drawer/ed-drawer-body/form/div/div[1]/div/div[6]/div[2]/div[3]/div[2]/app-editable-control/ed-form-row/div/input")
+	@FindBy(xpath ="//*[@id=\"main\"]/ed-drawer/ed-drawer-body/form/div/div[1]/div/div[4]/div[2]/div[3]/div[2]/app-editable-control/ed-form-row/div/input")
 	WebElement Zipcode;
 	
 	@FindBy(xpath ="//input[@placeholder='Search Provider']")

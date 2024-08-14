@@ -20,7 +20,7 @@ import com.gargoylesoftware.htmlunit.javascript.host.Console;
 
 public class TC_QuickRegistration extends BaseClass {
 	
-	@Test(priority=0)
+//	@Test(priority=0)
 	public void testQuickRegistration() throws InterruptedException {
 		
 		LoginPage lp= new LoginPage(driver);
@@ -32,10 +32,10 @@ public class TC_QuickRegistration extends BaseClass {
         logger.info("Opened URL: "+baseURL);
         driver.manage().window().maximize();
 		logger.info("Entering username in Username Text field");
-		lp.setUserName("marcia@ehr.com");
+		lp.setUserName("souravsusari311@gmail.com");
 		logger.info("Entered Username in Username Text field");
 		logger.info("Entering Password in password Text field");
-		lp.setPassword("Admin@321");
+		lp.setPassword("Admin@123");
 		logger.info("Entered Password in password Text field");
 		logger.info("Clicking on Login button");
 		WebElement element = driver
@@ -48,7 +48,21 @@ public class TC_QuickRegistration extends BaseClass {
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("/html[1]/body[1]/app-root[1]/div[1]/div[2]/div[1]/app-header[1]/header[1]/div[1]/section[1]/div[2]/button[1]")));
 		WebElement element1 = driver
 				.findElement(By.xpath("/html[1]/body[1]/app-root[1]/div[1]/aside[1]/main[1]/nav[1]/a[2]/span[1]/.."));
-		element1.click();		
+		int retryCount = 0;
+        boolean clicked = false;
+        while (retryCount < 3 && !clicked) { // Retry for a maximum of 3 times
+            try {
+                // Click on the element
+                element1.click();
+                // If click is successful, set clicked flag to true
+                clicked = true;
+            } catch (org.openqa.selenium.ElementClickInterceptedException e) {
+                // Handle ElementClickInterceptedException
+                System.out.println("Attempt " + (retryCount + 1) + ": Element click intercepted. Retrying...");
+                retryCount++;
+            }
+        }
+//		element1.click();		
 		logger.info("Clicked on dashboard Patient Icon");		
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("/html/body/app-root/div/div[2]/app-find-a-patient/div/header/div[1]/div/div/sl-icon-button")));
 		WebElement element2 = driver
@@ -62,34 +76,35 @@ public class TC_QuickRegistration extends BaseClass {
 		element3.click();
 		logger.info("Clicked on Quick register button");
 		logger.info("Quick Registration page opened");
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("/html[1]/body[1]/app-root[1]/div[1]/div[2]/app-right-side-bar[1]/ed-modal[1]/app-quick-registration[1]/main[1]/ed-drawer[1]/ed-drawer-header[1]/h2[1]")));
+		Thread.sleep(200);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"main\"]/ed-drawer/ed-drawer-header/div")));
         qr.getTextForQuickRegistrationText();	  
 		logger.info("Quick Register Text is visible");
-		qr.getTextForMRNText();		
-        logger.info("verified MRN Text is visible");
-        qr.getTextForMRNnumber();
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("/html[1]/body[1]/app-root[1]/div[1]/div[2]/app-right-side-bar[1]/ed-modal[1]/app-quick-registration[1]/main[1]/ed-drawer[1]/ed-drawer-body[1]/form[1]/div[1]/div[1]/div[1]/div[1]/span[1]")));
-		logger.info("verified MRN Number  is visible");
-		qr.setFirstName("srk");
+//		qr.getTextForMRNText();		
+//        logger.info("verified MRN Text is visible");
+//        qr.getTextForMRNnumber();
+//        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("/html[1]/body[1]/app-root[1]/div[1]/div[2]/app-right-side-bar[1]/ed-modal[1]/app-quick-registration[1]/main[1]/ed-drawer[1]/ed-drawer-body[1]/form[1]/div[1]/div[1]/div[1]/div[1]/span[1]")));
+//		logger.info("verified MRN Number  is visible");
+		qr.setFirstName("Ashok");
 		logger.info("First name is entered successufully");
-		qr.setLastName("Susari");
+		qr.setLastName("Kumar");
 		logger.info("Last name is entered Sucessfullly");
-		qr.setDob("11-09-2000");
+		qr.setDob("01-01-2000");
 		logger.info("Date of Birth is entered Sucessfullly");		
-		WebElement genderDropdown = driver.findElement(By.xpath("//ed-drawer-header/div/sl-icon-button"));
+		WebElement genderDropdown = driver.findElement(By.xpath("//*[@id=\"main\"]/ed-drawer/ed-drawer-body/form/div/div[1]/div/div[2]/div[2]/div[2]/select"));
         Select genderSelect = new Select(genderDropdown);
         genderSelect.selectByVisibleText("Male");
 		logger.info("Clicked Select Sex AT Birth");
-		qr.setMobilePhone("93484980878");
+		qr.setMobilePhone("8329170917");
 		logger.info("mobile number entered Sucessfullly");
-		qr.setHomePhone("9098787869");
-		logger.info("Home mobile number entered Sucessfullly");
+//		qr.setHomePhone("8329170917");
+//		logger.info("Home mobile number entered Sucessfullly");
 		qr.setEmail("sourav@gmail.com");		
 		logger.info("email entered Sucessfullly");
 		qr.setAddressLine1("123 Main Street");
 		logger.info("Address1 enteres Sucessfullly");
-		qr.setAddressline2("123 Main Sucessfullly");
-		WebElement cityField = driver.findElement(By.xpath("/html[1]/body[1]/app-root[1]/div[1]/div[2]/app-right-side-bar[1]/ed-modal[1]/app-quick-registration[1]/main[1]/ed-drawer[1]/ed-drawer-body[1]/form[1]/div[1]/div[1]/div[1]/div[6]/div[2]/div[1]/div[2]/app-editable-control[1]/ed-form-row[1]/div[1]/input[1]"));        
+		qr.setAddressline2("Oak Street ,Highway Lane");
+		WebElement cityField = driver.findElement(By.xpath("//*[@id=\"main\"]/ed-drawer/ed-drawer-body/form/div/div[1]/div/div[4]/div[2]/div[1]/div[2]/app-editable-control/ed-form-row/div/input"));        
 		cityField.sendKeys("new York", Keys.TAB);
 		Thread.sleep(300);
         WebElement stateField = driver.findElement(By.xpath("//select[@aria-label='State']"));
@@ -105,22 +120,23 @@ public class TC_QuickRegistration extends BaseClass {
 
 
         WebElement searchField = driver.findElement(By.xpath("//input[@placeholder='Search insurance plan']"));
-        searchField.sendKeys("AARP MCR Advanage HMO");
+        searchField.sendKeys("aetna");
         Thread.sleep(500);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"main\"]/ed-drawer/ed-drawer-body/form/div/div[2]/div[2]/div/div[1]/type-ahead/div/div")));
 
 
-        List<WebElement> suggestionElements = driver.findElements(By.xpath("//*[@id=\"main\"]/ed-drawer/ed-drawer-body/form/div/div[2]/div[2]/div/div[1]/type-ahead/div/div/app-dropdown-templates-loader[1]/app-dropdown-template-insurance/div"));
+//        List<WebElement> suggestionElements = driver.findElements(By.xpath("//*[@id=\"main\"]/ed-drawer/ed-drawer-body/form/div/div[2]/div[2]/div/div[1]/type-ahead/div/div"));
+        WebElement option1 = driver.findElement(By.xpath("//*[@id=\"main\"]/ed-drawer/ed-drawer-body/form/div/div[2]/div[2]/div/div[1]/type-ahead/div/div/app-dropdown-templates-loader/app-dropdown-template-insurance/div/section"));
+        option1.click();
 
-
-        for (WebElement suggestion : suggestionElements) {
-            if (suggestion.isDisplayed()) {
-              logger.info("clicked");
-                suggestion.click();
-                break; 
-            }
-        }
-        qr.setPolicyNumber("ABCG123456");
+        WebElement groupnumber= driver.findElement(By.xpath("//*[@id=\"main\"]/ed-drawer/ed-drawer-body/form/div/div[2]/div[2]/div/div[2]/app-editable-control/ed-form-row/div/input"));
+        groupnumber.sendKeys("014187001400023");
+        WebElement policy= driver.findElement(By.xpath("//*[@id=\"main\"]/ed-drawer/ed-drawer-body/form/div/div[2]/div[2]/div/div[3]/app-editable-control/ed-form-row/div/input"));
+        policy.sendKeys("W231596317");
+//        qr.setPolicyNumber("W231596317");
         logger.info("Police Number Entered Sucessfully");
+        WebElement checkeligiblity = driver.findElement(By.xpath("//*[@id=\"main\"]/ed-drawer/ed-drawer-body/form/div/div[3]/sl-button"));
+        checkeligiblity.click();
         qr.setNoteText("Notes Added");
 		logger.info("Notes added sucessufully");
 		WebElement save = driver.findElement(By.xpath("//*[@id=\"main\"]/ed-drawer/ed-drawer-footer/sl-button[2]"));

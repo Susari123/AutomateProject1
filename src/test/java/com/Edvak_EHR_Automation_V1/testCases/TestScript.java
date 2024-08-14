@@ -19,9 +19,9 @@ public class TestScript {
 		// TODO Auto-generated method stub
 		WebDriverManager.chromedriver().setup();
 		WebDriver driver = new ChromeDriver();
-		driver.get("https://darwinapi.edvak.com/");
-		driver.findElement(By.xpath("//input[@placeholder='Email address']")).sendKeys("accountadmin2@ehr.com");
-		driver.findElement(By.xpath("//input[@placeholder='Password']")).sendKeys("Edvak@123");
+		driver.get("https://darwinapi.edvak.com");
+		driver.findElement(By.xpath("//input[@placeholder='Email address']")).sendKeys("souravsusari311@gmail.com");
+		driver.findElement(By.xpath("//input[@placeholder='Password']")).sendKeys("Admin@321");
 		WebElement element = driver
 				.findElement(By.xpath("/html/body/app-root/div/div/app-login/section/div/div/form/div[3]/sl-button"))
 				.getShadowRoot().findElement(By.cssSelector("button"));
