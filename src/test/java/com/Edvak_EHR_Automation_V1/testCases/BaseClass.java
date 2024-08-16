@@ -2,6 +2,10 @@ package com.Edvak_EHR_Automation_V1.testCases;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
+import java.util.List;
+
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
@@ -21,6 +25,8 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Parameters;
 
 import com.Edvak_EHR_Automation_V1.utilities.ReadConfig;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
 
@@ -65,6 +71,20 @@ public class BaseClass {
 
 	}
 
+	public List<HashMap<String, String>> getJsonDataToMap(String string) throws IOException {
+		
+		//read json to string
+	String jsonContent=	FileUtils.readFileToString(new File(System.getProperty("user.dir")+"//src//test//java//com//Edvak_EHR_Automation_V1//testCases//data//Billing.json"), StandardCharsets.UTF_8);
+	
+	
+	//String To HashMap Jackson Databid
+	
+	ObjectMapper mapper = new ObjectMapper();
+	List<HashMap<String,String>> data = mapper.readValue(jsonContent, new TypeReference<List<HashMap<String, String>>>(){	
+	});
+	return data;
+	
+	}
 	@AfterClass
 	public void tearDown() {
 		//driver.quit();
@@ -87,4 +107,5 @@ public class BaseClass {
 
 		}
 	}
+	
 }

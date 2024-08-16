@@ -6,6 +6,7 @@
       <class name="com.Edvak_EHR_Automation_V1.testCases.TC_BillingGenerateClaims">
         <methods>
           <include name="tearDown"/>
+          <include name="testBillingGenerateClaims"/>
           <include name="setup"/>
           <include name="captureScreen"/>
           <include name="testQuickRegistration"/>
