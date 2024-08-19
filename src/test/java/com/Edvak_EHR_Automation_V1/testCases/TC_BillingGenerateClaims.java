@@ -1,6 +1,8 @@
 package com.Edvak_EHR_Automation_V1.testCases;
 
+import java.io.File;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.util.HashMap;
@@ -8,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
+import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.ElementClickInterceptedException;
@@ -22,9 +25,19 @@ import org.testng.annotations.Test;
 
 import com.Edvak_EHR_Automation_V1.pageObjects.LoginPage;
 import com.Edvak_EHR_Automation_V1.pageObjects.QuickRegisterPage;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.Edvak_EHR_Automation_V1.pageObjects.FacesheetAllergies;
+import com.Edvak_EHR_Automation_V1.utilities.DataReader;
+import com.Edvak_EHR_Automation_V1.utilities.GenerateRandomNumberBetweenLength;
+import com.Edvak_EHR_Automation_V1.utilities.GenerateRandomNumberOfLengthN;
+import com.Edvak_EHR_Automation_V1.utilities.TestData;
 
 public class TC_BillingGenerateClaims extends BaseClass {
+	DataReader dr = new DataReader();
+	GenerateRandomNumberBetweenLength random= new GenerateRandomNumberBetweenLength();
+	TestData td = new TestData();
+
 
     @Test(priority = 0)
     public void testQuickRegistration() throws InterruptedException {
@@ -56,7 +69,7 @@ public class TC_BillingGenerateClaims extends BaseClass {
     }
 
     @Test(priority = 1, dataProvider = "dataProviderTest", dependsOnMethods = {"testQuickRegistration"})
-    void testBillingGenerateClaims(HashMap<String, String> data) throws InterruptedException {
+    void testBillingGenerateClaims(HashMap<String, String> data) throws InterruptedException, IOException {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(100));
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[normalize-space()='attach_money']")));
 
@@ -117,7 +130,7 @@ public class TC_BillingGenerateClaims extends BaseClass {
         }
     }
 
-    private void fillEncounterDetails(HashMap<String, String> data, WebDriverWait wait) throws InterruptedException {
+    private void fillEncounterDetails(HashMap<String, String> data, WebDriverWait wait) throws InterruptedException, IOException {
         // Encounter selection
         WebElement encounterDropdown = driver.findElement(By.xpath("//div[@class='border border-[#CBD5E1] flex form-select w-full bg-white']"));
         encounterDropdown.click();
@@ -139,10 +152,10 @@ public class TC_BillingGenerateClaims extends BaseClass {
         ngSelect1.click();
         logger.info("---------");
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("ng-dropdown-panel-items")));
-        WebElement option1 = driver.findElement(By.xpath("//ng-dropdown-panel//div//div[2]//div[2]"));
+        WebElement option1 = driver.findElement(By.xpath("(//*[@formcontrolname='location']/descendant::div[@role='option'])["+random.generateRandomNumber(1,3)+"]"));
         option1.click();
     	
-        
+//        (//*[@formcontrolname='location']/descendant::div[@role='option'])[2]
         
         WebElement ngSelect2 = wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("/html[1]/body[1]/app-root[1]/div[1]/div[2]/app-right-side-bar[1]/ed-modal[1]/app-charge-entry[1]/main[1]/ed-drawer[1]/ed-drawer-body[1]/div[1]/div[2]/app-encounter-selection[1]/sl-dropdown[1]/main[1]/div[2]/div[1]/div[2]/div[2]/ng-select[1]/div[1]/div[1]/div[2]/input[1]")));
         ngSelect2.click();
@@ -152,7 +165,7 @@ public class TC_BillingGenerateClaims extends BaseClass {
         option2.click();    
         
         WebElement ngSelect3 = wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("/html[1]/body[1]/app-root[1]/div[1]/div[2]/app-right-side-bar[1]/ed-modal[1]/app-charge-entry[1]/main[1]/ed-drawer[1]/ed-drawer-body[1]/div[1]/div[2]/app-encounter-selection[1]/sl-dropdown[1]/main[1]/div[2]/div[1]/div[2]/div[3]/input[1]")));
-        ngSelect3.sendKeys(data.get("date"));
+        ngSelect3.sendKeys(TestData.randomizePolicyDates().getFrom());
         
         WebElement createEncounter = driver.findElement(By.xpath("//div//div//div[3]//sl-button"));
         createEncounter.click();
@@ -199,13 +212,30 @@ public class TC_BillingGenerateClaims extends BaseClass {
             logger.info("Processing as Paper Claim...");
             WebElement paperClaimOption = driver.findElement(By.xpath("//sl-radio-group//div//sl-radio[2]"));
             paperClaimOption.click();
+            WebElement modifiersDropdown = driver.findElement(By.xpath("//app-ed-dropdown//div[1]"));
+            modifiersDropdown.click();
+//            modifiersDropdown.sendKeys("OA");
+
+            WebElement modifierOption = driver.findElement(By.xpath("(//*[@id='mod1']/descendant::button)[1]"));
+            modifierOption.click();
 
         } else if ("electronic".equals(claimType)) {
             // Perform electronic claim actions
             logger.info("Processing as Electronic Claim...");
             WebElement electronicClaimOption = driver.findElement(By.xpath("//sl-radio-group//div//sl-radio[1]"));
             electronicClaimOption.click();
-        } else {
+            WebElement modifiersDropdown = driver.findElement(By.xpath("//app-ed-dropdown//div[1]"));
+            modifiersDropdown.click();
+//            modifiersDropdown.sendKeys("OA");
+
+            WebElement modifierOption = driver.findElement(By.xpath("(//*[@id='mod1']/descendant::button)[1]"));
+            modifierOption.click();
+        }
+        else if ("Self".equals(claimType)){
+        	 logger.info("Processing as Electronic Claim...");
+        	 WebElement selfpay = driver.findElement(By.xpath(""));
+        }
+        else {
             logger.error("Invalid claim type provided: " + claimType);
             throw new IllegalArgumentException("Invalid claim type provided in the test data.");
         }
@@ -218,16 +248,9 @@ public class TC_BillingGenerateClaims extends BaseClass {
 
         WebElement cptCodeOption = driver.findElement(By.xpath("//ed-drawer-body//ul//li[25]"));
         cptCodeOption.click();
-
         WebElement closeDrawer = driver.findElement(By.xpath("//ed-drawer-header//sl-icon-button"));
         closeDrawer.click();
-
-        WebElement modifiersDropdown = driver.findElement(By.xpath("//div//ed-select[@class='!bg-white border']"));
-        modifiersDropdown.click();
-
-        WebElement modifierOption = driver.findElement(By.xpath("//div//ed-select[@class='!bg-white border']//ed-option-wrapper//ed-option[2]"));
-        modifierOption.click();
-
+       
         WebElement generateClaimButton = driver.findElement(By.xpath("//*[@id=\"tour-guide-billing-encounter-step7\"]"));
         generateClaimButton.click();
         logger.info("Claim generated successfully.");
@@ -250,9 +273,14 @@ public class TC_BillingGenerateClaims extends BaseClass {
 //        dataSet2.put("cpt", "99202");
 //        dataSet2.put("amount", "300");
 //        dataSet2.put("claimType", "electronic");
-    	List<HashMap<String, String>> data = getJsonDataToMap(System.getProperty("user.dir")+"//src//test//java//com//Edvak_EHR_Automation_V1//testCases//data//Billing.json");
+    	List<HashMap<String, String>> data = dr.getJsonDataToMap();
+    	System.out.println(data);
+    	return new Object[][] {
+    	    {data.get(0)},
+    	    {data.get(1)},
+    	    // Add more data sets if needed
+    	};
 
-        return new Object[][] {{data.get(0)}, {data.get(1)}};
     }
 
 	
@@ -263,3 +291,4 @@ public class TC_BillingGenerateClaims extends BaseClass {
 		return false;
 	}
 }
+//"C:\\Users\\sksusari\\Documents\\Test\\Billing.json"

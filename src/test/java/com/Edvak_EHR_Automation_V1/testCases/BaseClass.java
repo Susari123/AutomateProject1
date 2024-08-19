@@ -71,23 +71,10 @@ public class BaseClass {
 
 	}
 
-	public List<HashMap<String, String>> getJsonDataToMap(String string) throws IOException {
-		
-		//read json to string
-	String jsonContent=	FileUtils.readFileToString(new File(System.getProperty("user.dir")+"//src//test//java//com//Edvak_EHR_Automation_V1//testCases//data//Billing.json"), StandardCharsets.UTF_8);
 	
-	
-	//String To HashMap Jackson Databid
-	
-	ObjectMapper mapper = new ObjectMapper();
-	List<HashMap<String,String>> data = mapper.readValue(jsonContent, new TypeReference<List<HashMap<String, String>>>(){	
-	});
-	return data;
-	
-	}
 	@AfterClass
 	public void tearDown() {
-		//driver.quit();
+//		driver.quit();
 	}
 
 	@AfterMethod
