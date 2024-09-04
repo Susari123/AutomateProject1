@@ -26,7 +26,7 @@ import com.Edvak_EHR_Automation_V1.utilities.TestData;
 
 public class TC_BillingGenerateClaims extends BaseClass {
     DataReader dr = new DataReader();
-
+    String encounterNumber ="";
     @Test(priority = 0)
     public void testQuickRegistration() throws InterruptedException {
         LoginPage lp = new LoginPage(driver);
@@ -54,9 +54,10 @@ public class TC_BillingGenerateClaims extends BaseClass {
         Thread.sleep(1000);
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(100));
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[normalize-space()='attach_money']")));
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//header//h2[normalize-space()='dashboard']")));
         WebElement dashboardElement = driver.findElement(By.xpath("//header//h2[normalize-space()='dashboard']"));
         Assert.assertTrue(dashboardElement.isDisplayed(), "Dashboard should be visible after login.");
-        // Assertion to verify successful login
+
         
     }
 
@@ -67,8 +68,8 @@ public class TC_BillingGenerateClaims extends BaseClass {
         logger.info("Billing button is clicked");
 
         // Assertion to verify that Billing page is loaded
-//        WebElement billingPageHeader = driver.findElement(By.xpath("//h2[normalize-space()='billing']"));
-//        Assert.assertTrue(billingPageHeader.isDisplayed(), "Billing page should be displayed.");
+       WebElement billingPageHeader = driver.findElement(By.xpath("//h2[normalize-space()='billing']"));
+       Assert.assertTrue(billingPageHeader.isDisplayed(), "Billing page should be displayed.");
 
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//form//div//sl-button[@id='tour-guide-billing-Step4']")));
         newCharge();
@@ -76,19 +77,23 @@ public class TC_BillingGenerateClaims extends BaseClass {
         handleAlertIfPresent(driver);
 
         // Fill out patient details
+        
         WebElement patientNameInput = driver.findElement(By.xpath("//input[@class='w-full form-input']"));
         patientNameInput.sendKeys(data.get("patientName"));
-
-        // Assertion to verify patient name input
-//        Assert.assertEquals(patientNameInput.getAttribute("value"), data.get("patientName"),
-//                "Patient name input should match the provided data.");
+        Thread.sleep(100);
+//         Assertion to verify patient name input
+        Assert.assertEquals(patientNameInput.getAttribute("value"), data.get("patientName"),
+                "Patient name input should match the provided data.");
 
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("/html[1]/body[1]/app-root[1]/div[1]/div[2]/app-right-side-bar[1]/ed-modal[1]/app-charge-entry[1]/main[1]/ed-drawer[1]/ed-drawer-body[1]/div[1]/div[1]/div[1]/type-ahead[1]/div[1]/div[1]/div[1]")));
 
         WebElement patientName1 = driver.findElement(By.xpath("/html[1]/body[1]/app-root[1]/div[1]/div[2]/app-right-side-bar[1]/ed-modal[1]/app-charge-entry[1]/main[1]/ed-drawer[1]/ed-drawer-body[1]/div[1]/div[1]/div[1]/type-ahead[1]/div[1]/div[1]/div[1]"));
+//        Assert.assertTrue(patientName1.isDisplayed(), "Patient field should be displayed");
+//        Assert.assertEquals(patientName1.getAttribute("value"), data.get("patientName"), "Patient name should be " + data.get("patientName"));
         patientName1.click();
-
+        Thread.sleep(2000);
         // Assertion to verify patient selection
+       
 //        Assert.assertTrue(patientName1.isDisplayed(), "Patient name should be selected and visible.");
 
         // Handling encounter and other related inputs
@@ -109,7 +114,7 @@ public class TC_BillingGenerateClaims extends BaseClass {
     private void newCharge() {
         WebElement GenerateClaim = driver.findElement(By.xpath("//sl-tab-group//sl-tab[1]"));
         GenerateClaim.click();
-        WebElement newCharge = driver.findElement(By.xpath("//form//div//sl-button[@id='tour-guide-billing-Step4']"));
+        WebElement newCharge = driver.findElement(By.xpath("//sl-button[@id='tour-guide-billing-Step4']"));
         newCharge.click();
 
         // Assertion to verify new charge creation
@@ -193,8 +198,23 @@ public class TC_BillingGenerateClaims extends BaseClass {
         WebElement ngSelect3 = wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("/html[1]/body[1]/app-root[1]/div[1]/div[2]/app-right-side-bar[1]/ed-modal[1]/app-charge-entry[1]/main[1]/ed-drawer[1]/ed-drawer-body[1]/div[1]/div[2]/app-encounter-selection[1]/sl-dropdown[1]/main[1]/div[2]/div[1]/div[2]/div[3]/input[1]")));
         ngSelect3.sendKeys(TestData.randomizePolicyDates().getFrom());
         
-        WebElement createEncounter = driver.findElement(By.xpath("//div[@class='flex justify-end']//sl-button"));
+        WebElement createEncounter = driver.findElement(By.xpath("/html/body/app-root/div/div[2]/app-right-side-bar/ed-modal/app-charge-entry/main/ed-drawer/ed-drawer-body/div[1]/div[2]/app-encounter-selection/sl-dropdown/main/div[2]/div/div[3]/sl-button"));
         createEncounter.click();
+        
+        Thread.sleep(4000);
+        WebElement encounterDiv = driver.findElement(By.xpath("/html/body/app-root/div/div[2]/app-right-side-bar/ed-modal/app-charge-entry/main/ed-drawer/ed-drawer-body/div[1]/div[2]/app-encounter-selection/sl-dropdown/div/div"));
+
+        // Extract the full text from the div
+        String fullText = encounterDiv.getText().trim();
+        
+        // Split and get the encounter number
+        String[] parts = fullText.split("Encounter#: ");
+        if (parts.length > 1) {
+            encounterNumber = parts[1].trim();
+            System.out.println("Encounter Number: " + encounterNumber);  // Output: E0704HA11429
+        } else {
+            System.out.println("Encounter# not found");
+        }
 
         // Assertion to verify navigation to charge entry
 //        Assert.assertTrue(GoToChargeEntry.isDisplayed(), "Should navigate to charge entry.");
@@ -231,79 +251,87 @@ public class TC_BillingGenerateClaims extends BaseClass {
         submitButton.click();
 
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-        Thread.sleep(4000);
-
-        WebElement claimRow = driver.findElement(By.xpath("//table//tbody//tr[1]"));
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(100));
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//table//tbody//tr")));
+        String dynamicXPath = "//table//tbody//tr//p[text()=' " + encounterNumber + " ']";
+        System.out.println(dynamicXPath);
+        WebElement claimRow = driver.findElement(By.xpath(dynamicXPath));
         claimRow.click();
         Thread.sleep(10000);
-
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//table//tbody//tr")));
         WebElement amountInput = driver.findElement(By.xpath("//tbody//tr//td[8]//input"));
         amountInput.sendKeys(data.get("amount"));
         
-        //
-        String claimType = data.get("claimType").toLowerCase();  // Convert to lowercase for easier comparison
-//        String mode = data.get("mode").toLowerCase();
 
-        if ("paper".equals(claimType)) {
+        String claimType = data.get("claimType").toLowerCase();  // Convert to lowercase for easier comparison
+
+        switch (claimType) {
+        case "paper":
             // Perform paper claim actions
             logger.info("Processing as Paper Claim...");
             WebElement paperClaimOption = driver.findElement(By.xpath("//sl-radio-group//div//sl-radio[2]"));
             paperClaimOption.click();
+            
             WebElement modifiersDropdown = driver.findElement(By.xpath("//app-ed-dropdown//div[1]"));
             modifiersDropdown.click();
 //            modifiersDropdown.sendKeys("OA");
 
             WebElement modifierOption = driver.findElement(By.xpath("(//*[@id='mod1']/descendant::button)[1]"));
             modifierOption.click();
+            
             WebElement cptCodeIcon = driver.findElement(By.xpath("//*[@id=\"tour-guide-billing-encounter-step5\"]/sl-icon-button"));
             cptCodeIcon.click();
 
             WebElement cptCodeOption = driver.findElement(By.xpath("//ed-drawer-body//ul//li[25]"));
             cptCodeOption.click();
+            
             WebElement closeDrawer = driver.findElement(By.xpath("//ed-drawer-header//sl-icon-button"));
             closeDrawer.click();
+            break;
 
-        } else if ("electronic".equals(claimType)) {
+        case "electronic":
             // Perform electronic claim actions
             logger.info("Processing as Electronic Claim...");
             WebElement electronicClaimOption = driver.findElement(By.xpath("//sl-radio-group//div//sl-radio[1]"));
             electronicClaimOption.click();
-            WebElement modifiersDropdown = driver.findElement(By.xpath("//app-ed-dropdown//div[1]"));
-            modifiersDropdown.click();
-//            modifiersDropdown.sendKeys("OA");
+            
+            WebElement modifiersDropdown2 = driver.findElement(By.xpath("//app-ed-dropdown//div[1]"));
+            modifiersDropdown2.click();
+//            modifiersDropdown2.sendKeys("OA");
 
-            WebElement modifierOption = driver.findElement(By.xpath("(//*[@id='mod1']/descendant::button)[1]"));
-            modifierOption.click();
-        }
-        else if ("self".equals(claimType)){
-        	 logger.info("Processing as self pay Claim...");
-        	 WebElement selfpay = driver.findElement(By.xpath("//div//descendant::ed-select"));
-        	 selfpay.click();
-        	 WebElement self = driver.findElement(By.xpath("//div//descendant::ed-option-wrapper//ed-option[@value='self']"));
-        	 self.click();
-        }
-        else {
+            WebElement modifierOption2 = driver.findElement(By.xpath("(//*[@id='mod1']/descendant::button)[1]"));
+            modifierOption2.click();
+            break;
+
+        case "self":
+            // Perform self-pay claim actions
+            logger.info("Processing as Self Pay Claim...");
+            WebElement selfpay = driver.findElement(By.xpath("//div//descendant::ed-select"));
+            selfpay.click();
+            
+            WebElement self = driver.findElement(By.xpath("//div//descendant::ed-option-wrapper//ed-option[@value='self']"));
+            self.click();
+            break;
+
+        default:
             logger.error("Invalid claim type provided: " + claimType);
             throw new IllegalArgumentException("Invalid claim type provided in the test data.");
+    }
+
+        
+        Object mode = data.get("Mode");
+        System.out.println(mode);
+		if("electronic".equals(claimType) && "GenerateandTransmit".equals(mode)) {
+        WebElement transmit = driver.findElement(By.xpath("//footer//sl-button[4]"));
+        logger.info("tansmitted");
+        transmit.click();
         }
-        
-//        if("electronic".equals(claimType) && "generateandtransmit".equals(mode)) {
-//        WebElement transmit = driver.findElement(By.xpath("//footer//sl-button[4]"));
-//        transmit.click();
-//        }
-//        else {
-//        WebElement generateClaimButton = driver.findElement(By.xpath("//*[@id=\"tour-guide-billing-encounter-step7\"]"));
-//        generateClaimButton.click();
-//        logger.info("Claim generated successfully.");
-//        }
-        
-//        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(100));
-//        wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("//*[@id=\"tour-guide-billing-Step3\"]/div/table")));
-       
+        else {
         WebElement generateClaimButton = driver.findElement(By.xpath("//*[@id=\"tour-guide-billing-encounter-step7\"]"));
         generateClaimButton.click();
         logger.info("Claim generated successfully.");
-        
+        }
+      
     }
 
     @DataProvider(name = "dataProviderTest")
@@ -317,6 +345,11 @@ public class TC_BillingGenerateClaims extends BaseClass {
         // Loop through the data list and add each element to the array
         for (int i = 0; i < data.size(); i++) {
             dataArray[i] = new Object[]{data.get(i)};
+            try {
+                Thread.sleep(5000); // 5000 milliseconds = 5 seconds
+            } catch (InterruptedException e) {
+                e.printStackTrace(); // Handle the exception
+            }
         }
 
         return dataArray;
