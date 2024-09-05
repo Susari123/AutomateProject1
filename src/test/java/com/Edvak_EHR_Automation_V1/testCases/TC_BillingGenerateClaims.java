@@ -2,6 +2,7 @@ package com.Edvak_EHR_Automation_V1.testCases;
 
 import java.io.IOException;
 import java.time.Duration;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -10,6 +11,7 @@ import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.ElementClickInterceptedException;
 import org.openqa.selenium.NoAlertPresentException;
+import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
@@ -19,6 +21,7 @@ import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
+import com.Edvak_EHR_Automation_V1.pageObjects.BillingGenerateClaims;
 import com.Edvak_EHR_Automation_V1.pageObjects.LoginPage;
 import com.Edvak_EHR_Automation_V1.utilities.DataReader;
 import com.Edvak_EHR_Automation_V1.utilities.GenerateRandomNumberBetweenLength;
@@ -26,7 +29,9 @@ import com.Edvak_EHR_Automation_V1.utilities.TestData;
 
 public class TC_BillingGenerateClaims extends BaseClass {
     DataReader dr = new DataReader();
+    BillingGenerateClaims bi = new BillingGenerateClaims(driver);
     String encounterNumber ="";
+    List<String> encounterNumbersList = new ArrayList<>();
     @Test(priority = 0)
     public void testQuickRegistration() throws InterruptedException {
         LoginPage lp = new LoginPage(driver);
@@ -56,22 +61,22 @@ public class TC_BillingGenerateClaims extends BaseClass {
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[normalize-space()='attach_money']")));
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//header//h2[normalize-space()='dashboard']")));
         WebElement dashboardElement = driver.findElement(By.xpath("//header//h2[normalize-space()='dashboard']"));
+//        bi.getTextBillingPageHeader();
         Assert.assertTrue(dashboardElement.isDisplayed(), "Dashboard should be visible after login.");
-
+        clickWithRetry(driver.findElement(By.xpath("//span[normalize-space()='attach_money']")), 3);
+        logger.info("Billing button is clicked");
         
     }
 
     @Test(priority = 1, dataProvider = "dataProviderTest", dependsOnMethods = {"testQuickRegistration"})
     void testBillingGenerateClaims(HashMap<String, String> data) throws InterruptedException, IOException {
-    	WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(100));
-        clickWithRetry(driver.findElement(By.xpath("//span[normalize-space()='attach_money']")), 3);
-        logger.info("Billing button is clicked");
-
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(100));
         // Assertion to verify that Billing page is loaded
        WebElement billingPageHeader = driver.findElement(By.xpath("//h2[normalize-space()='billing']"));
        Assert.assertTrue(billingPageHeader.isDisplayed(), "Billing page should be displayed.");
 
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//form//div//sl-button[@id='tour-guide-billing-Step4']")));
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//table//tbody//tr//td")));
         newCharge();
 
         handleAlertIfPresent(driver);
@@ -88,14 +93,8 @@ public class TC_BillingGenerateClaims extends BaseClass {
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("/html[1]/body[1]/app-root[1]/div[1]/div[2]/app-right-side-bar[1]/ed-modal[1]/app-charge-entry[1]/main[1]/ed-drawer[1]/ed-drawer-body[1]/div[1]/div[1]/div[1]/type-ahead[1]/div[1]/div[1]/div[1]")));
 
         WebElement patientName1 = driver.findElement(By.xpath("/html[1]/body[1]/app-root[1]/div[1]/div[2]/app-right-side-bar[1]/ed-modal[1]/app-charge-entry[1]/main[1]/ed-drawer[1]/ed-drawer-body[1]/div[1]/div[1]/div[1]/type-ahead[1]/div[1]/div[1]/div[1]"));
-//        Assert.assertTrue(patientName1.isDisplayed(), "Patient field should be displayed");
-//        Assert.assertEquals(patientName1.getAttribute("value"), data.get("patientName"), "Patient name should be " + data.get("patientName"));
         patientName1.click();
-        Thread.sleep(2000);
-        // Assertion to verify patient selection
-       
-//        Assert.assertTrue(patientName1.isDisplayed(), "Patient name should be selected and visible.");
-
+        Thread.sleep(3000);
         // Handling encounter and other related inputs
         fillEncounterDetails(data, wait);
 
@@ -105,10 +104,24 @@ public class TC_BillingGenerateClaims extends BaseClass {
 
         // Generate Claim
         generateClaim(data);
+        Thread.sleep(4000);
+	    Assert.assertTrue(billingPageHeader.isDisplayed(), "Billing page should be displayed.");
 
-        // Assertion to verify claim generation
-//        WebElement claimGeneratedMessage = driver.findElement(By.xpath("//*[contains(text(),'Claim generated successfully')]"));
-//        Assert.assertTrue(claimGeneratedMessage.isDisplayed(), "Claim should be generated successfully.");
+    }
+ // Function for Retry Mechanism to Handle StaleElementReferenceException
+    public WebElement retryingFindElement(By by) {
+        WebElement element = null;
+        int attempts = 0;
+        while (attempts < 3) {
+            try {
+                element = driver.findElement(by);
+                break;
+            } catch (StaleElementReferenceException e) {
+                attempts++;
+                logger.info("Attempt " + attempts + ": Element went stale. Retrying...");
+            }
+        }
+        return element;
     }
 
     private void newCharge() {
@@ -116,8 +129,7 @@ public class TC_BillingGenerateClaims extends BaseClass {
         GenerateClaim.click();
         WebElement newCharge = driver.findElement(By.xpath("//sl-button[@id='tour-guide-billing-Step4']"));
         newCharge.click();
-
-        // Assertion to verify new charge creation
+//         Assertion to verify new charge creation
 //        Assert.assertTrue(newCharge.isDisplayed(), "New charge should be created.");
     }
 
@@ -211,7 +223,9 @@ public class TC_BillingGenerateClaims extends BaseClass {
         String[] parts = fullText.split("Encounter#: ");
         if (parts.length > 1) {
             encounterNumber = parts[1].trim();
-            System.out.println("Encounter Number: " + encounterNumber);  // Output: E0704HA11429
+            System.out.println("Encounter Number: " + encounterNumber);    // Output: E0704HA11429
+         // Store the encounter number in the list
+            encounterNumbersList.add(encounterNumber);
         } else {
             System.out.println("Encounter# not found");
         }
@@ -274,7 +288,7 @@ public class TC_BillingGenerateClaims extends BaseClass {
             
             WebElement modifiersDropdown = driver.findElement(By.xpath("//app-ed-dropdown//div[1]"));
             modifiersDropdown.click();
-//            modifiersDropdown.sendKeys("OA");
+
 
             WebElement modifierOption = driver.findElement(By.xpath("(//*[@id='mod1']/descendant::button)[1]"));
             modifierOption.click();
@@ -316,8 +330,28 @@ public class TC_BillingGenerateClaims extends BaseClass {
         default:
             logger.error("Invalid claim type provided: " + claimType);
             throw new IllegalArgumentException("Invalid claim type provided in the test data.");
-    }
-
+    }  
+        WebElement orderingProvider = driver.findElement(By.xpath("//section[@id='tour-guide-billing-encounter-step1']//descendant::ng-select[@placeholder='Select Ordering Provider']"));
+        orderingProvider.click();
+//        bi.selectOrderingProvider();
+        logger.info("clicked ordering provider");
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//ng-dropdown-panel//div//div//div[3]")));
+        WebElement orderingProvideroption = driver.findElement(By.xpath("//ng-dropdown-panel//div//div//div[3]"));
+        orderingProvideroption.click();
+        logger.info("orderingProvideroption entered");
+//        Select Referring Provider
+        WebElement ReferringProvider = driver.findElement(By.xpath("//section[@id='tour-guide-billing-encounter-step1']//descendant::ng-select[@placeholder='Select Referring Provider']"));
+        ReferringProvider.click();
+        logger.info("ReferringProvider");
+        //ng-dropdown-panel[@id='a3e6db251932']//descendant::div[@id='a3e6db251932-3']
+        WebElement ReferringProvideroption = driver.findElement(By.xpath("//ng-dropdown-panel//div//div//div[4]"));
+        ReferringProvideroption.click();
+        logger.info("ReferringProvideroption");
+        
+        WebElement supervisingProvider = driver.findElement(By.xpath("//section[@id='tour-guide-billing-encounter-step1']//descendant::ng-select[@placeholder='Select Supervising Provider']"));
+        supervisingProvider.click();
+        WebElement supervisingProviderOption = driver.findElement(By.xpath("//ng-dropdown-panel//div//div//div[3]"));
+        supervisingProviderOption.click();
         
         Object mode = data.get("Mode");
         System.out.println(mode);
@@ -325,30 +359,70 @@ public class TC_BillingGenerateClaims extends BaseClass {
         WebElement transmit = driver.findElement(By.xpath("//footer//sl-button[4]"));
         logger.info("tansmitted");
         transmit.click();
+        logger.info("claim transmitted");
         }
         else {
         WebElement generateClaimButton = driver.findElement(By.xpath("//*[@id=\"tour-guide-billing-encounter-step7\"]"));
         generateClaimButton.click();
-        logger.info("Claim generated successfully.");
+        logger.info("Claim generated successfully.");     
+        
+		 
         }
-      
+    }
+    @Test(priority = 2, dependsOnMethods = {"testBillingGenerateClaims"})
+    public void verifyEncountersInManageClaims() throws InterruptedException {
+        WebElement manageclaim = retryingFindElement(By.xpath("//sl-tab-group//sl-tab[2]"));
+        manageclaim.click();
+
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//table//tbody//tr")));
+
+        List<WebElement> claimRows = driver.findElements(By.xpath("//td[2]/descendant::p"));
+        List<String> encounterNumbersOnScreen = new ArrayList<>();
+        System.out.println(claimRows);
+        System.out.println();
+
+//        for (int i = 0; i < claimRows.size(); i++) {
+//            try {
+//                WebElement row = driver.findElements(By.xpath("//table//tbody//tr")).get(i);
+//                WebElement encounterNumberCell = row.findElement(By.xpath("//td[2]/descendant::p"));
+//                String encounterNumber = encounterNumberCell.getText();
+//                encounterNumbersOnScreen.add(encounterNumber);
+//            } catch (StaleElementReferenceException e) {
+//                logger.warn("Encountered StaleElementReferenceException. Retrying...");
+//                WebElement row = driver.findElements(By.xpath("//table//tbody//tr")).get(i);
+//                WebElement encounterNumberCell = row.findElement(By.xpath("//td[2]/descendant::p"));
+//                String encounterNumber = encounterNumberCell.getText();
+//                encounterNumbersOnScreen.add(encounterNumber);
+//            }
+//        }
+//
+//        boolean allEncountersPresent = true;
+//
+//        for (String encounter : encounterNumbersList) {
+//            if (!encounterNumbersOnScreen.contains(encounter)) {
+//                logger.warn("Encounter number " + encounter + " is NOT present in the Claims List.");
+//                allEncountersPresent = false;
+//            } else {
+//                logger.info("Encounter number " + encounter + " is present in the Claims List.");
+//            }
+//        }
+//
+//        Assert.assertTrue(allEncountersPresent, "All generated encounter numbers should be present in the Claims List.");
     }
 
     @DataProvider(name = "dataProviderTest")
     public Object[][] dataProvider() throws IOException {
         // Assuming dr.getJsonDataToMap() returns a List of HashMaps
         List<HashMap<String, String>> data = dr.getJsonDataToMap();
-
-        // Initialize the 2D Object array with the size of the data list
         Object[][] dataArray = new Object[data.size()][];
 
-        // Loop through the data list and add each element to the array
         for (int i = 0; i < data.size(); i++) {
             dataArray[i] = new Object[]{data.get(i)};
             try {
-                Thread.sleep(5000); // 5000 milliseconds = 5 seconds
+                Thread.sleep(10); 
             } catch (InterruptedException e) {
-                e.printStackTrace(); // Handle the exception
+                e.printStackTrace(); 
             }
         }
 

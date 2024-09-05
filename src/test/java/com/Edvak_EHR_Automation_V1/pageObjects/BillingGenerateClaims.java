@@ -1,5 +1,6 @@
 package com.Edvak_EHR_Automation_V1.pageObjects;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -54,7 +55,24 @@ public class BillingGenerateClaims {
 
     @FindBy(xpath = "//div//descendant::ed-option-wrapper//ed-option[@value='self']")
     private WebElement selfPaySelect;
-
+    
+    @FindBy(xpath ="//h2[normalize-space()='billing']")
+    private WebElement billingPageHeader;
+    
+    @FindBy(xpath ="//section[@id='tour-guide-billing-encounter-step1']//descendant::ng-select[@placeholder='Select Ordering Provider']")
+    private WebElement orderingProvider;
+    
+    
+    
+    public void selectOrderingProvider()
+    {
+    	orderingProvider.click();
+    }
+    
+    public void getTextBillingPageHeader()
+    {
+    	billingPageHeader.getText();
+    }
     // Methods to interact with elements
     public void clickBillingButton() {
         billingButton.click();
