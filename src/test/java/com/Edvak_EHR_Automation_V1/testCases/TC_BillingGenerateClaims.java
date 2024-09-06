@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
@@ -108,7 +109,7 @@ public class TC_BillingGenerateClaims extends BaseClass {
 	    Assert.assertTrue(billingPageHeader.isDisplayed(), "Billing page should be displayed.");
 
     }
- // Function for Retry Mechanism to Handle StaleElementReferenceException
+
     public WebElement retryingFindElement(By by) {
         WebElement element = null;
         int attempts = 0;
@@ -216,15 +217,12 @@ public class TC_BillingGenerateClaims extends BaseClass {
         Thread.sleep(4000);
         WebElement encounterDiv = driver.findElement(By.xpath("/html/body/app-root/div/div[2]/app-right-side-bar/ed-modal/app-charge-entry/main/ed-drawer/ed-drawer-body/div[1]/div[2]/app-encounter-selection/sl-dropdown/div/div"));
 
-        // Extract the full text from the div
         String fullText = encounterDiv.getText().trim();
         
-        // Split and get the encounter number
         String[] parts = fullText.split("Encounter#: ");
         if (parts.length > 1) {
             encounterNumber = parts[1].trim();
-            System.out.println("Encounter Number: " + encounterNumber);    // Output: E0704HA11429
-         // Store the encounter number in the list
+            System.out.println("Encounter Number: " + encounterNumber);   
             encounterNumbersList.add(encounterNumber);
         } else {
             System.out.println("Encounter# not found");
@@ -333,7 +331,6 @@ public class TC_BillingGenerateClaims extends BaseClass {
     }  
         WebElement orderingProvider = driver.findElement(By.xpath("//section[@id='tour-guide-billing-encounter-step1']//descendant::ng-select[@placeholder='Select Ordering Provider']"));
         orderingProvider.click();
-//        bi.selectOrderingProvider();
         logger.info("clicked ordering provider");
         wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//ng-dropdown-panel//div//div//div[3]")));
         WebElement orderingProvideroption = driver.findElement(By.xpath("//ng-dropdown-panel//div//div//div[3]"));
@@ -343,7 +340,6 @@ public class TC_BillingGenerateClaims extends BaseClass {
         WebElement ReferringProvider = driver.findElement(By.xpath("//section[@id='tour-guide-billing-encounter-step1']//descendant::ng-select[@placeholder='Select Referring Provider']"));
         ReferringProvider.click();
         logger.info("ReferringProvider");
-        //ng-dropdown-panel[@id='a3e6db251932']//descendant::div[@id='a3e6db251932-3']
         WebElement ReferringProvideroption = driver.findElement(By.xpath("//ng-dropdown-panel//div//div//div[4]"));
         ReferringProvideroption.click();
         logger.info("ReferringProvideroption");
@@ -373,43 +369,24 @@ public class TC_BillingGenerateClaims extends BaseClass {
     public void verifyEncountersInManageClaims() throws InterruptedException {
         WebElement manageclaim = retryingFindElement(By.xpath("//sl-tab-group//sl-tab[2]"));
         manageclaim.click();
-
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//table//tbody//tr")));
-
-        List<WebElement> claimRows = driver.findElements(By.xpath("//td[2]/descendant::p"));
-        List<String> encounterNumbersOnScreen = new ArrayList<>();
-        System.out.println(claimRows);
-        System.out.println();
-
-//        for (int i = 0; i < claimRows.size(); i++) {
-//            try {
-//                WebElement row = driver.findElements(By.xpath("//table//tbody//tr")).get(i);
-//                WebElement encounterNumberCell = row.findElement(By.xpath("//td[2]/descendant::p"));
-//                String encounterNumber = encounterNumberCell.getText();
-//                encounterNumbersOnScreen.add(encounterNumber);
-//            } catch (StaleElementReferenceException e) {
-//                logger.warn("Encountered StaleElementReferenceException. Retrying...");
-//                WebElement row = driver.findElements(By.xpath("//table//tbody//tr")).get(i);
-//                WebElement encounterNumberCell = row.findElement(By.xpath("//td[2]/descendant::p"));
-//                String encounterNumber = encounterNumberCell.getText();
-//                encounterNumbersOnScreen.add(encounterNumber);
-//            }
-//        }
-//
-//        boolean allEncountersPresent = true;
-//
-//        for (String encounter : encounterNumbersList) {
-//            if (!encounterNumbersOnScreen.contains(encounter)) {
-//                logger.warn("Encounter number " + encounter + " is NOT present in the Claims List.");
-//                allEncountersPresent = false;
-//            } else {
-//                logger.info("Encounter number " + encounter + " is present in the Claims List.");
-//            }
-//        }
-//
-//        Assert.assertTrue(allEncountersPresent, "All generated encounter numbers should be present in the Claims List.");
+        List<String> encounterNumbersOnScreen = driver.findElements(By.xpath("//td[2]/descendant::p")).stream()
+                .map(WebElement::getText)
+                .collect(Collectors.toList());
+        boolean allEncountersPresent = encounterNumbersList.stream()
+                .peek(encounter -> {
+                    if (!encounterNumbersOnScreen.contains(encounter)) {
+                        logger.warn("Encounter number " + encounter + " is NOT present in the Claims List.");
+                    } else {
+                        logger.info("Encounter number " + encounter + " is present in the Claims List.");
+                    }
+                })
+                .allMatch(encounterNumbersOnScreen::contains);
+        Assert.assertTrue(allEncountersPresent, "All generated encounter numbers should be present in the Claims List.");
     }
+
+
 
     @DataProvider(name = "dataProviderTest")
     public Object[][] dataProvider() throws IOException {
