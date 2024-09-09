@@ -228,34 +228,26 @@ public class TC_BillingGenerateClaims extends BaseClass {
             System.out.println("Encounter# not found");
         }
 
-        // Assertion to verify navigation to charge entry
-//        Assert.assertTrue(GoToChargeEntry.isDisplayed(), "Should navigate to charge entry.");
     }
 
     private void fillIcdAndCptDetails(HashMap<String, String> data) throws InterruptedException {
         WebElement IcdInput = driver.findElement(By.xpath("//div[@class='control flex']//input[1]"));
         IcdInput.sendKeys(data.get("icd"));
-
-        // Assertion to verify ICD input
-//        Assert.assertEquals(IcdInput.getAttribute("value"), data.get("icd"), "ICD input should match the provided data.");
         Thread.sleep(3000);
         WebElement icd1 = driver.findElement(By.xpath("/html/body/app-root/div/div[2]/app-right-side-bar/ed-modal/app-charge-entry/main/ed-drawer/ed-drawer-body/div[4]/div[1]/div[2]/div/div[1]/div"));
         icd1.click();
 
         // Assertion to verify ICD selection
-//        Assert.assertTrue(Icd.isDisplayed(), "ICD code should be selected.");
+        Assert.assertTrue(IcdInput.isDisplayed(), "ICD code should be selected.");
 
         WebElement cptCode = driver.findElement(By.xpath("//input[@placeholder='Search CPT Codes to add to the below list']"));
         cptCode.sendKeys(data.get("cpt"));
         Thread.sleep(3000);
-        // Assertion to verify CPT input
-//        Assert.assertEquals(cptCode.getAttribute("value"), data.get("cpt"), "CPT input should match the provided data.");
-
         WebElement cpt1 = driver.findElement(By.xpath("/html/body/app-root/div/div[2]/app-right-side-bar/ed-modal/app-charge-entry/main/ed-drawer/ed-drawer-body/div[4]/div[2]/div[1]/div[2]/div/div/div"));
         cpt1.click();
 
         // Assertion to verify CPT selection
-//        Assert.assertTrue(cptCode1.isDisplayed(), "CPT code should be selected.");
+        Assert.assertTrue(cptCode.isDisplayed(), "CPT code should be selected.");
     }
 
     private void generateClaim(HashMap<String, String> data) throws InterruptedException {
@@ -281,38 +273,37 @@ public class TC_BillingGenerateClaims extends BaseClass {
         case "paper":
             // Perform paper claim actions
             logger.info("Processing as Paper Claim...");
-            WebElement paperClaimOption = driver.findElement(By.xpath("//sl-radio-group//div//sl-radio[2]"));
+            WebElement paperClaimOption = driver.findElement(By.xpath("//input[@id='paperClaim']"));
             paperClaimOption.click();
-            
+            logger.info("paper claim option is selected ");
             WebElement modifiersDropdown = driver.findElement(By.xpath("//app-ed-dropdown//div[1]"));
             modifiersDropdown.click();
-
-
             WebElement modifierOption = driver.findElement(By.xpath("(//*[@id='mod1']/descendant::button)[1]"));
             modifierOption.click();
-            
+            logger.info("modifiers entered ..");
             WebElement cptCodeIcon = driver.findElement(By.xpath("//*[@id=\"tour-guide-billing-encounter-step5\"]/sl-icon-button"));
             cptCodeIcon.click();
-
             WebElement cptCodeOption = driver.findElement(By.xpath("//ed-drawer-body//ul//li[25]"));
             cptCodeOption.click();
-            
+            logger.info("cpt code entered..");
             WebElement closeDrawer = driver.findElement(By.xpath("//ed-drawer-header//sl-icon-button"));
             closeDrawer.click();
+            logger.info("tab closed..");
             break;
 
         case "electronic":
             // Perform electronic claim actions
             logger.info("Processing as Electronic Claim...");
-            WebElement electronicClaimOption = driver.findElement(By.xpath("//sl-radio-group//div//sl-radio[1]"));
+            WebElement electronicClaimOption = driver.findElement(By.xpath("//input[@id='electronicClaim']"));
             electronicClaimOption.click();
-            
+            logger.info("electronic claim option is entered..");
             WebElement modifiersDropdown2 = driver.findElement(By.xpath("//app-ed-dropdown//div[1]"));
             modifiersDropdown2.click();
 //            modifiersDropdown2.sendKeys("OA");
-
+            logger.info("modifiers entered..");
             WebElement modifierOption2 = driver.findElement(By.xpath("(//*[@id='mod1']/descendant::button)[1]"));
             modifierOption2.click();
+            logger.info("modifiers option2 is entered..");
             break;
 
         case "self":
@@ -320,9 +311,10 @@ public class TC_BillingGenerateClaims extends BaseClass {
             logger.info("Processing as Self Pay Claim...");
             WebElement selfpay = driver.findElement(By.xpath("//div//descendant::ed-select"));
             selfpay.click();
-            
+            logger.info("self pay option entered..");
             WebElement self = driver.findElement(By.xpath("//div//descendant::ed-option-wrapper//ed-option[@value='self']"));
             self.click();
+            logger.info("self pay clicked");
             break;
 
         default:
@@ -369,6 +361,7 @@ public class TC_BillingGenerateClaims extends BaseClass {
     public void verifyEncountersInManageClaims() throws InterruptedException {
         WebElement manageclaim = retryingFindElement(By.xpath("//sl-tab-group//sl-tab[2]"));
         manageclaim.click();
+        logger.info("manage claim page.. ");
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//table//tbody//tr")));
         List<String> encounterNumbersOnScreen = driver.findElements(By.xpath("//td[2]/descendant::p")).stream()
