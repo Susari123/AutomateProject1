@@ -110,6 +110,12 @@
     <version>1.18.24</version>
     <scope>provided</scope>
     </dependency>
+    <dependency>
+    <groupId>org.json</groupId>
+    <artifactId>json</artifactId>
+    <version>20210307</version>
+	</dependency>
+
     
     <!-- https://mvnrepository.com/artifact/org.projectlombok/lombok -->
 <dependency>
@@ -150,7 +156,7 @@
                     <!-- Suite testng xml file to consider for test execution -->
                     <suiteXmlFiles>
                        
-                        <suiteXmlFile>BillingGenerateClaimTestNG.xml</suiteXmlFile>
+                        <suiteXmlFile>TC_ManageClaimsTestNG.xml</suiteXmlFile>
                                                               
                     </suiteXmlFiles>
                 </configuration>

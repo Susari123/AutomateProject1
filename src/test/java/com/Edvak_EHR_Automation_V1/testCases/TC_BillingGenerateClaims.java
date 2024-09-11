@@ -134,7 +134,7 @@ public class TC_BillingGenerateClaims extends BaseClass {
 //        Assert.assertTrue(newCharge.isDisplayed(), "New charge should be created.");
     }
 
-    private void clickWithRetry(WebElement element, int maxRetries) {
+    public void clickWithRetry(WebElement element, int maxRetries) {
         int retryCount = 0;
         boolean clicked = false;
         while (retryCount < maxRetries && !clicked) {
