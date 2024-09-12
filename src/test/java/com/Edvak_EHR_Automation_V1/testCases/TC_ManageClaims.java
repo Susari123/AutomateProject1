@@ -1,8 +1,9 @@
 package com.Edvak_EHR_Automation_V1.testCases;
-
+ 
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import org.json.JSONObject;
 import org.json.JSONArray;
@@ -22,20 +23,23 @@ import com.Edvak_EHR_Automation_V1.pageObjects.BillingGenerateClaims;
 import com.Edvak_EHR_Automation_V1.pageObjects.LoginPage;
 import com.Edvak_EHR_Automation_V1.utilities.DataReader;
 import com.Edvak_EHR_Automation_V1.utilities.DataReaderFilter;
-
+ 
 import java.io.IOException;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 import java.util.stream.Collectors;
-
+ 
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.ElementClickInterceptedException;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.NoAlertPresentException;
+import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -45,17 +49,17 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
-
+ 
 import com.Edvak_EHR_Automation_V1.pageObjects.BillingGenerateClaims;
 import com.Edvak_EHR_Automation_V1.pageObjects.LoginPage;
 import com.Edvak_EHR_Automation_V1.utilities.DataReader;
 import com.Edvak_EHR_Automation_V1.utilities.GenerateRandomNumberBetweenLength;
 import com.Edvak_EHR_Automation_V1.utilities.TestData;
-
+ 
 public class TC_ManageClaims extends BaseClass {
-	TC_BillingGenerateClaims tcb = new TC_BillingGenerateClaims();
-	DataReader dr = new DataReader();
-	
+    TC_BillingGenerateClaims tcb = new TC_BillingGenerateClaims();
+    DataReader dr = new DataReader();
+   
     BillingGenerateClaims bi = new BillingGenerateClaims(driver);
     String encounterNumber ="";
     List<String> encounterNumbersList = new ArrayList<>();
@@ -68,15 +72,15 @@ public class TC_ManageClaims extends BaseClass {
         driver.get(baseURL);
         logger.info("Opened URL: " + baseURL);
         driver.manage().window().maximize();
-
+ 
         logger.info("Entering username in Username Text field");
         lp.setUserName("souravsusari311@gmail.com");
         logger.info("Entered Username in Username Text field");
-
+ 
         logger.info("Entering Password in password Text field");
         lp.setPassword("Admin@12345");
         logger.info("Entered Password in password Text field");
-
+ 
         logger.info("Clicking on Login button");
         WebElement loginButton = driver
                 .findElement(By.xpath("/html/body/app-root/div/div/app-login/section/div/div/form/div[3]/sl-button"))
@@ -93,137 +97,214 @@ public class TC_ManageClaims extends BaseClass {
         tcb.clickWithRetry(driver.findElement(By.xpath("//span[normalize-space()='attach_money']")), 3);
         logger.info("Billing button is clicked");
     }
- // Method to read and parse the filter data from the HashMap
-    private JSONObject readFilterData(HashMap<String, String> data) {
-        // Retrieve the filter_cases string from the HashMap
-        String filterCasesString = data.get("filter_cases");
-        
-        // Log the filter cases string for debugging
-        System.out.println("Filter cases: " + filterCasesString);
 
-        // Parse the string into a JSONObject and return it
-        JSONObject jsonObject = new JSONObject(filterCasesString);
-        return jsonObject;
+    private JSONObject readFilterData(HashMap<String, Object> data) {
+    return new JSONObject(data);
     }
     @Test(priority = 1, dataProvider = "dataProviderTest", dependsOnMethods = {"testQuickRegistration"})
-    void statementReady(HashMap<String, String> data) throws InterruptedException, IOException {
+    void statementReady(HashMap<String, Object> data) throws InterruptedException, IOException {
+        // Initialize WebDriverWait to wait for elements to load
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(100));
-        JSONObject filterData = readFilterData(data);
+        WebDriverWait waitShort = new WebDriverWait(driver, Duration.ofSeconds(10));
+
+        // Extract values from the HashMap passed from the DataProvider
+        List<String> statuses = (List<String>) data.get("status");
+        List<String> patientNames = (List<String>) data.get("patientNames");
+        List<String> providerNames = (List<String>) data.get("providerNames");
+        HashMap<String, String> dateRange = (HashMap<String, String>) data.get("dateRange");
+
+        // Optional: Print extracted values for debugging
+        System.out.println("Statuses: " + statuses);
+        System.out.println("Patient Names: " + patientNames);
+        System.out.println("Date Range (From): " + dateRange.get("from"));
+
+        // Simulate loading the Billing page (if necessary)
         Thread.sleep(3000);
-        // Ensure that the Billing page is loaded
-        WebElement billingPageHeader = driver.findElement(By.xpath("//h2[normalize-space()='billing']"));
-        Assert.assertTrue(billingPageHeader.isDisplayed(), "Billing page should be displayed.");
-        
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//form//div//sl-button[@id='tour-guide-billing-Step4']")));
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//table//tbody//tr//td")));
-        
+
+        // Interact with the Manage Claim tab
         WebElement manageClaim = driver.findElement(By.xpath("//sl-tab-group//sl-tab[2]"));
         manageClaim.click();
         System.out.println("Manage claim");
-        // Retrieve filter_cases as a JSON string
-        
-        
+
+        // Open the filter dropdown
         WebElement filter = driver.findElement(By.xpath("//app-filter-panel-head//sl-dropdown"));
-        if (filter != null) {
-            System.out.println("Filter element found and clicking.");
-            filter.click();
-        } else {
-            System.out.println("Filter element not found!");
-        }
-        // Access and apply the Status Filter
-        if (filterData.has("status")) {
-            JSONArray statuses = filterData.getJSONArray("status");
-            for (int j = 0; j < statuses.length(); j++) {
-                String status = statuses.getString(j);
-                WebElement statusElement = driver.findElement(By.xpath("//p[contains(text(), '" + status + "')]"));
-                statusElement.click();
-                System.out.println("Status clicked: " + status);
-            }
-        }
+        filter.click();
+        Thread.sleep(5000);
+        logger.info("Filter dropdown opened");
 
-        // Access and apply the Patient Name Filter
-        if (filterData.has("patientNames")) {
-            JSONArray patientNames = filterData.getJSONArray("patientNames");
-            for (int j = 0; j < patientNames.length(); j++) {
-                String patientName = patientNames.getString(j);
-                WebElement patientInput = driver.findElement(By.xpath("//input[@placeholder='Search Patient Name']"));
-                patientInput.sendKeys(patientName);
-                Thread.sleep(2000);
-                WebElement patientNameOption = driver.findElement(By.xpath("//p[contains(text(), '" + patientName + "')]"));
-                patientNameOption.click();
-                patientInput.sendKeys(Keys.ENTER);
-            }
-        }
-
-        // Access and apply the Provider Name Filter
-        if (filterData.has("providerNames")) {
-            JSONArray providerNames = filterData.getJSONArray("providerNames");
-            for (int j = 0; j < providerNames.length(); j++) {
-                String providerName = providerNames.getString(j);
-                WebElement providerInput = driver.findElement(By.xpath("//input[@id='Provider Name']"));
-                providerInput.sendKeys(providerName);
-                Thread.sleep(2000);
-                WebElement providerOption = driver.findElement(By.xpath("//p[contains(text(), '" + providerName + "')]"));
-                providerOption.click();
-                providerInput.sendKeys(Keys.ENTER);
-            }
-        }
-
-        // Access and apply the Created By Filter
-        if (filterData.has("createdByNames")) {
-            JSONArray createdByNames = filterData.getJSONArray("createdByNames");
-            for (int j = 0; j < createdByNames.length(); j++) {
-                String createdBy = createdByNames.getString(j);
-                WebElement createdByInput = driver.findElement(By.xpath("//input[@id='Created By']"));
-                createdByInput.sendKeys(createdBy);
-                Thread.sleep(2000);
-                WebElement createdByOption = driver.findElement(By.xpath("//p[contains(text(), '" + createdBy + "')]"));
-                createdByOption.click();
-                createdByInput.sendKeys(Keys.ENTER);
-            }
-        }
-
-        // Access and apply the Date Range Filter
-        if (filterData.has("dateRange")) {
-            JSONObject dateRange = filterData.getJSONObject("dateRange");
-            String fromDate = dateRange.getString("from");
-            String toDate = dateRange.getString("to");
-
-            if (!fromDate.isEmpty()) {
-                WebElement fromDateInput = driver.findElement(By.xpath("//input[@placeholder='From Date']"));
-                fromDateInput.sendKeys(fromDate);
-            }
-
-            if (!toDate.isEmpty()) {
-                WebElement toDateInput = driver.findElement(By.xpath("//input[@placeholder='To Date']"));
-                toDateInput.sendKeys(toDate);
-            }
-        }
+     
 
         // Apply the filter by clicking the 'Apply' button
-        WebElement applyButton = driver.findElement(By.xpath("//sl-button[@id='applyFilterButton']"));
-        applyButton.click();
+        try {
+            WebElement applyButton = waitShort.until(ExpectedConditions.elementToBeClickable(By.xpath("//sl-button[.='Clear Filter']")));
+            applyButton.click();
+            System.out.println("Filter applied.");
+        } catch (NoSuchElementException e) {
+            System.out.println("Apply button not found.");
+        }
+        logger.info("Filter cleared");
 
-        driver.quit();
-    }
+        // Define a WebDriverWait for subsequent elements
 
-        
+        // Apply the Status Filter
+        if (statuses != null) {
+            for (String status : statuses) {
+                try {
+                    WebElement statusElement = waitShort.until(ExpectedConditions.elementToBeClickable(By.xpath("//p[contains(text(), '" + status + "')]")));
+                    statusElement.click();
+                    System.out.println("Status clicked: " + status);
+                } catch (NoSuchElementException e) {
+                    System.out.println("Status not found: " + status);
+                }
+            }
+        }
+
+        // Apply the Patient Name Filter
+        if (patientNames != null) {
+            for (String patientName : patientNames) {
+                try {
+                    WebElement patientInput = waitShort.until(ExpectedConditions.elementToBeClickable(By.xpath("//input[@placeholder='Search Patient Name']")));
+                    patientInput.clear();
+                    patientInput.sendKeys(patientName);
+
+                    WebElement patientNameOption = waitShort.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//p[contains(text(), '" + patientName + "')]")));
+                    patientNameOption.click();
+                    patientInput.sendKeys(Keys.ENTER);
+                    Thread.sleep(100);
+                } catch (NoSuchElementException e) {
+                    System.out.println("Patient name not found: " + patientName);
+                }
+            }
+        }
+        Thread.sleep(2000);
+        // Apply the Provider Name Filter
+        if (providerNames != null) {
+            for (String providerName : providerNames) {
+                try {
+                    WebElement providerInput = waitShort.until(ExpectedConditions.elementToBeClickable(By.xpath("//input[@id='Provider Name']")));
+                    providerInput.clear();
+                    providerInput.sendKeys(providerName);
+
+                    WebElement providerOption = waitShort.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//p[contains(text(), '" + providerName + "')]")));
+                    providerOption.click();
+                    providerInput.sendKeys(Keys.ENTER);
+                } catch (NoSuchElementException e) {
+                    System.out.println("Provider name not found: " + providerName);
+                }
+            }
+        }
+        Thread.sleep(2000);
+        // Apply the Created By Filter
+        if (data.containsKey("createdByNames")) {
+            List<String> createdByNames = (List<String>) data.get("createdByNames");
+            for (String createdBy : createdByNames) {
+                try {
+                    WebElement createdByInput = waitShort.until(ExpectedConditions.elementToBeClickable(By.xpath("//input[@id='Created By']")));
+                    createdByInput.clear();
+                    createdByInput.sendKeys(createdBy);
+
+                    WebElement createdByOption = waitShort.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//p[contains(text(), '" + createdBy + "')]")));
+                    createdByOption.click();
+                    createdByInput.sendKeys(Keys.ENTER);
+                } catch (NoSuchElementException e) {
+                    System.out.println("Created by name not found: " + createdBy);
+                }
+            }
+        }
+
+        // Apply the Date Range Filter
+//        if (dateRange != null) {
+//            try {
+//                if (!dateRange.get("from").isEmpty()) {
+//                    WebElement fromDateInput = waitShort.until(ExpectedConditions.elementToBeClickable(By.xpath("//input[@placeholder='From Date']")));
+//                    fromDateInput.clear();
+//                    fromDateInput.sendKeys(dateRange.get("from"));
+//                }
 //
-        @DataProvider(name = "dataProviderTest")
-        public Object[][] dataProvider() throws IOException {
-        // Specify the path to the JSON file
-        DataReaderFilter df = new  DataReaderFilter();
-        String filePath = "C:\\Users\\sksusari\\Documents\\Test\\filter_cases.json";
-        
-        // Get the JSON data as a List of HashMaps
-        HashMap<String, String> data = df.getJsonDataToMapFilter();
-        Object[][] dataArray = new Object[data.size()][1];
-        
-        for (int i = 0; i < data.size(); i++) {
-            dataArray[i][0] = data.get(i);  // Each test will receive a HashMap as input
-        }
+//                if (!dateRange.get("to").isEmpty()) {
+//                    WebElement toDateInput = waitShort.until(ExpectedConditions.elementToBeClickable(By.xpath("//input[@placeholder='To Date']")));
+//                    toDateInput.clear();
+//                    toDateInput.sendKeys(dateRange.get("to"));
+//                }
+//            } catch (NoSuchElementException e) {
+//                System.out.println("Date range input error.");
+//            }
+//        }
+        Thread.sleep(2000);
+        WebElement recordCountElement = wait.until(ExpectedConditions.visibilityOfElementLocated(
+                By.xpath("//p[contains(text(), 'record(s) match your current filter selection')]")));
+            String recordCountText = recordCountElement.getText();
+            int displayedCount = 0; 
+            if (recordCountText.contains("No")) {
+                displayedCount = 0;  
+            } else {
+                displayedCount = Integer.parseInt(recordCountText.split(" ")[0]);
+            }
 
-        return dataArray;
-        }
-    
+            try {
+                WebElement applyButton = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//sl-button[text()='Apply']")));
+                applyButton.click();
+                System.out.println("Filter applied.");
+            } catch (NoSuchElementException e) {
+                System.out.println("Apply button not found.");
+            }
+            Thread.sleep(4000);
+          WebElement firstRow = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@id='tour-guide-billing-claims-step2']//table//tbody//tr")));
+
+         JavascriptExecutor js = (JavascriptExecutor) driver;
+         int totalRowCount = 0;
+         int previousRowCount = 0;
+
+         WebElement tableBody = driver.findElement(By.xpath("//div[@id='tour-guide-billing-claims-step2']//table//tbody"));
+         boolean isScrollable = (boolean) js.executeScript(
+                 "return arguments[0].scrollHeight > arguments[0].clientHeight;", tableBody);
+
+         if (!isScrollable) {
+             List<WebElement> visibleRows = driver.findElements(By.xpath("//div[@id='tour-guide-billing-claims-step2']//table//tbody//tr"));
+             totalRowCount = visibleRows.size();
+         } else {
+             while (true) {
+                 List<WebElement> visibleRows = driver.findElements(By.xpath("//div[@id='tour-guide-billing-claims-step2']//table//tbody//tr"));
+                 totalRowCount = visibleRows.size();
+                 if (totalRowCount == previousRowCount) {
+                     break;
+                 }
+                 previousRowCount = totalRowCount;
+
+                 js.executeScript("arguments[0].scrollTop = arguments[0].scrollHeight;", tableBody);
+
+                 Thread.sleep(1000);
+             }
+         
+
+ 
+
+         System.out.println("Total number of rows: " + totalRowCount);
+
+                Thread.sleep(1000);
+            }
+
+            Assert.assertEquals(totalRowCount, displayedCount, "The actual row count does not match the displayed record count.");
+
+            System.out.println("Displayed record count: " + displayedCount);
+            System.out.println("Actual row count: " + totalRowCount);
     }
+
+    @DataProvider(name = "dataProviderTest")
+    public Object[][] dataProvider() throws IOException {
+
+        DataReaderFilter dataReader = new DataReaderFilter();
+
+
+        HashMap<String, Object> jsonData = dataReader.getJsonDataToMapFilter();
+
+
+        System.out.println("Status: " + jsonData.get("status"));
+        System.out.println("Patient Names: " + jsonData.get("patientNames"));
+        System.out.println("Date Range: " + ((HashMap<String, String>) jsonData.get("dateRange")).get("from"));
+
+        return new Object[][] {
+            { jsonData } 
+        };
+    }
+}
