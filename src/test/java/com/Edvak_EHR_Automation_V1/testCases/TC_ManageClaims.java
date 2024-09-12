@@ -12,6 +12,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -31,6 +32,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
  
 import org.openqa.selenium.Alert;
@@ -251,43 +253,65 @@ public class TC_ManageClaims extends BaseClass {
             Thread.sleep(4000);
           WebElement firstRow = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@id='tour-guide-billing-claims-step2']//table//tbody//tr")));
 
-         JavascriptExecutor js = (JavascriptExecutor) driver;
-         int totalRowCount = 0;
-         int previousRowCount = 0;
+       // Initialize the JavascriptExecutor for scrolling
+          JavascriptExecutor js = (JavascriptExecutor) driver;
+          AtomicInteger totalRowCount = new AtomicInteger(0);
+          AtomicInteger previousRowCount = new AtomicInteger(0);
 
-         WebElement tableBody = driver.findElement(By.xpath("//div[@id='tour-guide-billing-claims-step2']//table//tbody"));
-         boolean isScrollable = (boolean) js.executeScript(
-                 "return arguments[0].scrollHeight > arguments[0].clientHeight;", tableBody);
 
-         if (!isScrollable) {
-             List<WebElement> visibleRows = driver.findElements(By.xpath("//div[@id='tour-guide-billing-claims-step2']//table//tbody//tr"));
-             totalRowCount = visibleRows.size();
-         } else {
-             while (true) {
-                 List<WebElement> visibleRows = driver.findElements(By.xpath("//div[@id='tour-guide-billing-claims-step2']//table//tbody//tr"));
-                 totalRowCount = visibleRows.size();
-                 if (totalRowCount == previousRowCount) {
-                     break;
-                 }
-                 previousRowCount = totalRowCount;
+          WebElement tableBody = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@id='tour-guide-billing-claims-step2']//table//tbody")));
 
-                 js.executeScript("arguments[0].scrollTop = arguments[0].scrollHeight;", tableBody);
+          // Check if the table is scrollable
+          boolean isScrollable = (boolean) js.executeScript("return arguments[0].scrollHeight > arguments[0].clientHeight;", tableBody);
 
-                 Thread.sleep(1000);
-             }
-         
+          if (!isScrollable) {
+              // If not scrollable, just count the visible rows
+              List<WebElement> visibleRows = driver.findElements(By.xpath("//div[@id='tour-guide-billing-claims-step2']//table//tbody//tr"));
+              totalRowCount.set(visibleRows.size());
+          } else {
+              // Scrollable table: loop to scroll through and count all rows
+              while (true) {
+                  // Get visible rows before scrolling
+                  List<WebElement> visibleRows = driver.findElements(By.xpath("//div[@id='tour-guide-billing-claims-step2']//table//tbody//tr"));
+                  totalRowCount.set(visibleRows.size());
 
- 
+                  // Break the loop if no new rows are loaded
+                  if (totalRowCount.get() == previousRowCount.get()) {
+                      break;
+                  }
+                  previousRowCount.set(totalRowCount.get());
 
-         System.out.println("Total number of rows: " + totalRowCount);
+                  // Scroll down in smaller increments to trigger row loading
+//                  js.executeScript("arguments[0].scrollTop += 100;", tableBody);  // Scroll by 100 pixels
 
-                Thread.sleep(1000);
-            }
+                  // Or try simulating mouse wheel event
+                   js.executeScript("var event = new WheelEvent('wheel', {deltaY: 3000}); arguments[0].dispatchEvent(event);", tableBody);
 
-            Assert.assertEquals(totalRowCount, displayedCount, "The actual row count does not match the displayed record count.");
+                  // Wait for new rows to load using FluentWait
+                  new FluentWait<>(driver)
+                      .withTimeout(Duration.ofSeconds(15))  // Increased the wait time
+                      .pollingEvery(Duration.ofMillis(500))
+                      .until(driver1 -> {
+                          List<WebElement> currentRows = driver.findElements(By.xpath("//div[@id='tour-guide-billing-claims-step2']//table//tbody//tr"));
+                          return currentRows.size() > previousRowCount.get();
+                      });
 
-            System.out.println("Displayed record count: " + displayedCount);
-            System.out.println("Actual row count: " + totalRowCount);
+                  // Increase delay to allow rows to load fully
+                  Thread.sleep(5000);  // Increased sleep to 2 seconds
+              }
+          }
+
+          // Print total row count for debugging
+          System.out.println("Total number of rows: " + totalRowCount.get());
+
+          // Verify that the total row count matches the displayed count
+          Assert.assertEquals(totalRowCount.get(), displayedCount, "The actual row count does not match the displayed record count.");
+
+          // Additional debug info
+          System.out.println("Displayed record count: " + displayedCount);
+          System.out.println("Actual row count: " + totalRowCount.get());
+
+
     }
 
     @DataProvider(name = "dataProviderTest")
