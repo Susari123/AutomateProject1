@@ -156,7 +156,7 @@
                     <!-- Suite testng xml file to consider for test execution -->
                     <suiteXmlFiles>
                        
-                        <suiteXmlFile>TC_ManageClaimsTestNG.xml</suiteXmlFile>
+                        <suiteXmlFile>StatementReadyTestNG.xml</suiteXmlFile>
                                                               
                     </suiteXmlFiles>
                 </configuration>

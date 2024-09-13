@@ -100,20 +100,23 @@ public class TC_ManageClaims extends BaseClass {
         logger.info("Billing button is clicked");
     }
 
-    private JSONObject readFilterData(HashMap<String, Object> data) {
-    return new JSONObject(data);
-    }
-    @Test(priority = 1, dataProvider = "dataProviderTest", dependsOnMethods = {"testQuickRegistration"})
-    void statementReady(HashMap<String, Object> data) throws InterruptedException, IOException {
+
+
+	@Test(priority = 1, dataProvider = "dataProviderTest", dependsOnMethods = {"testQuickRegistration"})
+    void Filter(HashMap<String, Object> data) throws InterruptedException, IOException {
         // Initialize WebDriverWait to wait for elements to load
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(100));
         WebDriverWait waitShort = new WebDriverWait(driver, Duration.ofSeconds(10));
 
         // Extract values from the HashMap passed from the DataProvider
-        List<String> statuses = (List<String>) data.get("status");
-        List<String> patientNames = (List<String>) data.get("patientNames");
-        List<String> providerNames = (List<String>) data.get("providerNames");
-        HashMap<String, String> dateRange = (HashMap<String, String>) data.get("dateRange");
+        @SuppressWarnings("unchecked")
+		List<String> statuses = (List<String>) data.get("status");
+        @SuppressWarnings("unchecked")
+		List<String> patientNames = (List<String>) data.get("patientNames");
+        @SuppressWarnings("unchecked")
+		List<String> providerNames = (List<String>) data.get("providerNames");
+        @SuppressWarnings("unchecked")
+		HashMap<String, String> dateRange = (HashMap<String, String>) data.get("dateRange");
 
         // Optional: Print extracted values for debugging
         System.out.println("Statuses: " + statuses);
@@ -122,9 +125,8 @@ public class TC_ManageClaims extends BaseClass {
 
         // Simulate loading the Billing page (if necessary)
         Thread.sleep(3000);
-
         // Interact with the Manage Claim tab
-        WebElement manageClaim = driver.findElement(By.xpath("//sl-tab-group//sl-tab[2]"));
+        WebElement manageClaim = waitShort.until(ExpectedConditions.elementToBeClickable(By.xpath("//sl-tab-group//sl-tab[2]")));
         manageClaim.click();
         System.out.println("Manage claim");
 
@@ -252,83 +254,10 @@ public class TC_ManageClaims extends BaseClass {
             }
             Thread.sleep(4000);
           WebElement firstRow = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@id='tour-guide-billing-claims-step2']//table//tbody//tr")));
-
-       // Initialize the JavascriptExecutor for scrolling
+          WebElement element = driver.findElement(By.xpath("//*[@id=\"tour-guide-billing-claims-step2\"]/descendant::table"));
           JavascriptExecutor js = (JavascriptExecutor) driver;
-          AtomicInteger totalRowCount = new AtomicInteger(0);
-          AtomicInteger previousRowCount = new AtomicInteger(0);
-
-
-          WebElement tableBody = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@id='tour-guide-billing-claims-step2']//table//tbody")));
-
-          // Check if the table is scrollable
-          boolean isScrollable = (boolean) js.executeScript("return arguments[0].scrollHeight > arguments[0].clientHeight;", tableBody);
-
-          if (!isScrollable) {
-              // If not scrollable, just count the visible rows
-              List<WebElement> visibleRows = driver.findElements(By.xpath("//div[@id='tour-guide-billing-claims-step2']//table//tbody//tr"));
-              totalRowCount.set(visibleRows.size());
-          } else {
-              // Scrollable table: loop to scroll through and count all rows
-              while (true) {
-                  // Get visible rows before scrolling
-                  List<WebElement> visibleRows = driver.findElements(By.xpath("//div[@id='tour-guide-billing-claims-step2']//table//tbody//tr"));
-                  totalRowCount.set(visibleRows.size());
-
-                  // Break the loop if no new rows are loaded
-                  if (totalRowCount.get() == previousRowCount.get()) {
-                      break;
-                  }
-                  previousRowCount.set(totalRowCount.get());
-
-                  // Scroll down in smaller increments to trigger row loading
-//                  js.executeScript("arguments[0].scrollTop += 100;", tableBody);  // Scroll by 100 pixels
-
-                  // Or try simulating mouse wheel event
-                   js.executeScript("var event = new WheelEvent('wheel', {deltaY: 3000}); arguments[0].dispatchEvent(event);", tableBody);
-
-                  // Wait for new rows to load using FluentWait
-                  new FluentWait<>(driver)
-                      .withTimeout(Duration.ofSeconds(15))  // Increased the wait time
-                      .pollingEvery(Duration.ofMillis(500))
-                      .until(driver1 -> {
-                          List<WebElement> currentRows = driver.findElements(By.xpath("//div[@id='tour-guide-billing-claims-step2']//table//tbody//tr"));
-                          return currentRows.size() > previousRowCount.get();
-                      });
-
-                  // Increase delay to allow rows to load fully
-                  Thread.sleep(5000);  // Increased sleep to 2 seconds
-              }
-          }
-
-          // Print total row count for debugging
-          System.out.println("Total number of rows: " + totalRowCount.get());
-
-          // Verify that the total row count matches the displayed count
-          Assert.assertEquals(totalRowCount.get(), displayedCount, "The actual row count does not match the displayed record count.");
-
-          // Additional debug info
-          System.out.println("Displayed record count: " + displayedCount);
-          System.out.println("Actual row count: " + totalRowCount.get());
-
-
+          js.executeScript("arguments[0].scrollTop = arguments[0].scrollHeight;", element);  // Scrolls inside the element
     }
 
-    @DataProvider(name = "dataProviderTest")
-    public Object[][] dataProvider() throws IOException {
 
-        DataReaderFilter dataReader = new DataReaderFilter();
-
-
-        HashMap<String, Object> jsonData = dataReader.getJsonDataToMapFilter();
-
-
-        System.out.println("Status: " + jsonData.get("status"));
-        System.out.println("Patient Names: " + jsonData.get("patientNames"));
-        System.out.println("Date Range: " + ((HashMap<String, String>) jsonData.get("dateRange")).get("from"));
-
-        return new Object[][] {
-            { jsonData } 
-        };
-    }
 }

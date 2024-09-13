@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Edvak_EHR_Automation_V1">
+    <listeners>
+		<listener class-name="com.Edvak_EHR_Automation_V1.utilities.Reporting" />
+	</listeners>
+  <test name="TestCases1">
+      <parameter name="browser" value="chrome"/>
+      <classes>
+            <class name="com.Edvak_EHR_Automation_V1.testCases.TC_StatementReady"/>  
+          
+      </classes>
+  </test> 
+</suite>
