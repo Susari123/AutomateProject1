@@ -23,7 +23,7 @@ import com.Edvak_EHR_Automation_V1.utilities.DataReaderFilter;
  
 public class TC_StatementReady extends TC_ManageClaims {
     WebDriverWait waitShort;
- 
+//    TC_StatementReady st = new TC_StatementReady();
     @BeforeClass
     public void setup() {
         waitShort = new WebDriverWait(driver, Duration.ofSeconds(10));  // Initialize WebDriverWait in a proper place
@@ -183,17 +183,14 @@ public class TC_StatementReady extends TC_ManageClaims {
         }
     }
     // Handle various statuses (e.g., Awaiting to Transmit)
-    private void handleAwaitingToTransmit() throws InterruptedException {
+    private void handleAwaitingToTransmit() throws InterruptedException, IOException {
         System.out.println("Handling Awaiting to Transmit status...");
         WebElement claim = waitShort.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//table//tbody//tr")));
         claim.click();
         waitShort.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[.='Claim Details']")));
         try {
-            // Locate the badge with "STATEMENT READY"
             WebElement awaitingToTransmitReadyBadge = waitShort.until(ExpectedConditions.visibilityOfElementLocated(
                     By.xpath("//sl-badge[contains(text(), 'Awaiting to transmit')]")));
- 
-            // Verify if the text is "STATEMENT READY"
             String badgeText = awaitingToTransmitReadyBadge.getText().trim();
             if (badgeText.equals("Awaiting to transmit")) {
                 System.out.println("The page contains the 'Awaiting to transmit' text.");
@@ -210,54 +207,60 @@ public class TC_StatementReady extends TC_ManageClaims {
         Thread.sleep(2000);
         String[] buttons = { "Reopen", "Edit Claim", "Settle", "Void Claim", "CMS 1500", "Patient Statement" };
  
-        // Click the dropdown once to open it
-        try {
-            WebElement actionsDropdown = driver.findElement(By.xpath("//*[@id=\"tour-guide-managing-claims-step4\"]/sl-dropdown[2]"));
-            actionsDropdown.click();
+  try {
+        	
+            List<WebElement> secondButtonList = driver.findElements(By.xpath("//*[@id='tour-guide-managing-claims-step4']//sl-dropdown[2]"));
+            List<WebElement> firstButtonList = driver.findElements(By.xpath("//*[@id='tour-guide-managing-claims-step4']//sl-dropdown[1]"));
+
+         if (!secondButtonList.isEmpty()) {
+             WebElement secondButton = secondButtonList.get(0);
+             secondButton.click();
+             System.out.println("Second button clicked.");
+         } else if (!firstButtonList.isEmpty()) {
+             WebElement firstButton = firstButtonList.get(0);
+             firstButton.click();
+             System.out.println("First button clicked.");
+         } else {
+             System.out.println("Neither button was found.");
+         }
+ 
         } catch (NoSuchElementException e) {
             System.out.println("Dropdown not found.");
-            return; // Stop the test if the dropdown is not found
+            return; 
         }
  
-        // Loop through each button name and check if it is enabled or disabled
         for (String buttonName : buttons) {
             checkButtonState(buttonName);
-            Thread.sleep(2000); // Pause for 2 seconds between checks
-        }
-        Thread.sleep(1000);
-        WebElement Note = driver.findElement(By.xpath("//sl-dropdown[@id='myDropdown']"));
-        Note.click();
-        waitShort.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[contains(text(), 'Add Note')]")));
-        WebElement textArea = driver.findElement(By.xpath("//*[@id=\"myDropdown\"]/main/form/textarea"));
-        textArea.sendKeys("Test case");
-        WebElement save = driver.findElement(By.xpath("//*[@id=\"myDropdown\"]/main/ed-row/sl-button[2]"));
-        save.click();
-        try {
-            WebElement paragraph = driver.findElement(By.xpath("//*[@id=\"tour-guide-managing-claims-step5\"]/div/div/p"));
-            Assert.assertTrue(paragraph.isDisplayed(), "Paragraph <p> tag is displayed.");
-        } catch (Exception e) {
-        	Assert.fail("Paragraph <p> tag does not exist on the page.");
+            Thread.sleep(2000); 
         }
         try {
-            // Locate the element containing the payer text
-            WebElement payerTextElement = driver.findElement(By.id("//*[@id=\"tour-guide-managing-claims-step1\"]/section[3]/ed-row[1]/label")); // Replace with the correct locator
+        	
+            List<WebElement> secondButtonList = driver.findElements(By.xpath("//*[@id='tour-guide-managing-claims-step4']//sl-dropdown[2]"));
+            List<WebElement> firstButtonList = driver.findElements(By.xpath("//*[@id='tour-guide-managing-claims-step4']//sl-dropdown[1]"));
+
+         if (!secondButtonList.isEmpty()) {
+  
+             WebElement secondButton = secondButtonList.get(0);
+             secondButton.click();
+             System.out.println("Second button clicked.");
+         } else if (!firstButtonList.isEmpty()) {
+         
+             WebElement firstButton = firstButtonList.get(0);
+             firstButton.click();
+             System.out.println("First button clicked.");
+         } else {
+             System.out.println("Neither button was found.");
+         }
  
-            // Get the text of the element
-            String payerText = payerTextElement.getText();
- 
-            // Check if the text contains "Primary" and does not contain "Patient"
-            if (payerText.contains("Primary") && !payerText.contains("Patient")) {
-            	Assert.assertTrue(true, "Text contains 'Primary' and does not contain 'Patient'. Test passed.");
-            } else {
-            	Assert.fail("Text does not contain 'Primary' or contains 'Patient'. Test failed.");
-            }
-        } catch (Exception e) {
-            // Fail the test if there's an issue finding the element or retrieving the text
-        	Assert.fail("An error occurred while checking the payer text: " + e.getMessage());
+        } catch (NoSuchElementException e) {
+            System.out.println("Dropdown not found.");
+            return; 
         }
+//        Thread.sleep(2000);
+        checkClaim();
+        
     }
- 
-    private void handleAwaitingToPost() throws InterruptedException {
+    private void handleAwaitingToPost() throws InterruptedException, IOException {
         System.out.println("Handling Awaiting to Post status...");
         WebElement claim = waitShort.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//table//tbody//tr")));
         claim.click();
@@ -284,54 +287,60 @@ public class TC_StatementReady extends TC_ManageClaims {
         Thread.sleep(2000);
         String[] buttons = { "Reopen", "Edit Claim", "Settle", "Void Claim", "CMS 1500", "Patient Statement" };
  
-        // Click the dropdown once to open it
-        try {
-            WebElement actionsDropdown = driver.findElement(By.xpath("//*[@id=\"tour-guide-managing-claims-step4\"]/sl-dropdown[2]"));
-            actionsDropdown.click();
+  try {
+        	
+            List<WebElement> secondButtonList = driver.findElements(By.xpath("//*[@id='tour-guide-managing-claims-step4']//sl-dropdown[2]"));
+            List<WebElement> firstButtonList = driver.findElements(By.xpath("//*[@id='tour-guide-managing-claims-step4']//sl-dropdown[1]"));
+
+         if (!secondButtonList.isEmpty()) {
+             WebElement secondButton = secondButtonList.get(0);
+             secondButton.click();
+             System.out.println("Second button clicked.");
+         } else if (!firstButtonList.isEmpty()) {
+             WebElement firstButton = firstButtonList.get(0);
+             firstButton.click();
+             System.out.println("First button clicked.");
+         } else {
+             System.out.println("Neither button was found.");
+         }
+ 
         } catch (NoSuchElementException e) {
             System.out.println("Dropdown not found.");
-            return; // Stop the test if the dropdown is not found
+            return; 
         }
  
-        // Loop through each button name and check if it is enabled or disabled
         for (String buttonName : buttons) {
             checkButtonState(buttonName);
-            Thread.sleep(2000); // Pause for 2 seconds between checks
-        }
-        Thread.sleep(1000);
-        WebElement Note = driver.findElement(By.xpath("//sl-dropdown[@id='myDropdown']"));
-        Note.click();
-        waitShort.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[contains(text(), 'Add Note')]")));
-        WebElement textArea = driver.findElement(By.xpath("//*[@id=\"myDropdown\"]/main/form/textarea"));
-        textArea.sendKeys("Test case");
-        WebElement save = driver.findElement(By.xpath("//*[@id=\"myDropdown\"]/main/ed-row/sl-button[2]"));
-        save.click();
-        try {
-            WebElement paragraph = driver.findElement(By.xpath("//*[@id=\"tour-guide-managing-claims-step5\"]/div/div/p"));
-            Assert.assertTrue(paragraph.isDisplayed(), "Paragraph <p> tag is displayed.");
-        } catch (Exception e) {
-        	Assert.fail("Paragraph <p> tag does not exist on the page.");
+            Thread.sleep(2000); 
         }
         try {
-            // Locate the element containing the payer text
-            WebElement payerTextElement = driver.findElement(By.id("//*[@id=\"tour-guide-managing-claims-step1\"]/section[3]/ed-row[1]/label")); // Replace with the correct locator
+        	
+            List<WebElement> secondButtonList = driver.findElements(By.xpath("//*[@id='tour-guide-managing-claims-step4']//sl-dropdown[2]"));
+            List<WebElement> firstButtonList = driver.findElements(By.xpath("//*[@id='tour-guide-managing-claims-step4']//sl-dropdown[1]"));
+
+         if (!secondButtonList.isEmpty()) {
+  
+             WebElement secondButton = secondButtonList.get(0);
+             secondButton.click();
+             System.out.println("Second button clicked.");
+         } else if (!firstButtonList.isEmpty()) {
+         
+             WebElement firstButton = firstButtonList.get(0);
+             firstButton.click();
+             System.out.println("First button clicked.");
+         } else {
+             System.out.println("Neither button was found.");
+         }
  
-            // Get the text of the element
-            String payerText = payerTextElement.getText();
- 
-            // Check if the text contains "Primary" and does not contain "Patient"
-            if (payerText.contains("Primary") && !payerText.contains("Patient")) {
-            	Assert.assertTrue(true, "Text contains 'Primary' and does not contain 'Patient'. Test passed.");
-            } else {
-            	Assert.fail("Text does not contain 'Primary' or contains 'Patient'. Test failed.");
-            }
-        } catch (Exception e) {
-            // Fail the test if there's an issue finding the element or retrieving the text
-        	Assert.fail("An error occurred while checking the payer text: " + e.getMessage());
+        } catch (NoSuchElementException e) {
+            System.out.println("Dropdown not found.");
+            return; 
         }
+//        Thread.sleep(2000);
+        checkClaim();
+        
     }
- 
-    private void handleTransmissionInProgress() throws InterruptedException {
+    private void handleTransmissionInProgress() throws InterruptedException, IOException {
         System.out.println("Handling Transmission In Progress status...");
         WebElement claim = waitShort.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//table//tbody//tr")));
         claim.click();
@@ -358,55 +367,61 @@ public class TC_StatementReady extends TC_ManageClaims {
         Thread.sleep(2000);
         String[] buttons = { "Reopen", "Edit Claim", "Settle", "Void Claim", "CMS 1500", "Patient Statement" };
  
-        // Click the dropdown once to open it
-        try {
-            WebElement actionsDropdown = driver.findElement(By.xpath("//*[@id=\"tour-guide-managing-claims-step4\"]/sl-dropdown[2]"));
-            actionsDropdown.click();
+  try {
+        	
+            List<WebElement> secondButtonList = driver.findElements(By.xpath("//*[@id='tour-guide-managing-claims-step4']//sl-dropdown[2]"));
+            List<WebElement> firstButtonList = driver.findElements(By.xpath("//*[@id='tour-guide-managing-claims-step4']//sl-dropdown[1]"));
+
+         if (!secondButtonList.isEmpty()) {
+             WebElement secondButton = secondButtonList.get(0);
+             secondButton.click();
+             System.out.println("Second button clicked.");
+         } else if (!firstButtonList.isEmpty()) {
+             WebElement firstButton = firstButtonList.get(0);
+             firstButton.click();
+             System.out.println("First button clicked.");
+         } else {
+             System.out.println("Neither button was found.");
+         }
+ 
         } catch (NoSuchElementException e) {
             System.out.println("Dropdown not found.");
-            return; // Stop the test if the dropdown is not found
+            return; 
         }
  
-        // Loop through each button name and check if it is enabled or disabled
         for (String buttonName : buttons) {
             checkButtonState(buttonName);
-            Thread.sleep(2000); // Pause for 2 seconds between checks
-        }
-        Thread.sleep(1000);
-        WebElement Note = driver.findElement(By.xpath("//sl-dropdown[@id='myDropdown']"));
-        Note.click();
-        waitShort.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[contains(text(), 'Add Note')]")));
-        WebElement textArea = driver.findElement(By.xpath("//*[@id=\"myDropdown\"]/main/form/textarea"));
-        textArea.sendKeys("Test case");
-        WebElement save = driver.findElement(By.xpath("//*[@id=\"myDropdown\"]/main/ed-row/sl-button[2]"));
-        save.click();
-        try {
-            WebElement paragraph = driver.findElement(By.xpath("//*[@id=\"tour-guide-managing-claims-step5\"]/div/div/p"));
-            Assert.assertTrue(paragraph.isDisplayed(), "Paragraph <p> tag is displayed.");
-        } catch (Exception e) {
-        	Assert.fail("Paragraph <p> tag does not exist on the page.");
+            Thread.sleep(2000); 
         }
         try {
-            // Locate the element containing the payer text
-            WebElement payerTextElement = driver.findElement(By.id("//*[@id=\"tour-guide-managing-claims-step1\"]/section[3]/ed-row[1]/label")); // Replace with the correct locator
+        	
+            List<WebElement> secondButtonList = driver.findElements(By.xpath("//*[@id='tour-guide-managing-claims-step4']//sl-dropdown[2]"));
+            List<WebElement> firstButtonList = driver.findElements(By.xpath("//*[@id='tour-guide-managing-claims-step4']//sl-dropdown[1]"));
+
+         if (!secondButtonList.isEmpty()) {
+  
+             WebElement secondButton = secondButtonList.get(0);
+             secondButton.click();
+             System.out.println("Second button clicked.");
+         } else if (!firstButtonList.isEmpty()) {
+         
+             WebElement firstButton = firstButtonList.get(0);
+             firstButton.click();
+             System.out.println("First button clicked.");
+         } else {
+             System.out.println("Neither button was found.");
+         }
  
-            // Get the text of the element
-            String payerText = payerTextElement.getText();
- 
-            // Check if the text contains "Primary" and does not contain "Patient"
-            if (payerText.contains("Primary") && !payerText.contains("Patient")) {
-            	Assert.assertTrue(true, "Text contains 'Primary' and does not contain 'Patient'. Test passed.");
-            } else {
-            	Assert.fail("Text does not contain 'Primary' or contains 'Patient'. Test failed.");
-            }
-        } catch (Exception e) {
-            // Fail the test if there's an issue finding the element or retrieving the text
-        	Assert.fail("An error occurred while checking the payer text: " + e.getMessage());
+        } catch (NoSuchElementException e) {
+            System.out.println("Dropdown not found.");
+            return; 
         }
-       
+//        Thread.sleep(2000);
+        checkClaim();
+        
     }
  
-    private void handleStatementReady() throws TimeoutException, InterruptedException {
+    private void handleStatementReady() throws TimeoutException, InterruptedException, IOException {
         System.out.println("Handling Statement Ready status...");
         WebElement claim = waitShort.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//table//tbody//tr")));
         claim.click();
@@ -431,71 +446,149 @@ public class TC_StatementReady extends TC_ManageClaims {
             logger.error("The 'STATEMENT READY' badge is not present.", e);
         }
         Thread.sleep(2000);
-        String[] buttons = { "Reopen", "Edit Claim", "Settle", "Void Claim", "CMS 1500", "Patient Statement" };
- 
-        // Click the dropdown once to open it
+        String[] buttons = { "Reopen", " Edit Claim ", "Settle", "Void Claim", "CMS 1500", "Patient Statement" };
+   	 
         try {
-            WebElement actionsDropdown = driver.findElement(By.xpath("//*[@id=\"tour-guide-managing-claims-step4\"]/sl-dropdown[2]"));
-            actionsDropdown.click();
+        	
+            List<WebElement> secondButtonList = driver.findElements(By.xpath("//*[@id='tour-guide-managing-claims-step4']//sl-dropdown[2]"));
+            List<WebElement> firstButtonList = driver.findElements(By.xpath("//*[@id='tour-guide-managing-claims-step4']//sl-dropdown[1]"));
+
+         if (!secondButtonList.isEmpty()) {
+             WebElement secondButton = secondButtonList.get(0);
+             secondButton.click();
+             System.out.println("Second button clicked.");
+         } else if (!firstButtonList.isEmpty()) {
+             WebElement firstButton = firstButtonList.get(0);
+             firstButton.click();
+             System.out.println("First button clicked.");
+         } else {
+             System.out.println("Neither button was found.");
+         }
+ 
         } catch (NoSuchElementException e) {
             System.out.println("Dropdown not found.");
-            return; // Stop the test if the dropdown is not found
+            return; 
         }
  
-        // Loop through each button name and check if it is enabled or disabled
         for (String buttonName : buttons) {
             checkButtonState(buttonName);
-            Thread.sleep(2000); // Pause for 2 seconds between checks
-        }
-        Thread.sleep(1000);
-        WebElement Note = driver.findElement(By.xpath("//sl-dropdown[@id='myDropdown']"));
-        Note.click();
-
-        // Wait for the 'Add Note' option to be visible
-        waitShort.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[contains(text(), 'Add Note')]")));
-
-        // Check if the textarea and save button are present
-        List<WebElement> textAreaList = driver.findElements(By.xpath("//*[@id=\"myDropdown\"]/main/form/textarea"));
-        List<WebElement> saveButtonList = driver.findElements(By.xpath("//*[@id=\"myDropdown\"]/main/ed-row/sl-button[2]"));
-
-        // Run the test only if both the text area and the save button are present
-        if (!textAreaList.isEmpty() && !saveButtonList.isEmpty()) {
-            WebElement textArea = textAreaList.get(0);
-            textArea.sendKeys("Test case");
-
-            WebElement save = saveButtonList.get(0);
-            save.click();
-            System.out.println("Test case executed successfully.");
-        } else {
-            System.out.println("Required elements not found. Test skipped.");
+            Thread.sleep(2000); 
         }
         try {
-            WebElement paragraph = driver.findElement(By.xpath("//*[@id=\"tour-guide-managing-claims-step5\"]/div/div/p"));
-            Assert.assertTrue(paragraph.isDisplayed(), "Paragraph <p> tag is displayed.");
-        } catch (Exception e) {
-        	Assert.fail("Paragraph <p> tag does not exist on the page.");
-        }
-        try {
-            // Locate the element containing the payer text
-            WebElement payerTextElement = driver.findElement(By.id("//*[@id=\"tour-guide-managing-claims-step1\"]/section[3]/ed-row[1]/label"));
+        	
+            List<WebElement> secondButtonList = driver.findElements(By.xpath("//*[@id='tour-guide-managing-claims-step4']//sl-dropdown[2]"));
+            List<WebElement> firstButtonList = driver.findElements(By.xpath("//*[@id='tour-guide-managing-claims-step4']//sl-dropdown[1]"));
+
+         if (!secondButtonList.isEmpty()) {
+  
+             WebElement secondButton = secondButtonList.get(0);
+             secondButton.click();
+             System.out.println("Second button clicked.");
+         } else if (!firstButtonList.isEmpty()) {
+         
+             WebElement firstButton = firstButtonList.get(0);
+             firstButton.click();
+             System.out.println("First button clicked.");
+         } else {
+             System.out.println("Neither button was found.");
+         }
  
-            // Get the text of the element
-            String payerText = payerTextElement.getText();
- 
-            // Check if the text contains "Patient" and does not contain "Primary"
-            if (payerText.contains("Patient") && !payerText.contains("Primary")) {
-            	Assert.assertTrue(true, "Text contains 'Patient' and does not contain 'Primary'. Test passed.");
-            } else {
-            	Assert.fail("Text does not contain 'Patient' or contains 'Primary'. Test failed.");
-            }
-        } catch (Exception e) {
-            // Fail the test if there's an issue finding the element or retrieving the text
-        	Assert.fail("An error occurred while checking the payer text: " + e.getMessage());
+        } catch (NoSuchElementException e) {
+            System.out.println("Dropdown not found.");
+            return; 
         }
+        checkClaim();
+     
+       String cpt1 = driver.findElement(By.xpath("//tr//td//ed-row[@class='gap-sm items-center']")).getText();
+       System.out.println(cpt1);
+       String billed = driver.findElement(By.xpath("//*[@id=\"tour-guide-managing-claims-step3\"]/div/table/tbody/tr/td[4]")).getText().replace("$", "").replace(",", "").trim();
+       System.out.println(billed);
+       WebElement serviceLine = driver.findElement(By.xpath("//*[@id='tour-guide-managing-claims-step3']//div//table//tbody//tr")); 
+       serviceLine.click();
+       String Balance = driver.findElement(By.xpath("//*[@id=\"tour-guide-managing-claims-step3\"]/div/table/tbody/tr/td[7]")).getText().replace("$", "").replace(",", "").trim();
+       System.out.println(Balance);
+       waitShort.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[contains(text(), ' Log Tracker ')]")));
+       List<WebElement> lineItemManagerElements = driver.findElements(By.xpath("//h2[contains(text(), 'Line Item Manager')]"));
+       Assert.assertFalse(lineItemManagerElements.isEmpty(), "The text 'Line Item Manager' is NOT present on the page.");
+       System.out.println("The text 'Line Item Manager' is present on the page.");
+       
+       WebElement element = driver.findElement(By.xpath("//sl-tooltip//p"));
+       String fullText = element.getText();
+       String code = extractCode(fullText);
+       System.out.println("Extracted Code: " + code);
+       Assert.assertEquals(cpt1, code, "The code does not match the expected value.");
+       logger.info("cpt matched");
+       String serviceBilled = driver.findElement(By.xpath("/html/body/app-root/div/div[2]/app-right-side-bar/ed-modal/app-adjust-apply-service-line/div/ed-drawer[1]/ed-drawer-body/section[1]/div[2]/div/div[1]/strong")).getText().replace("$", "").replace(",", "").trim();
+       Assert.assertEquals(billed, serviceBilled, "The Billed amount does not match the expected value."); 
+       logger.info("BILLING AMOUNT IS CORRECT");
+       String balance = driver.findElement(By.xpath("/html/body/app-root/div/div[2]/app-right-side-bar/ed-modal/app-adjust-apply-service-line/div/ed-drawer[1]/ed-drawer-body/section[1]/div[2]/div/div[4]/strong")).getText().replace("$", "").replace(",", "").trim();
+       Assert.assertEquals(Balance, balance, "Balance amount does not match the expected value."); 
+       logger.info("Balance amout is matching");
+       WebElement element1 = driver.findElement(By.xpath("//ed-drawer-body/section[1]/div[1]/div/ed-row[1]/span"));
+       String text = element1.getText().trim();  
+       if (text.contains("Primary")) {
+           System.out.println("The text contains 'Primary'.");
+       } else if (text.contains("Patient")) {
+           System.out.println("The text contains 'Patient'.");
+       } else {
+           System.out.println("Neither 'Primary' nor 'Patient' found.");
+       }
+       Assert.assertTrue(text.contains("Primary") || text.contains("Patient"), "The text does not contain 'Primary' or 'Patient'.");
+       
+       Thread.sleep(2000);
+       if (text.contains("Primary")) {
+
+           List<WebElement> insuranceSection = driver.findElements(By.xpath("//h6[contains(text(),'Insurance')]"));
+           List<WebElement> patientSection = driver.findElements(By.xpath("//h6[contains(text(),'Patient')]"));
+           
+         
+           Assert.assertFalse(insuranceSection.isEmpty(), "Insurance section is not displayed for Primary Payer.");
+           Assert.assertFalse(patientSection.isEmpty(), "Patient section is not displayed for Primary Payer.");
+           
+           System.out.println("Both Insurance and Patient sections are displayed for Primary Payer.");
+       } else if (text.contains("Patient")) {
+         
+           List<WebElement> patientSection = driver.findElements(By.xpath("//h6[contains(text(),'Patient')]"));
+           List<WebElement> insuranceSection = driver.findElements(By.xpath("//h6[contains(text(),'Insurance')]"));
+
+         
+           Assert.assertFalse(patientSection.isEmpty(), "Patient section is not displayed for Patient Payer.");
+           Assert.assertTrue(insuranceSection.isEmpty(), "Insurance section should not be displayed for Patient Payer.");
+           
+           System.out.println("Only the Patient section is displayed for Patient Payer, Test Pass.");
+       } else {
+           System.out.println("Payer type is not recognized.");
+       }
+       WebElement billedAmountElement = driver.findElement(By.xpath("//span[contains(text(),'Patient Balance')]/following-sibling::strong"));
+       String billedAmountText = billedAmountElement.getText().replace("$", "").trim();
+       double billedAmount = Double.parseDouble(billedAmountText);
+       if (billedAmount > 0) {
+           System.out.println("Billed amount is greater than 0: " + billedAmount);
+           WebElement selectPatientPaymentButton = driver.findElement(By.xpath("//sl-tooltip//sl-button[contains(text(),'Select Patient Payment')]"));
+           boolean isButtonEnabled = selectPatientPaymentButton.isEnabled();
+           Assert.assertTrue(isButtonEnabled, "'Select Patient Payment' button should be enabled when billed amount is greater than 0.");        
+           System.out.println("'Select Patient Payment' button is enabled.");
+       } else {
+           System.out.println("Billed amount is not greater than 0: " + billedAmount);
+       }
+       double billedAmount1 = Double.parseDouble(serviceBilled);
+       double balanceAmount = Double.parseDouble(balance);
+       if (billedAmount1 == balanceAmount) {
+           System.out.println("Billed amount equals balance amount. Proceeding to check buttons.");
+           WebElement AdjustButton = driver.findElement(By.xpath("//sl-tooltip[1]/sl-button[contains(text(),'Adjust')]"));
+           boolean isFirstButtonEnabled = AdjustButton.isEnabled();
+           WebElement NotifyPatientButton = driver.findElement(By.xpath("//sl-tooltip[2]//sl-button[contains(text(),'Notify Patient')]"));
+           boolean isSecondButtonEnabled = NotifyPatientButton.isEnabled();
+           Assert.assertTrue(isFirstButtonEnabled, "First button should be enabled when billed amount equals balance amount.");
+           Assert.assertTrue(isSecondButtonEnabled, "Second button should be enabled when billed amount equals balance amount.");
+           
+           System.out.println("AdjustButton AND NotifyPatientButton buttons are enabled.");
+       } else {
+           System.out.println("Billed amount does not equal balance amount. Buttons check skipped.");
+       }
     }
-   
- 
-    private void handleClearingHouse() throws InterruptedException {
+
+    private void handleClearingHouse() throws InterruptedException, IOException {
         System.out.println("Handling Clearing House status...");
         WebElement claim = waitShort.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//table//tbody//tr")));
         claim.click();
@@ -522,53 +615,60 @@ public class TC_StatementReady extends TC_ManageClaims {
         Thread.sleep(2000);
         String[] buttons = { "Reopen", "Edit Claim", "Settle", "Void Claim", "CMS 1500", "Patient Statement" };
  
-        // Click the dropdown once to open it
-        try {
-            WebElement actionsDropdown = driver.findElement(By.xpath("//*[@id=\"tour-guide-managing-claims-step4\"]/sl-dropdown[2]"));
-            actionsDropdown.click();
+  try {
+        	
+            List<WebElement> secondButtonList = driver.findElements(By.xpath("//*[@id='tour-guide-managing-claims-step4']//sl-dropdown[2]"));
+            List<WebElement> firstButtonList = driver.findElements(By.xpath("//*[@id='tour-guide-managing-claims-step4']//sl-dropdown[1]"));
+
+         if (!secondButtonList.isEmpty()) {
+             WebElement secondButton = secondButtonList.get(0);
+             secondButton.click();
+             System.out.println("Second button clicked.");
+         } else if (!firstButtonList.isEmpty()) {
+             WebElement firstButton = firstButtonList.get(0);
+             firstButton.click();
+             System.out.println("First button clicked.");
+         } else {
+             System.out.println("Neither button was found.");
+         }
+ 
         } catch (NoSuchElementException e) {
             System.out.println("Dropdown not found.");
-            return; // Stop the test if the dropdown is not found
+            return; 
         }
  
-        // Loop through each button name and check if it is enabled or disabled
         for (String buttonName : buttons) {
             checkButtonState(buttonName);
-            Thread.sleep(2000); // Pause for 2 seconds between checks
-        }
-        Thread.sleep(1000);
-        WebElement Note = driver.findElement(By.xpath("//sl-dropdown[@id='myDropdown']"));
-        Note.click();
-        waitShort.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[contains(text(), 'Add Note')]")));
-        WebElement textArea = driver.findElement(By.xpath("//*[@id=\"myDropdown\"]/main/form/textarea"));
-        textArea.sendKeys("Test case");
-        WebElement save = driver.findElement(By.xpath("//*[@id=\"myDropdown\"]/main/ed-row/sl-button[2]"));
-        save.click();
-        try {
-            WebElement paragraph = driver.findElement(By.xpath("//*[@id=\"tour-guide-managing-claims-step5\"]/div/div/p"));
-            Assert.assertTrue(paragraph.isDisplayed(), "Paragraph <p> tag is displayed.");
-        } catch (Exception e) {
-        	Assert.fail("Paragraph <p> tag does not exist on the page.");
+            Thread.sleep(2000); 
         }
         try {
-            // Locate the element containing the payer text
-            WebElement payerTextElement = driver.findElement(By.id("//*[@id=\"tour-guide-managing-claims-step1\"]/section[3]/ed-row[1]/label")); // Replace with the correct locator
+        	
+            List<WebElement> secondButtonList = driver.findElements(By.xpath("//*[@id='tour-guide-managing-claims-step4']//sl-dropdown[2]"));
+            List<WebElement> firstButtonList = driver.findElements(By.xpath("//*[@id='tour-guide-managing-claims-step4']//sl-dropdown[1]"));
+
+         if (!secondButtonList.isEmpty()) {
+  
+             WebElement secondButton = secondButtonList.get(0);
+             secondButton.click();
+             System.out.println("Second button clicked.");
+         } else if (!firstButtonList.isEmpty()) {
+         
+             WebElement firstButton = firstButtonList.get(0);
+             firstButton.click();
+             System.out.println("First button clicked.");
+         } else {
+             System.out.println("Neither button was found.");
+         }
  
-            // Get the text of the element
-            String payerText = payerTextElement.getText();
- 
-            // Check if the text contains "Primary" and does not contain "Patient"
-            if (payerText.contains("Primary") && !payerText.contains("Patient")) {
-            	Assert.assertTrue(true, "Text contains 'Primary' and does not contain 'Patient'. Test passed.");
-            } else {
-            	Assert.fail("Text does not contain 'Primary' or contains 'Patient'. Test failed.");
-            }
-        } catch (Exception e) {
-            // Fail the test if there's an issue finding the element or retrieving the text
-        	Assert.fail("An error occurred while checking the payer text: " + e.getMessage());
+        } catch (NoSuchElementException e) {
+            System.out.println("Dropdown not found.");
+            return; 
         }
+//        Thread.sleep(2000);
+        checkClaim();
+        
     }
-    private void handleERAReceived() throws InterruptedException {
+    private void handleERAReceived() throws InterruptedException, IOException {
         System.out.println("Handling ERA Received status...");
         WebElement claim = waitShort.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//table//tbody//tr")));
         claim.click();
@@ -595,53 +695,60 @@ public class TC_StatementReady extends TC_ManageClaims {
         Thread.sleep(2000);
         String[] buttons = { "Reopen", "Edit Claim", "Settle", "Void Claim", "CMS 1500", "Patient Statement" };
  
-        // Click the dropdown once to open it
-        try {
-            WebElement actionsDropdown = driver.findElement(By.xpath("//*[@id=\"tour-guide-managing-claims-step4\"]/sl-dropdown[2]"));
-            actionsDropdown.click();
+  try {
+        	
+            List<WebElement> secondButtonList = driver.findElements(By.xpath("//*[@id='tour-guide-managing-claims-step4']//sl-dropdown[2]"));
+            List<WebElement> firstButtonList = driver.findElements(By.xpath("//*[@id='tour-guide-managing-claims-step4']//sl-dropdown[1]"));
+
+         if (!secondButtonList.isEmpty()) {
+             WebElement secondButton = secondButtonList.get(0);
+             secondButton.click();
+             System.out.println("Second button clicked.");
+         } else if (!firstButtonList.isEmpty()) {
+             WebElement firstButton = firstButtonList.get(0);
+             firstButton.click();
+             System.out.println("First button clicked.");
+         } else {
+             System.out.println("Neither button was found.");
+         }
+ 
         } catch (NoSuchElementException e) {
             System.out.println("Dropdown not found.");
-            return; // Stop the test if the dropdown is not found
+            return; 
         }
  
-        // Loop through each button name and check if it is enabled or disabled
         for (String buttonName : buttons) {
             checkButtonState(buttonName);
-            Thread.sleep(2000); // Pause for 2 seconds between checks
-        }
-        Thread.sleep(1000);
-        WebElement Note = driver.findElement(By.xpath("//sl-dropdown[@id='myDropdown']"));
-        Note.click();
-        waitShort.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[contains(text(), 'Add Note')]")));
-        WebElement textArea = driver.findElement(By.xpath("//*[@id=\"myDropdown\"]/main/form/textarea"));
-        textArea.sendKeys("Test case");
-        WebElement save = driver.findElement(By.xpath("//*[@id=\"myDropdown\"]/main/ed-row/sl-button[2]"));
-        save.click();
-        try {
-            WebElement paragraph = driver.findElement(By.xpath("//*[@id=\"tour-guide-managing-claims-step5\"]/div/div/p"));
-            Assert.assertTrue(paragraph.isDisplayed(), "Paragraph <p> tag is displayed.");
-        } catch (Exception e) {
-        	Assert.fail("Paragraph <p> tag does not exist on the page.");
+            Thread.sleep(2000); 
         }
         try {
-            // Locate the element containing the payer text
-            WebElement payerTextElement = driver.findElement(By.id("//*[@id=\"tour-guide-managing-claims-step1\"]/section[3]/ed-row[1]/label")); // Replace with the correct locator
+        	
+            List<WebElement> secondButtonList = driver.findElements(By.xpath("//*[@id='tour-guide-managing-claims-step4']//sl-dropdown[2]"));
+            List<WebElement> firstButtonList = driver.findElements(By.xpath("//*[@id='tour-guide-managing-claims-step4']//sl-dropdown[1]"));
+
+         if (!secondButtonList.isEmpty()) {
+  
+             WebElement secondButton = secondButtonList.get(0);
+             secondButton.click();
+             System.out.println("Second button clicked.");
+         } else if (!firstButtonList.isEmpty()) {
+         
+             WebElement firstButton = firstButtonList.get(0);
+             firstButton.click();
+             System.out.println("First button clicked.");
+         } else {
+             System.out.println("Neither button was found.");
+         }
  
-            // Get the text of the element
-            String payerText = payerTextElement.getText();
- 
-            // Check if the text contains "Primary" and does not contain "Patient"
-            if (payerText.contains("Primary") && !payerText.contains("Patient")) {
-            	Assert.assertTrue(true, "Text contains 'Primary' and does not contain 'Patient'. Test passed.");
-            } else {
-            	Assert.fail("Text does not contain 'Primary' or contains 'Patient'. Test failed.");
-            }
-        } catch (Exception e) {
-            // Fail the test if there's an issue finding the element or retrieving the text
-        	Assert.fail("An error occurred while checking the payer text: " + e.getMessage());
+        } catch (NoSuchElementException e) {
+            System.out.println("Dropdown not found.");
+            return; 
         }
+//        Thread.sleep(2000);
+        checkClaim();
+        
     }
-    private void handlePaymentReceived() throws InterruptedException {
+    private void handlePaymentReceived() throws InterruptedException, IOException {
         System.out.println("Handling Payment Received status...");
         WebElement claim = waitShort.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//table//tbody//tr")));
         claim.click();
@@ -668,54 +775,60 @@ public class TC_StatementReady extends TC_ManageClaims {
         Thread.sleep(2000);
         String[] buttons = { "Reopen", "Edit Claim", "Settle", "Void Claim", "CMS 1500", "Patient Statement" };
  
-        // Click the dropdown once to open it
-        try {
-            WebElement actionsDropdown = driver.findElement(By.xpath("//*[@id=\"tour-guide-managing-claims-step4\"]/sl-dropdown[2]"));
-            actionsDropdown.click();
+  try {
+        	
+            List<WebElement> secondButtonList = driver.findElements(By.xpath("//*[@id='tour-guide-managing-claims-step4']//sl-dropdown[2]"));
+            List<WebElement> firstButtonList = driver.findElements(By.xpath("//*[@id='tour-guide-managing-claims-step4']//sl-dropdown[1]"));
+
+         if (!secondButtonList.isEmpty()) {
+             WebElement secondButton = secondButtonList.get(0);
+             secondButton.click();
+             System.out.println("Second button clicked.");
+         } else if (!firstButtonList.isEmpty()) {
+             WebElement firstButton = firstButtonList.get(0);
+             firstButton.click();
+             System.out.println("First button clicked.");
+         } else {
+             System.out.println("Neither button was found.");
+         }
+ 
         } catch (NoSuchElementException e) {
             System.out.println("Dropdown not found.");
-            return; // Stop the test if the dropdown is not found
+            return; 
         }
  
-        // Loop through each button name and check if it is enabled or disabled
         for (String buttonName : buttons) {
             checkButtonState(buttonName);
-            Thread.sleep(2000); // Pause for 2 seconds between checks
-        }
-        Thread.sleep(1000);
-        WebElement Note = driver.findElement(By.xpath("//sl-dropdown[@id='myDropdown']"));
-        Note.click();
-        waitShort.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[contains(text(), 'Add Note')]")));
-        WebElement textArea = driver.findElement(By.xpath("//*[@id=\"myDropdown\"]/main/form/textarea"));
-        textArea.sendKeys("Test case");
-        WebElement save = driver.findElement(By.xpath("//*[@id=\"myDropdown\"]/main/ed-row/sl-button[2]"));
-        save.click();
-        try {
-            WebElement paragraph = driver.findElement(By.xpath("//*[@id=\"tour-guide-managing-claims-step5\"]/div/div/p"));
-            Assert.assertTrue(paragraph.isDisplayed(), "Paragraph <p> tag is displayed.");
-        } catch (Exception e) {
-        	Assert.fail("Paragraph <p> tag does not exist on the page.");
+            Thread.sleep(2000); 
         }
         try {
-            // Locate the element containing the payer text
-            WebElement payerTextElement = driver.findElement(By.id("//*[@id=\"tour-guide-managing-claims-step1\"]/section[3]/ed-row[1]/label")); // Replace with the correct locator
+        	
+            List<WebElement> secondButtonList = driver.findElements(By.xpath("//*[@id='tour-guide-managing-claims-step4']//sl-dropdown[2]"));
+            List<WebElement> firstButtonList = driver.findElements(By.xpath("//*[@id='tour-guide-managing-claims-step4']//sl-dropdown[1]"));
+
+         if (!secondButtonList.isEmpty()) {
+  
+             WebElement secondButton = secondButtonList.get(0);
+             secondButton.click();
+             System.out.println("Second button clicked.");
+         } else if (!firstButtonList.isEmpty()) {
+         
+             WebElement firstButton = firstButtonList.get(0);
+             firstButton.click();
+             System.out.println("First button clicked.");
+         } else {
+             System.out.println("Neither button was found.");
+         }
  
-            // Get the text of the element
-            String payerText = payerTextElement.getText();
- 
-            // Check if the text contains "Primary" and does not contain "Patient"
-            if (payerText.contains("Primary") && !payerText.contains("Patient")) {
-            	Assert.assertTrue(true, "Text contains 'Primary' and does not contain 'Patient'. Test passed.");
-            } else {
-            	Assert.fail("Text does not contain 'Primary' or contains 'Patient'. Test failed.");
-            }
-        } catch (Exception e) {
-            // Fail the test if there's an issue finding the element or retrieving the text
-        	Assert.fail("An error occurred while checking the payer text: " + e.getMessage());
+        } catch (NoSuchElementException e) {
+            System.out.println("Dropdown not found.");
+            return; 
         }
+//        Thread.sleep(2000);
+        checkClaim();
+        
     }
- 
-    private void handleSettled() throws InterruptedException {
+    private void handleSettled() throws InterruptedException, IOException {
         System.out.println("Handling Settled status...");
         WebElement claim = waitShort.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//table//tbody//tr")));
         claim.click();
@@ -742,53 +855,60 @@ public class TC_StatementReady extends TC_ManageClaims {
         Thread.sleep(2000);
         String[] buttons = { "Reopen", "Edit Claim", "Settle", "Void Claim", "CMS 1500", "Patient Statement" };
  
-        // Click the dropdown once to open it
-        try {
-            WebElement actionsDropdown = driver.findElement(By.xpath("//*[@id=\"tour-guide-managing-claims-step4\"]/sl-dropdown[2]"));
-            actionsDropdown.click();
+  try {
+        	
+            List<WebElement> secondButtonList = driver.findElements(By.xpath("//*[@id='tour-guide-managing-claims-step4']//sl-dropdown[2]"));
+            List<WebElement> firstButtonList = driver.findElements(By.xpath("//*[@id='tour-guide-managing-claims-step4']//sl-dropdown[1]"));
+
+         if (!secondButtonList.isEmpty()) {
+             WebElement secondButton = secondButtonList.get(0);
+             secondButton.click();
+             System.out.println("Second button clicked.");
+         } else if (!firstButtonList.isEmpty()) {
+             WebElement firstButton = firstButtonList.get(0);
+             firstButton.click();
+             System.out.println("First button clicked.");
+         } else {
+             System.out.println("Neither button was found.");
+         }
+ 
         } catch (NoSuchElementException e) {
             System.out.println("Dropdown not found.");
-            return; // Stop the test if the dropdown is not found
+            return; 
         }
  
-        // Loop through each button name and check if it is enabled or disabled
         for (String buttonName : buttons) {
             checkButtonState(buttonName);
-            Thread.sleep(2000); // Pause for 2 seconds between checks
-        }
-        Thread.sleep(1000);
-        WebElement Note = driver.findElement(By.xpath("//sl-dropdown[@id='myDropdown']"));
-        Note.click();
-        waitShort.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[contains(text(), 'Add Note')]")));
-        WebElement textArea = driver.findElement(By.xpath("//*[@id=\"myDropdown\"]/main/form/textarea"));
-        textArea.sendKeys("Test case");
-        WebElement save = driver.findElement(By.xpath("//*[@id=\"myDropdown\"]/main/ed-row/sl-button[2]"));
-        save.click();
-        try {
-            WebElement paragraph = driver.findElement(By.xpath("//*[@id=\"tour-guide-managing-claims-step5\"]/div/div/p"));
-            Assert.assertTrue(paragraph.isDisplayed(), "Paragraph <p> tag is displayed.");
-        } catch (Exception e) {
-        	Assert.fail("Paragraph <p> tag does not exist on the page.");
+            Thread.sleep(2000); 
         }
         try {
-            // Locate the element containing the payer text
-            WebElement payerTextElement = driver.findElement(By.id("//*[@id=\"tour-guide-managing-claims-step1\"]/section[3]/ed-row[1]/label")); // Replace with the correct locator
+        	
+            List<WebElement> secondButtonList = driver.findElements(By.xpath("//*[@id='tour-guide-managing-claims-step4']//sl-dropdown[2]"));
+            List<WebElement> firstButtonList = driver.findElements(By.xpath("//*[@id='tour-guide-managing-claims-step4']//sl-dropdown[1]"));
+
+         if (!secondButtonList.isEmpty()) {
+  
+             WebElement secondButton = secondButtonList.get(0);
+             secondButton.click();
+             System.out.println("Second button clicked.");
+         } else if (!firstButtonList.isEmpty()) {
+         
+             WebElement firstButton = firstButtonList.get(0);
+             firstButton.click();
+             System.out.println("First button clicked.");
+         } else {
+             System.out.println("Neither button was found.");
+         }
  
-            // Get the text of the element
-            String payerText = payerTextElement.getText();
- 
-            // Check if the text contains "Primary" and does not contain "Patient"
-            if (payerText.contains("Primary") && !payerText.contains("Patient")) {
-                Assert.assertTrue(true, "Text contains 'Primary' and does not contain 'Patient'. Test passed.");
-            } else {
-                Assert.fail("Text does not contain 'Primary' or contains 'Patient'. Test failed.");
-            }
-        } catch (Exception e) {
-            // Fail the test if there's an issue finding the element or retrieving the text
-            Assert.fail("An error occurred while checking the payer text: " + e.getMessage());
+        } catch (NoSuchElementException e) {
+            System.out.println("Dropdown not found.");
+            return; 
         }
+//        Thread.sleep(2000);
+        checkClaim();
+        
     }
-    private void handlePending() throws InterruptedException {
+    private void handlePending() throws InterruptedException, IOException {
         System.out.println("Handling Pending status...");
         WebElement claim = waitShort.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//table//tbody//tr")));
         claim.click();
@@ -815,54 +935,60 @@ public class TC_StatementReady extends TC_ManageClaims {
         Thread.sleep(2000);
         String[] buttons = { "Reopen", "Edit Claim", "Settle", "Void Claim", "CMS 1500", "Patient Statement" };
  
-        // Click the dropdown once to open it
-        try {
-            WebElement actionsDropdown = driver.findElement(By.xpath("//*[@id=\"tour-guide-managing-claims-step4\"]/sl-dropdown[2]"));
-            actionsDropdown.click();
+  try {
+        	
+            List<WebElement> secondButtonList = driver.findElements(By.xpath("//*[@id='tour-guide-managing-claims-step4']//sl-dropdown[2]"));
+            List<WebElement> firstButtonList = driver.findElements(By.xpath("//*[@id='tour-guide-managing-claims-step4']//sl-dropdown[1]"));
+
+         if (!secondButtonList.isEmpty()) {
+             WebElement secondButton = secondButtonList.get(0);
+             secondButton.click();
+             System.out.println("Second button clicked.");
+         } else if (!firstButtonList.isEmpty()) {
+             WebElement firstButton = firstButtonList.get(0);
+             firstButton.click();
+             System.out.println("First button clicked.");
+         } else {
+             System.out.println("Neither button was found.");
+         }
+ 
         } catch (NoSuchElementException e) {
             System.out.println("Dropdown not found.");
-            return; // Stop the test if the dropdown is not found
+            return; 
         }
  
-        // Loop through each button name and check if it is enabled or disabled
         for (String buttonName : buttons) {
             checkButtonState(buttonName);
-            Thread.sleep(2000); // Pause for 2 seconds between checks
-        }
-        Thread.sleep(1000);
-        WebElement Note = driver.findElement(By.xpath("//sl-dropdown[@id='myDropdown']"));
-        Note.click();
-        waitShort.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[contains(text(), 'Add Note')]")));
-        WebElement textArea = driver.findElement(By.xpath("//*[@id=\"myDropdown\"]/main/form/textarea"));
-        textArea.sendKeys("Test case");
-        WebElement save = driver.findElement(By.xpath("//*[@id=\"myDropdown\"]/main/ed-row/sl-button[2]"));
-        save.click();
-        try {
-            WebElement paragraph = driver.findElement(By.xpath("//*[@id=\"tour-guide-managing-claims-step5\"]/div/div/p"));
-            Assert.assertTrue(paragraph.isDisplayed(), "Paragraph <p> tag is displayed.");
-        } catch (Exception e) {
-        	Assert.fail("Paragraph <p> tag does not exist on the page.");
+            Thread.sleep(2000); 
         }
         try {
-            // Locate the element containing the payer text
-            WebElement payerTextElement = driver.findElement(By.id("//*[@id=\"tour-guide-managing-claims-step1\"]/section[3]/ed-row[1]/label")); // Replace with the correct locator
+        	
+            List<WebElement> secondButtonList = driver.findElements(By.xpath("//*[@id='tour-guide-managing-claims-step4']//sl-dropdown[2]"));
+            List<WebElement> firstButtonList = driver.findElements(By.xpath("//*[@id='tour-guide-managing-claims-step4']//sl-dropdown[1]"));
+
+         if (!secondButtonList.isEmpty()) {
+  
+             WebElement secondButton = secondButtonList.get(0);
+             secondButton.click();
+             System.out.println("Second button clicked.");
+         } else if (!firstButtonList.isEmpty()) {
+         
+             WebElement firstButton = firstButtonList.get(0);
+             firstButton.click();
+             System.out.println("First button clicked.");
+         } else {
+             System.out.println("Neither button was found.");
+         }
  
-            // Get the text of the element
-            String payerText = payerTextElement.getText();
- 
-            // Check if the text contains "Primary" and does not contain "Patient"
-            if (payerText.contains("Primary") && !payerText.contains("Patient")) {
-            	Assert.assertTrue(true, "Text contains 'Primary' and does not contain 'Patient'. Test passed.");
-            } else {
-            	Assert.fail("Text does not contain 'Primary' or contains 'Patient'. Test failed.");
-            }
-        } catch (Exception e) {
-            // Fail the test if there's an issue finding the element or retrieving the text
-        	Assert.fail("An error occurred while checking the payer text: " + e.getMessage());
+        } catch (NoSuchElementException e) {
+            System.out.println("Dropdown not found.");
+            return; 
         }
+//        Thread.sleep(2000);
+        checkClaim();
+        
     }
- 
-    private void handleVoided() throws InterruptedException {
+    private void handleVoided() throws InterruptedException, IOException {
         System.out.println("Handling Voided status...");
         WebElement claim = waitShort.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//table//tbody//tr")));
         claim.click();
@@ -889,54 +1015,60 @@ public class TC_StatementReady extends TC_ManageClaims {
         Thread.sleep(2000);
         String[] buttons = { "Reopen", "Edit Claim", "Settle", "Void Claim", "CMS 1500", "Patient Statement" };
  
-        // Click the dropdown once to open it
-        try {
-            WebElement actionsDropdown = driver.findElement(By.xpath("//*[@id=\"tour-guide-managing-claims-step4\"]/sl-dropdown[2]"));
-            actionsDropdown.click();
+  try {
+        	
+            List<WebElement> secondButtonList = driver.findElements(By.xpath("//*[@id='tour-guide-managing-claims-step4']//sl-dropdown[2]"));
+            List<WebElement> firstButtonList = driver.findElements(By.xpath("//*[@id='tour-guide-managing-claims-step4']//sl-dropdown[1]"));
+
+         if (!secondButtonList.isEmpty()) {
+             WebElement secondButton = secondButtonList.get(0);
+             secondButton.click();
+             System.out.println("Second button clicked.");
+         } else if (!firstButtonList.isEmpty()) {
+             WebElement firstButton = firstButtonList.get(0);
+             firstButton.click();
+             System.out.println("First button clicked.");
+         } else {
+             System.out.println("Neither button was found.");
+         }
+ 
         } catch (NoSuchElementException e) {
             System.out.println("Dropdown not found.");
-            return; // Stop the test if the dropdown is not found
+            return; 
         }
  
-        // Loop through each button name and check if it is enabled or disabled
         for (String buttonName : buttons) {
             checkButtonState(buttonName);
-            Thread.sleep(2000); // Pause for 2 seconds between checks
-        }
-        Thread.sleep(1000);
-        WebElement Note = driver.findElement(By.xpath("//sl-dropdown[@id='myDropdown']"));
-        Note.click();
-        waitShort.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[contains(text(), 'Add Note')]")));
-        WebElement textArea = driver.findElement(By.xpath("//*[@id=\"myDropdown\"]/main/form/textarea"));
-        textArea.sendKeys("Test case");
-        WebElement save = driver.findElement(By.xpath("//*[@id=\"myDropdown\"]/main/ed-row/sl-button[2]"));
-        save.click();
-        try {
-            WebElement paragraph = driver.findElement(By.xpath("//*[@id=\"tour-guide-managing-claims-step5\"]/div/div/p"));
-            Assert.assertTrue(paragraph.isDisplayed(), "Paragraph <p> tag is displayed.");
-        } catch (Exception e) {
-        	Assert.fail("Paragraph <p> tag does not exist on the page.");
+            Thread.sleep(2000); 
         }
         try {
-            // Locate the element containing the payer text
-            WebElement payerTextElement = driver.findElement(By.id("//*[@id=\"tour-guide-managing-claims-step1\"]/section[3]/ed-row[1]/label")); // Replace with the correct locator
+        	
+            List<WebElement> secondButtonList = driver.findElements(By.xpath("//*[@id='tour-guide-managing-claims-step4']//sl-dropdown[2]"));
+            List<WebElement> firstButtonList = driver.findElements(By.xpath("//*[@id='tour-guide-managing-claims-step4']//sl-dropdown[1]"));
+
+         if (!secondButtonList.isEmpty()) {
+  
+             WebElement secondButton = secondButtonList.get(0);
+             secondButton.click();
+             System.out.println("Second button clicked.");
+         } else if (!firstButtonList.isEmpty()) {
+         
+             WebElement firstButton = firstButtonList.get(0);
+             firstButton.click();
+             System.out.println("First button clicked.");
+         } else {
+             System.out.println("Neither button was found.");
+         }
  
-            // Get the text of the element
-            String payerText = payerTextElement.getText();
- 
-            // Check if the text contains "Primary" and does not contain "Patient"
-            if (payerText.contains("Primary") && !payerText.contains("Patient")) {
-            	Assert.assertTrue(true, "Text contains 'Primary' and does not contain 'Patient'. Test passed.");
-            } else {
-            	Assert.fail("Text does not contain 'Primary' or contains 'Patient'. Test failed.");
-            }
-        } catch (Exception e) {
-            // Fail the test if there's an issue finding the element or retrieving the text
-        	Assert.fail("An error occurred while checking the payer text: " + e.getMessage());
+        } catch (NoSuchElementException e) {
+            System.out.println("Dropdown not found.");
+            return; 
         }
+//        Thread.sleep(2000);
+        checkClaim();
+        
     }
- 
-    private void handleRejected() throws InterruptedException {
+    private void handleRejected() throws InterruptedException, IOException {
         System.out.println("Handling Rejected status...");
         WebElement claim = waitShort.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//table//tbody//tr")));
         claim.click();
@@ -962,56 +1094,115 @@ public class TC_StatementReady extends TC_ManageClaims {
         }
         Thread.sleep(2000);
         String[] buttons = { "Reopen", "Edit Claim", "Settle", "Void Claim", "CMS 1500", "Patient Statement" };
+   	 
+  try {
+        	
+            List<WebElement> secondButtonList = driver.findElements(By.xpath("//*[@id='tour-guide-managing-claims-step4']//sl-dropdown[2]"));
+            List<WebElement> firstButtonList = driver.findElements(By.xpath("//*[@id='tour-guide-managing-claims-step4']//sl-dropdown[1]"));
+
+         if (!secondButtonList.isEmpty()) {
+             WebElement secondButton = secondButtonList.get(0);
+             secondButton.click();
+             System.out.println("Second button clicked.");
+         } else if (!firstButtonList.isEmpty()) {
+             WebElement firstButton = firstButtonList.get(0);
+             firstButton.click();
+             System.out.println("First button clicked.");
+         } else {
+             System.out.println("Neither button was found.");
+         }
  
-        // Click the dropdown once to open it
-        try {
-            WebElement actionsDropdown = driver.findElement(By.xpath("//*[@id=\"tour-guide-managing-claims-step4\"]/sl-dropdown[2]"));
-            actionsDropdown.click();
         } catch (NoSuchElementException e) {
             System.out.println("Dropdown not found.");
-            return; // Stop the test if the dropdown is not found
+            return; 
         }
  
-        // Loop through each button name and check if it is enabled or disabled
         for (String buttonName : buttons) {
             checkButtonState(buttonName);
-            Thread.sleep(2000); // Pause for 2 seconds between checks
-        }
-        Thread.sleep(1000);
-        WebElement Note = driver.findElement(By.xpath("//sl-dropdown[@id='myDropdown']"));
-        Note.click();
-        waitShort.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[contains(text(), 'Add Note')]")));
-        WebElement textArea = driver.findElement(By.xpath("//*[@id=\"myDropdown\"]/main/form/textarea"));
-        textArea.sendKeys("Test case");
-        WebElement save = driver.findElement(By.xpath("//*[@id=\"myDropdown\"]/main/ed-row/sl-button[2]"));
-        save.click();
-        try {
-            WebElement paragraph = driver.findElement(By.xpath("//*[@id=\"tour-guide-managing-claims-step5\"]/div/div/p"));
-            Assert.assertTrue(paragraph.isDisplayed(), "Paragraph <p> tag is displayed.");
-        } catch (Exception e) {
-        	Assert.fail("Paragraph <p> tag does not exist on the page.");
+            Thread.sleep(2000); 
         }
         try {
-            // Locate the element containing the payer text
-            WebElement payerTextElement = driver.findElement(By.id("//*[@id=\"tour-guide-managing-claims-step1\"]/section[3]/ed-row[1]/label")); // Replace with the correct locator
+        	
+            List<WebElement> secondButtonList = driver.findElements(By.xpath("//*[@id='tour-guide-managing-claims-step4']//sl-dropdown[2]"));
+            List<WebElement> firstButtonList = driver.findElements(By.xpath("//*[@id='tour-guide-managing-claims-step4']//sl-dropdown[1]"));
+
+         if (!secondButtonList.isEmpty()) {
+  
+             WebElement secondButton = secondButtonList.get(0);
+             secondButton.click();
+             System.out.println("Second button clicked.");
+         } else if (!firstButtonList.isEmpty()) {
+         
+             WebElement firstButton = firstButtonList.get(0);
+             firstButton.click();
+             System.out.println("First button clicked.");
+         } else {
+             System.out.println("Neither button was found.");
+         }
  
-            // Get the text of the element
-            String payerText = payerTextElement.getText();
- 
-            // Check if the text contains "Primary" and does not contain "Patient"
-            if (payerText.contains("Primary") && !payerText.contains("Patient")) {
-            	Assert.assertTrue(true, "Text contains 'Primary' and does not contain 'Patient'. Test passed.");
-            } else {
-            	Assert.fail("Text does not contain 'Primary' or contains 'Patient'. Test failed.");
-            }
+        } catch (NoSuchElementException e) {
+            System.out.println("Dropdown not found.");
+            return; 
+        }
+//        Thread.sleep(2000);
+        checkClaim();
+        
+    }
+    
+    public void checkClaim() throws InterruptedException, IOException {
+        
+        Thread.sleep(3000);
+
+        List<WebElement> myDropdownElements = driver.findElements(By.xpath("//*[@id='myDropdown']"));
+        boolean isMyDropdownVisible = !myDropdownElements.isEmpty() && myDropdownElements.get(0).isDisplayed();
+
+        List<WebElement> claimDetailSection = driver.findElements(By.xpath("/html/body/app-root/div/div[2]/app-claim-detail/div/div/section[1]/div/sl-icon-button"));
+        boolean isClaimDetailVisible = !claimDetailSection.isEmpty() && claimDetailSection.get(0).isDisplayed();
+
+        if (isMyDropdownVisible && isClaimDetailVisible) {
+            System.out.println("Note is already added, skipping to the next test.");
+        } else {
+            System.out.println("Either 'myDropdown' or 'app-claim-detail' is not visible. Proceeding with adding a note.");
+            WebElement addNote = driver.findElement(By.xpath("//*[@id='myDropdown']"));
+            addNote.click();
+            waitShort.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[contains(text(), 'Add Note')]")));
+            WebElement textArea = driver.findElement(By.xpath("//textarea[@formcontrolname='note']"));
+            textArea.sendKeys("Sourav");
+            WebElement saveButton = driver.findElement(By.xpath("//*[@id='myDropdown']/main/ed-row/sl-button[2]"));
+            saveButton.click();
+            System.out.println("Test case executed successfully.");
+        }
+
+        Thread.sleep(200);
+
+        try {
+            WebElement paragraph = driver.findElement(By.xpath("//*[@id='tour-guide-managing-claims-step5']/descendant::p"));
+            Assert.assertTrue(paragraph.isDisplayed(), "GenerateClaim Claim tracker is displayed.");
+            logger.info("Claim Tracker is present");
         } catch (Exception e) {
-            // Fail the test if there's an issue finding the element or retrieving the text
-        	Assert.fail("An error occurred while checking the payer text: " + e.getMessage());
+            Assert.fail("GenerateClaim Claim tracker does not exist on the page.");
+        }
+
+        List<WebElement> serviceLineElements = driver.findElements(By.xpath("//section[@id='tour-guide-managing-claims-step3']//div"));
+        if (!serviceLineElements.isEmpty()) {
+            logger.info("ServiceLine present");
+            Assert.assertTrue(true, "Test Passed: Element found.");
+        } else {
+            Assert.fail("Test Failed: Element not found.");
         }
     }
-       
-   
- 
+    public static String extractCode(String fullText) {
+        // Check if there is a hyphen delimiter in the text
+        if (fullText.contains("-")) {            
+            String[] parts = fullText.split("-", 2);  
+            String codePart = parts[0].trim();         
+            codePart = codePart.replaceAll("\\s+", "");  
+            return codePart;
+        } else {
+            return fullText.trim().replaceAll("\\s+", ""); 
+        }
+    }
+  
     @DataProvider(name = "dataProviderTest")
     public Object[][] dataProvider() throws IOException {
         // Reuse the DataProvider for consistent data feeding

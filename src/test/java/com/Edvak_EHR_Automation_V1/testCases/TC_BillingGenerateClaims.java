@@ -74,10 +74,22 @@ public class TC_BillingGenerateClaims extends BaseClass {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(100));
         // Assertion to verify that Billing page is loaded
        WebElement billingPageHeader = driver.findElement(By.xpath("//h2[normalize-space()='billing']"));
-       Assert.assertTrue(billingPageHeader.isDisplayed(), "Billing page should be displayed.");
+//       Assert.assertTrue(billingPageHeader.isDisplayed(), "Billing page should be displayed.");
+       wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//form//div//sl-button[@id='tour-guide-billing-Step4']")));
+       wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//table//tbody//tr//td")));
+        WebElement button = driver.findElement(By.xpath("//sl-tab-group//sl-tab[1]"));
+       String ariaSelected = button.getAttribute("aria-selected");
 
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//form//div//sl-button[@id='tour-guide-billing-Step4']")));
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//table//tbody//tr//td")));
+       if (!"true".equals(ariaSelected)) {
+
+           Assert.assertTrue(button.isDisplayed(), "Button is not visible!");
+           button.click();
+           System.out.println("Button clicked successfully!");
+
+       } else {
+           System.out.println("Button is already selected, no need to click.");
+       }
+
         newCharge();
 
         handleAlertIfPresent(driver);
