@@ -103,7 +103,7 @@ public class TC_ManageClaims extends BaseClass {
 
 
 	@Test(priority = 1, dataProvider = "dataProviderTest", dependsOnMethods = {"testQuickRegistration"})
-    void Filter(HashMap<String, Object> data) throws InterruptedException, IOException {
+   public void Filter(HashMap<String, Object> data) throws InterruptedException, IOException {
         // Initialize WebDriverWait to wait for elements to load
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(100));
         WebDriverWait waitShort = new WebDriverWait(driver, Duration.ofSeconds(10));

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="Failed suite [Command line suite]">
+  <test thread-count="5" name="Command line test(failed)">
+    <classes>
+      <class name="com.Edvak_EHR_Automation_V1.testCases.TC_StatementReady">
+        <methods>
+          <include name="tearDown"/>
+          <include name="Filter"/>
+          <include name="setup"/>
+          <include name="testQuickRegistration"/>
+          <include name="ManageClaims"/>
+          <include name="captureScreen"/>
+          <include name="setup"/>
+        </methods>
+      </class> <!-- com.Edvak_EHR_Automation_V1.testCases.TC_StatementReady -->
+    </classes>
+  </test> <!-- Command line test(failed) -->
+</suite> <!-- Failed suite [Command line suite] -->

@@ -84,22 +84,22 @@ public class TC_StatementReady extends TC_ManageClaims {
                 return;
             }
  
-            // Use JavaScript to get the text from the shadow DOM of sl-badge
+            
             JavascriptExecutor js = (JavascriptExecutor) driver;
             String statusText = (String) js.executeScript(
                 "return arguments[0].shadowRoot.querySelector('slot').assignedNodes()[0].textContent.trim();",
                 statusElement);
  
-            logger.info("Status Text Retrieved: " + statusText);  // Debugging log
+            logger.info("Status Text Retrieved: " + statusText);  
             System.out.println("Status Text Retrieved: " + statusText);
  
             // Run the corresponding method based on the status of the first visible row
             switch (statusText) {
-                case "Awaiting to Transmit":
+                case "Awaiting to transmit":
                     handleAwaitingToTransmit();
                     break;
  
-                case "Awaiting to Post":
+                case "Awaiting to post":
                     handleAwaitingToPost();
                     break;
  
@@ -189,7 +189,7 @@ public class TC_StatementReady extends TC_ManageClaims {
         }
     }
     // Handle various statuses (e.g., Awaiting to Transmit)
-    private void handleAwaitingToTransmit() throws InterruptedException, IOException {
+    private void handleAwaitingToTransmit() throws InterruptedException, IOException, AWTException {
         System.out.println("Handling Awaiting to Transmit status...");
         WebElement claim = waitShort.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//table//tbody//tr")));
         claim.click();
@@ -211,7 +211,7 @@ public class TC_StatementReady extends TC_ManageClaims {
             logger.error("The 'Awaiting to transmit' badge is not present.", e);
         }
         Thread.sleep(2000);
-        String[] buttons = { "Reopen", "Edit Claim", "Settle", "Void Claim", "CMS 1500", "Patient Statement" };
+        String[] buttons = { "Reopen", " Edit Claim ", "Settle", "Void Claim", "CMS 1500", "Patient Statement" };
  
   try {
         	
@@ -262,9 +262,161 @@ public class TC_StatementReady extends TC_ManageClaims {
             System.out.println("Dropdown not found.");
             return; 
         }
+        
+        List<WebElement> transmitClaimButtons = driver.findElements(By.xpath("//sl-button[contains(text(), 'Transmit Claim')]"));
+
+        // Check if the button is present
+        if (!transmitClaimButtons.isEmpty()) {
+            WebElement transmitClaimButton = transmitClaimButtons.get(0); // Get the first matched button
+
+            // Check if the button is enabled
+            if (transmitClaimButton.isEnabled()) {
+                System.out.println("The 'Transmit Claim' button is present and enabled.");
+            } else {
+                System.out.println("The 'Transmit Claim' button is present but disabled.");
+            }
+        } else {
+            System.out.println("The 'Transmit Claim' button is not present on the page.");
+        }
+        logger.info("Attachment Button");
+        WebElement Attachment = driver.findElement(By.xpath("//*[@id=\"tour-guide-managing-claims-step4\"]/sl-button[contains(text(), 'Attachments')]"));
+        Attachment.click();
+        logger.info("Attachment button clicked ");
+        waitShort.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//app-attach-document/div/ed-drawer/ed-drawer-header/h2")));
+        WebElement attachmentButton = driver.findElement(By.xpath("//ed-form-wrapper/ed-form-row[1]/div/sl-button"));
+        attachmentButton.click();
+        
+        String filePath = "C:\\Users\\sksusari\\Documents\\Test\\Modifiers_POS_Coding.pdf";
+        uploadFile(filePath);
+        logger.info("File Uploaded");
+        WebElement fileName = driver.findElement(By.xpath("//input[@formcontrolname='fileName']"));
+        fileName.sendKeys("TestFile");
+        logger.info("File name entered");
+        WebElement documentLabel = driver.findElement(By.xpath("/html/body/app-root/div/div[2]/app-right-side-bar/ed-modal/app-attach-document/div/ed-drawer/ed-drawer-body/ed-form-wrapper/ed-form-row[3]/div/ng-select/div/span"));
+        documentLabel.click();
+        waitShort.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class='ng-dropdown-panel-items scroll-host']//span[contains(text(),  'Appeals Package')]")));
+        WebElement TypeOption = driver.findElement(By.xpath("//div[@class='ng-dropdown-panel-items scroll-host']//span[contains(text(),  'Appeals Package')]"));
+        TypeOption.click();
+        WebElement documentType = driver.findElement(By.xpath("/html/body/app-root/div/div[2]/app-right-side-bar/ed-modal/app-attach-document/div/ed-drawer/ed-drawer-body/ed-form-wrapper/ed-form-row[4]/div/ng-select/div/span"));
+        documentType.click();
+        waitShort.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class='ng-dropdown-panel-items scroll-host']//span[contains(text(),  ' 03 - Report Justifying Treatment Beyond Utilization Guidelines')]")));
+        WebElement documentOption = driver.findElement(By.xpath("//div[@class='ng-dropdown-panel-items scroll-host']//span[contains(text(),  ' 03 - Report Justifying Treatment Beyond Utilization Guidelines')]"));
+        documentOption.click();
+        WebElement include = driver.findElement(By.xpath("//sl-button[contains(text(), 'Include File')]"));
+        include.click();
+        logger.info("document Included");
+        Thread.sleep(2000);
+        WebElement documentSave = driver.findElement(By.xpath("//ed-drawer-footer//sl-button[contains(text(), 'Save')]"));
+        documentSave.click();
+        waitShort.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div//h2[contains(text(), 'Attached Documents ')]")));
+        WebElement cancle = driver.findElement(By.xpath("//ed-drawer-footer//sl-button[contains(text(), 'Cancel')]"));
+        cancle.click();
+        logger.info("Document Saved");
 //        Thread.sleep(2000);
         checkClaim();
+        String cpt1 = driver.findElement(By.xpath("//tr//td//ed-row[@class='gap-sm items-center']")).getText();
+        System.out.println(cpt1);
+        String billed = driver.findElement(By.xpath("//*[@id=\"tour-guide-managing-claims-step3\"]/div/table/tbody/tr/td[4]")).getText().replace("$", "").replace(",", "").trim();
+        System.out.println(billed);
+        logger.info("billed amount");
+        List<WebElement> tableRows = driver.findElements(By.xpath("//*[@id=\"tour-guide-managing-claims-step3\"]/div/table/tbody/tr"));
+        int rowCount = tableRows.size();
+        logger.info(rowCount);
+        System.out.println("Number of <tr> elements: " + rowCount);
+        WebElement serviceLine = driver.findElement(By.xpath("//*[@id='tour-guide-managing-claims-step3']//div//table//tbody//tr")); 
+        serviceLine.click();
+        String Balance = driver.findElement(By.xpath("//*[@id=\"tour-guide-managing-claims-step3\"]/div/table/tbody/tr/td[7]")).getText().replace("$", "").replace(",", "").trim();
+        System.out.println(Balance);
+        waitShort.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[contains(text(), ' Log Tracker ')]")));
+        List<WebElement> lineItemManagerElements = driver.findElements(By.xpath("//h2[contains(text(), 'Line Item Manager')]"));
+        Assert.assertFalse(lineItemManagerElements.isEmpty(), "The text 'Line Item Manager' is NOT present on the page.");
+        System.out.println("The text 'Line Item Manager' is present on the page.");
+        WebElement element = driver.findElement(By.xpath("//sl-tooltip//p"));
+        String fullText = element.getText();
+        String code = extractCode(fullText);
+        System.out.println("Extracted Code: " + code);
+        Assert.assertEquals(cpt1, code, "The code does not match the expected value.");
+        logger.info("cpt matched");
+        String serviceBilled = driver.findElement(By.xpath("/html/body/app-root/div/div[2]/app-right-side-bar/ed-modal/app-adjust-apply-service-line/div/ed-drawer[1]/ed-drawer-body/section[1]/div[2]/div/div[1]/strong")).getText().replace("$", "").replace(",", "").trim();
+        Assert.assertEquals(billed, serviceBilled, "The Billed amount does not match the expected value."); 
+        logger.info("BILLING AMOUNT IS CORRECT");
+        String balance = driver.findElement(By.xpath("/html/body/app-root/div/div[2]/app-right-side-bar/ed-modal/app-adjust-apply-service-line/div/ed-drawer[1]/ed-drawer-body/section[1]/div[2]/div/div[4]/strong")).getText().replace("$", "").replace(",", "").trim();
+        Assert.assertEquals(Balance, balance, "Balance amount does not match the expected value."); 
+        logger.info("Balance amout is matching");
+        WebElement element1 = driver.findElement(By.xpath("//ed-drawer-body/section[1]/div[1]/div/ed-row[1]/span"));
+        String text = element1.getText().trim();  
+        if (text.contains("Primary")) {
+            System.out.println("The text contains 'Primary'.");
+        } else if (text.contains("Patient")) {
+            System.out.println("The text contains 'Patient'.");
+        } else {
+            System.out.println("Neither 'Primary' nor 'Patient' found.");
+        }
+        Assert.assertTrue(text.contains("Primary") || text.contains("Patient"), "The text does not contain 'Primary' or 'Patient'.");
         
+        Thread.sleep(2000);
+        if (text.contains("Primary")) {
+
+            List<WebElement> insuranceSection = driver.findElements(By.xpath("//h6[contains(text(),'Insurance')]"));
+            List<WebElement> patientSection = driver.findElements(By.xpath("//h6[contains(text(),'Patient')]"));
+            
+          
+            Assert.assertFalse(insuranceSection.isEmpty(), "Insurance section is not displayed for Primary Payer.");
+            Assert.assertFalse(patientSection.isEmpty(), "Patient section is not displayed for Primary Payer.");
+            
+            System.out.println("Both Insurance and Patient sections are displayed for Primary Payer.");
+        } else if (text.contains("Patient")) {
+          
+            List<WebElement> patientSection = driver.findElements(By.xpath("//h6[contains(text(),'Patient')]"));
+            List<WebElement> insuranceSection = driver.findElements(By.xpath("//h6[contains(text(),'Insurance')]"));
+
+          
+            Assert.assertFalse(patientSection.isEmpty(), "Patient section is not displayed for Patient Payer.");
+            Assert.assertTrue(insuranceSection.isEmpty(), "Insurance section should not be displayed for Patient Payer.");
+            
+            System.out.println("Only the Patient section is displayed for Patient Payer, Test Pass.");
+        } else {
+            System.out.println("Payer type is not recognized.");
+        }
+        WebElement AdjustButton = driver.findElement(By.xpath("//sl-tooltip//sl-button[contains(text(),'Select Insurance Payment')]"));
+  	   	boolean isAriaDisabled = "true".equals(AdjustButton.getAttribute("aria-disabled"));
+         Assert.assertFalse(isAriaDisabled, "Select Insurance Payment button should be disabled when status is Awaiting to Transmit .");
+         logger.info("The 'Select Insurance Payment' button is correctly disabled when balance is 0.");
+         WebElement transferButton = driver.findElement(By.xpath("//sl-tooltip//sl-button[contains(text(),'Transfer ')]"));
+         boolean isAriaDisabledone = "true".equals(transferButton.getAttribute("aria-disabled"));
+         Assert.assertFalse(isAriaDisabledone, "Select Insurance Payment button should be disabled when status is Awaiting to Transmit .");
+//         Assert.assertFalse(transferButton.isEnabled(), "The 'Transfer' button is enabled, but it should be disabled.");
+         WebElement NotifyPatientButton = driver.findElement(By.xpath("//sl-tooltip[2]//sl-button[contains(text(),'Notify Patient')]"));
+         boolean isSecondButtonEnabled = NotifyPatientButton.isEnabled();
+         Assert.assertTrue(isSecondButtonEnabled, "Patient statement button is Enable");
+         WebElement shadowHost = driver.findElement(By.xpath("//ed-drawer-footer/ed-row/sl-button[2]"));
+         SearchContext shadowRoot = shadowHost.getShadowRoot();
+         logger.info("nextButton");
+         WebElement button = shadowRoot.findElement(By.cssSelector("button")); 	
+         boolean isButtonDisabled = "true".equals(button.getAttribute("aria-disabled")) || button.getAttribute("disabled") != null;
+         System.out.println(rowCount);
+         
+         if (rowCount == 1) {
+      	   logger.info("Row count is 1. Checking if the button is disabled.");
+             if (isButtonDisabled) {
+                 logger.info("Button is correctly disabled when row count is 1.");
+             } else {
+          	   logger.info("Error: Button should be disabled when row count is 1.");
+             }
+         } 
+         // If the row count is greater than 1, assert the button is enabled
+         else if (rowCount > 1) {
+      	   logger.info("Row count is greater than 1. Checking if the button is enabled.");
+             if (!isButtonDisabled) {
+          	   logger.info("Button is correctly enabled when row count is more than 1.");
+             } else {
+          	   logger.info("Error: Button should be enabled when row count is more than 1.");
+             }
+         }
+         else {
+      	   System.out.println("Skipped");
+         }
+         logger.info("Test completed");
     }
     private void handleAwaitingToPost() throws InterruptedException, IOException, AWTException {
         System.out.println("Handling Awaiting to Post status...");
@@ -291,7 +443,7 @@ public class TC_StatementReady extends TC_ManageClaims {
             logger.error("The 'Awaiting to post' badge is not present.", e);
         }
         Thread.sleep(2000);
-        String[] buttons = { "Reopen", "Edit Claim", "Settle", "Void Claim", "CMS 1500", "Patient Statement" };
+        String[] buttons = { "Reopen", " Edit Claim ", "Settle", "Void Claim", "CMS 1500", "Patient Statement" };
  
   try {
         	
@@ -442,8 +594,96 @@ public class TC_StatementReady extends TC_ManageClaims {
         } else {
             System.out.println("Payer type is not recognized.");
         }
-    }
-    private void handleTransmissionInProgress() throws InterruptedException, IOException {
+        WebElement InsuranceAmountElement = driver.findElement(By.xpath("//section[2]//ed-row/span[contains(text(),'Insurance Balance')]/following-sibling::strong"));
+        String billedAmountText = InsuranceAmountElement.getText().replace("$", "").trim();
+        double BalanceAmount = Double.parseDouble(billedAmountText);
+        if (BalanceAmount > 0) {
+     	   logger.info("Billed amount is greater than 0: " + BalanceAmount);
+            WebElement selectInsurancePaymentButton = driver.findElement(By.xpath("//sl-tooltip//sl-button[contains(text(),'Select Insurance Payment')]"));
+            boolean isButtonEnabled = selectInsurancePaymentButton.isEnabled();
+            Assert.assertTrue(isButtonEnabled, "'Select Insurance Payment' button should be enabled when Insurance billed amount is greater than 0.");        
+            logger.info("'Select Insurance Payment' button is enabled.");
+            WebElement ADJandTransferButton = driver.findElement(By.xpath("//sl-tooltip//sl-button[contains(text(),'Transfer ')]"));
+            boolean isSecondButtonEnabled = ADJandTransferButton.isEnabled();
+            Assert.assertTrue(isSecondButtonEnabled, "Adjust and Transfer Button is enable when balance is greater than 0");
+            
+        } else if(BalanceAmount == 0)
+        {
+     	   Thread.sleep(200);
+     	   WebElement AdjustButton = driver.findElement(By.xpath("//sl-tooltip//sl-button[contains(text(),'Select Insurance Payment')]"));
+     	   boolean isAriaDisabled = "true".equals(AdjustButton.getAttribute("aria-disabled"));
+
+            Assert.assertFalse(isAriaDisabled, "Select Insurance Payment button should be disabled when balance amount is 0.");
+            logger.info("The 'Select Insurance Payment' button is correctly disabled when balance is 0.");
+            WebElement ADJandTransferButton = driver.findElement(By.xpath("//sl-tooltip//sl-button[contains(text(),'Transfer ')]"));
+            boolean isSecondButtonDisabled = "true".equals(ADJandTransferButton.getAttribute("aria-disabled"));
+            Assert.assertTrue(isSecondButtonDisabled, "ADJandTransferButton is Enable");
+            
+        }else  {          
+     	   logger.info("Test failed ");
+        } 
+        WebElement billedAmountElement = driver.findElement(By.xpath("//section[3]//ed-row/span[contains(text(),'Patient Balance')]/following-sibling::strong"));
+        String billedAmountTextpatient = billedAmountElement.getText().replace("$", "").trim();
+        double BalanceAmountpatietnt = Double.parseDouble(billedAmountTextpatient);
+  
+        if (BalanceAmountpatietnt > 0) {
+     	   logger.info("Billed amount is greater than 0: " + BalanceAmountpatietnt);
+            WebElement selectPatientPaymentButton = driver.findElement(By.xpath("//sl-tooltip//sl-button[contains(text(),'Select Patient Payment')]"));
+            boolean isButtonEnabled = selectPatientPaymentButton.isEnabled();
+            Assert.assertTrue(isButtonEnabled, "'Select Patient Payment' button should be enabled when billed amount is greater than 0.");        
+            logger.info("'Select Patient Payment' button is enabled.");
+            WebElement NotifyPatientButton = driver.findElement(By.xpath("//sl-tooltip[2]//sl-button[contains(text(),'Notify Patient')]"));
+            boolean isSecondButtonEnabled = NotifyPatientButton.isEnabled();
+            Assert.assertTrue(isSecondButtonEnabled, "NotifyPatient should be enabled when billed amount equals balance amount.");
+            
+        } else if(BalanceAmountpatietnt == 0)
+        {
+     	   Thread.sleep(200);
+     	   WebElement AdjustButton = driver.findElement(By.xpath("//section[3]//sl-tooltip[1]/sl-button[contains(text(),'Adjust')]"));
+     	   boolean isAriaDisabled = "true".equals(AdjustButton.getAttribute("aria-disabled"));
+     	   
+            Assert.assertFalse(isAriaDisabled, "'Adjust' button should be disabled when balance amount is 0.");
+            logger.info("The 'Adjust' button is correctly disabled when balance is 0.");
+            WebElement selectPatientPaymentButton = driver.findElement(By.xpath("//sl-tooltip//sl-button[contains(text(),'Select Patient Payment')]"));
+       	  	boolean isAriaDisabledone = "true".equals(selectPatientPaymentButton.getAttribute("aria-disabled"));
+            Assert.assertFalse(isAriaDisabledone, "'Adjust' button should be disabled when balance amount is 0.");
+            WebElement NotifyPatientButton = driver.findElement(By.xpath("//sl-tooltip[2]//sl-button[contains(text(),'Notify Patient')]"));
+            boolean isSecondButtonEnabled = NotifyPatientButton.isEnabled();
+            Assert.assertTrue(isSecondButtonEnabled, "Patient statement button is Enable");
+            
+        }else  {          
+     	   logger.info("Test failed ");
+        }
+        WebElement shadowHost = driver.findElement(By.xpath("//ed-drawer-footer/ed-row/sl-button[2]"));
+        SearchContext shadowRoot = shadowHost.getShadowRoot();
+        logger.info("nextButton");
+        WebElement button = shadowRoot.findElement(By.cssSelector("button")); 	
+        boolean isButtonDisabled = "true".equals(button.getAttribute("aria-disabled")) || button.getAttribute("disabled") != null;
+        System.out.println(rowCount);
+        
+        if (rowCount == 1) {
+     	   logger.info("Row count is 1. Checking if the button is disabled.");
+            if (isButtonDisabled) {
+                logger.info("Button is correctly disabled when row count is 1.");
+            } else {
+         	   logger.info("Error: Button should be disabled when row count is 1.");
+            }
+        } 
+        // If the row count is greater than 1, assert the button is enabled
+        else if (rowCount > 1) {
+     	   logger.info("Row count is greater than 1. Checking if the button is enabled.");
+            if (!isButtonDisabled) {
+         	   logger.info("Button is correctly enabled when row count is more than 1.");
+            } else {
+         	   logger.info("Error: Button should be enabled when row count is more than 1.");
+            }
+        }
+        else {
+     	   System.out.println("Skipped");
+        }
+        logger.info("Test completed");
+     }
+    private void handleTransmissionInProgress() throws InterruptedException, IOException, AWTException {
         System.out.println("Handling Transmission In Progress status...");
         WebElement claim = waitShort.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//table//tbody//tr")));
         claim.click();
@@ -468,7 +708,7 @@ public class TC_StatementReady extends TC_ManageClaims {
             logger.error("The 'Transmission In Progress' badge is not present.", e);
         }
         Thread.sleep(2000);
-        String[] buttons = { "Reopen", "Edit Claim", "Settle", "Void Claim", "CMS 1500", "Patient Statement" };
+        String[] buttons = { "Reopen", " Edit Claim ", "Settle", "Void Claim", "CMS 1500", "Patient Statement" };
  
   try {
         	
@@ -519,8 +759,146 @@ public class TC_StatementReady extends TC_ManageClaims {
             System.out.println("Dropdown not found.");
             return; 
         }
+        
+        logger.info("Attachment Button");
+        WebElement Attachment = driver.findElement(By.xpath("//*[@id=\"tour-guide-managing-claims-step4\"]/sl-button[contains(text(), 'Attachments')]"));
+        Attachment.click();
+        logger.info("Attachment button clicked ");
+        waitShort.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//app-attach-document/div/ed-drawer/ed-drawer-header/h2")));
+        WebElement attachmentButton = driver.findElement(By.xpath("//ed-form-wrapper/ed-form-row[1]/div/sl-button"));
+        attachmentButton.click();
+        
+        String filePath = "C:\\Users\\sksusari\\Documents\\Test\\Modifiers_POS_Coding.pdf";
+        uploadFile(filePath);
+        logger.info("File Uploaded");
+        WebElement fileName = driver.findElement(By.xpath("//input[@formcontrolname='fileName']"));
+        fileName.sendKeys("TestFile");
+        logger.info("File name entered");
+        WebElement documentLabel = driver.findElement(By.xpath("/html/body/app-root/div/div[2]/app-right-side-bar/ed-modal/app-attach-document/div/ed-drawer/ed-drawer-body/ed-form-wrapper/ed-form-row[3]/div/ng-select/div/span"));
+        documentLabel.click();
+        waitShort.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class='ng-dropdown-panel-items scroll-host']//span[contains(text(),  'Appeals Package')]")));
+        WebElement TypeOption = driver.findElement(By.xpath("//div[@class='ng-dropdown-panel-items scroll-host']//span[contains(text(),  'Appeals Package')]"));
+        TypeOption.click();
+        WebElement documentType = driver.findElement(By.xpath("/html/body/app-root/div/div[2]/app-right-side-bar/ed-modal/app-attach-document/div/ed-drawer/ed-drawer-body/ed-form-wrapper/ed-form-row[4]/div/ng-select/div/span"));
+        documentType.click();
+        waitShort.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class='ng-dropdown-panel-items scroll-host']//span[contains(text(),  ' 03 - Report Justifying Treatment Beyond Utilization Guidelines')]")));
+        WebElement documentOption = driver.findElement(By.xpath("//div[@class='ng-dropdown-panel-items scroll-host']//span[contains(text(),  ' 03 - Report Justifying Treatment Beyond Utilization Guidelines')]"));
+        documentOption.click();
+        WebElement include = driver.findElement(By.xpath("//sl-button[contains(text(), 'Include File')]"));
+        include.click();
+        logger.info("document Included");
+        Thread.sleep(2000);
+        WebElement documentSave = driver.findElement(By.xpath("//ed-drawer-footer//sl-button[contains(text(), 'Save')]"));
+        documentSave.click();
+        waitShort.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div//h2[contains(text(), 'Attached Documents ')]")));
+        WebElement cancle = driver.findElement(By.xpath("//ed-drawer-footer//sl-button[contains(text(), 'Cancel')]"));
+        cancle.click();
+        logger.info("Document Saved");
 //        Thread.sleep(2000);
         checkClaim();
+        String cpt1 = driver.findElement(By.xpath("//tr//td//ed-row[@class='gap-sm items-center']")).getText();
+        System.out.println(cpt1);
+        String billed = driver.findElement(By.xpath("//*[@id=\"tour-guide-managing-claims-step3\"]/div/table/tbody/tr/td[4]")).getText().replace("$", "").replace(",", "").trim();
+        System.out.println(billed);
+        logger.info("billed amount");
+        List<WebElement> tableRows = driver.findElements(By.xpath("//*[@id=\"tour-guide-managing-claims-step3\"]/div/table/tbody/tr"));
+        int rowCount = tableRows.size();
+        logger.info(rowCount);
+        System.out.println("Number of <tr> elements: " + rowCount);
+        WebElement serviceLine = driver.findElement(By.xpath("//*[@id='tour-guide-managing-claims-step3']//div//table//tbody//tr")); 
+        serviceLine.click();
+        String Balance = driver.findElement(By.xpath("//*[@id=\"tour-guide-managing-claims-step3\"]/div/table/tbody/tr/td[7]")).getText().replace("$", "").replace(",", "").trim();
+        System.out.println(Balance);
+        waitShort.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[contains(text(), ' Log Tracker ')]")));
+        List<WebElement> lineItemManagerElements = driver.findElements(By.xpath("//h2[contains(text(), 'Line Item Manager')]"));
+        Assert.assertFalse(lineItemManagerElements.isEmpty(), "The text 'Line Item Manager' is NOT present on the page.");
+        System.out.println("The text 'Line Item Manager' is present on the page.");
+        WebElement element = driver.findElement(By.xpath("//sl-tooltip//p"));
+        String fullText = element.getText();
+        String code = extractCode(fullText);
+        System.out.println("Extracted Code: " + code);
+        Assert.assertEquals(cpt1, code, "The code does not match the expected value.");
+        logger.info("cpt matched");
+        String serviceBilled = driver.findElement(By.xpath("/html/body/app-root/div/div[2]/app-right-side-bar/ed-modal/app-adjust-apply-service-line/div/ed-drawer[1]/ed-drawer-body/section[1]/div[2]/div/div[1]/strong")).getText().replace("$", "").replace(",", "").trim();
+        Assert.assertEquals(billed, serviceBilled, "The Billed amount does not match the expected value."); 
+        logger.info("BILLING AMOUNT IS CORRECT");
+        String balance = driver.findElement(By.xpath("/html/body/app-root/div/div[2]/app-right-side-bar/ed-modal/app-adjust-apply-service-line/div/ed-drawer[1]/ed-drawer-body/section[1]/div[2]/div/div[4]/strong")).getText().replace("$", "").replace(",", "").trim();
+        Assert.assertEquals(Balance, balance, "Balance amount does not match the expected value."); 
+        logger.info("Balance amout is matching");
+        WebElement element1 = driver.findElement(By.xpath("//ed-drawer-body/section[1]/div[1]/div/ed-row[1]/span"));
+        String text = element1.getText().trim();  
+        if (text.contains("Primary")) {
+            System.out.println("The text contains 'Primary'.");
+        } else if (text.contains("Patient")) {
+            System.out.println("The text contains 'Patient'.");
+        } else {
+            System.out.println("Neither 'Primary' nor 'Patient' found.");
+        }
+        Assert.assertTrue(text.contains("Primary") || text.contains("Patient"), "The text does not contain 'Primary' or 'Patient'.");
+        
+        Thread.sleep(2000);
+        if (text.contains("Primary")) {
+
+            List<WebElement> insuranceSection = driver.findElements(By.xpath("//h6[contains(text(),'Insurance')]"));
+            List<WebElement> patientSection = driver.findElements(By.xpath("//h6[contains(text(),'Patient')]"));
+            
+          
+            Assert.assertFalse(insuranceSection.isEmpty(), "Insurance section is not displayed for Primary Payer.");
+            Assert.assertFalse(patientSection.isEmpty(), "Patient section is not displayed for Primary Payer.");
+            
+            System.out.println("Both Insurance and Patient sections are displayed for Primary Payer.");
+        } else if (text.contains("Patient")) {
+          
+            List<WebElement> patientSection = driver.findElements(By.xpath("//h6[contains(text(),'Patient')]"));
+            List<WebElement> insuranceSection = driver.findElements(By.xpath("//h6[contains(text(),'Insurance')]"));
+
+          
+            Assert.assertFalse(patientSection.isEmpty(), "Patient section is not displayed for Patient Payer.");
+            Assert.assertTrue(insuranceSection.isEmpty(), "Insurance section should not be displayed for Patient Payer.");
+            
+            System.out.println("Only the Patient section is displayed for Patient Payer, Test Pass.");
+        } else {
+            System.out.println("Payer type is not recognized.");
+        }
+        WebElement AdjustButton = driver.findElement(By.xpath("//sl-tooltip//sl-button[contains(text(),'Select Insurance Payment')]"));
+  	   	boolean isAriaDisabled = "true".equals(AdjustButton.getAttribute("aria-disabled"));
+         Assert.assertFalse(isAriaDisabled, "Select Insurance Payment button should be disabled when status is Awaiting to Transmit .");
+         logger.info("The 'Select Insurance Payment' button is correctly disabled when balance is 0.");
+         WebElement transferButton = driver.findElement(By.xpath("//sl-tooltip//sl-button[contains(text(),'Transfer ')]"));
+         boolean isAriaDisabledone = "true".equals(transferButton.getAttribute("aria-disabled"));
+         Assert.assertFalse(isAriaDisabledone, "Select Insurance Payment button should be disabled when status is Transmission IN progress");
+//         Assert.assertFalse(transferButton.isEnabled(), "The 'Transfer' button is enabled, but it should be disabled.");
+         WebElement NotifyPatientButton = driver.findElement(By.xpath("//sl-tooltip[2]//sl-button[contains(text(),'Notify Patient')]"));
+         boolean isSecondButtonEnabled = NotifyPatientButton.isEnabled();
+         Assert.assertTrue(isSecondButtonEnabled, "Patient statement button is Enable");
+         WebElement shadowHost = driver.findElement(By.xpath("//ed-drawer-footer/ed-row/sl-button[2]"));
+         SearchContext shadowRoot = shadowHost.getShadowRoot();
+         logger.info("nextButton");
+         WebElement button = shadowRoot.findElement(By.cssSelector("button")); 	
+         boolean isButtonDisabled = "true".equals(button.getAttribute("aria-disabled")) || button.getAttribute("disabled") != null;
+         System.out.println(rowCount);
+         
+         if (rowCount == 1) {
+      	   logger.info("Row count is 1. Checking if the button is disabled.");
+             if (isButtonDisabled) {
+                 logger.info("Button is correctly disabled when row count is 1.");
+             } else {
+          	   logger.info("Error: Button should be disabled when row count is 1.");
+             }
+         } 
+         // If the row count is greater than 1, assert the button is enabled
+         else if (rowCount > 1) {
+      	   logger.info("Row count is greater than 1. Checking if the button is enabled.");
+             if (!isButtonDisabled) {
+          	   logger.info("Button is correctly enabled when row count is more than 1.");
+             } else {
+          	   logger.info("Error: Button should be enabled when row count is more than 1.");
+             }
+         }
+         else {
+      	   System.out.println("Skipped");
+         }
+         logger.info("Test completed");
         
     }
  
@@ -762,7 +1140,7 @@ public class TC_StatementReady extends TC_ManageClaims {
        logger.info("Test completed");
     }
 
-    private void handleClearingHouse() throws InterruptedException, IOException {
+    private void handleClearingHouse() throws InterruptedException, IOException, AWTException {
         System.out.println("Handling Clearing House status...");
         WebElement claim = waitShort.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//table//tbody//tr")));
         claim.click();
@@ -787,7 +1165,7 @@ public class TC_StatementReady extends TC_ManageClaims {
             logger.error("The 'Clearing House' badge is not present.", e);
         }
         Thread.sleep(2000);
-        String[] buttons = { "Reopen", "Edit Claim", "Settle", "Void Claim", "CMS 1500", "Patient Statement" };
+        String[] buttons = { "Reopen", " Edit Claim ", "Settle", "Void Claim", "CMS 1500", "Patient Statement" };
  
   try {
         	
@@ -838,8 +1216,147 @@ public class TC_StatementReady extends TC_ManageClaims {
             System.out.println("Dropdown not found.");
             return; 
         }
+        
+        logger.info("Attachment Button");
+        WebElement Attachment = driver.findElement(By.xpath("//*[@id=\"tour-guide-managing-claims-step4\"]/sl-button[contains(text(), 'Attachments')]"));
+        Attachment.click();
+        logger.info("Attachment button clicked ");
+        waitShort.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//app-attach-document/div/ed-drawer/ed-drawer-header/h2")));
+        WebElement attachmentButton = driver.findElement(By.xpath("//ed-form-wrapper/ed-form-row[1]/div/sl-button"));
+        attachmentButton.click();
+        
+        String filePath = "C:\\Users\\sksusari\\Documents\\Test\\Modifiers_POS_Coding.pdf";
+        uploadFile(filePath);
+        logger.info("File Uploaded");
+        WebElement fileName = driver.findElement(By.xpath("//input[@formcontrolname='fileName']"));
+        fileName.sendKeys("TestFile");
+        logger.info("File name entered");
+        WebElement documentLabel = driver.findElement(By.xpath("/html/body/app-root/div/div[2]/app-right-side-bar/ed-modal/app-attach-document/div/ed-drawer/ed-drawer-body/ed-form-wrapper/ed-form-row[3]/div/ng-select/div/span"));
+        documentLabel.click();
+        waitShort.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class='ng-dropdown-panel-items scroll-host']//span[contains(text(),  'Appeals Package')]")));
+        WebElement TypeOption = driver.findElement(By.xpath("//div[@class='ng-dropdown-panel-items scroll-host']//span[contains(text(),  'Appeals Package')]"));
+        TypeOption.click();
+        WebElement documentType = driver.findElement(By.xpath("/html/body/app-root/div/div[2]/app-right-side-bar/ed-modal/app-attach-document/div/ed-drawer/ed-drawer-body/ed-form-wrapper/ed-form-row[4]/div/ng-select/div/span"));
+        documentType.click();
+        waitShort.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class='ng-dropdown-panel-items scroll-host']//span[contains(text(),  ' 03 - Report Justifying Treatment Beyond Utilization Guidelines')]")));
+        WebElement documentOption = driver.findElement(By.xpath("//div[@class='ng-dropdown-panel-items scroll-host']//span[contains(text(),  ' 03 - Report Justifying Treatment Beyond Utilization Guidelines')]"));
+        documentOption.click();
+        WebElement include = driver.findElement(By.xpath("//sl-button[contains(text(), 'Include File')]"));
+        include.click();
+        logger.info("document Included");
+        Thread.sleep(2000);
+        WebElement documentSave = driver.findElement(By.xpath("//ed-drawer-footer//sl-button[contains(text(), 'Save')]"));
+        documentSave.click();
+        waitShort.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div//h2[contains(text(), 'Attached Documents ')]")));
+        WebElement cancle = driver.findElement(By.xpath("//ed-drawer-footer//sl-button[contains(text(), 'Cancel')]"));
+        cancle.click();
+        logger.info("Document Saved");
 //        Thread.sleep(2000);
         checkClaim();
+        String cpt1 = driver.findElement(By.xpath("//tr//td//ed-row[@class='gap-sm items-center']")).getText();
+        System.out.println(cpt1);
+        String billed = driver.findElement(By.xpath("//*[@id=\"tour-guide-managing-claims-step3\"]/div/table/tbody/tr/td[4]")).getText().replace("$", "").replace(",", "").trim();
+        System.out.println(billed);
+        logger.info("billed amount");
+        List<WebElement> tableRows = driver.findElements(By.xpath("//*[@id=\"tour-guide-managing-claims-step3\"]/div/table/tbody/tr"));
+        int rowCount = tableRows.size();
+        logger.info(rowCount);
+        System.out.println("Number of <tr> elements: " + rowCount);
+        WebElement serviceLine = driver.findElement(By.xpath("//*[@id='tour-guide-managing-claims-step3']//div//table//tbody//tr")); 
+        serviceLine.click();
+        String Balance = driver.findElement(By.xpath("//*[@id=\"tour-guide-managing-claims-step3\"]/div/table/tbody/tr/td[7]")).getText().replace("$", "").replace(",", "").trim();
+        System.out.println(Balance);
+        waitShort.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[contains(text(), ' Log Tracker ')]")));
+        List<WebElement> lineItemManagerElements = driver.findElements(By.xpath("//h2[contains(text(), 'Line Item Manager')]"));
+        Assert.assertFalse(lineItemManagerElements.isEmpty(), "The text 'Line Item Manager' is NOT present on the page.");
+        System.out.println("The text 'Line Item Manager' is present on the page.");
+        WebElement element = driver.findElement(By.xpath("//sl-tooltip//p"));
+        String fullText = element.getText();
+        String code = extractCode(fullText);
+        System.out.println("Extracted Code: " + code);
+        Assert.assertEquals(cpt1, code, "The code does not match the expected value.");
+        logger.info("cpt matched");
+        String serviceBilled = driver.findElement(By.xpath("/html/body/app-root/div/div[2]/app-right-side-bar/ed-modal/app-adjust-apply-service-line/div/ed-drawer[1]/ed-drawer-body/section[1]/div[2]/div/div[1]/strong")).getText().replace("$", "").replace(",", "").trim();
+        Assert.assertEquals(billed, serviceBilled, "The Billed amount does not match the expected value."); 
+        logger.info("BILLING AMOUNT IS CORRECT");
+        String balance = driver.findElement(By.xpath("/html/body/app-root/div/div[2]/app-right-side-bar/ed-modal/app-adjust-apply-service-line/div/ed-drawer[1]/ed-drawer-body/section[1]/div[2]/div/div[4]/strong")).getText().replace("$", "").replace(",", "").trim();
+        Assert.assertEquals(Balance, balance, "Balance amount does not match the expected value."); 
+        logger.info("Balance amout is matching");
+        WebElement element1 = driver.findElement(By.xpath("//ed-drawer-body/section[1]/div[1]/div/ed-row[1]/span"));
+        String text = element1.getText().trim();  
+        if (text.contains("Primary")) {
+            System.out.println("The text contains 'Primary'.");
+        } else if (text.contains("Patient")) {
+            System.out.println("The text contains 'Patient'.");
+        } else {
+            System.out.println("Neither 'Primary' nor 'Patient' found.");
+        }
+        Assert.assertTrue(text.contains("Primary") || text.contains("Patient"), "The text does not contain 'Primary' or 'Patient'.");
+        
+        Thread.sleep(2000);
+        if (text.contains("Primary")) {
+
+            List<WebElement> insuranceSection = driver.findElements(By.xpath("//h6[contains(text(),'Insurance')]"));
+            List<WebElement> patientSection = driver.findElements(By.xpath("//h6[contains(text(),'Patient')]"));
+            
+          
+            Assert.assertFalse(insuranceSection.isEmpty(), "Insurance section is not displayed for Primary Payer.");
+            Assert.assertFalse(patientSection.isEmpty(), "Patient section is not displayed for Primary Payer.");
+            
+            System.out.println("Both Insurance and Patient sections are displayed for Primary Payer.");
+        } else if (text.contains("Patient")) {
+          
+            List<WebElement> patientSection = driver.findElements(By.xpath("//h6[contains(text(),'Patient')]"));
+            List<WebElement> insuranceSection = driver.findElements(By.xpath("//h6[contains(text(),'Insurance')]"));
+
+          
+            Assert.assertFalse(patientSection.isEmpty(), "Patient section is not displayed for Patient Payer.");
+            Assert.assertTrue(insuranceSection.isEmpty(), "Insurance section should not be displayed for Patient Payer.");
+            
+            System.out.println("Only the Patient section is displayed for Patient Payer, Test Pass.");
+        } else {
+            System.out.println("Payer type is not recognized.");
+        }
+        WebElement AdjustButton = driver.findElement(By.xpath("//sl-tooltip//sl-button[contains(text(),'Select Insurance Payment')]"));
+  	   	boolean isAriaDisabled = "true".equals(AdjustButton.getAttribute("aria-disabled"));
+         Assert.assertFalse(isAriaDisabled, "Select Insurance Payment button should be disabled when status is Awaiting to Transmit .");
+         logger.info("The 'Select Insurance Payment' button is correctly disabled when balance is 0.");
+         WebElement transferButton = driver.findElement(By.xpath("//sl-tooltip//sl-button[contains(text(),'Transfer ')]"));
+         boolean isAriaDisabledone = "true".equals(transferButton.getAttribute("aria-disabled"));
+         Assert.assertFalse(isAriaDisabledone, "Select Insurance Payment button should be disabled when status is Transmission IN progress");
+//         Assert.assertFalse(transferButton.isEnabled(), "The 'Transfer' button is enabled, but it should be disabled.");
+         WebElement NotifyPatientButton = driver.findElement(By.xpath("//sl-tooltip[2]//sl-button[contains(text(),'Notify Patient')]"));
+         boolean isSecondButtonEnabled = NotifyPatientButton.isEnabled();
+         Assert.assertTrue(isSecondButtonEnabled, "Patient statement button is Enable");
+         WebElement shadowHost = driver.findElement(By.xpath("//ed-drawer-footer/ed-row/sl-button[2]"));
+         SearchContext shadowRoot = shadowHost.getShadowRoot();
+         logger.info("nextButton");
+         WebElement button = shadowRoot.findElement(By.cssSelector("button")); 	
+         boolean isButtonDisabled = "true".equals(button.getAttribute("aria-disabled")) || button.getAttribute("disabled") != null;
+         System.out.println(rowCount);
+         
+         if (rowCount == 1) {
+      	   logger.info("Row count is 1. Checking if the button is disabled.");
+             if (isButtonDisabled) {
+                 logger.info("Button is correctly disabled when row count is 1.");
+             } else {
+          	   logger.info("Error: Button should be disabled when row count is 1.");
+             }
+         } 
+         // If the row count is greater than 1, assert the button is enabled
+         else if (rowCount > 1) {
+      	   logger.info("Row count is greater than 1. Checking if the button is enabled.");
+             if (!isButtonDisabled) {
+          	   logger.info("Button is correctly enabled when row count is more than 1.");
+             } else {
+          	   logger.info("Error: Button should be enabled when row count is more than 1.");
+             }
+         }
+         else {
+      	   System.out.println("Skipped");
+         }
+         logger.info("Test completed");
+        
         
     }
     private void handleERAReceived() throws InterruptedException, IOException {
