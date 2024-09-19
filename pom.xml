@@ -162,7 +162,7 @@
                     <!-- Suite testng xml file to consider for test execution -->
                     <suiteXmlFiles>
                        
-                        <suiteXmlFile>StatementReadyTestNG.xml</suiteXmlFile>
+                        <suiteXmlFile>PaymentTestNG.xml</suiteXmlFile>
                                                               
                     </suiteXmlFiles>
                 </configuration>

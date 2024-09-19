@@ -61,18 +61,33 @@ public class TC_Payment extends BaseClass{
         logger.info("Billing button is clicked");
         
     }
+    
+    
 	
-	@Test(priority = 1,dataProviderClass = TC_StatementReady.class, dataProvider = "dataProviderTest")
+	@Test(priority = 2,dataProviderClass = TC_StatementReady.class, dataProvider = "dataProviderTest")
 	public void testMethod(HashMap<String, Object> data) throws InterruptedException, IOException, TimeoutException {
 	TC_ManageClaims  manage = new TC_ManageClaims();
 	manage.Filter(data);
 
 	}
-	@Test(priority = 2,dataProviderClass = TC_StatementReady.class, dataProvider = "dataProviderTest")
-	public void manageclaim(HashMap<String, Object> data) throws InterruptedException, IOException, TimeoutException {
-		TC_StatementReady st = new TC_StatementReady();
-		st.ManageClaims(data);
+	@Test(priority = 1,dataProviderClass = TC_StatementReady.class, dataProvider = "dataProviderTest")
+	public void manageclaim(HashMap<String, String> data) throws InterruptedException, IOException, TimeoutException {
+		TC_BillingGenerateClaims st = new TC_BillingGenerateClaims();
+		st.testBillingGenerateClaims(data);
 	}
+	public void payment() {
+		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(100));
+        // Assertion to verify that Billing page is loaded
+       WebElement billingPageHeader = driver.findElement(By.xpath("//h2[normalize-space()='billing']"));
+       wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//form//div//sl-button[@id='tour-guide-billing-Step4']")));
+       wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//table//tbody//tr//td")));
+       WebElement paymentTab = driver.findElement(By.xpath("//sl-tab-group//sl-tab[3]"));
+       paymentTab.click();
+       wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(" //*[@id=\"sl-tab-panel-9\"]/app-payments-list/ed-col/section/div[2]/table/tbody/tr[1]")));
+       WebElement Plus = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"sl-tab-panel-9\"]/app-payments-list/ed-col/section/div[1]/div/sl-icon-button")));
+       Plus.click(); 
+       wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//ed-drawer-header//h2[contains(text(), 'New Payment')]")));
+    }
 	public void clickWithRetry(WebElement element, int maxRetries) {
         int retryCount = 0;
         boolean clicked = false;

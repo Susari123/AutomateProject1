@@ -20,7 +20,7 @@ import com.gargoylesoftware.htmlunit.javascript.host.Console;
 
 public class TC_QuickRegistration extends BaseClass {
 	
-//	@Test(priority=0)
+	@Test(priority=0)
 	public void testQuickRegistration() throws InterruptedException {
 		
 		LoginPage lp= new LoginPage(driver);
