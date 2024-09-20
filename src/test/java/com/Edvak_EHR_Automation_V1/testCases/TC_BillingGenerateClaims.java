@@ -385,13 +385,13 @@ public class TC_BillingGenerateClaims extends BaseClass {
                         logger.warn("Encounter number " + encounter + " is NOT present in the Claims List.");
                     } else {
                         logger.info("Encounter number " + encounter + " is present in the Claims List.");
+                      
                     }
                 })
                 .allMatch(encounterNumbersOnScreen::contains);
         Assert.assertTrue(allEncountersPresent, "All generated encounter numbers should be present in the Claims List.");
     }
-
-
+   
 
     @DataProvider(name = "dataProviderTest")
     public Object[][] dataProvider() throws IOException {

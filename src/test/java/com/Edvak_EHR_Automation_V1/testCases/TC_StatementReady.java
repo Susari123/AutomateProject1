@@ -1,17 +1,17 @@
 package com.Edvak_EHR_Automation_V1.testCases;
  
-import static org.testng.Assert.assertFalse;
-
 import java.awt.AWTException;
 import java.awt.Robot;
 import java.awt.event.KeyEvent;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.time.Duration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.concurrent.TimeoutException;
- 
+import java.util.stream.Collectors;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.SearchContext;
@@ -26,6 +26,9 @@ import org.testng.annotations.Test;
 
 import com.Edvak_EHR_Automation_V1.pageObjects.LoginPage;
 import com.Edvak_EHR_Automation_V1.utilities.DataReaderFilter;
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
  
 public class TC_StatementReady extends TC_ManageClaims {
     WebDriverWait waitShort;
@@ -76,7 +79,11 @@ public class TC_StatementReady extends TC_ManageClaims {
                 logger.info("First row not found in the table.");
                 return;
             }
- 
+            waitShort.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//table//tbody//tr")));
+            List<String> encounterNumbersOnScreen = driver.findElements(By.xpath("//tr[1]//td[1]/div/div/div/p")).stream()
+                .map(WebElement::getText)
+                .collect(Collectors.toList());
+                
             // Find the status element within the first row
             WebElement statusElement = firstRow.findElement(By.xpath("//td/descendant::sl-badge"));
             if (statusElement == null) {
@@ -92,7 +99,7 @@ public class TC_StatementReady extends TC_ManageClaims {
  
             logger.info("Status Text Retrieved: " + statusText);  
             System.out.println("Status Text Retrieved: " + statusText);
- 
+            writeEncountersToJson(encounterNumbersOnScreen, statusText);
             // Run the corresponding method based on the status of the first visible row
             switch (statusText) {
                 case "Awaiting to transmit":
@@ -1939,6 +1946,26 @@ public class TC_StatementReady extends TC_ManageClaims {
                     robot.keyRelease(KeyEvent.getExtendedKeyCodeForChar(character));
                 }
                 break;
+        }
+    }
+    private void writeEncountersToJson(List<String> encounterNumbers, String statusText) {
+        Gson gson = new Gson();
+        JsonArray encounterArray = new JsonArray();
+
+        // Create a JsonObject for each encounter and status
+        for (String encounter : encounterNumbers) {
+            JsonObject encounterObject = new JsonObject();
+            encounterObject.addProperty("encounter_number", encounter);
+            encounterObject.addProperty("status", statusText);  // Store the status for each encounter
+            encounterArray.add(encounterObject);
+        }
+
+        // Write the JSON array to a file
+        try (FileWriter file = new FileWriter("encounters_with_status.json")) {
+            gson.toJson(encounterArray, file);
+            System.out.println("Encounter numbers and status successfully saved to encounters_with_status.json");
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
