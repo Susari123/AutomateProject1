@@ -83,13 +83,11 @@ public class TC_Payment extends BaseClass{
        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//ed-drawer-header//h2[contains(text(), 'New Payment')]")));
        WebElement date = driver.findElement(By.xpath("//input[@formcontrolname='submission_Date']"));
        date.sendKeys(currentDate);
-    //    currentDate
         WebElement paymentType = driver.findElement(By.xpath("//ed-drawer/ed-drawer-body/div[2]/div/ng-select/div/div/div[3]"));
         paymentType.click();
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//ng-dropdown-panel//div[2]//div")));
         System.out.println("Status: " + status);
         if (status.equalsIgnoreCase("Statement Ready")) {
-            // If the status is "Statement Ready", select the Patient Payment option
             WebElement patientPaymentOption = driver.findElement(By.xpath("//ng-dropdown-panel//span[contains(text(), ' Patient ')]"));
             if (patientPaymentOption.isEnabled()) {
                 patientPaymentOption.click();
@@ -104,7 +102,6 @@ public class TC_Payment extends BaseClass{
             optionpatient.click();
             
         } else {
-            // For other statuses, select the Insurance option
             WebElement insuranceOption = driver.findElement(By.xpath("//ng-dropdown-panel//span[contains(text(), 'Insurance')]"));
             if (insuranceOption.isEnabled()) {
                 insuranceOption.click();
@@ -115,25 +112,32 @@ public class TC_Payment extends BaseClass{
             Thread.sleep(200);
             WebElement insurancePlanName = driver.findElement(By.xpath("//input[@placeholder ='Search insurance plan']"));
             insurancePlanName.sendKeys("CareCore National, Inc.");
+            logger.info("Insurance searched");
             wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//app-dropdown-templates-loader[1]/app-dropdown-template-insurance/div/section/span")));
             WebElement option = driver.findElement(By.xpath("//app-dropdown-templates-loader[1]/app-dropdown-template-insurance/div/section/span"));
             option.click(); 
+            logger.info("insurance selected");
         }
         WebElement modeOfPayment = driver.findElement(By.xpath("//ed-drawer/ed-drawer-body/div[4]/div/ng-select/div/span"));
-        modeOfPayment.click();     
+        modeOfPayment.click();  
         WebElement cash = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//ng-dropdown-panel//span[contains(text(), ' Cash ')]")));
         cash.click();
+        logger.info("mode of payment selected");
         WebElement amount = driver.findElement(By.xpath("//app-new-payments/main/ed-drawer/ed-drawer-body/div[5]/div/input"));
         String randomAmount = TC_Payment.getRandomAmount();
         amount.sendKeys(randomAmount);
+        logger.info("amount entered");
         WebElement notes = driver.findElement(By.xpath("//app-new-payments/main/ed-drawer/ed-drawer-body/div[6]/div/textarea"));
         notes.sendKeys("NoteADDED");
+        logger.info("note added");
         WebElement addPayment = driver.findElement(By.xpath("//ed-drawer/ed-drawer-footer/sl-button[1]"));
         addPayment.click();
+        logger.info("payment created");
         Thread.sleep(4000);
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//table//tbody//tr")));
         WebElement payment = driver.findElement(By.xpath("//table//tbody//tr"));
     	payment.click();
+    	logger.info("oprning the created payment");
     	wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//app-patient-payments/div/header/h3")));
         WebElement element = driver.findElement(By.xpath("//app-patient-payments/div/div[1]/div[1]/div[2]/div[1]/strong"));
         String value = element.getText().trim();
@@ -142,22 +146,18 @@ public class TC_Payment extends BaseClass{
         } else {
         	TC_Payment.patientPayment(encounterNumber);
         }
-////        deleteJsonFile("encounters_with_status.json");
+//        deleteJsonFile("encounters_with_status.json");
     }
     public static void insurancePayment(String encounterNumber) throws InterruptedException {
     	WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(100));
     	try {
-            // Try to find the first button
             WebElement firstButton = driver.findElement(By.xpath("//html/body/app-root/div/div[2]/app-patient-payments/div/div[2]/div[1]/div/table/tbody/tr/td/div/sl-tooltip/sl-button"));
-            
-            // If the first button is found, click it
             if (firstButton != null && firstButton.isDisplayed()) {
                 firstButton.click();
                 System.out.println("First button clicked successfully.");
             }
 
         } catch (NoSuchElementException e) {
-            // If the first button is not found, click the second button/html/body/app-root/div/div[2]/app-patient-payments/div/div[2]/div[1]/div/table/tbody/tr/td/div/sl-tooltip/sl-button
             try {
                 WebElement secondButton = driver.findElement(By.xpath("//app-patient-payments/div/div[2]/div[1]/div[2]/sl-tooltip/sl-button"));
                 secondButton.click();
@@ -166,30 +166,151 @@ public class TC_Payment extends BaseClass{
                 System.out.println("Both buttons are not found.");
             }
         }
+    	logger.info("search claim");
     	wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@formcontrolname='searchClaim']")));
         WebElement searchClaim = driver.findElement(By.xpath("//input[@formcontrolname='searchClaim']"));
-        System.out.println(searchClaim);
-       
+//        System.out.println(searchClaim);
+    	logger.info("search claim");
         searchClaim.sendKeys(encounterNumber);
+        logger.info("encounter number added");
     	wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//ed-drawer/ed-drawer-body/div/div[2]/div/table/tbody/tr")));
+    	Thread.sleep(5000);
     	WebElement claim = driver.findElement(By.xpath("//ed-drawer-body/div/div[2]/div/table/tbody/tr/td[1]/div/sl-checkbox"));
     	claim.click();
+    	logger.info("claim is selected");
+    	WebElement includeClaim = driver.findElement(By.xpath("//sl-button[contains(text(), 'Include Claims')]"));
+    	includeClaim.click();
+    	logger.info("claim selected");
+    	wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("/html/body/app-root/div/div[2]/app-patient-payments/div/div[2]/div[2]/div[1]/h4/sl-tooltip/span")));
+    	WebElement claimElement = driver.findElement(By.xpath("/html/body/app-root/div/div[2]/app-patient-payments/div/div[2]/div[2]/div[1]/h4/sl-tooltip/span"));
+    	String claimID = claimElement.getText();
+    	String trimmedClaimID = claimID.replace("#", "").trim();
+    	System.out.println("Encounter Number: " + encounterNumber);
+    	System.out.println("Trimmed Claim ID: " + trimmedClaimID);
+    	if (trimmedClaimID.equals(encounterNumber)) {
+    	    logger.info("Test pass, claim ID is the same as the selected claim ID");
+    	} else {
+    	    logger.info("Test fail, claim ID is not the same as the selected claim ID");
+    	}
+    	System.out.println("Trimmed Claim ID: " + trimmedClaimID);
+    	Thread.sleep(2000);
+    	   double amountReceived = Double.parseDouble(driver.findElement(By.xpath("//span[contains(text(), 'Amount Received: ')]/following-sibling::strong")).getText().replaceAll("[^\\d.]", ""));
+           double unappliedAmount = Double.parseDouble(driver.findElement(By.xpath("//span[contains(text(), 'Unapplied Amount: ')]/following-sibling::strong")).getText().replaceAll("[^\\d.]", ""));
+           double appliedAmount = Double.parseDouble(driver.findElement(By.xpath("//span[contains(text(), 'Applied Amount: ')]/following-sibling::strong")).getText().replaceAll("[^\\d.]", ""));
+           double refundAmount = Double.parseDouble(driver.findElement(By.xpath("//span[contains(text(), 'Refunded Amount: ')]/following-sibling::strong")).getText().replaceAll("[^\\d.]", ""));
+           logger.info("Amount Received (double)= " + amountReceived);
+           logger.info("Unapplied Amount (double)= " + unappliedAmount);
+           logger.info("Applied Amount (double)= " + appliedAmount);
+           logger.info("Refund Amount (double)= " + refundAmount);
+           if (amountReceived >= unappliedAmount) {
+               logger.info("Amount Received is greater than or equal to Unapplied Amount.");
+               double total = refundAmount + unappliedAmount + appliedAmount;
+               
+               if (amountReceived == total) {
+                   logger.info("Test Pass: The sum of Refund, Unapplied, and Applied equals Amount Received.");
+               } else {
+                   logger.error("Test Fail: The sum of Refund, Unapplied, and Applied does NOT equal Amount Received.");
+                   logger.error("Calculated Total: " + total + ", but Amount Received is: " + amountReceived);
+               }
+           } else {
+               logger.error("Test Fail: Amount Received is less than Unapplied Amount.");
+           }
+           WebElement transactionHistoryButton = driver.findElement(By.xpath("//sl-button[contains(text(), 'Transaction History')]"));
+           if (transactionHistoryButton.isEnabled()) {
+               logger.info("Transaction History button is enabled.");
+               transactionHistoryButton.click();
+               logger.info("Transaction History button clicked successfully.");
+           } else {
+               logger.warn("Transaction History button is disabled, cannot click.");
+           }
+       	   wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//app-transactions-payment/main/ed-drawer/ed-drawer-header/sl-icon-button")));
+       	   Thread.sleep(3000);
+           WebElement close = driver.findElement(By.xpath("//app-transactions-payment/main/ed-drawer/ed-drawer-header/sl-icon-button"));
+           close.click();
+           Thread.sleep(100);
+           WebElement unapplyPaymentButton = driver.findElement(By.xpath("//sl-button[contains(text(), 'Unapply Payment')]"));
+           String isDisabled = unapplyPaymentButton.getAttribute("disabled");
+           if (appliedAmount == 0) {
+               if (isDisabled != null) {
+                   logger.info("Unapply Payment button is disabled as the applied amount is 0.");
+               } else {
+                   logger.error("Error: The button should be disabled, but it is not.");
+               }
+           } else {
+               if (isDisabled == null) {
+                   logger.info("Unapply Payment button is enabled as the applied amount is greater than 0.");
 
+                   logger.info("Unapply Payment button clicked successfully.");
+               } else {
+                   logger.error("Error: The button should be enabled, but it is disabled.");
+               }
+           }
+           
+           WebElement voidPaymentButton = driver.findElement(By.xpath("/html/body/app-root/div/div[2]/app-patient-payments/div/div[1]/div[2]/div[1]/div[2]/sl-tooltip[2]/sl-button"));
+           String isDisabled1 = voidPaymentButton.getAttribute("disabled");
+           if (refundAmount > 0) {
+               if (isDisabled1 != null) {
+                   logger.info("Void Payment button is disabled as the refund amount is greater than 0.");
+               } else {
+                   logger.error("Error: The button should be disabled, but it is not.");
+               }
+           } else {
+               if (isDisabled1 == null) {
+                   logger.info("Void Payment button is enabled as the refund amount is 0.");
+
+                   logger.info("Void Payment button clicked successfully.");
+               } else {
+                   logger.error("Error: The button should be enabled, but it is disabled.");
+               }
+           }
+           Thread.sleep(2000);
+           WebElement refundbutton = driver.findElement(By.xpath("//app-patient-payments/div/div[1]/div[1]/div[3]/div[2]/div[2]//sl-button"));
+           String isDisabled2 = refundbutton.getAttribute("disabled");
+           if (unappliedAmount == 0) {
+               if (isDisabled2 != null) {
+                   logger.info("Button is disabled as the unapplied amount is 0.");
+               } else {
+                   logger.error("Error: The button should be disabled, but it is not.");
+               }
+           } else {
+               if (isDisabled2 == null) {
+                   logger.info("Button is enabled as the unapplied amount is greater than 0.");
+               } else {
+                   logger.error("Error: The button should be enabled, but it is disabled.");
+               }
+           }
+          
+           double totalBilledAmount = Double.parseDouble(driver.findElement(By.xpath("//span[contains(text(), 'Total Billed Amount:')]/following-sibling::strong")).getText().replaceAll("[^\\d.]", ""));
+           double totalAdjustAmount = Double.parseDouble(driver.findElement(By.xpath("//span[contains(text(), 'Total Adjusted Amount:')]/following-sibling::strong")).getText().replaceAll("[^\\d.]", ""));
+           double insuranceBalance = Double.parseDouble(driver.findElement(By.xpath("//span[contains(text(), 'Insurance Balance:')]/following-sibling::strong")).getText().replaceAll("[^\\d.]", ""));
+           double patientBalance = Double.parseDouble(driver.findElement(By.xpath("//span[contains(text(), 'Patient Balance:')]/following-sibling::strong")).getText().replaceAll("[^\\d.]", ""));
+           double claimBilled = Double.parseDouble(driver.findElement(By.xpath("//app-patient-payments/div/div[2]/div[2]/div[2]/table/tbody/tr/td[3]")).getText().replaceAll("[^\\d.]", ""));
+           double claimBalance = Double.parseDouble(driver.findElement(By.xpath("//app-patient-payments/div/div[2]/div[2]/div[2]/table/tbody/tr/td[6]")).getText().replaceAll("[^\\d.]", ""));
+           double ClaimAdjust = Double.parseDouble(driver.findElement(By.xpath("//app-patient-payments/div/div[2]/div[2]/div[2]/table/tbody/tr/td[5]")).getText().replaceAll("[^\\d.]", ""));
+
+         
+           double expectedClaimBalance = insuranceBalance + patientBalance;
+           Assert.assertEquals(claimBalance, expectedClaimBalance, "Test Fail: The claim balance does not match the sum of insurance balance and patient balance.");
+           logger.info("Test Pass: The claim balance matches the sum of insurance balance and patient balance.");
+           logger.info("Payment Test Completed as all the Test is pass");
+           Assert.assertEquals(totalBilledAmount, claimBilled, "Test Fail: Total Billed Amount does not match the Claim Billed amount.");
+           logger.info("Test Pass: Total Billed Amount matches the Claim Billed amount.");
+           Assert.assertEquals(totalAdjustAmount, ClaimAdjust, "Test Fail: Total Adjust Amount does not match Claim Adjust.");
+           logger.info("Test Pass: Total Adjust Amount matches Claim Adjust.");
+           logger.info("Test pass as all the senerio is completed.");
     }
+    
+
     public static void patientPayment(String encounterNumber) throws InterruptedException {
     	WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(100));
     	try {
-            // Try to find the first button
-            WebElement firstButton = driver.findElement(By.xpath("//html/body/app-root/div/div[2]/app-patient-payments/div/div[2]/div[1]/div/table/tbody/tr/td/div/sl-tooltip/sl-button"));
-            
-            // If the first button is found, click it
+            WebElement firstButton = driver.findElement(By.xpath("//html/body/app-root/div/div[2]/app-patient-payments/div/div[2]/div[1]/div/table/tbody/tr/td/div/sl-tooltip/sl-button"));            
             if (firstButton != null && firstButton.isDisplayed()) {
                 firstButton.click();
                 System.out.println("First button clicked successfully.");
             }
 
         } catch (NoSuchElementException e) {
-            // If the first button is not found, click the second button/html/body/app-root/div/div[2]/app-patient-payments/div/div[2]/div[1]/div/table/tbody/tr/td/div/sl-tooltip/sl-button
             try {
                 WebElement secondButton = driver.findElement(By.xpath("//app-patient-payments/div/div[2]/div[1]/div[2]/sl-tooltip/sl-button"));
                 secondButton.click();
@@ -220,70 +341,52 @@ public class TC_Payment extends BaseClass{
     // DataProvider method for TestNG
    @DataProvider(name = "encounterDataProvider")
     public Object[][] encounterDataProvider() {
-        // Use the EncounterDataProvider to read encounter data
         EncounterDataProvider reader = new EncounterDataProvider();
         List<EncounterDataProvider.EncounterData> encounterDataList = reader.readEncounterDataFromJson();
-
-        // Prepare the data in a format that TestNG's DataProvider can return
-        Object[][] data = new Object[encounterDataList.size()][2]; // 2 for encounter number and status
+        Object[][] data = new Object[encounterDataList.size()][2]; 
 
         for (int i = 0; i < encounterDataList.size(); i++) {
-            data[i][0] = encounterDataList.get(i).getEncounterNumber(); // Encounter number
-            data[i][1] = encounterDataList.get(i).getStatus(); // Status
+            data[i][0] = encounterDataList.get(i).getEncounterNumber(); 
+            data[i][1] = encounterDataList.get(i).getStatus(); 
         }
 
         return data;
     }
     @DataProvider(name = "dateDataProvider")
     public Object[][] dateDataProvider() {
-        // Get the current and future dates using DateUtils
-        String[] dates = DateUtils.getCurrentAndFutureDate(10); // Get current and future date, 10 days ahead
-
-        // Return the dates as an Object[][] array to be used by the TestNG test method
+        String[] dates = DateUtils.getCurrentAndFutureDate(10); 
         return new Object[][] {
-            { dates[0], dates[1] }  // Current date and future date
+            { dates[0], dates[1] }  
         };
     }
     @DataProvider(name = "combinedDataProvider")
     public Object[][] combinedDataProvider() {
-        // Fetch data from both encounterDataProvider and dateDataProvider
+
         Object[][] encounterData = encounterDataProvider();
         Object[][] dateData = dateDataProvider();
-
-        // Combine both sets of data dynamically
-        Object[][] combinedData = new Object[encounterData.length][4]; // 4 columns: encounter number, status, current date, future date
-
+        Object[][] combinedData = new Object[encounterData.length][4]; 
         for (int i = 0; i < encounterData.length; i++) {
-            combinedData[i][0] = encounterData[i][0]; // Encounter number
-            combinedData[i][1] = encounterData[i][1]; // Status
-            combinedData[i][2] = dateData[0][0]; // Current date
-            combinedData[i][3] = dateData[0][1]; // Future date
+            combinedData[i][0] = encounterData[i][0]; 
+            combinedData[i][1] = encounterData[i][1]; 
+            combinedData[i][2] = dateData[0][0]; 
+            combinedData[i][3] = dateData[0][1]; 
         }
 
         return combinedData;
     }
     public static String getRandomAmount() {
         Random rand = new Random();
-
-        // Generate a random integer between 100 and 500
         double randomAmount = 100 + (500 - 100) * rand.nextDouble();
-
-        // Randomly decide if the number should have decimal places or not
-        boolean addDecimals = rand.nextBoolean();  // Randomly returns true or false
-
-        if (addDecimals) {
-            // Format the number to 2 decimal places
+        boolean addDecimals = rand.nextBoolean();  
+        if (addDecimals) {        
             DecimalFormat df = new DecimalFormat("#.00");
             return df.format(randomAmount);
-        } else {
-            // Return the number as an integer (without decimals)
+        } else {       
             return String.valueOf((int) randomAmount);
         }
     }
     private void deleteJsonFile(String filePath) {
         File file = new File(filePath);
-
-        // Check if the file exists and delete it
         if (file.exists()) {
             if (file.delete()) {
                 System.out.println("JSON file deleted successfully: " + file.getName());

@@ -1153,11 +1153,8 @@ public class TC_StatementReady extends TC_ManageClaims {
         claim.click();
         waitShort.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[.='Claim Details']")));
         try {
-            // Locate the badge with "STATEMENT READY"
             WebElement ClearingHouseReadyBadge = waitShort.until(ExpectedConditions.visibilityOfElementLocated(
                     By.xpath("//sl-badge[contains(text(), 'Clearing House')]")));
- 
-            // Verify if the text is "STATEMENT READY"
             String badgeText = ClearingHouseReadyBadge.getText().trim();
             if (badgeText.equals("Clearing House")) {
                 System.out.println("The page contains the 'Clearing House' text.");
@@ -1233,8 +1230,10 @@ public class TC_StatementReady extends TC_ManageClaims {
         attachmentButton.click();
         
         String filePath = "C:\\Users\\sksusari\\Documents\\Test\\Modifiers_POS_Coding.pdf";
+        Thread.sleep(200);
         uploadFile(filePath);
-        logger.info("File Uploaded");
+        Thread.sleep(200);
+        logger.info("File Uploaded");   
         WebElement fileName = driver.findElement(By.xpath("//input[@formcontrolname='fileName']"));
         fileName.sendKeys("TestFile");
         logger.info("File name entered");
@@ -1271,7 +1270,7 @@ public class TC_StatementReady extends TC_ManageClaims {
         System.out.println("Number of <tr> elements: " + rowCount);
         WebElement serviceLine = driver.findElement(By.xpath("//*[@id='tour-guide-managing-claims-step3']//div//table//tbody//tr")); 
         serviceLine.click();
-        String Balance = driver.findElement(By.xpath("//*[@id=\"tour-guide-managing-claims-step3\"]/div/table/tbody/tr/td[7]")).getText().replace("$", "").replace(",", "").trim();
+        String Balance = driver.findElement(By.xpath("//*[@id='tour-guide-managing-claims-step3']/div/table/tbody/tr/td[8]")).getText().replace("$", "").replace(",", "").trim();
         System.out.println(Balance);
         waitShort.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[contains(text(), ' Log Tracker ')]")));
         List<WebElement> lineItemManagerElements = driver.findElements(By.xpath("//h2[contains(text(), 'Line Item Manager')]"));
@@ -1286,7 +1285,7 @@ public class TC_StatementReady extends TC_ManageClaims {
         String serviceBilled = driver.findElement(By.xpath("/html/body/app-root/div/div[2]/app-right-side-bar/ed-modal/app-adjust-apply-service-line/div/ed-drawer[1]/ed-drawer-body/section[1]/div[2]/div/div[1]/strong")).getText().replace("$", "").replace(",", "").trim();
         Assert.assertEquals(billed, serviceBilled, "The Billed amount does not match the expected value."); 
         logger.info("BILLING AMOUNT IS CORRECT");
-        String balance = driver.findElement(By.xpath("/html/body/app-root/div/div[2]/app-right-side-bar/ed-modal/app-adjust-apply-service-line/div/ed-drawer[1]/ed-drawer-body/section[1]/div[2]/div/div[4]/strong")).getText().replace("$", "").replace(",", "").trim();
+        String balance = driver.findElement(By.xpath("/html/body/app-root/div/div[2]/app-right-side-bar/ed-modal/app-adjust-apply-service-line/div/ed-drawer[1]/ed-drawer-body/section[1]/div[2]/div/div[5]/strong")).getText().replace("$", "").replace(",", "").trim();
         Assert.assertEquals(Balance, balance, "Balance amount does not match the expected value."); 
         logger.info("Balance amout is matching");
         WebElement element1 = driver.findElement(By.xpath("//ed-drawer-body/section[1]/div[1]/div/ed-row[1]/span"));

@@ -3,15 +3,15 @@
 <suite name="Failed suite [Default suite]" guice-stage="DEVELOPMENT">
   <test thread-count="5" name="Default test(failed)">
     <classes>
-      <class name="com.Edvak_EHR_Automation_V1.testCases.TC_StatementReady">
+      <class name="com.Edvak_EHR_Automation_V1.testCases.TC_Payment">
         <methods>
           <include name="tearDown"/>
-          <include name="setup"/>
+          <include name="payment"/>
           <include name="testQuickRegistration"/>
-          <include name="captureScreen"/>
           <include name="setup"/>
+          <include name="captureScreen"/>
         </methods>
-      </class> <!-- com.Edvak_EHR_Automation_V1.testCases.TC_StatementReady -->
+      </class> <!-- com.Edvak_EHR_Automation_V1.testCases.TC_Payment -->
     </classes>
   </test> <!-- Default test(failed) -->
 </suite> <!-- Failed suite [Default suite] -->
