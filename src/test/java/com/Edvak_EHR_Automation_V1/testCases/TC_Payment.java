@@ -20,6 +20,7 @@ import org.testng.annotations.Test;
 
 import com.Edvak_EHR_Automation_V1.pageObjects.BillingGenerateClaims;
 import com.Edvak_EHR_Automation_V1.pageObjects.LoginPage;
+import com.Edvak_EHR_Automation_V1.utilities.ApiIntegrationTest;
 import com.Edvak_EHR_Automation_V1.utilities.DataReader;
 import com.Edvak_EHR_Automation_V1.utilities.DateUtils;
 import com.Edvak_EHR_Automation_V1.utilities.EncounterDataProvider;
@@ -34,6 +35,7 @@ public class TC_Payment extends BaseClass{
     List<String> encounterNumbersList = new ArrayList<>();
     @Test(priority = 0)
     public void testQuickRegistration() throws InterruptedException {
+    	
         LoginPage lp = new LoginPage(driver);
         logger.info("********Test Starts Here********");
         logger.info("'testQuickRegistrationWithValidData' test execution starts here:");
@@ -105,9 +107,9 @@ public class TC_Payment extends BaseClass{
             WebElement insuranceOption = driver.findElement(By.xpath("//ng-dropdown-panel//span[contains(text(), 'Insurance')]"));
             if (insuranceOption.isEnabled()) {
                 insuranceOption.click();
-                System.out.println("Insurance option selected.");
+                logger.info("Insurance option selected.");
             } else {
-                System.out.println("Insurance option is not available.");
+            	logger.info("Insurance option is not available.");
             }
             Thread.sleep(200);
             WebElement insurancePlanName = driver.findElement(By.xpath("//input[@placeholder ='Search insurance plan']"));
@@ -137,7 +139,7 @@ public class TC_Payment extends BaseClass{
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//table//tbody//tr")));
         WebElement payment = driver.findElement(By.xpath("//table//tbody//tr"));
     	payment.click();
-    	logger.info("oprning the created payment");
+    	logger.info("opening the created payment");
     	wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//app-patient-payments/div/header/h3")));
         WebElement element = driver.findElement(By.xpath("//app-patient-payments/div/div[1]/div[1]/div[2]/div[1]/strong"));
         String value = element.getText().trim();
@@ -154,7 +156,7 @@ public class TC_Payment extends BaseClass{
             WebElement firstButton = driver.findElement(By.xpath("//html/body/app-root/div/div[2]/app-patient-payments/div/div[2]/div[1]/div/table/tbody/tr/td/div/sl-tooltip/sl-button"));
             if (firstButton != null && firstButton.isDisplayed()) {
                 firstButton.click();
-                System.out.println("First button clicked successfully.");
+                logger.info("First button clicked successfully.");
             }
 
         } catch (NoSuchElementException e) {
@@ -163,13 +165,13 @@ public class TC_Payment extends BaseClass{
                 secondButton.click();
                 System.out.println("Second button clicked successfully.");
             } catch (NoSuchElementException secondException) {
-                System.out.println("Both buttons are not found.");
+            	logger.info("Both buttons are not found.");
             }
         }
     	logger.info("search claim");
     	wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@formcontrolname='searchClaim']")));
         WebElement searchClaim = driver.findElement(By.xpath("//input[@formcontrolname='searchClaim']"));
-//        System.out.println(searchClaim);
+
     	logger.info("search claim");
         searchClaim.sendKeys(encounterNumber);
         logger.info("encounter number added");
@@ -185,14 +187,14 @@ public class TC_Payment extends BaseClass{
     	WebElement claimElement = driver.findElement(By.xpath("/html/body/app-root/div/div[2]/app-patient-payments/div/div[2]/div[2]/div[1]/h4/sl-tooltip/span"));
     	String claimID = claimElement.getText();
     	String trimmedClaimID = claimID.replace("#", "").trim();
-    	System.out.println("Encounter Number: " + encounterNumber);
-    	System.out.println("Trimmed Claim ID: " + trimmedClaimID);
+    	logger.info("Encounter Number: " + encounterNumber);
+    	logger.info("Trimmed Claim ID: " + trimmedClaimID);
     	if (trimmedClaimID.equals(encounterNumber)) {
     	    logger.info("Test pass, claim ID is the same as the selected claim ID");
     	} else {
     	    logger.info("Test fail, claim ID is not the same as the selected claim ID");
     	}
-    	System.out.println("Trimmed Claim ID: " + trimmedClaimID);
+    	logger.info("Trimmed Claim ID: " + trimmedClaimID);
     	Thread.sleep(2000);
     	   double amountReceived = Double.parseDouble(driver.findElement(By.xpath("//span[contains(text(), 'Amount Received: ')]/following-sibling::strong")).getText().replaceAll("[^\\d.]", ""));
            double unappliedAmount = Double.parseDouble(driver.findElement(By.xpath("//span[contains(text(), 'Unapplied Amount: ')]/following-sibling::strong")).getText().replaceAll("[^\\d.]", ""));
@@ -354,7 +356,7 @@ public class TC_Payment extends BaseClass{
     }
     @DataProvider(name = "dateDataProvider")
     public Object[][] dateDataProvider() {
-        String[] dates = DateUtils.getCurrentAndFutureDate(10); 
+    	 String[] dates = DateUtils.getCurrentAndPreviousDate();
         return new Object[][] {
             { dates[0], dates[1] }  
         };
