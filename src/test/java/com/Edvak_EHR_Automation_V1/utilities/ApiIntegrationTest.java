@@ -7,13 +7,13 @@ import org.testng.annotations.Test;
 
 public class ApiIntegrationTest {
 
-    @Test
-    public void createSampleERA(String dynamicEncounterNumber) {
+    // A method that calls the API with the given claim number
+    public void createSampleERA(String claimNumber) {
         RestAssured.baseURI = "https://darwinapi.edvak.com:3000";
         Response response = RestAssured
             .given()
             .header("Content-Type", "application/json")  
-            .queryParam("encounterNumber", dynamicEncounterNumber) 
+            .queryParam("encounterNumber", claimNumber) // Pass the claim number dynamically
             .queryParam("p_id", "6630b50147b247c7c8ee8ea7")
             .queryParam("insPaidPer", ".2")
             .queryParam("insAdjustPer", ".3")
@@ -27,7 +27,4 @@ public class ApiIntegrationTest {
         System.out.println("Response: " + response.asString());
         Assert.assertEquals(response.getStatusCode(), 200, "API call failed.");
     }
-
-
-
 }

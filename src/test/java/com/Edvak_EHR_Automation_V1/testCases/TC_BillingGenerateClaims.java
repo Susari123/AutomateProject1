@@ -29,7 +29,7 @@ import com.Edvak_EHR_Automation_V1.utilities.GenerateRandomNumberBetweenLength;
 import com.Edvak_EHR_Automation_V1.utilities.TestData;
 
 public class TC_BillingGenerateClaims extends BaseClass {
-    DataReader dr = new DataReader();
+	DataReader dr = new DataReader();
     BillingGenerateClaims bi = new BillingGenerateClaims(driver);
     String encounterNumber ="";
     List<String> encounterNumbersList = new ArrayList<>();
@@ -60,8 +60,8 @@ public class TC_BillingGenerateClaims extends BaseClass {
         Thread.sleep(1000);
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(100));
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[normalize-space()='attach_money']")));
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//header//h2[normalize-space()='dashboard']")));
-        WebElement dashboardElement = driver.findElement(By.xpath("//header//h2[normalize-space()='dashboard']"));
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//header//h4[normalize-space()='dashboard']")));
+        WebElement dashboardElement = driver.findElement(By.xpath("//header//h4[normalize-space()='dashboard']"));
 //        bi.getTextBillingPageHeader();
         Assert.assertTrue(dashboardElement.isDisplayed(), "Dashboard should be visible after login.");
         clickWithRetry(driver.findElement(By.xpath("//span[normalize-space()='attach_money']")), 3);
@@ -73,7 +73,7 @@ public class TC_BillingGenerateClaims extends BaseClass {
     void testBillingGenerateClaims(HashMap<String, String> data) throws InterruptedException, IOException {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(100));
         // Assertion to verify that Billing page is loaded
-       WebElement billingPageHeader = driver.findElement(By.xpath("//h2[normalize-space()='billing']"));
+       WebElement billingPageHeader = driver.findElement(By.xpath("//h4[normalize-space()='billing']"));
 //       Assert.assertTrue(billingPageHeader.isDisplayed(), "Billing page should be displayed.");
        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//form//div//sl-button[@id='tour-guide-billing-Step4']")));
        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//table//tbody//tr//td")));
@@ -110,8 +110,8 @@ public class TC_BillingGenerateClaims extends BaseClass {
         Thread.sleep(3000);
         // Handling encounter and other related inputs
         fillEncounterDetails(data, wait);
-
-        Thread.sleep(4000);
+        
+        wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath("//img[contains(@src, 'loader.svg')]")));
         // ICD and CPT input
         fillIcdAndCptDetails(data);
 
@@ -268,18 +268,18 @@ public class TC_BillingGenerateClaims extends BaseClass {
 
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(100));
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//table//tbody//tr")));
+        wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath("//img[contains(@src, 'loader.svg')]")));
         String dynamicXPath = "//table//tbody//tr//p[text()=' " + encounterNumber + " ']";
         System.out.println(dynamicXPath);
         WebElement claimRow = driver.findElement(By.xpath(dynamicXPath));
         claimRow.click();
-        Thread.sleep(10000);
+        wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath("//img[contains(@src, 'loader.svg')]")));
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//table//tbody//tr")));
         WebElement amountInput = driver.findElement(By.xpath("//tbody//tr//td[8]//input"));
         amountInput.sendKeys(data.get("amount"));
         
 
-        String claimType = data.get("claimType").toLowerCase();  // Convert to lowercase for easier comparison
+        String claimType = data.get("claimType").toLowerCase();  
 
         switch (claimType) {
         case "paper":
@@ -365,8 +365,7 @@ public class TC_BillingGenerateClaims extends BaseClass {
         WebElement generateClaimButton = driver.findElement(By.xpath("//*[@id=\"tour-guide-billing-encounter-step7\"]"));
         generateClaimButton.click();
         logger.info("Claim generated successfully.");     
-        
-		 
+        System.out.println("-------------------------------------------------------------------------------------------------------------------");
         }
     }
     @Test(priority = 2, dependsOnMethods = {"testBillingGenerateClaims"})
@@ -375,7 +374,7 @@ public class TC_BillingGenerateClaims extends BaseClass {
         manageclaim.click();
         logger.info("manage claim page.. ");
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//table//tbody//tr")));
+        wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath("//img[contains(@src, 'loader.svg')]")));
         List<String> encounterNumbersOnScreen = driver.findElements(By.xpath("//td[2]/descendant::p")).stream()
                 .map(WebElement::getText)
                 .collect(Collectors.toList());
@@ -390,6 +389,7 @@ public class TC_BillingGenerateClaims extends BaseClass {
                 })
                 .allMatch(encounterNumbersOnScreen::contains);
         Assert.assertTrue(allEncountersPresent, "All generated encounter numbers should be present in the Claims List.");
+        
     }
    
 

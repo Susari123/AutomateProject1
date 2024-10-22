@@ -36,7 +36,7 @@ public class TC_Payment extends BaseClass{
     @Test(priority = 0)
     public void testQuickRegistration() throws InterruptedException {
     	
-        LoginPage lp = new LoginPage(driver);
+    	LoginPage lp = new LoginPage(driver);
         logger.info("********Test Starts Here********");
         logger.info("'testQuickRegistrationWithValidData' test execution starts here:");
         logger.info("Opening URL: " + baseURL);
@@ -61,8 +61,8 @@ public class TC_Payment extends BaseClass{
         Thread.sleep(1000);
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(100));
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[normalize-space()='attach_money']")));
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//header//h2[normalize-space()='dashboard']")));
-        WebElement dashboardElement = driver.findElement(By.xpath("//header//h2[normalize-space()='dashboard']"));
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//header//h4[normalize-space()='dashboard']")));
+        WebElement dashboardElement = driver.findElement(By.xpath("//header//h4[normalize-space()='dashboard']"));
 //        bi.getTextBillingPageHeader();
         Assert.assertTrue(dashboardElement.isDisplayed(), "Dashboard should be visible after login.");
         clickWithRetry(driver.findElement(By.xpath("//span[normalize-space()='attach_money']")), 3);
@@ -82,7 +82,7 @@ public class TC_Payment extends BaseClass{
       // Access the shadow host element (in this case the sl-icon-button)
        WebElement plus = driver.findElement(By.xpath("//sl-icon-button[@name='add']"));
        plus.click();
-       wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//ed-drawer-header//h2[contains(text(), 'New Payment')]")));
+       wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//ed-drawer-header//h6[contains(text(), 'New Payment')]")));
        WebElement date = driver.findElement(By.xpath("//input[@formcontrolname='submission_Date']"));
        date.sendKeys(currentDate);
         WebElement paymentType = driver.findElement(By.xpath("//ed-drawer/ed-drawer-body/div[2]/div/ng-select/div/div/div[3]"));
@@ -140,7 +140,8 @@ public class TC_Payment extends BaseClass{
         WebElement payment = driver.findElement(By.xpath("//table//tbody//tr"));
     	payment.click();
     	logger.info("opening the created payment");
-    	wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//app-patient-payments/div/header/h3")));
+    	Thread.sleep(4000);
+    	wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//app-patient-payments/div/header/h4")));
         WebElement element = driver.findElement(By.xpath("//app-patient-payments/div/div[1]/div[1]/div[2]/div[1]/strong"));
         String value = element.getText().trim();
         if (value.equalsIgnoreCase("Insurance")) {
@@ -183,8 +184,9 @@ public class TC_Payment extends BaseClass{
     	WebElement includeClaim = driver.findElement(By.xpath("//sl-button[contains(text(), 'Include Claims')]"));
     	includeClaim.click();
     	logger.info("claim selected");
-    	wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("/html/body/app-root/div/div[2]/app-patient-payments/div/div[2]/div[2]/div[1]/h4/sl-tooltip/span")));
-    	WebElement claimElement = driver.findElement(By.xpath("/html/body/app-root/div/div[2]/app-patient-payments/div/div[2]/div[2]/div[1]/h4/sl-tooltip/span"));
+    	wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//html/body/app-root/div/div[2]/app-patient-payments/div/div[2]/div[2]/div[1]//h5")));
+    	wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath("//html/body/app-root/div/div[2]/app-patient-payments/div/div[2]/div[2]/div[1]/h5/sl-tooltip/span")));
+    	WebElement claimElement = driver.findElement(By.xpath("//html/body/app-root/div/div[2]/app-patient-payments/div/div[2]/div[2]/div[1]/h5/sl-tooltip/span"));
     	String claimID = claimElement.getText();
     	String trimmedClaimID = claimID.replace("#", "").trim();
     	logger.info("Encounter Number: " + encounterNumber);
@@ -286,18 +288,47 @@ public class TC_Payment extends BaseClass{
            double totalAdjustAmount = Double.parseDouble(driver.findElement(By.xpath("//span[contains(text(), 'Total Adjusted Amount:')]/following-sibling::strong")).getText().replaceAll("[^\\d.]", ""));
            double insuranceBalance = Double.parseDouble(driver.findElement(By.xpath("//span[contains(text(), 'Insurance Balance:')]/following-sibling::strong")).getText().replaceAll("[^\\d.]", ""));
            double patientBalance = Double.parseDouble(driver.findElement(By.xpath("//span[contains(text(), 'Patient Balance:')]/following-sibling::strong")).getText().replaceAll("[^\\d.]", ""));
-           double claimBilled = Double.parseDouble(driver.findElement(By.xpath("//app-patient-payments/div/div[2]/div[2]/div[2]/table/tbody/tr/td[3]")).getText().replaceAll("[^\\d.]", ""));
-           double claimBalance = Double.parseDouble(driver.findElement(By.xpath("//app-patient-payments/div/div[2]/div[2]/div[2]/table/tbody/tr/td[6]")).getText().replaceAll("[^\\d.]", ""));
+           wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//app-patient-payments/div/div[2]/div[2]/div[2]/table/tbody/tr")));
+        List<WebElement> rows = driver.findElements(By.xpath("//app-patient-payments/div/div[2]/div[2]/div[2]/table/tbody/tr"));
+        double totalSum = 0.0;
+        for (WebElement row : rows) {
+            String cellValue = row.findElement(By.xpath("./td[6]")).getText();
+            String cleanedValue = cellValue.replaceAll("[^\\d.]", ""); 
+            if (!cleanedValue.isEmpty()) {
+                double value = Double.parseDouble(cleanedValue);
+                totalSum += value;
+            }
+        }
+        System.out.println("Total Sum of Claim Balances in td[6]: " + totalSum);
+        double totalbill = 0.0;
+        for (WebElement row : rows) {
+            String cellValue = row.findElement(By.xpath("./td[3]")).getText();
+            String cleanedValue = cellValue.replaceAll("[^\\d.]", ""); 
+            if (!cleanedValue.isEmpty()) {
+                double value = Double.parseDouble(cleanedValue);
+                totalbill += value;
+            }
+        }
+        System.out.println("Total billed of Claim Balances in td[6]: " + totalbill);
            double ClaimAdjust = Double.parseDouble(driver.findElement(By.xpath("//app-patient-payments/div/div[2]/div[2]/div[2]/table/tbody/tr/td[5]")).getText().replaceAll("[^\\d.]", ""));
-
+           double totaladjusted = 0.0;
+           for (WebElement row : rows) {
+               String cellValue = row.findElement(By.xpath("./td[5]")).getText();
+               String cleanedValue = cellValue.replaceAll("[^\\d.]", ""); 
+               if (!cleanedValue.isEmpty()) {
+                   double value = Double.parseDouble(cleanedValue);
+                   totaladjusted += value;
+               }
+           }
+           System.out.println("Total totaladjusted of Claim Balances in td[5]: " + totaladjusted);
          
            double expectedClaimBalance = insuranceBalance + patientBalance;
-           Assert.assertEquals(claimBalance, expectedClaimBalance, "Test Fail: The claim balance does not match the sum of insurance balance and patient balance.");
+           Assert.assertEquals(totalSum, expectedClaimBalance, "Test Fail: The claim balance does not match the sum of insurance balance and patient balance.");
            logger.info("Test Pass: The claim balance matches the sum of insurance balance and patient balance.");
            logger.info("Payment Test Completed as all the Test is pass");
-           Assert.assertEquals(totalBilledAmount, claimBilled, "Test Fail: Total Billed Amount does not match the Claim Billed amount.");
+           Assert.assertEquals(totalBilledAmount, totalbill, "Test Fail: Total Billed Amount does not match the Claim Billed amount.");
            logger.info("Test Pass: Total Billed Amount matches the Claim Billed amount.");
-           Assert.assertEquals(totalAdjustAmount, ClaimAdjust, "Test Fail: Total Adjust Amount does not match Claim Adjust.");
+           Assert.assertEquals(totalAdjustAmount, totaladjusted, "Test Fail: Total Adjust Amount does not match Claim Adjust.");
            logger.info("Test Pass: Total Adjust Amount matches Claim Adjust.");
            logger.info("Test pass as all the senerio is completed.");
     }

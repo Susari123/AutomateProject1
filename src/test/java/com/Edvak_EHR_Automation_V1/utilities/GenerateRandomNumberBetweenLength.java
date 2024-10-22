@@ -3,7 +3,7 @@ package com.Edvak_EHR_Automation_V1.utilities;
 import java.security.SecureRandom;
 
 public class GenerateRandomNumberBetweenLength {
-	public static long generateRandomNumber(int minLength, int maxLength) {
+	public long generateRandomNumber(int minLength, int maxLength) {
 	    if (minLength <= 0 || maxLength <= 0 || minLength > maxLength) {
 	        throw new IllegalArgumentException("Lengths must be positive, and minLength should be less than or equal to maxLength");
 	    }

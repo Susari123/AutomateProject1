@@ -18,6 +18,7 @@ import com.Edvak_EHR_Automation_V1.pageObjects.BillingGenerateClaims;
 import com.Edvak_EHR_Automation_V1.pageObjects.LoginPage;
 import com.Edvak_EHR_Automation_V1.utilities.ApiIntegrationTest;
 import com.Edvak_EHR_Automation_V1.utilities.DataReader;
+//import com.Edvak_EHR_Automation_V1.utilities.EncounterClaimStorage;
 
 
 public class TC_EraBilling extends BaseClass{
@@ -25,10 +26,17 @@ public class TC_EraBilling extends BaseClass{
 	DataReader dr = new DataReader();
     BillingGenerateClaims bi = new BillingGenerateClaims(driver);
     String encounterNumber ="";
-//    @Test(priority = 0)
-//    public void processStoredClaims() {
+    @Test(priority = 0)
+    public void processStoredClaims() {
+    	 // Retrieve the stored encounter-claim map from EncounterClaimStorage
 //        Map<String, String> encounterClaimMap = EncounterClaimStorage.getEncounterClaimMap();
+
+//        if (encounterClaimMap == null || encounterClaimMap.isEmpty()) {
+//            System.out.println("EncounterClaimMap is empty.");
+//            return;
+//        }
 //
+//        // Iterate through the map and process each claim
 //        for (Map.Entry<String, String> entry : encounterClaimMap.entrySet()) {
 //            String encounter = entry.getKey();
 //            String claimNumber = entry.getValue();
@@ -36,15 +44,15 @@ public class TC_EraBilling extends BaseClass{
 //
 //            // Use encounter and claimNumber as needed
 //            ApiIntegrationTest api = new ApiIntegrationTest();
-//        	api.createSampleERA(claimNumber);
+//            api.createSampleERA(claimNumber);
 //        }
-//    }
+    }
     List<String> encounterNumbersList = new ArrayList<>();
-    
+//    
     @Test(priority = 1)
     public void EraREceived() throws InterruptedException {
     	
-        LoginPage lp = new LoginPage(driver);
+    	LoginPage lp = new LoginPage(driver);
         logger.info("********Test Starts Here********");
         logger.info("'testQuickRegistrationWithValidData' test execution starts here:");
         logger.info("Opening URL: " + baseURL);
@@ -69,8 +77,8 @@ public class TC_EraBilling extends BaseClass{
         Thread.sleep(1000);
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(100));
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[normalize-space()='attach_money']")));
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//header//h2[normalize-space()='dashboard']")));
-        WebElement dashboardElement = driver.findElement(By.xpath("//header//h2[normalize-space()='dashboard']"));
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//header//h4[normalize-space()='dashboard']")));
+        WebElement dashboardElement = driver.findElement(By.xpath("//header//h4[normalize-space()='dashboard']"));
 //        bi.getTextBillingPageHeader();
         Assert.assertTrue(dashboardElement.isDisplayed(), "Dashboard should be visible after login.");
         clickWithRetry(driver.findElement(By.xpath("//span[normalize-space()='attach_money']")), 3);

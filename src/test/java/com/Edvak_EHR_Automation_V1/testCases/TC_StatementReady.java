@@ -1225,8 +1225,8 @@ public class TC_StatementReady extends TC_ManageClaims {
         WebElement Attachment = driver.findElement(By.xpath("//*[@id=\"tour-guide-managing-claims-step4\"]/sl-button[contains(text(), 'Attachments')]"));
         Attachment.click();
         logger.info("Attachment button clicked ");
-        waitShort.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//app-attach-document/div/ed-drawer/ed-drawer-header/h2")));
-        WebElement attachmentButton = driver.findElement(By.xpath("//ed-form-wrapper/ed-form-row[1]/div/sl-button"));
+        waitShort.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//ed-drawer-header/h6")));
+        WebElement attachmentButton = driver.findElement(By.xpath("//ed-drawer/ed-drawer-body/ed-form-wrapper/ed-form-row[1]/div/sl-button"));
         attachmentButton.click();
         
         String filePath = "C:\\Users\\sksusari\\Documents\\Test\\Modifiers_POS_Coding.pdf";
@@ -1253,7 +1253,8 @@ public class TC_StatementReady extends TC_ManageClaims {
         Thread.sleep(2000);
         WebElement documentSave = driver.findElement(By.xpath("//ed-drawer-footer//sl-button[contains(text(), 'Save')]"));
         documentSave.click();
-        waitShort.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div//h2[contains(text(), 'Attached Documents ')]")));
+        waitShort.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h6[contains(text(), 'Attach Documents')]")));
+        Thread.sleep(4000);
         WebElement cancle = driver.findElement(By.xpath("//ed-drawer-footer//sl-button[contains(text(), 'Cancel')]"));
         cancle.click();
         logger.info("Document Saved");
@@ -1273,10 +1274,10 @@ public class TC_StatementReady extends TC_ManageClaims {
         String Balance = driver.findElement(By.xpath("//*[@id='tour-guide-managing-claims-step3']/div/table/tbody/tr/td[8]")).getText().replace("$", "").replace(",", "").trim();
         System.out.println(Balance);
         waitShort.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[contains(text(), ' Log Tracker ')]")));
-        List<WebElement> lineItemManagerElements = driver.findElements(By.xpath("//h2[contains(text(), 'Line Item Manager')]"));
+        List<WebElement> lineItemManagerElements = driver.findElements(By.xpath("//h6[contains(text(), 'Line Item Manager')]"));
         Assert.assertFalse(lineItemManagerElements.isEmpty(), "The text 'Line Item Manager' is NOT present on the page.");
         System.out.println("The text 'Line Item Manager' is present on the page.");
-        WebElement element = driver.findElement(By.xpath("//sl-tooltip//p"));
+        WebElement element = driver.findElement(By.xpath("//ed-drawer-body//ed-row//sl-tooltip//p"));
         String fullText = element.getText();
         String code = extractCode(fullText);
         System.out.println("Extracted Code: " + code);
@@ -1302,8 +1303,8 @@ public class TC_StatementReady extends TC_ManageClaims {
         Thread.sleep(2000);
         if (text.contains("Primary")) {
 
-            List<WebElement> insuranceSection = driver.findElements(By.xpath("//h6[contains(text(),'Insurance')]"));
-            List<WebElement> patientSection = driver.findElements(By.xpath("//h6[contains(text(),'Patient')]"));
+            List<WebElement> insuranceSection = driver.findElements(By.xpath("//ed-drawer-body//section//h5[contains(text(),'Insurance')]"));
+            List<WebElement> patientSection = driver.findElements(By.xpath("//ed-drawer-body//section//h5[contains(text(),'Patient')]"));
             
           
             Assert.assertFalse(insuranceSection.isEmpty(), "Insurance section is not displayed for Primary Payer.");
@@ -1312,8 +1313,8 @@ public class TC_StatementReady extends TC_ManageClaims {
             System.out.println("Both Insurance and Patient sections are displayed for Primary Payer.");
         } else if (text.contains("Patient")) {
           
-            List<WebElement> patientSection = driver.findElements(By.xpath("//h6[contains(text(),'Patient')]"));
-            List<WebElement> insuranceSection = driver.findElements(By.xpath("//h6[contains(text(),'Insurance')]"));
+            List<WebElement> patientSection = driver.findElements(By.xpath("//ed-drawer-body//section//h5[contains(text(),'Patient')]"));
+            List<WebElement> insuranceSection = driver.findElements(By.xpath("//ed-drawer-body//section//h5[contains(text(),'Insurance')]"));
 
           
             Assert.assertFalse(patientSection.isEmpty(), "Patient section is not displayed for Patient Payer.");
