@@ -49,7 +49,7 @@ public class TC_StatementReady extends TC_ManageClaims {
  
         // Enter username and password
         lp.setUserName("souravsusari311@gmail.com");
-        lp.setPassword("Admin@12345");
+        lp.setPassword("Admin@123456");
  
         // Click on the login button
         WebElement loginButton = driver
@@ -1864,7 +1864,7 @@ public class TC_StatementReady extends TC_ManageClaims {
             WebElement addNote = driver.findElement(By.xpath("//*[@id='myDropdown']"));
             addNote.click();
             waitShort.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[contains(text(), 'Add Note')]")));
-            WebElement textArea = driver.findElement(By.xpath("//textarea[@formcontrolname='note']"));
+            WebElement textArea = driver.findElement(By.xpath("//*[@id=\"myDropdown\"]/main/form/div"));
             textArea.sendKeys("Sourav");
             WebElement saveButton = driver.findElement(By.xpath("//*[@id='myDropdown']/main/ed-row/sl-button[2]"));
             saveButton.click();

@@ -21,7 +21,6 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import com.Edvak_EHR_Automation_V1.pageObjects.BillingGenerateClaims;
-import com.Edvak_EHR_Automation_V1.pageObjects.LoginPage;
 import com.Edvak_EHR_Automation_V1.utilities.DataReader;
 import com.Edvak_EHR_Automation_V1.utilities.DataReaderFilter;
  
@@ -140,14 +139,27 @@ public class TC_ManageClaims extends BaseClass {
 
         // Apply the filter by clicking the 'Apply' button
         try {
-            WebElement applyButton = waitShort.until(ExpectedConditions.elementToBeClickable(By.xpath("//sl-button[.='Clear Filter']")));
-            applyButton.click();
-            System.out.println("Filter applied.");
+            WebElement applyButton = waitShort.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//sl-button[.='Clear Filter']")));
+            
+            // Check if the button has aria-disabled="true"
+            String ariaDisabled = applyButton.getAttribute("aria-disabled");
+            if (!"true".equals(ariaDisabled)) {
+                applyButton.click();
+                System.out.println("Filter applied.");
+                logger.info("Filter cleared.");
+            } else {
+                System.out.println("Apply button is present but disabled (aria-disabled).");
+                logger.info("Apply button skipped as it is disabled.");
+            }
         } catch (NoSuchElementException e) {
             System.out.println("Apply button not found.");
+            logger.info("Apply button not found.");
+           
         }
-        logger.info("Filter cleared");
+        Thread.sleep(4000);
 
+        WebElement Click = driver.findElement(By.xpath("//app-claims-list/ed-col/section/form/div/app-filter-panel-head/sl-dropdown/div[2]/div[1]/h5"));
+        Click.click();
         // Define a WebDriverWait for subsequent elements
 
         // Apply the Status Filter
@@ -236,17 +248,27 @@ public class TC_ManageClaims extends BaseClass {
 //        }
         Thread.sleep(2000);
         WebElement recordCountElement = wait.until(ExpectedConditions.visibilityOfElementLocated(
-                By.xpath("//p[contains(text(), 'record(s) match your current filter selection')]")));
-            String recordCountText = recordCountElement.getText();
-            int displayedCount = 0; 
-            if (recordCountText.contains("No")) {
-                displayedCount = 0;  
-            } else {
-                displayedCount = Integer.parseInt(recordCountText.split(" ")[0]);
-            }
+        	    By.xpath("//p[contains(text(), 'record(s) match your current filter selection')]")));
+        	String recordCountText = recordCountElement.getText();
+        	int displayedCount = 0;
+
+        	try {
+        	    if (recordCountText.contains("No")) {
+        	        displayedCount = 0;
+        	    } else {
+        	        // Extract the number using a regular expression to handle unexpected characters
+        	        String countStr = recordCountText.split(" ")[0].replaceAll("[^\\d]", "");
+        	        displayedCount = Integer.parseInt(countStr);
+        	    }
+        	    System.out.println("Displayed record count: " + displayedCount);
+        	} catch (NumberFormatException e) {
+        	    System.out.println("Failed to parse record count: " + recordCountText);
+        	    logger.error("NumberFormatException for record count text: " + recordCountText, e);
+        	}
+
 
             try {
-                WebElement applyButton = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//sl-button[text()='Apply']")));
+                WebElement applyButton = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//app-filter-panel-head//sl-dropdown")));
                 applyButton.click();
                 System.out.println("Filter applied.");
             } catch (NoSuchElementException e) {

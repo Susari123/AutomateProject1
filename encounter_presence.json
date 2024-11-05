@@ -1,0 +1,48 @@
+{
+    "encounters_checked": [
+        "E1103SE11427",
+        "E1103SE11428",
+        "E11031111511",
+        "E11031111512"
+    ],
+    "encounters_on_screen": [
+        "E11031111512",
+        "E11031111511",
+        "E1103SE11428",
+        "E1103SE11427",
+        "E11011111499",
+        "E11011111499",
+        "E11011111499",
+        "E11011111498",
+        "E1101SE11426",
+        "E11011211799",
+        "E11011111497",
+        "E1101SE11425",
+        "E10281211797",
+        "E10281211798",
+        "E10281211796",
+        "E10281211795",
+        "E10281211794",
+        "E10271211793",
+        "E10241211789",
+        "E1023SE11424"
+    ],
+    "encounter_presence_status": [
+        {
+            "encounter_number": "E1103SE11427",
+            "is_present": true
+        },
+        {
+            "encounter_number": "E1103SE11428",
+            "is_present": true
+        },
+        {
+            "encounter_number": "E11031111511",
+            "is_present": true
+        },
+        {
+            "encounter_number": "E11031111512",
+            "is_present": true
+        }
+    ]
+}

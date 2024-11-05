@@ -167,7 +167,7 @@
                     <!-- Suite testng xml file to consider for test execution -->
                     <suiteXmlFiles>
                        
-                        <suiteXmlFile>StatementReadyTestNG.xml</suiteXmlFile>
+                        <suiteXmlFile>BillingGenerateClaimTestNG.xml</suiteXmlFile>
                                                               
                     </suiteXmlFiles>
                 </configuration>

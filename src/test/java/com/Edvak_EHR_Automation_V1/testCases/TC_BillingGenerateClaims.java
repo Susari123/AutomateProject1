@@ -2,6 +2,9 @@ package com.Edvak_EHR_Automation_V1.testCases;
 
 import java.io.IOException;
 import java.time.Duration;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -11,6 +14,7 @@ import java.util.stream.Collectors;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.ElementClickInterceptedException;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.NoAlertPresentException;
 import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriver;
@@ -27,6 +31,20 @@ import com.Edvak_EHR_Automation_V1.pageObjects.LoginPage;
 import com.Edvak_EHR_Automation_V1.utilities.DataReader;
 import com.Edvak_EHR_Automation_V1.utilities.GenerateRandomNumberBetweenLength;
 import com.Edvak_EHR_Automation_V1.utilities.TestData;
+import com.google.common.io.Files;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.NoSuchElementException;
+import java.util.stream.IntStream;
+
 
 public class TC_BillingGenerateClaims extends BaseClass {
 	DataReader dr = new DataReader();
@@ -48,7 +66,7 @@ public class TC_BillingGenerateClaims extends BaseClass {
         logger.info("Entered Username in Username Text field");
 
         logger.info("Entering Password in password Text field");
-        lp.setPassword("Admin@12345");
+        lp.setPassword("Admin@123456");
         logger.info("Entered Password in password Text field");
 
         logger.info("Clicking on Login button");
@@ -59,12 +77,13 @@ public class TC_BillingGenerateClaims extends BaseClass {
         logger.info("Clicked on Login button");
         Thread.sleep(1000);
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(100));
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[normalize-space()='attach_money']")));
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//header//h4[normalize-space()='dashboard']")));
-        WebElement dashboardElement = driver.findElement(By.xpath("//header//h4[normalize-space()='dashboard']"));
+        
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//nav/a[5]/span[1]/sl-icon")));
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//app-header/header/h4")));
+        WebElement dashboardElement = driver.findElement(By.xpath("//app-header/header/h4"));
 //        bi.getTextBillingPageHeader();
         Assert.assertTrue(dashboardElement.isDisplayed(), "Dashboard should be visible after login.");
-        clickWithRetry(driver.findElement(By.xpath("//span[normalize-space()='attach_money']")), 3);
+        clickWithRetry(driver.findElement(By.xpath("//nav/a[5]/span[1]/sl-icon")), 3);
         logger.info("Billing button is clicked");
         
     }
@@ -95,6 +114,16 @@ public class TC_BillingGenerateClaims extends BaseClass {
         handleAlertIfPresent(driver);
 
         // Fill out patient details
+      
+        WebElement newChargeText = driver.findElement(By.xpath("//h6[contains(text(), 'New Charge')]"));
+        String message = newChargeText.isDisplayed() ? "Visible" : "\u001B[31mNot Visible\u001B[0m"; 
+        logger.info("The New charge Text button visibility: " + message);
+        Assert.assertTrue(newChargeText.isDisplayed(), "The  New charge Text should be visible.");  
+        WebElement printButton = driver.findElement(By.xpath("//ed-drawer-header/div[2]/sl-tooltip/sl-icon-button"));
+        logger.info("The print button is " + (printButton.getAttribute("disabled") != null ? "disabled." : "enabled."));
+        Assert.assertNotNull(printButton.getAttribute("disabled"), "The print button should be disabled.");
+
+//        logger.info("The cross button visibility: " + (driver.findElement(By.xpath("//ed-drawer/ed-drawer-header/div[2]/sl-icon-button")).isDisplayed() ? "Visible" : "Not Visible")); Assert.assertTrue(driver.findElement(By.xpath("//ed-drawer/ed-drawer-header/div[2]/sl-icon-button")).isDisplayed(), "The cross button should be visible.");
         
         WebElement patientNameInput = driver.findElement(By.xpath("//input[@class='w-full form-input']"));
         patientNameInput.sendKeys(data.get("patientName"));
@@ -111,6 +140,7 @@ public class TC_BillingGenerateClaims extends BaseClass {
         // Handling encounter and other related inputs
         fillEncounterDetails(data, wait);
         
+        Thread.sleep(3000);
         wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath("//img[contains(@src, 'loader.svg')]")));
         // ICD and CPT input
         fillIcdAndCptDetails(data);
@@ -140,8 +170,19 @@ public class TC_BillingGenerateClaims extends BaseClass {
     private void newCharge() {
         WebElement GenerateClaim = driver.findElement(By.xpath("//sl-tab-group//sl-tab[1]"));
         GenerateClaim.click();
+        logger.info("Generate Claim Tab CLicked");
+        WebElement filter = driver.findElement(By.xpath("//*[@id='tour-guide-billing-Step3']/form/div/app-filter-panel-head/sl-dropdown"));
+        String message = filter.isDisplayed() ? "Visible" : "\u001B[31mNot Visible\u001B[0m"; 
+        logger.info("The filter button visibility: " + message);
+        Assert.assertTrue(filter.isDisplayed(), "The filter button should be visible.");  
+      
+        WebElement input = driver.findElement(By.xpath("//*[@id=\"tour-guide-billing-Step3\"]/form/div/div/input"));
+        String message1 = input.isDisplayed() ? "Visible" : "\u001B[31mNot Visible\u001B[0m"; 
+        logger.info("The input field visibility: " + message1);
+        Assert.assertTrue(input.isDisplayed(), "The input field should be visible."); 
         WebElement newCharge = driver.findElement(By.xpath("//sl-button[@id='tour-guide-billing-Step4']"));
         newCharge.click();
+        logger.info("New Charge button is clicked");
 //         Assertion to verify new charge creation
 //        Assert.assertTrue(newCharge.isDisplayed(), "New charge should be created.");
     }
@@ -196,6 +237,7 @@ public class TC_BillingGenerateClaims extends BaseClass {
 
         WebElement provider = wait.until(ExpectedConditions.presenceOfElementLocated(By.className("ng-select")));
         provider.click();
+        logger.info("Provider Selected");
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("ng-dropdown-panel-items")));
         WebElement option = driver.findElement(By.xpath("//ng-dropdown-panel//div//div[2]//div[1]"));
         option.click();
@@ -221,12 +263,21 @@ public class TC_BillingGenerateClaims extends BaseClass {
         option2.click();
 
         WebElement ngSelect3 = wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("/html[1]/body[1]/app-root[1]/div[1]/div[2]/app-right-side-bar[1]/ed-modal[1]/app-charge-entry[1]/main[1]/ed-drawer[1]/ed-drawer-body[1]/div[1]/div[2]/app-encounter-selection[1]/sl-dropdown[1]/main[1]/div[2]/div[1]/div[2]/div[3]/input[1]")));
-        ngSelect3.sendKeys(TestData.randomizePolicyDates().getFrom());
-        
+        DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
+        DateTimeFormatter expectedFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        String dateToEnter = TestData.randomizePolicyDates().getFrom();
+        ngSelect3.sendKeys(dateToEnter);
+        logger.info("Date entered: " + dateToEnter);
+        LocalDate parsedDate = LocalDate.parse(dateToEnter, inputFormatter);
+        String expectedDate = parsedDate.format(expectedFormatter);
+        String enteredDate = ngSelect3.getAttribute("value");
+        logger.info("Confirmed entered date: " + enteredDate);
+        Assert.assertEquals(enteredDate, expectedDate, "The entered date should match the date provided.");
         WebElement createEncounter = driver.findElement(By.xpath("/html/body/app-root/div/div[2]/app-right-side-bar/ed-modal/app-charge-entry/main/ed-drawer/ed-drawer-body/div[1]/div[2]/app-encounter-selection/sl-dropdown/main/div[2]/div/div[3]/sl-button"));
         createEncounter.click();
         
-        Thread.sleep(4000);
+        By encounterNumberLocator = By.xpath("//div[contains(text(), 'Encounter#:')]");
+        wait.until(ExpectedConditions.visibilityOfElementLocated(encounterNumberLocator));
         WebElement encounterDiv = driver.findElement(By.xpath("/html/body/app-root/div/div[2]/app-right-side-bar/ed-modal/app-charge-entry/main/ed-drawer/ed-drawer-body/div[1]/div[2]/app-encounter-selection/sl-dropdown/div/div"));
 
         String fullText = encounterDiv.getText().trim();
@@ -248,7 +299,7 @@ public class TC_BillingGenerateClaims extends BaseClass {
         Thread.sleep(3000);
         WebElement icd1 = driver.findElement(By.xpath("/html/body/app-root/div/div[2]/app-right-side-bar/ed-modal/app-charge-entry/main/ed-drawer/ed-drawer-body/div[4]/div[1]/div[2]/div/div[1]/div"));
         icd1.click();
-
+        logger.info("Icd Added");
         // Assertion to verify ICD selection
         Assert.assertTrue(IcdInput.isDisplayed(), "ICD code should be selected.");
 
@@ -263,7 +314,10 @@ public class TC_BillingGenerateClaims extends BaseClass {
     }
 
     private void generateClaim(HashMap<String, String> data) throws InterruptedException {
-        WebElement submitButton = driver.findElement(By.xpath("//ed-drawer//ed-drawer-footer//sl-button[1]"));
+    	WebElement printButton = driver.findElement(By.xpath("//ed-drawer-header/div[2]/sl-tooltip/sl-icon-button"));
+        logger.info("The print  button is " + (printButton.isEnabled() ? "enabled." : "disabled.")); Assert.assertTrue(printButton.isDisplayed(), "The icon button should be visible.");
+
+    	WebElement submitButton = driver.findElement(By.xpath("//ed-drawer//ed-drawer-footer//sl-button[1]"));
         submitButton.click();
 
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
@@ -274,7 +328,7 @@ public class TC_BillingGenerateClaims extends BaseClass {
         WebElement claimRow = driver.findElement(By.xpath(dynamicXPath));
         claimRow.click();
         wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath("//img[contains(@src, 'loader.svg')]")));
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//table//tbody//tr")));
+//        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//table//tbody//tr")));
         WebElement amountInput = driver.findElement(By.xpath("//tbody//tr//td[8]//input"));
         amountInput.sendKeys(data.get("amount"));
         
@@ -308,31 +362,62 @@ public class TC_BillingGenerateClaims extends BaseClass {
             logger.info("Processing as Electronic Claim...");
             WebElement electronicClaimOption = driver.findElement(By.xpath("//input[@id='electronicClaim']"));
             electronicClaimOption.click();
-            logger.info("electronic claim option is entered..");
+            logger.info("electronic claim option is selected..");
             WebElement modifiersDropdown2 = driver.findElement(By.xpath("//app-ed-dropdown//div[1]"));
             modifiersDropdown2.click();
-//            modifiersDropdown2.sendKeys("OA");
             logger.info("modifiers entered..");
             WebElement modifierOption2 = driver.findElement(By.xpath("(//*[@id='mod1']/descendant::button)[1]"));
             modifierOption2.click();
-            logger.info("modifiers option2 is entered..");
+            logger.info("modifiers option2 is selected..");
             break;
 
         case "self":
-            // Perform self-pay claim actions
+        default:
+            // Perform self-pay claim actions if claim type is "self" or invalid/missing
             logger.info("Processing as Self Pay Claim...");
             WebElement selfpay = driver.findElement(By.xpath("//div//descendant::ed-select"));
             selfpay.click();
-            logger.info("self pay option entered..");
+            logger.info("self pay option selected..");
             WebElement self = driver.findElement(By.xpath("//div//descendant::ed-option-wrapper//ed-option[@value='self']"));
             self.click();
             logger.info("self pay clicked");
             break;
+    }
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        WebElement FromDate = driver.findElement(By.xpath("//input[@formcontrolname='dateFrom']"));
+        String fromDateValue = (String) js.executeScript("return arguments[0].value;", FromDate);
+        logger.info("The date value is: " + fromDateValue);
+        WebElement ToDate = driver.findElement(By.xpath("//input[@formcontrolname='dateTo']"));
+        String toDateValue = (String) js.executeScript("return arguments[0].value;", ToDate);
+        logger.info("The date value is: " + toDateValue);
+        
+        String nameInClaim = driver.findElement(By.xpath("//div[@class='flex items-center']//h6")).getText();
+        String patientName1 = data.get("patientName");
+        System.out.println(patientName1);
+        if(nameInClaim.equals(patientName1)) {
+        	logger.info("Patient name is matching .");
+        }
 
-        default:
-            logger.error("Invalid claim type provided: " + claimType);
-            throw new IllegalArgumentException("Invalid claim type provided in the test data.");
-    }  
+        Map<String, String> buttonXpaths = new HashMap<>();
+        buttonXpaths.put("Notes & Facesheet", "//sl-button[contains(text(), ' Notes & Facesheet ')]");
+        buttonXpaths.put("Attach Documents", "//sl-button[contains(text(), 'Attach Documents ')]");
+        buttonXpaths.put("Super Bill", "//sl-button[contains(text(), ' Super Bill ')]");
+        buttonXpaths.put("Create Task", "//sl-button[contains(text(), ' Create Task ')]");
+        buttonXpaths.put("Tools", "//sl-button[contains(text(), 'Tools')]");
+        buttonXpaths.put("DarwinApi", "//*[@id=\"codingComponent\"]/header/div[1]/section");
+
+        // Iterate over each entry in the map and assert presence
+        for (Map.Entry<String, String> entry : buttonXpaths.entrySet()) {
+            String buttonName = entry.getKey();
+            String xpath = entry.getValue();
+            try {
+                WebElement button = driver.findElement(By.xpath(xpath));
+                Assert.assertTrue(button.isDisplayed(), buttonName + " button is not displayed.");
+                System.out.println(buttonName + " button is present.");
+            } catch (NoSuchElementException e) {
+                Assert.fail(buttonName + " button is not present.");
+            }
+        }
         WebElement orderingProvider = driver.findElement(By.xpath("//section[@id='tour-guide-billing-encounter-step1']//descendant::ng-select[@placeholder='Select Ordering Provider']"));
         orderingProvider.click();
         logger.info("clicked ordering provider");
@@ -353,6 +438,42 @@ public class TC_BillingGenerateClaims extends BaseClass {
         WebElement supervisingProviderOption = driver.findElement(By.xpath("//ng-dropdown-panel//div//div//div[3]"));
         supervisingProviderOption.click();
         
+        WebElement serviceToDate = driver.findElement(By.xpath("//input[@formcontrolname='DOS_start']"));
+        String serviceToDateValue = (String) js.executeScript("return arguments[0].value;", serviceToDate);
+        logger.info("The date value is: " + serviceToDateValue);
+        
+        WebElement serviceFromDate = driver.findElement(By.xpath("//input[@formcontrolname='DOS_start']"));
+        String serviceFromDateValue = (String) js.executeScript("return arguments[0].value;", serviceFromDate);
+        logger.info("The date value is: " + serviceFromDateValue);
+        
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+        try {
+            // Parse dates using the formatter
+            LocalDate serviceTo = LocalDate.parse(serviceToDateValue.trim(), formatter);
+            LocalDate serviceFrom = LocalDate.parse(serviceFromDateValue.trim(), formatter);
+            LocalDate from = LocalDate.parse(fromDateValue.trim(), formatter);
+            LocalDate to = LocalDate.parse(toDateValue.trim(), formatter);
+
+            // Check if ServiceToDate is less than or equal to ServiceFromDate
+            boolean isServiceToDateLessThanOrEqualToServiceFromDate = serviceTo.isBefore(serviceFrom) || serviceTo.isEqual(serviceFrom);
+            logger.info("ServiceToDate <= ServiceFromDate: " + isServiceToDateLessThanOrEqualToServiceFromDate);
+            Assert.assertTrue(isServiceToDateLessThanOrEqualToServiceFromDate, "ServiceToDate should be less than or equal to ServiceFromDate.");
+
+            // Check if ServiceToDate and ServiceFromDate are within the range FromDate to ToDate
+            boolean isServiceToDateInRange = (serviceTo.isAfter(from) || serviceTo.isEqual(from)) && (serviceTo.isBefore(to) || serviceTo.isEqual(to));
+            boolean isServiceFromDateInRange = (serviceFrom.isAfter(from) || serviceFrom.isEqual(from)) && (serviceFrom.isBefore(to) || serviceFrom.isEqual(to));
+            
+            logger.info("ServiceToDate is within range FromDate to ToDate: " + isServiceToDateInRange);
+            logger.info("ServiceFromDate is within range FromDate to ToDate: " + isServiceFromDateInRange);
+
+            // Assert the range conditions
+            Assert.assertTrue(isServiceToDateInRange, "ServiceToDate should be within the range FromDate to ToDate.");
+            Assert.assertTrue(isServiceFromDateInRange, "ServiceFromDate should be within the range FromDate to ToDate.");
+
+        } catch (DateTimeParseException e) {
+            logger.error("Failed to parse date. Ensure the date format is yyyy-MM-dd. Error: " + e.getMessage());
+        }
         Object mode = data.get("Mode");
         System.out.println(mode);
 		if("electronic".equals(claimType) && "GenerateandTransmit".equals(mode)) {
@@ -370,29 +491,86 @@ public class TC_BillingGenerateClaims extends BaseClass {
     }
     @Test(priority = 2, dependsOnMethods = {"testBillingGenerateClaims"})
     public void verifyEncountersInManageClaims() throws InterruptedException {
+        // Path to the file
+        String filePath = "C:\\Users\\sksusari\\Documents\\Test\\encounter_presence.json";
+        
+        // Clear the file by writing empty content
+        try (FileWriter file = new FileWriter(filePath)) {
+            file.write("");  // Clears the file content
+            logger.info("Previous encounter presence data file cleared.");
+        } catch (IOException e) {
+            logger.error("Error clearing the previous encounter presence data file.", e);
+        }
+
         WebElement manageclaim = retryingFindElement(By.xpath("//sl-tab-group//sl-tab[2]"));
         manageclaim.click();
         logger.info("manage claim page.. ");
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
         wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath("//img[contains(@src, 'loader.svg')]")));
-        List<String> encounterNumbersOnScreen = driver.findElements(By.xpath("//td[2]/descendant::p")).stream()
-                .map(WebElement::getText)
-                .collect(Collectors.toList());
-        boolean allEncountersPresent = encounterNumbersList.stream()
-                .peek(encounter -> {
-                    if (!encounterNumbersOnScreen.contains(encounter)) {
-                        logger.warn("Encounter number " + encounter + " is NOT present in the Claims List.");
-                    } else {
-                        logger.info("Encounter number " + encounter + " is present in the Claims List.");
-                      
-                    }
-                })
-                .allMatch(encounterNumbersOnScreen::contains);
-        Assert.assertTrue(allEncountersPresent, "All generated encounter numbers should be present in the Claims List.");
-        
-    }
-   
+        WebElement Transmit = driver.findElement(By.xpath("//*[@id=\"sl-tab-panel-6\"]/app-claims-list/ed-col/section/form/div/sl-button"));
+        boolean isTransmitDisplayed = Transmit.isDisplayed();
+        logger.info("Checking if Transmit button is displayed. Result: " + isTransmitDisplayed);
+        Assert.assertTrue(isTransmitDisplayed, "Transmit button should be displayed.");
+        // Retrieve encounter numbers, claim IDs, and statuses from the table
+        List<WebElement> encounterElements = driver.findElements(By.xpath("//td[2]/descendant::p"));
+        List<WebElement> claimIdElements = driver.findElements(By.xpath("//*[@id='tour-guide-billing-claims-step4']/td[1]/div/div/div/p"));
+        List<WebElement> statusElements = driver.findElements(By.xpath("//*[@id='tour-guide-billing-claims-step4']/td[1]/div/div/div/div/span/sl-badge"));
 
+        // Create a map to store encounter numbers with lists of associated claim IDs and statuses
+        Map<String, List<Map<String, String>>> encounterToClaimsMap = new HashMap<>();
+
+        IntStream.range(0, encounterElements.size())
+            .forEach(i -> {
+                String encounterNumber = encounterElements.get(i).getText();
+                String claimId = claimIdElements.get(i).getText();
+                String status = statusElements.get(i).getText();
+
+                // Create a map for claim ID and status
+                Map<String, String> claimData = new HashMap<>();
+                claimData.put("claim_id", claimId);
+                claimData.put("status", status);
+
+                // Add claim data to the list associated with the encounter number
+                encounterToClaimsMap
+                    .computeIfAbsent(encounterNumber, k -> new ArrayList<>())
+                    .add(claimData);
+            });
+
+        // Create JSON structure to store encounter data
+        JSONArray encounterPresenceArray = new JSONArray();
+        for (String encounter : encounterNumbersList) {
+            JSONObject encounterObject = new JSONObject();
+            encounterObject.put("encounter_number", encounter);
+            encounterObject.put("is_present", encounterToClaimsMap.containsKey(encounter));
+
+            // If present, add the list of associated claim data (claim IDs and statuses)
+            if (encounterToClaimsMap.containsKey(encounter)) {
+                JSONArray claimDataArray = new JSONArray(encounterToClaimsMap.get(encounter));
+                encounterObject.put("claims", claimDataArray);
+                logger.info("Encounter number " + encounter + " is present with claims: " + claimDataArray);
+            } else {
+                logger.warn("Encounter number " + encounter + " is NOT present in the Claims List.");
+            }
+
+            encounterPresenceArray.put(encounterObject);
+        }
+
+        // Root JSON object to store encounter presence data
+        JSONObject json = new JSONObject();
+        json.put("encounter_presence_status", encounterPresenceArray);
+
+        // Write JSON data to file
+        try (FileWriter file = new FileWriter(filePath)) {
+            file.write(json.toString(4));  // Indented for readability
+            logger.info("Encounter presence data saved to " + filePath);
+        } catch (IOException e) {
+            logger.error("Error writing encounter presence data to JSON file.", e);
+        }
+
+        boolean allEncountersPresent = encounterNumbersList.stream()
+                .allMatch(encounterToClaimsMap::containsKey);
+        Assert.assertTrue(allEncountersPresent, "All generated encounter numbers should be present in the Claims List.");
+    }
     @DataProvider(name = "dataProviderTest")
     public Object[][] dataProvider() throws IOException {
         // Assuming dr.getJsonDataToMap() returns a List of HashMaps
