@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.time.Duration;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.concurrent.TimeoutException;
 import java.util.stream.Collectors;
@@ -59,11 +60,11 @@ public class TC_StatementReady extends TC_ManageClaims {
  
         // Wait for login to complete and dashboard to load
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(100));
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[normalize-space()='attach_money']")));
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//nav/a[5]/span[1]/sl-icon")));
  
         // Do not reload the page again by skipping the billing button click if already clicked
         if (!driver.getCurrentUrl().contains("billing")) {
-            tcb.clickWithRetry(driver.findElement(By.xpath("//span[normalize-space()='attach_money']")), 3);
+            tcb.clickWithRetry(driver.findElement(By.xpath("//nav/a[5]/span[1]/sl-icon")), 3);
         }
         logger.info("Billing button is clicked, login completed.");
     }
@@ -91,7 +92,28 @@ public class TC_StatementReady extends TC_ManageClaims {
                 return;
             }
  
-            
+//            Map<String, String> buttoninPayment = new HashMap<>();
+////        buttoninPayment.put("Transmit text", "//div[contains(text(), ' yet to be transmitted ')]");
+////        buttoninPayment.put("Transaction Button", "//sl-button[contains(text(), 'Transmit Claims')]");
+//        buttoninPayment.put("Search Input", "//app-claims-list/ed-col/section/form/div/div[2]/input");
+//        buttoninPayment.put("Filter Icon", "//sl-icon[@name='filter_alt']");          
+//        buttoninPayment.put("Filter", "//app-filter-panel-head//sl-dropdown");
+//        buttoninPayment.put("Task", "//span[contains(text(), 'Tasks')]");
+//        buttoninPayment.put("Create Task", "//sl-button[contains(text(), 'Create Task')]");
+//        buttoninPayment.put("Create list Text", "//h4[contains(text(), 'Claims List')]");
+//        
+//        // Iterate over each entry in the map and assert presence
+//        for (Map.Entry<String, String> entry : buttoninPayment.entrySet()) {
+//            String buttonName = entry.getKey();
+//            String xpath = entry.getValue();
+//            try {
+//                WebElement button = driver.findElement(By.xpath(xpath));
+//                Assert.assertTrue(button.isDisplayed(), buttonName + " button is not displayed.");
+//                System.out.println(buttonName + " button is present.");
+//            } catch (NoSuchElementException e) {
+//                Assert.fail(buttonName + " button is not present.");
+//            }
+//        }
             JavascriptExecutor js = (JavascriptExecutor) driver;
             String statusText = (String) js.executeScript(
                 "return arguments[0].shadowRoot.querySelector('slot').assignedNodes()[0].textContent.trim();",
@@ -1220,6 +1242,7 @@ public class TC_StatementReady extends TC_ManageClaims {
             System.out.println("Dropdown not found.");
             return; 
         }
+        
         
         logger.info("Attachment Button");
         WebElement Attachment = driver.findElement(By.xpath("//*[@id=\"tour-guide-managing-claims-step4\"]/sl-button[contains(text(), 'Attachments')]"));

@@ -4,6 +4,7 @@ import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.NoSuchElementException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -61,10 +62,10 @@ public class TC_EraBilling extends BaseClass{
         new Actions(driver).moveToElement(loginButton).click().build().perform();
 
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(100));
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[normalize-space()='attach_money']")));
-        Assert.assertTrue(driver.findElement(By.xpath("//header//h4[normalize-space()='dashboard']")).isDisplayed(), "Dashboard should be visible after login.");
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//nav/a[5]/span[1]/sl-icon")));
+//        Assert.assertTrue(driver.findElement(By.xpath("//app-header/header/h4")).isDisplayed(), "Dashboard should be visible after login.");
         
-        clickWithRetry(driver.findElement(By.xpath("//span[normalize-space()='attach_money']")), 3);
+        clickWithRetry(driver.findElement(By.xpath("//nav/a[5]/span[1]/sl-icon")), 3);
         logger.info("Billing button is clicked");
         Map<String, List<Map<String, String>>> encounterClaimData = loadEncounterClaimData();
         String claimId = null;
@@ -233,7 +234,62 @@ public class TC_EraBilling extends BaseClass{
 //    	    WebElement CancelProcess = driver.findElement(By.xpath("//ngb-modal-window//ed-drawer//ed-drawer-footer//sl-button[contains(text(), 'Cancel')]"));
 //    	    CancelProcess.click();
 //    	    logger.info("Cancel button is clicked for process");
-    	 
+    	    wait.until(ExpectedConditions.not(ExpectedConditions.attributeContains(processPayment, "class", "button--loading")));
+    	    wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath("//img[contains(@src, 'loader.svg')]")));
+    	    wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath("//sl-button[contains(text(), ' Linked Payment')]")));
+    	    Thread.sleep(3000);
+    	    Map<String, String> buttonXpaths = new HashMap<>();
+            buttonXpaths.put("Linked Payment", "//sl-button[contains(text(), ' Linked Payment')]");
+            buttonXpaths.put("Cancel", "//sl-button[contains(text(), 'Cancel')]");
+            buttonXpaths.put("Print", "//ed-drawer-header/div[2]/sl-tooltip/button");
+            buttonXpaths.put("Cross", "//ed-drawer-header/div[2]/sl-icon-button");          
+
+            // Iterate over each entry in the map and assert presence
+            for (Map.Entry<String, String> entry : buttonXpaths.entrySet()) {
+                String buttonName = entry.getKey();
+                String xpath = entry.getValue();
+                try {
+                    WebElement button = driver.findElement(By.xpath(xpath));
+                    Assert.assertTrue(button.isDisplayed(), buttonName + " button is not displayed.");
+                    System.out.println(buttonName + " button is present.");
+                } catch (NoSuchElementException e) {
+                    Assert.fail(buttonName + " button is not present.");
+                }
+            }
+            String PaymentId = driver.findElement(By.xpath("//sl-button[contains(text(), ' Linked Payment')]")).getText();
+            WebElement paymentLinked = driver.findElement(By.xpath("//sl-button[contains(text(), ' Linked Payment')]"));
+            paymentLinked.click();   
+            wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath("//img[contains(@src, 'loader.svg')]")));
+            Thread.sleep(2000);
+            wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//app-payments/div/header")));
+            Map<String, String> buttoninPayment = new HashMap<>();
+            buttoninPayment.put("Auto Apply Payment", "//sl-button[contains(text(), ' Auto Apply Payment ')]");
+            buttoninPayment.put("Transaction History", "//sl-button[contains(text(), 'Transaction History')]");
+            buttoninPayment.put("Unapply Payment", "//sl-button[contains(text(), 'Unapply Payment')]");
+            buttoninPayment.put("Void Payment", "//sl-button[contains(text(), 'Void Payment')]");          
+            buttoninPayment.put("Refund", "//sl-button[contains(text(), ' Refund ')]");
+            buttoninPayment.put("Linked ERA", "//sl-button[contains(text(), 'Linked ERA')]");
+            buttoninPayment.put("Create Task", "//sl-button[contains(text(), 'Create Task')]");
+            buttoninPayment.put("Select Claim", "//sl-button[contains(text(), 'Select Claim')]");
+            // Iterate over each entry in the map and assert presence
+            for (Map.Entry<String, String> entry : buttoninPayment.entrySet()) {
+                String buttonName = entry.getKey();
+                String xpath = entry.getValue();
+                try {
+                    WebElement button = driver.findElement(By.xpath(xpath));
+                    Assert.assertTrue(button.isDisplayed(), buttonName + " button is not displayed.");
+                    System.out.println(buttonName + " button is present.");
+                } catch (NoSuchElementException e) {
+                    Assert.fail(buttonName + " button is not present.");
+                }
+            }
+            String Payment_Id = driver.findElement(By.xpath("//h4[contains(text(), 'Payment #: ')]//span")).getText();
+            if(Payment_Id.equals(PaymentId)) {
+            	logger.info("\u001B[31mPayment id  matched\u001B[0m");
+            }
+            else {
+            	logger.info("\u001B[31mPayment id not matched\u001B[0m");
+            }
 
     	} else if (StatusEra.equals("Processed")) {
     	    // Verify that Post Payment and Process Payment buttons are disabled

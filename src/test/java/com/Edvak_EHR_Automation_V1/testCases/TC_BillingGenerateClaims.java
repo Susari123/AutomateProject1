@@ -421,8 +421,8 @@ public class TC_BillingGenerateClaims extends BaseClass {
         WebElement orderingProvider = driver.findElement(By.xpath("//section[@id='tour-guide-billing-encounter-step1']//descendant::ng-select[@placeholder='Select Ordering Provider']"));
         orderingProvider.click();
         logger.info("clicked ordering provider");
-        wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//ng-dropdown-panel//div//div//div[3]")));
-        WebElement orderingProvideroption = driver.findElement(By.xpath("//ng-dropdown-panel//div//div//div[3]"));
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//ng-dropdown-panel//div//div//div[1]")));
+        WebElement orderingProvideroption = driver.findElement(By.xpath("//ng-dropdown-panel//div//div//div[1]"));
         orderingProvideroption.click();
         logger.info("orderingProvideroption entered");
 //        Select Referring Provider

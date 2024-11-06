@@ -4,7 +4,9 @@ import java.io.File;
 import java.text.DecimalFormat;
 import java.time.Duration;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Random;
 
@@ -60,12 +62,13 @@ public class TC_Payment extends BaseClass{
         logger.info("Clicked on Login button");
         Thread.sleep(1000);
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(100));
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[normalize-space()='attach_money']")));
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//header//h4[normalize-space()='dashboard']")));
-        WebElement dashboardElement = driver.findElement(By.xpath("//header//h4[normalize-space()='dashboard']"));
+        
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//nav/a[5]/span[1]/sl-icon")));
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//app-header/header/h4")));
+        WebElement dashboardElement = driver.findElement(By.xpath("//app-header/header/h4"));
 //        bi.getTextBillingPageHeader();
         Assert.assertTrue(dashboardElement.isDisplayed(), "Dashboard should be visible after login.");
-        clickWithRetry(driver.findElement(By.xpath("//span[normalize-space()='attach_money']")), 3);
+        clickWithRetry(driver.findElement(By.xpath("//nav/a[5]/span[1]/sl-icon")), 3);
         logger.info("Billing button is clicked");
         
     }
@@ -329,6 +332,25 @@ public class TC_Payment extends BaseClass{
            Assert.assertEquals(totalBilledAmount, totalbill, "Test Fail: Total Billed Amount does not match the Claim Billed amount.");
            logger.info("Test Pass: Total Billed Amount matches the Claim Billed amount.");
            Assert.assertEquals(totalAdjustAmount, totaladjusted, "Test Fail: Total Adjust Amount does not match Claim Adjust.");
+           Map<String, String> buttoninPayment = new HashMap<>();
+           buttoninPayment.put("Refund", "//sl-button[contains(text(), 'Refund')]");
+           buttoninPayment.put("Transaction History", "//sl-button[contains(text(), 'Transaction History')]");
+           buttoninPayment.put("Unapply Payment", "//sl-button[contains(text(), 'Unapply Payment')]");
+           buttoninPayment.put("Void Payment", "//sl-button[contains(text(), 'Void Payment')]");          
+           buttoninPayment.put("Create Task", "//sl-button[contains(text(), 'Create Task')]");
+           buttoninPayment.put("Select Claim", "//sl-button[contains(text(), 'Select Claim')]");
+           // Iterate over each entry in the map and assert presence
+           for (Map.Entry<String, String> entry : buttoninPayment.entrySet()) {
+               String buttonName = entry.getKey();
+               String xpath = entry.getValue();
+               try {
+                   WebElement button = driver.findElement(By.xpath(xpath));
+                   Assert.assertTrue(button.isDisplayed(), buttonName + " button is not displayed.");
+                   System.out.println(buttonName + " button is present.");
+               } catch (NoSuchElementException e) {
+                   Assert.fail(buttonName + " button is not present.");
+               }
+           }
            logger.info("Test Pass: Total Adjust Amount matches Claim Adjust.");
            logger.info("Test pass as all the senerio is completed.");
     }

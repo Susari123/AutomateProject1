@@ -90,12 +90,12 @@ public class TC_ManageClaims extends BaseClass {
         logger.info("Clicked on Login button");
         Thread.sleep(1000);
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(100));
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[normalize-space()='attach_money']")));
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//nav/a[5]/span[1]/sl-icon")));
 //        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//header//h2[normalize-space()='dashboard']")));
 //        WebElement dashboardElement = driver.findElement(By.xpath("//header//h2[normalize-space()='dashboard']"));
 ////        bi.getTextBillingPageHeader();
 //        Assert.assertTrue(dashboardElement.isDisplayed(), "Dashboard should be visible after login.");
-        tcb.clickWithRetry(driver.findElement(By.xpath("//span[normalize-space()='attach_money']")), 3);
+        tcb.clickWithRetry(driver.findElement(By.xpath("//nav/a[5]/span[1]/sl-icon")), 3);
         logger.info("Billing button is clicked");
     }
 
