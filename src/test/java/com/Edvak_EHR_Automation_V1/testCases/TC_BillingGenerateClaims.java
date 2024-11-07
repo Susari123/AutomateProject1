@@ -221,7 +221,7 @@ public class TC_BillingGenerateClaims extends BaseClass {
 
     private void fillEncounterDetails(HashMap<String, String> data, WebDriverWait wait) throws InterruptedException, IOException {
         // Encounter selection
-        WebElement encounterDropdown = driver.findElement(By.xpath("//div[@class='border border-[#CBD5E1] flex form-select w-full bg-white']"));
+        WebElement encounterDropdown = driver.findElement(By.xpath("//app-encounter-selection/sl-dropdown"));
         encounterDropdown.click();
         logger.info("Encounter dropdown clicked");
 

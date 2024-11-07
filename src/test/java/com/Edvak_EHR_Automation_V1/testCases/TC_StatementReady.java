@@ -1249,7 +1249,7 @@ public class TC_StatementReady extends TC_ManageClaims {
         Attachment.click();
         logger.info("Attachment button clicked ");
         waitShort.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//ed-drawer-header/h6")));
-        WebElement attachmentButton = driver.findElement(By.xpath("//ed-drawer/ed-drawer-body/ed-form-wrapper/ed-form-row[1]/div/sl-button"));
+        WebElement attachmentButton = driver.findElement(By.xpath("//sl-button[contains(text(), ' Select File')]"));
         attachmentButton.click();
         
         String filePath = "C:\\Users\\sksusari\\Documents\\Test\\Modifiers_POS_Coding.pdf";

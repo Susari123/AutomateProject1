@@ -54,8 +54,8 @@ public class TC_EraBilling extends BaseClass{
         driver.get(baseURL);
         driver.manage().window().maximize();
         
-        lp.setUserName("souravsusari311@gmail.com");
-        lp.setPassword("Admin@123456");
+        lp.setUserName("souravsusari3@gmail.com");
+        lp.setPassword("Admin@123");
 
         WebElement loginButton = driver.findElement(By.xpath("/html/body/app-root/div/div/app-login/section/div/div/form/div[3]/sl-button"))
                                        .getShadowRoot().findElement(By.cssSelector("button"));
