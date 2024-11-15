@@ -51,6 +51,7 @@ public class TC_BillingGenerateClaims extends BaseClass {
     BillingGenerateClaims bi = new BillingGenerateClaims(driver);
     String encounterNumber ="";
     List<String> encounterNumbersList = new ArrayList<>();
+    
     @Test(priority = 0)
     public void testQuickRegistration() throws InterruptedException {
         LoginPage lp = new LoginPage(driver);
@@ -501,7 +502,6 @@ public class TC_BillingGenerateClaims extends BaseClass {
         } catch (IOException e) {
             logger.error("Error clearing the previous encounter presence data file.", e);
         }
-
         WebElement manageclaim = retryingFindElement(By.xpath("//sl-tab-group//sl-tab[2]"));
         manageclaim.click();
         logger.info("manage claim page.. ");
@@ -585,7 +585,7 @@ public class TC_BillingGenerateClaims extends BaseClass {
                 e.printStackTrace(); 
             }
         }
-
+        
         return dataArray;
     }
 

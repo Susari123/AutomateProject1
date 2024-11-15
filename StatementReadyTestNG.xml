@@ -8,7 +8,7 @@
       <parameter name="browser" value="chrome"/>
       <classes>
             <class name="com.Edvak_EHR_Automation_V1.testCases.TC_StatementReady"/>  
-          
+            
       </classes>
   </test> 
 </suite>
