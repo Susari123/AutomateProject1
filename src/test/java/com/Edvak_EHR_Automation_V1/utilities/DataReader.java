@@ -1,37 +1,56 @@
 package com.Edvak_EHR_Automation_V1.utilities;
 
-import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.core.JsonFactory;
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.core.JsonToken;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.apache.commons.io.FileUtils;
+
 import java.io.File;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
 public class DataReader {
 
     /**
-     * Reads JSON data from a file and converts it to a List of HashMaps.
+     * Reads a limited number of entries from a JSON file without loading all the data into memory.
      *
-     * @param filePath the path to the JSON file
-     * @return a List of HashMaps containing the JSON data
+     * @param limit the maximum number of entries to read
+     * @return a List of HashMaps containing the limited JSON data
      * @throws IOException if an I/O error occurs
      */
-	public List<HashMap<String, String>> getJsonDataToMap() throws IOException {
-        File file = new File("C:\\Users\\sksusari\\Documents\\Test\\Billing.json");
-        String jsonContent = FileUtils.readFileToString(file, StandardCharsets.UTF_8);
-        System.out.println("JSON Content: " + jsonContent);
-        
-        //System.out.println("JSON Content: " + jsonContent);
-        // Convert JSON string to List of HashMaps using Jackson
+    public List<HashMap<String, String>> getLimitedJsonData(int limit) throws IOException {
+        // File path
+        File file = new File("C:\\Users\\sksusari\\eclipse-workspace\\cucumber\\Restapi\\RestApiTestingProject\\src\\test\\resources\\output\\CombinedData.json");
+
+        if (!file.exists()) {
+            throw new IOException("File not found: " + file.getAbsolutePath());
+        }
+
+        // ObjectMapper for mapping JSON objects
         ObjectMapper mapper = new ObjectMapper();
 
-        List<HashMap<String, String>> lst = new ArrayList<>();
-        
-    
-        lst = mapper.readValue(jsonContent, new TypeReference<List<HashMap<String, String>>>() {});
+        // JsonFactory to stream data
+        JsonFactory factory = new JsonFactory();
+        JsonParser parser = factory.createParser(file);
 
-        return lst;
+        List<HashMap<String, String>> limitedData = new ArrayList<>();
+        int count = 0;
+
+        // Ensure JSON array starts
+        if (parser.nextToken() != JsonToken.START_ARRAY) {
+            throw new IOException("Invalid JSON format: Expected an array");
+        }
+
+        // Iterate over JSON array
+        while (parser.nextToken() == JsonToken.START_OBJECT && count < limit) {
+            HashMap<String, String> entry = mapper.readValue(parser, HashMap.class);
+            limitedData.add(entry);
+            count++;
+        }
+
+        parser.close();
+        return limitedData;
     }
 }

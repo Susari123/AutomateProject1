@@ -74,8 +74,16 @@ public class TC_allTest extends BaseClass {
 
     @DataProvider(name = "billingDataProvider")
     public Object[][] billingDataProvider() throws IOException {
-        List<HashMap<String, String>> data = dr.getJsonDataToMap(); // Assuming this retrieves JSON data as a List of HashMaps
-        return new Object[][] {{ data }}; // Pass the entire list as a single parameter
+        int limit = 10; // Specify the number of entries you want to retrieve
+        List<HashMap<String, String>> limitedData = dr.getLimitedJsonData(limit); // Fetch limited data
+        Object[][] dataArray = new Object[limitedData.size()][1];
+
+        // Populate the Object[][] array
+        for (int i = 0; i < limitedData.size(); i++) {
+            dataArray[i][0] = limitedData.get(i); // Each test receives one HashMap entry
+        }
+
+        return dataArray;
     }
 
     @DataProvider(name = "manageClaimsDataProvider")

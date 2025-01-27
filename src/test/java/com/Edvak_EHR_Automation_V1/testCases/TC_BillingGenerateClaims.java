@@ -67,7 +67,7 @@ public class TC_BillingGenerateClaims extends BaseClass {
         logger.info("Entered Username in Username Text field");
 
         logger.info("Entering Password in password Text field");
-        lp.setPassword("Admin@123456");
+        lp.setPassword("Edvak@321");
         logger.info("Entered Password in password Text field");
 
         logger.info("Clicking on Login button");
@@ -141,14 +141,14 @@ public class TC_BillingGenerateClaims extends BaseClass {
         // Handling encounter and other related inputs
         fillEncounterDetails(data, wait);
         
-        Thread.sleep(3000);
+        Thread.sleep(2000);
         wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath("//img[contains(@src, 'loader.svg')]")));
         // ICD and CPT input
         fillIcdAndCptDetails(data);
 
         // Generate Claim
         generateClaim(data);
-        Thread.sleep(4000);
+        Thread.sleep(2000);
 	    Assert.assertTrue(billingPageHeader.isDisplayed(), "Billing page should be displayed.");
 
     }
@@ -297,7 +297,7 @@ public class TC_BillingGenerateClaims extends BaseClass {
     private void fillIcdAndCptDetails(HashMap<String, String> data) throws InterruptedException {
         WebElement IcdInput = driver.findElement(By.xpath("//div[@class='control flex']//input[1]"));
         IcdInput.sendKeys(data.get("icd"));
-        Thread.sleep(3000);
+        Thread.sleep(2000);
         WebElement icd1 = driver.findElement(By.xpath("/html/body/app-root/div/div[2]/app-right-side-bar/ed-modal/app-charge-entry/main/ed-drawer/ed-drawer-body/div[4]/div[1]/div[2]/div/div[1]/div"));
         icd1.click();
         logger.info("Icd Added");
@@ -356,6 +356,14 @@ public class TC_BillingGenerateClaims extends BaseClass {
             WebElement closeDrawer = driver.findElement(By.xpath("//ed-drawer-header//sl-icon-button"));
             closeDrawer.click();
             logger.info("tab closed..");
+            Thread.sleep(200);
+            WebElement modifiersDropdown1 = driver.findElement(By.xpath("//tr[2]/td[5]/div/div[1]/app-ed-dropdown/div"));
+            modifiersDropdown1.click();
+            WebElement modifierOption1 = driver.findElement(By.xpath("(//*[@id='mod9']/descendant::button)[1]"));
+            modifierOption1.click();
+            logger.info("modifiers entered ..");
+            WebElement serviceLineAmount = driver.findElement(By.xpath("//tr[2]/td[8]/input"));
+            serviceLineAmount.sendKeys("300");
             break;
 
         case "electronic":
@@ -370,6 +378,22 @@ public class TC_BillingGenerateClaims extends BaseClass {
             WebElement modifierOption2 = driver.findElement(By.xpath("(//*[@id='mod1']/descendant::button)[1]"));
             modifierOption2.click();
             logger.info("modifiers option2 is selected..");
+            WebElement cptCodeIcon1 = driver.findElement(By.xpath("//*[@id=\"tour-guide-billing-encounter-step5\"]/sl-icon-button"));
+            cptCodeIcon1.click();
+            WebElement cptCodeOption1 = driver.findElement(By.xpath("//ed-drawer-body//ul//li[25]"));
+            cptCodeOption1.click();
+            logger.info("cpt code entered..");
+            WebElement closeDrawer1 = driver.findElement(By.xpath("//ed-drawer-header//sl-icon-button"));
+            closeDrawer1.click();
+            logger.info("tab closed..");
+            Thread.sleep(200);
+            WebElement modifiersDropdown12 = driver.findElement(By.xpath("//tr[2]/td[5]/div/div[1]/app-ed-dropdown/div"));
+            modifiersDropdown12.click();
+            WebElement modifierOption12 = driver.findElement(By.xpath("(//*[@id='mod9']/descendant::button)[1]"));
+            modifierOption12.click();
+            logger.info("modifiers entered ..");
+            WebElement serviceLineAmount2 = driver.findElement(By.xpath("//tr[2]/td[8]/input"));
+            serviceLineAmount2.sendKeys("300");
             break;
 
         case "self":
@@ -484,7 +508,7 @@ public class TC_BillingGenerateClaims extends BaseClass {
         logger.info("claim transmitted");
         }
         else {
-        WebElement generateClaimButton = driver.findElement(By.xpath("//*[@id=\"tour-guide-billing-encounter-step7\"]"));
+        WebElement generateClaimButton = driver.findElement(By.xpath("//sl-button[contains(text(), 'Generate Claim')]"));
         generateClaimButton.click();
         logger.info("Claim generated successfully.");     
         System.out.println("-------------------------------------------------------------------------------------------------------------------");
@@ -507,34 +531,40 @@ public class TC_BillingGenerateClaims extends BaseClass {
         logger.info("manage claim page.. ");
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
         wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath("//img[contains(@src, 'loader.svg')]")));
-        WebElement Transmit = driver.findElement(By.xpath("//*[@id=\"sl-tab-panel-6\"]/app-claims-list/ed-col/section/form/div/sl-button"));
+        WebElement Transmit = driver.findElement(By.xpath("//app-claims-list/ed-col/section/form/div/sl-button"));
         boolean isTransmitDisplayed = Transmit.isDisplayed();
         logger.info("Checking if Transmit button is displayed. Result: " + isTransmitDisplayed);
         Assert.assertTrue(isTransmitDisplayed, "Transmit button should be displayed.");
-        // Retrieve encounter numbers, claim IDs, and statuses from the table
         List<WebElement> encounterElements = driver.findElements(By.xpath("//td[2]/descendant::p"));
-        List<WebElement> claimIdElements = driver.findElements(By.xpath("//*[@id='tour-guide-billing-claims-step4']/td[1]/div/div/div/p"));
-        List<WebElement> statusElements = driver.findElements(By.xpath("//*[@id='tour-guide-billing-claims-step4']/td[1]/div/div/div/div/span/sl-badge"));
+        List<WebElement> claimIdElements = new ArrayList<>(fetchClaimIdElements(driver));
+        List<WebElement> statusElements = new ArrayList<>(fetchStatusElements(driver));
+
+        // Scroll to load all elements
+        while (encounterElements.size() > claimIdElements.size() || encounterElements.size() > statusElements.size()) {
+            scrollPage(driver);
+            claimIdElements.clear();
+            statusElements.clear();
+            claimIdElements.addAll(fetchClaimIdElements(driver));
+            statusElements.addAll(fetchStatusElements(driver));
+        }
 
         // Create a map to store encounter numbers with lists of associated claim IDs and statuses
         Map<String, List<Map<String, String>>> encounterToClaimsMap = new HashMap<>();
 
         IntStream.range(0, encounterElements.size())
-            .forEach(i -> {
-                String encounterNumber = encounterElements.get(i).getText();
-                String claimId = claimIdElements.get(i).getText();
-                String status = statusElements.get(i).getText();
+                .forEach(i -> {
+                    String encounterNumber = encounterElements.get(i).getText();
+                    String claimId = claimIdElements.get(i).getText();
+                    String status = statusElements.get(i).getText();
 
-                // Create a map for claim ID and status
-                Map<String, String> claimData = new HashMap<>();
-                claimData.put("claim_id", claimId);
-                claimData.put("status", status);
+                    Map<String, String> claimData = new HashMap<>();
+                    claimData.put("claim_id", claimId);
+                    claimData.put("status", status);
 
-                // Add claim data to the list associated with the encounter number
-                encounterToClaimsMap
-                    .computeIfAbsent(encounterNumber, k -> new ArrayList<>())
-                    .add(claimData);
-            });
+                    encounterToClaimsMap
+                            .computeIfAbsent(encounterNumber, k -> new ArrayList<>())
+                            .add(claimData);
+                });
 
         // Create JSON structure to store encounter data
         JSONArray encounterPresenceArray = new JSONArray();
@@ -543,13 +573,12 @@ public class TC_BillingGenerateClaims extends BaseClass {
             encounterObject.put("encounter_number", encounter);
             encounterObject.put("is_present", encounterToClaimsMap.containsKey(encounter));
 
-            // If present, add the list of associated claim data (claim IDs and statuses)
             if (encounterToClaimsMap.containsKey(encounter)) {
                 JSONArray claimDataArray = new JSONArray(encounterToClaimsMap.get(encounter));
                 encounterObject.put("claims", claimDataArray);
-                logger.info("Encounter number " + encounter + " is present with claims: " + claimDataArray);
+                System.out.println("Encounter number " + encounter + " is present with claims: " + claimDataArray);
             } else {
-                logger.warn("Encounter number " + encounter + " is NOT present in the Claims List.");
+                System.out.println("Encounter number " + encounter + " is NOT present in the Claims List.");
             }
 
             encounterPresenceArray.put(encounterObject);
@@ -562,30 +591,52 @@ public class TC_BillingGenerateClaims extends BaseClass {
         // Write JSON data to file
         try (FileWriter file = new FileWriter(filePath)) {
             file.write(json.toString(4));  // Indented for readability
-            logger.info("Encounter presence data saved to " + filePath);
+            System.out.println("Encounter presence data saved to " + filePath);
         } catch (IOException e) {
-            logger.error("Error writing encounter presence data to JSON file.", e);
+            System.err.println("Error writing encounter presence data to JSON file.");
+            e.printStackTrace();
         }
 
+        // Assert all encounters are present
         boolean allEncountersPresent = encounterNumbersList.stream()
                 .allMatch(encounterToClaimsMap::containsKey);
-        Assert.assertTrue(allEncountersPresent, "All generated encounter numbers should be present in the Claims List.");
+        if (!allEncountersPresent) {
+            throw new AssertionError("All generated encounter numbers should be present in the Claims List.");
+        }
     }
+
+    // Scrolls down the page using JavaScript Executor
+    private static void scrollPage(WebDriver driver) {
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        js.executeScript("window.scrollBy(0, 500);"); // Adjust scroll value as needed
+        try {
+            Thread.sleep(500); // Allow time for loading
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    // Fetch Claim ID Elements
+    private static List<WebElement> fetchClaimIdElements(WebDriver driver) {
+        return driver.findElements(By.xpath("//*[@id='tour-guide-billing-claims-step4']/td[1]/div/div/div/p"));
+    }
+
+    // Fetch Status Elements
+    private static List<WebElement> fetchStatusElements(WebDriver driver) {
+        return driver.findElements(By.xpath("//*[@id='tour-guide-billing-claims-step4']/td[1]/div/div/div/div/span/sl-badge"));
+    }
+
     @DataProvider(name = "dataProviderTest")
     public Object[][] dataProvider() throws IOException {
-        // Assuming dr.getJsonDataToMap() returns a List of HashMaps
-        List<HashMap<String, String>> data = dr.getJsonDataToMap();
-        Object[][] dataArray = new Object[data.size()][];
+        // Get limited data (e.g., 10 entries)
+        List<HashMap<String, String>> limitedData = dr.getLimitedJsonData(10);
 
-        for (int i = 0; i < data.size(); i++) {
-            dataArray[i] = new Object[]{data.get(i)};
-            try {
-                Thread.sleep(10); 
-            } catch (InterruptedException e) {
-                e.printStackTrace(); 
-            }
+        Object[][] dataArray = new Object[limitedData.size()][1];
+
+        for (int i = 0; i < limitedData.size(); i++) {
+            dataArray[i][0] = limitedData.get(i);
         }
-        
+
         return dataArray;
     }
 

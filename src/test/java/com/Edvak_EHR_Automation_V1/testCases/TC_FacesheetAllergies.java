@@ -38,7 +38,7 @@ public class TC_FacesheetAllergies extends BaseClass{
 		lp.setUserName("marcia@ehr.com");
 		logger.info("Entered Username in Username Text field");
 		logger.info("Entering Password in password Text field");
-		lp.setPassword("Admin@321");
+		lp.setPassword("Edvak@321");
 		logger.info("Entered Password in password Text field");
 		logger.info("Clicking on Login button");
 		WebElement element = driver

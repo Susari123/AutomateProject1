@@ -2,22 +2,22 @@
 <testng-results ignored="0" total="2" passed="0" failed="0" skipped="2">
   <reporter-output>
   </reporter-output>
-  <suite started-at="2024-09-23T10:29:18 IST" name="Default suite" finished-at="2024-09-23T10:29:18 IST" duration-ms="126">
+  <suite started-at="2024-11-28T12:12:36 IST" name="Default suite" finished-at="2024-11-28T12:12:36 IST" duration-ms="168">
     <groups>
     </groups>
-    <test started-at="2024-09-23T10:29:18 IST" name="Default test" finished-at="2024-09-23T10:29:18 IST" duration-ms="126">
+    <test started-at="2024-11-28T12:12:36 IST" name="Default test" finished-at="2024-11-28T12:12:36 IST" duration-ms="168">
       <class name="com.Edvak_EHR_Automation_V1.testCases.TC_Payment">
-        <test-method is-config="true" signature="setup(java.lang.String)[pri:0, instance:com.Edvak_EHR_Automation_V1.testCases.TC_Payment@79c97cb]" started-at="2024-09-23T10:29:18 IST" name="setup" finished-at="1970-01-01T05:30:00 IST" duration-ms="-1727067558820" status="FAIL">
+        <test-method is-config="true" signature="setup(java.lang.String)[pri:0, instance:com.Edvak_EHR_Automation_V1.testCases.TC_Payment@389c4eb1]" started-at="2024-11-28T12:12:36 IST" name="setup" finished-at="1970-01-01T05:30:00 IST" duration-ms="-1732776156484" status="FAIL">
           <exception class="org.testng.TestNGException">
             <message>
               <![CDATA[
 Parameter 'browser' is required by BeforeClass on method setup but has not been marked @Optional or defined
-in C:\Users\sksusari\AppData\Local\Temp\testng-eclipse--445807518\testng-customsuite.xml]]>
+in C:\Users\sksusari\AppData\Local\Temp\testng-eclipse-1375323694\testng-customsuite.xml]]>
             </message>
             <full-stacktrace>
               <![CDATA[org.testng.TestNGException: 
 Parameter 'browser' is required by BeforeClass on method setup but has not been marked @Optional or defined
-in C:\Users\sksusari\AppData\Local\Temp\testng-eclipse--445807518\testng-customsuite.xml
+in C:\Users\sksusari\AppData\Local\Temp\testng-eclipse-1375323694\testng-customsuite.xml
 at org.testng.internal.Parameters.createParams(Parameters.java:270)
 at org.testng.internal.Parameters.createParametersForMethod(Parameters.java:358)
 at org.testng.internal.Parameters.createParameters(Parameters.java:700)
@@ -47,17 +47,17 @@ at org.testng.remote.RemoteTestNG.main(RemoteTestNG.java:91)
           <reporter-output>
           </reporter-output>
         </test-method> <!-- setup -->
-        <test-method signature="testQuickRegistration()[pri:0, instance:com.Edvak_EHR_Automation_V1.testCases.TC_Payment@79c97cb]" started-at="2024-09-23T10:29:18 IST" name="testQuickRegistration" finished-at="2024-09-23T10:29:18 IST" duration-ms="0" status="SKIP">
+        <test-method signature="testQuickRegistration()[pri:0, instance:com.Edvak_EHR_Automation_V1.testCases.TC_Payment@389c4eb1]" started-at="2024-11-28T12:12:36 IST" name="testQuickRegistration" finished-at="2024-11-28T12:12:36 IST" duration-ms="0" status="SKIP">
           <exception class="org.testng.TestNGException">
             <message>
               <![CDATA[
 Parameter 'browser' is required by BeforeClass on method setup but has not been marked @Optional or defined
-in C:\Users\sksusari\AppData\Local\Temp\testng-eclipse--445807518\testng-customsuite.xml]]>
+in C:\Users\sksusari\AppData\Local\Temp\testng-eclipse-1375323694\testng-customsuite.xml]]>
             </message>
             <full-stacktrace>
               <![CDATA[org.testng.TestNGException: 
 Parameter 'browser' is required by BeforeClass on method setup but has not been marked @Optional or defined
-in C:\Users\sksusari\AppData\Local\Temp\testng-eclipse--445807518\testng-customsuite.xml
+in C:\Users\sksusari\AppData\Local\Temp\testng-eclipse-1375323694\testng-customsuite.xml
 at org.testng.internal.Parameters.createParams(Parameters.java:270)
 at org.testng.internal.Parameters.createParametersForMethod(Parameters.java:358)
 at org.testng.internal.Parameters.createParameters(Parameters.java:700)
@@ -87,17 +87,17 @@ at org.testng.remote.RemoteTestNG.main(RemoteTestNG.java:91)
           <reporter-output>
           </reporter-output>
         </test-method> <!-- testQuickRegistration -->
-        <test-method is-config="true" signature="captureScreen(org.testng.ITestResult)[pri:0, instance:com.Edvak_EHR_Automation_V1.testCases.TC_Payment@79c97cb]" started-at="2024-09-23T10:29:18 IST" name="captureScreen" finished-at="1970-01-01T05:30:00 IST" duration-ms="-1727067558881" status="SKIP">
+        <test-method is-config="true" signature="captureScreen(org.testng.ITestResult)[pri:0, instance:com.Edvak_EHR_Automation_V1.testCases.TC_Payment@389c4eb1]" started-at="2024-11-28T12:12:36 IST" name="captureScreen" finished-at="1970-01-01T05:30:00 IST" duration-ms="-1732776156568" status="SKIP">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- captureScreen -->
-        <test-method signature="payment(java.lang.String,java.lang.String,java.lang.String,java.lang.String)[pri:1, instance:com.Edvak_EHR_Automation_V1.testCases.TC_Payment@79c97cb]" started-at="2024-09-23T10:29:18 IST" name="payment" finished-at="2024-09-23T10:29:18 IST" depends-on-methods="com.Edvak_EHR_Automation_V1.testCases.TC_Payment.testQuickRegistration" duration-ms="0" status="SKIP">
+        <test-method signature="payment(java.lang.String,java.lang.String,java.lang.String,java.lang.String)[pri:1, instance:com.Edvak_EHR_Automation_V1.testCases.TC_Payment@389c4eb1]" started-at="2024-11-28T12:12:36 IST" name="payment" finished-at="2024-11-28T12:12:36 IST" depends-on-methods="com.Edvak_EHR_Automation_V1.testCases.TC_Payment.testQuickRegistration" duration-ms="1" status="SKIP">
           <exception class="java.lang.Throwable">
             <message>
-              <![CDATA[Method TC_Payment.payment(java.lang.String,java.lang.String,java.lang.String,java.lang.String)[pri:1, instance:com.Edvak_EHR_Automation_V1.testCases.TC_Payment@79c97cb] depends on not successfully finished methods]]>
+              <![CDATA[Method TC_Payment.payment(java.lang.String,java.lang.String,java.lang.String,java.lang.String)[pri:1, instance:com.Edvak_EHR_Automation_V1.testCases.TC_Payment@389c4eb1] depends on not successfully finished methods]]>
             </message>
             <full-stacktrace>
-              <![CDATA[java.lang.Throwable: Method TC_Payment.payment(java.lang.String,java.lang.String,java.lang.String,java.lang.String)[pri:1, instance:com.Edvak_EHR_Automation_V1.testCases.TC_Payment@79c97cb] depends on not successfully finished methods
+              <![CDATA[java.lang.Throwable: Method TC_Payment.payment(java.lang.String,java.lang.String,java.lang.String,java.lang.String)[pri:1, instance:com.Edvak_EHR_Automation_V1.testCases.TC_Payment@389c4eb1] depends on not successfully finished methods
 at org.testng.internal.TestInvoker.invokeTestMethods(TestInvoker.java:102)
 at org.testng.internal.TestMethodWorker.invokeTestMethods(TestMethodWorker.java:146)
 at org.testng.internal.TestMethodWorker.run(TestMethodWorker.java:128)
@@ -123,7 +123,7 @@ at org.testng.remote.RemoteTestNG.main(RemoteTestNG.java:91)
           <reporter-output>
           </reporter-output>
         </test-method> <!-- payment -->
-        <test-method is-config="true" signature="tearDown()[pri:0, instance:com.Edvak_EHR_Automation_V1.testCases.TC_Payment@79c97cb]" started-at="2024-09-23T10:29:18 IST" name="tearDown" finished-at="1970-01-01T05:30:00 IST" duration-ms="-1727067558910" status="SKIP">
+        <test-method is-config="true" signature="tearDown()[pri:0, instance:com.Edvak_EHR_Automation_V1.testCases.TC_Payment@389c4eb1]" started-at="2024-11-28T12:12:36 IST" name="tearDown" finished-at="1970-01-01T05:30:00 IST" duration-ms="-1732776156594" status="SKIP">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- tearDown -->

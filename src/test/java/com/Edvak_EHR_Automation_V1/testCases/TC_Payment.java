@@ -51,7 +51,7 @@ public class TC_Payment extends BaseClass{
         logger.info("Entered Username in Username Text field");
 
         logger.info("Entering Password in password Text field");
-        lp.setPassword("Admin@123456");
+        lp.setPassword("Edvak@321");
         logger.info("Entered Password in password Text field");
 
         logger.info("Clicking on Login button");
