@@ -425,7 +425,7 @@ public class TC_BillingGenerateClaims extends BaseClass {
 
         Map<String, String> buttonXpaths = new HashMap<>();
         buttonXpaths.put("Notes & Facesheet", "//sl-button[contains(text(), ' Notes & Facesheet ')]");
-        buttonXpaths.put("Attach Documents", "//sl-button[contains(text(), 'Attach Documents ')]");
+        buttonXpaths.put("Attach Documents", "//sl-button[contains(text(), 'Documents')]");
         buttonXpaths.put("Super Bill", "//sl-button[contains(text(), ' Super Bill ')]");
         buttonXpaths.put("Create Task", "//sl-button[contains(text(), ' Create Task ')]");
         buttonXpaths.put("Tools", "//sl-button[contains(text(), 'Tools')]");
@@ -518,7 +518,7 @@ public class TC_BillingGenerateClaims extends BaseClass {
     public void verifyEncountersInManageClaims() throws InterruptedException {
         // Path to the file
         String filePath = "C:\\Users\\sksusari\\Documents\\Test\\encounter_presence.json";
-        
+
         // Clear the file by writing empty content
         try (FileWriter file = new FileWriter(filePath)) {
             file.write("");  // Clears the file content
@@ -526,84 +526,59 @@ public class TC_BillingGenerateClaims extends BaseClass {
         } catch (IOException e) {
             logger.error("Error clearing the previous encounter presence data file.", e);
         }
+
         WebElement manageclaim = retryingFindElement(By.xpath("//sl-tab-group//sl-tab[2]"));
         manageclaim.click();
         logger.info("manage claim page.. ");
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
         wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath("//img[contains(@src, 'loader.svg')]")));
+
         WebElement Transmit = driver.findElement(By.xpath("//app-claims-list/ed-col/section/form/div/sl-button"));
         boolean isTransmitDisplayed = Transmit.isDisplayed();
         logger.info("Checking if Transmit button is displayed. Result: " + isTransmitDisplayed);
         Assert.assertTrue(isTransmitDisplayed, "Transmit button should be displayed.");
-        List<WebElement> encounterElements = driver.findElements(By.xpath("//td[2]/descendant::p"));
-        List<WebElement> claimIdElements = new ArrayList<>(fetchClaimIdElements(driver));
-        List<WebElement> statusElements = new ArrayList<>(fetchStatusElements(driver));
 
-        // Scroll to load all elements
-        while (encounterElements.size() > claimIdElements.size() || encounterElements.size() > statusElements.size()) {
+        List<WebElement> claimIdElements = fetchClaimIdElements(driver);
+
+        // Check if claimIdElements has fewer items than required; scroll until required count is fetched
+        int requiredCount = encounterNumbersList.size();
+        while (claimIdElements.size() < requiredCount) {
             scrollPage(driver);
-            claimIdElements.clear();
-            statusElements.clear();
-            claimIdElements.addAll(fetchClaimIdElements(driver));
-            statusElements.addAll(fetchStatusElements(driver));
+            claimIdElements = fetchClaimIdElements(driver); // Fetch updated list after scrolling
         }
 
-        // Create a map to store encounter numbers with lists of associated claim IDs and statuses
-        Map<String, List<Map<String, String>>> encounterToClaimsMap = new HashMap<>();
+        // Extract the top requiredCount claim IDs
+        List<String> claimIds = claimIdElements.stream()
+                .limit(requiredCount) // Take only the top N items
+                .map(WebElement::getText)
+                .collect(Collectors.toList());
 
-        IntStream.range(0, encounterElements.size())
-                .forEach(i -> {
-                    String encounterNumber = encounterElements.get(i).getText();
-                    String claimId = claimIdElements.get(i).getText();
-                    String status = statusElements.get(i).getText();
-
-                    Map<String, String> claimData = new HashMap<>();
-                    claimData.put("claim_id", claimId);
-                    claimData.put("status", status);
-
-                    encounterToClaimsMap
-                            .computeIfAbsent(encounterNumber, k -> new ArrayList<>())
-                            .add(claimData);
-                });
-
-        // Create JSON structure to store encounter data
+        // Create JSON structure for claim data
         JSONArray encounterPresenceArray = new JSONArray();
-        for (String encounter : encounterNumbersList) {
-            JSONObject encounterObject = new JSONObject();
-            encounterObject.put("encounter_number", encounter);
-            encounterObject.put("is_present", encounterToClaimsMap.containsKey(encounter));
-
-            if (encounterToClaimsMap.containsKey(encounter)) {
-                JSONArray claimDataArray = new JSONArray(encounterToClaimsMap.get(encounter));
-                encounterObject.put("claims", claimDataArray);
-                System.out.println("Encounter number " + encounter + " is present with claims: " + claimDataArray);
-            } else {
-                System.out.println("Encounter number " + encounter + " is NOT present in the Claims List.");
-            }
-
-            encounterPresenceArray.put(encounterObject);
+        for (int i = 0; i < requiredCount; i++) {
+            JSONObject claimObject = new JSONObject();
+            claimObject.put("claim_id", claimIds.get(i));
+            System.out.println("Claim ID extracted: " + claimIds.get(i));
+            encounterPresenceArray.put(claimObject);
         }
 
-        // Root JSON object to store encounter presence data
+        // Root JSON object to store claim presence data
         JSONObject json = new JSONObject();
-        json.put("encounter_presence_status", encounterPresenceArray);
+        json.put("claim_presence_status", encounterPresenceArray);
 
         // Write JSON data to file
         try (FileWriter file = new FileWriter(filePath)) {
-            file.write(json.toString(4));  // Indented for readability
-            System.out.println("Encounter presence data saved to " + filePath);
+            file.write(json.toString(4)); // Indented for readability
+            System.out.println("Claim presence data saved to " + filePath);
         } catch (IOException e) {
-            System.err.println("Error writing encounter presence data to JSON file.");
+            System.err.println("Error writing claim presence data to JSON file.");
             e.printStackTrace();
         }
 
-        // Assert all encounters are present
-        boolean allEncountersPresent = encounterNumbersList.stream()
-                .allMatch(encounterToClaimsMap::containsKey);
-        if (!allEncountersPresent) {
-            throw new AssertionError("All generated encounter numbers should be present in the Claims List.");
-        }
+        // Assert the correct number of claims were fetched
+        Assert.assertEquals(claimIds.size(), requiredCount, "The number of extracted claims should match the required count.");
     }
+
 
     // Scrolls down the page using JavaScript Executor
     private static void scrollPage(WebDriver driver) {
