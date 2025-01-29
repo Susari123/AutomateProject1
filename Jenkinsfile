@@ -9,7 +9,6 @@ pipeline {
     stages {
         stage('Checkout Code') {
             steps {
-                // Clone your GitHub repository
                 git branch: 'main', credentialsId: 'Susari123-credentials-id', url: 'https://github.com/Susari123/AutomateProject1.git'
             }
         }
@@ -17,14 +16,14 @@ pipeline {
         stage('Build') {
             steps {
                 // Clean and compile the Maven project
-                sh 'mvn clean compile'
+                bat 'mvn clean compile'
             }
         }
 
         stage('Run Tests') {
             steps {
                 // Execute tests using Maven
-                sh 'mvn test'
+                bat 'mvn test'
             }
         }
 
