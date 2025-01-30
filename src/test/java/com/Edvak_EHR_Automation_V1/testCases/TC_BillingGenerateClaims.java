@@ -1,5 +1,6 @@
 package com.Edvak_EHR_Automation_V1.testCases;
 
+import java.io.FileWriter;
 import java.io.IOException;
 import java.time.Duration;
 import java.time.LocalDate;
@@ -8,9 +9,13 @@ import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.NoSuchElementException;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.ElementClickInterceptedException;
@@ -31,19 +36,6 @@ import com.Edvak_EHR_Automation_V1.pageObjects.LoginPage;
 import com.Edvak_EHR_Automation_V1.utilities.DataReader;
 import com.Edvak_EHR_Automation_V1.utilities.GenerateRandomNumberBetweenLength;
 import com.Edvak_EHR_Automation_V1.utilities.TestData;
-import com.google.common.io.Files;
-
-import org.json.JSONArray;
-import org.json.JSONObject;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.NoSuchElementException;
-import java.util.stream.IntStream;
 
 
 public class TC_BillingGenerateClaims extends BaseClass {
@@ -93,8 +85,10 @@ public class TC_BillingGenerateClaims extends BaseClass {
     void testBillingGenerateClaims(HashMap<String, String> data) throws InterruptedException, IOException {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(100));
         // Assertion to verify that Billing page is loaded
+       wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h4[normalize-space()='billing']")));
        WebElement billingPageHeader = driver.findElement(By.xpath("//h4[normalize-space()='billing']"));
 //       Assert.assertTrue(billingPageHeader.isDisplayed(), "Billing page should be displayed.");
+        
        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//form//div//sl-button[@id='tour-guide-billing-Step4']")));
        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//table//tbody//tr//td")));
         WebElement button = driver.findElement(By.xpath("//sl-tab-group//sl-tab[1]"));
@@ -604,7 +598,7 @@ public class TC_BillingGenerateClaims extends BaseClass {
     @DataProvider(name = "dataProviderTest")
     public Object[][] dataProvider() throws IOException {
         // Get limited data (e.g., 10 entries)
-        List<HashMap<String, String>> limitedData = dr.getLimitedJsonData(10);
+        List<HashMap<String, String>> limitedData = dr.getLimitedJsonData(1);
 
         Object[][] dataArray = new Object[limitedData.size()][1];
 

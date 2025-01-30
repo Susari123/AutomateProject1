@@ -2,9 +2,6 @@ package com.Edvak_EHR_Automation_V1.testCases;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.util.HashMap;
-import java.util.List;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
@@ -14,7 +11,6 @@ import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.chromium.ChromiumOptions;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
@@ -25,8 +21,6 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Parameters;
 
 import com.Edvak_EHR_Automation_V1.utilities.ReadConfig;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
 
@@ -54,10 +48,14 @@ public class BaseClass {
 		if (br.equals("chrome")) {
 			WebDriverManager.chromedriver().setup();
 			ChromeOptions options = new ChromeOptions();
-            options.addArguments("use-fake-ui-for-media-stream");
+			options.addArguments("use-fake-ui-for-media-stream");
+			options.addArguments("--headless=new"); // Enables headless mode
+			options.addArguments("--disable-gpu");  // Helps with some issues on Windows
+			options.addArguments("--window-size=1920,1080"); // Ensures full page rendering
+		
 			driver = new ChromeDriver(options);
-			
-		} else if (br.equals("firefox")) {
+		}
+		else if (br.equals("firefox")) {
 			WebDriverManager.chromedriver().setup();
 			driver = new FirefoxDriver();
 		} else if (br.equals("ie")) {
