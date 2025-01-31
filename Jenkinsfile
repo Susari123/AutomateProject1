@@ -13,6 +13,7 @@ pipeline {
     stages {
         stage('Checkout Code') {
             steps {
+                echo 'Checking out code from Git repository...'
                 git branch: 'SouravAuto', credentialsId: 'Susari123-credentials-id', url: 'https://github.com/Susari123/AutomateProject1.git'
             }
         }
@@ -20,6 +21,7 @@ pipeline {
         stage('Build') {
             steps {
                 script {
+                    echo 'Building the project using Maven...'
                     if (isUnix()) {
                         sh 'mvn clean compile'
                     } else {
@@ -32,6 +34,7 @@ pipeline {
         stage('Run Tests') {
             steps {
                 script {
+                    echo 'Running tests using Maven...'
                     if (isUnix()) {
                         sh 'mvn test'
                     } else {
@@ -42,19 +45,36 @@ pipeline {
         }
 
         stage('Publish TestNG Results') {
-    steps {
-        script {
-            if (fileExists("target/surefire-reports/testng-results.xml")) {
-                echo '✅ Publishing TestNG results...'
+            steps {
+                script {
+                    echo 'Checking for TestNG results...'
+                    // Ensure the TestNG results file exists
+                    if (fileExists("${TEST_RESULTS_DIR}/testng-results.xml")) {
+                        echo '✅ TestNG results found. Publishing results...'
 
-                // Publish TestNG results
-                publishTestNGResults testResultsPattern: '**/target/surefire-reports/testng-results.xml'
-            } else {
-                echo '❌ TestNG results file not found!'
-                error('TestNG results file is missing.')
+                        // Publish TestNG results
+                        publishTestNGResults testResultsPattern: '**/target/surefire-reports/testng-results.xml'
+
+                        // Archive all test results for future reference
+                        archiveArtifacts artifacts: '**/target/surefire-reports/*', fingerprint: true
+                    } else {
+                        echo '❌ TestNG results file not found!'
+                        error('TestNG results file is missing.')
+                    }
+                }
             }
         }
     }
-}
+
+    post {
+        always {
+            echo 'Pipeline execution completed.'
+        }
+        success {
+            echo '✅ Pipeline executed successfully.'
+        }
+        failure {
+            echo '❌ Pipeline failed. Please check the logs for details.'
+        }
     }
 }
