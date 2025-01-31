@@ -59,7 +59,7 @@ public class TC_BillingGenerateClaims extends BaseClass {
         logger.info("Entered Username in Username Text field");
 
         logger.info("Entering Password in password Text field");
-        lp.setPassword("Edvak@321");
+        lp.setPassword("Edvak@3210");
         logger.info("Entered Password in password Text field");
 
         logger.info("Clicking on Login button");

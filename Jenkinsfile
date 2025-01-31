@@ -48,18 +48,18 @@ pipeline {
             steps {
                 script {
                     echo 'Checking for TestNG results...'
-                    // Ensure the TestNG results file exists
-                    if (fileExists("${TEST_RESULTS_DIR}/testng-results.xml")) {
-                        echo '✅ TestNG results found. Publishing results...'
+                    // Ensure the TestNG results directory exists
+                    if (fileExists("${TEST_RESULTS_DIR}")) {
+                        echo '✅ TestNG results directory found. Publishing results...'
 
-                        // Use JUnit to publish TestNG results
-                        junit '**/target/surefire-reports/testng-results.xml'
+                        // Use JUnit to publish TestNG results (ensure patterns match your files)
+                        junit '**/target/surefire-reports/TEST-*.xml'
 
                         // Archive all test results for future reference
                         archiveArtifacts artifacts: '**/target/surefire-reports/*', fingerprint: true
                     } else {
-                        echo '❌ TestNG results file not found!'
-                        error('TestNG results file is missing.')
+                        echo '❌ TestNG results directory not found!'
+                        error('TestNG results directory is missing.')
                     }
                 }
             }
