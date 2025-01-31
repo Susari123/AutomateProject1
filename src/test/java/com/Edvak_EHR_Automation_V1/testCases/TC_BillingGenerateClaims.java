@@ -598,7 +598,7 @@ public class TC_BillingGenerateClaims extends BaseClass {
     @DataProvider(name = "dataProviderTest")
     public Object[][] dataProvider() throws IOException {
         // Get limited data (e.g., 10 entries)
-        List<HashMap<String, String>> limitedData = dr.getLimitedJsonData(1);
+        List<HashMap<String, String>> limitedData = dr.getLimitedJsonData(7);
 
         Object[][] dataArray = new Object[limitedData.size()][1];
 
