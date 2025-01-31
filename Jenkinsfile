@@ -44,7 +44,7 @@ pipeline {
             }
         }
 
-        stage('Publish TestNG Results') {
+        stage('Publish Test Results') {
             steps {
                 script {
                     echo 'Checking for TestNG results...'
@@ -52,8 +52,8 @@ pipeline {
                     if (fileExists("${TEST_RESULTS_DIR}/testng-results.xml")) {
                         echo '✅ TestNG results found. Publishing results...'
 
-                        // Publish TestNG results
-                        publishTestNGResults testResultsPattern: '**/target/surefire-reports/testng-results.xml'
+                        // Use JUnit to publish TestNG results
+                        junit '**/target/surefire-reports/testng-results.xml'
 
                         // Archive all test results for future reference
                         archiveArtifacts artifacts: '**/target/surefire-reports/*', fingerprint: true
