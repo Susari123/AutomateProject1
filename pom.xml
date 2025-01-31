@@ -155,7 +155,6 @@
     <plugins>
         <!-- Maven Compiler Plugin -->
         <plugin>
-            <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-compiler-plugin -->
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-compiler-plugin</artifactId>
             <version>3.8.1</version>
@@ -164,17 +163,34 @@
                 <target>1.8</target>
             </configuration>
         </plugin>
-        <!-- Maven Surefire Plugin -->
+
+        <!-- Maven Surefire Plugin for TestNG Execution -->
         <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-surefire-plugin</artifactId>
-            <version>3.0.0-M5</version>
+            <version>3.0.0-M7</version>
             <configuration>
-                <!-- List of TestNG XML files to run in sequence -->
                 <suiteXmlFiles>
-						<suiteXmlFile>BillingGenerateClaimTestNG.xml</suiteXmlFile>             
+                    <suiteXmlFile>BillingGenerateClaimTestNG.xml</suiteXmlFile>
                 </suiteXmlFiles>
+                <reportsDirectory>${project.build.directory}/surefire-reports</reportsDirectory>
             </configuration>
+        </plugin>
+
+        <!-- Maven Surefire Report Plugin for HTML Reports -->
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-surefire-report-plugin</artifactId>
+            <version>3.0.0-M7</version>
+            <executions>
+                <execution>
+                    <id>report</id>
+                    <phase>verify</phase>
+                    <goals>
+                        <goal>report</goal>
+                    </goals>
+                </execution>
+            </executions>
         </plugin>
     </plugins>
 
@@ -185,4 +201,5 @@
         </testResource>
     </testResources>
 </build>
+
 </project>

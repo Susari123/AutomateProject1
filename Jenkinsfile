@@ -6,6 +6,10 @@ pipeline {
         jdk 'JDK_17'          // Ensure JDK 17 is installed in Jenkins
     }
 
+    environment {
+        TEST_RESULTS_DIR = 'target/surefire-reports'
+    }
+
     stages {
         stage('Checkout Code') {
             steps {
@@ -15,22 +19,45 @@ pipeline {
 
         stage('Build') {
             steps {
-                // Clean and compile the Maven project
-                bat 'mvn clean compile'
+                script {
+                    if (isUnix()) {
+                        sh 'mvn clean compile'
+                    } else {
+                        bat 'mvn clean compile'
+                    }
+                }
             }
         }
 
         stage('Run Tests') {
             steps {
-                // Execute tests using Maven
-                bat 'mvn test'
+                script {
+                    if (isUnix()) {
+                        sh 'mvn test'
+                    } else {
+                        bat 'mvn test'
+                    }
+                }
             }
         }
 
-        stage('Publish Results') {
+        stage('Publish TestNG Results') {
             steps {
-                // Publish TestNG results in Jenkins
-                publishTestNGResults testResultsPattern: '**/test-output/testng-results.xml'
+                script {
+                    // Check if TestNG results exist before publishing
+                    if (fileExists("${TEST_RESULTS_DIR}/testng-results.xml")) {
+                        echo 'Publishing TestNG results...'
+                        
+                        // Use JUnit to publish TestNG XML results
+                        junit '**/target/surefire-reports/testng-results.xml'
+
+                        // Archive all test results and logs
+                        archiveArtifacts artifacts: '**/target/surefire-reports/*', fingerprint: true
+                    } else {
+                        echo 'TestNG results not found!'
+                        error('Test execution failed: No test results found.')
+                    }
+                }
             }
         }
     }
