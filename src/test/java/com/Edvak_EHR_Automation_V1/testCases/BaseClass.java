@@ -49,9 +49,9 @@ public class BaseClass {
 			WebDriverManager.chromedriver().setup();
 			ChromeOptions options = new ChromeOptions();
 			options.addArguments("use-fake-ui-for-media-stream");
-			options.addArguments("--headless=new"); // Enables headless mode
-			options.addArguments("--disable-gpu");  // Helps with some issues on Windows
-			options.addArguments("--window-size=1920,1080"); // Ensures full page rendering
+			// options.addArguments("--headless=new"); // Enables headless mode
+			// options.addArguments("--disable-gpu");  // Helps with some issues on Windows
+			// options.addArguments("--window-size=1920,1080"); // Ensures full page rendering
 		
 			driver = new ChromeDriver(options);
 		}
