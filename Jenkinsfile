@@ -44,17 +44,16 @@ pipeline {
         stage('Publish TestNG Results') {
             steps {
                 script {
-                    // Check if TestNG results exist before publishing
                     if (fileExists("${TEST_RESULTS_DIR}/testng-results.xml")) {
-                        echo 'Publishing TestNG results...'
-                        
-                        // Use JUnit to publish TestNG XML results
+                        echo '✅ Publishing TestNG results...'
+
+                        // Use JUnit to process TestNG XML results
                         junit '**/target/surefire-reports/testng-results.xml'
 
-                        // Archive all test results and logs
+                        // Archive all test reports, including HTML, for debugging
                         archiveArtifacts artifacts: '**/target/surefire-reports/*', fingerprint: true
                     } else {
-                        echo 'TestNG results not found!'
+                        echo '❌ ERROR: TestNG results file not found!'
                         error('Test execution failed: No test results found.')
                     }
                 }
