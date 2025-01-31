@@ -137,6 +137,7 @@
         <configuration>
           <suiteXmlFiles>
             <suiteXmlFile>BillingGenerateClaimTestNG.xml</suiteXmlFile>
+            <suiteXmlFile>ErabillingTestNG.xml</suiteXmlFile>
           </suiteXmlFiles>
           <reportsDirectory>${project.build.directory}/surefire-reports</reportsDirectory>
         </configuration>
