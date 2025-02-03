@@ -509,96 +509,106 @@ public class TC_BillingGenerateClaims extends BaseClass {
         }
     }
     @Test(priority = 2, dependsOnMethods = {"testBillingGenerateClaims"})
-    public void verifyEncountersInManageClaims() throws InterruptedException {
-        // Path to the file
-        String filePath = "C:\\Users\\sksusari\\Documents\\Test\\encounter_presence.json";
+public void verifyEncountersInManageClaims() throws InterruptedException {
+    // Path to the file
+    String filePath = "C:\\Users\\sksusari\\Documents\\Test\\encounter_presence.json";
 
-        // Clear the file by writing empty content
-        try (FileWriter file = new FileWriter(filePath)) {
-            file.write("");  // Clears the file content
-            logger.info("Previous encounter presence data file cleared.");
-        } catch (IOException e) {
-            logger.error("Error clearing the previous encounter presence data file.", e);
-        }
-
-        WebElement manageclaim = retryingFindElement(By.xpath("//sl-tab-group//sl-tab[2]"));
-        manageclaim.click();
-        logger.info("manage claim page.. ");
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
-        wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath("//img[contains(@src, 'loader.svg')]")));
-
-        WebElement Transmit = driver.findElement(By.xpath("//app-claims-list/ed-col/section/form/div/sl-button"));
-        boolean isTransmitDisplayed = Transmit.isDisplayed();
-        logger.info("Checking if Transmit button is displayed. Result: " + isTransmitDisplayed);
-        Assert.assertTrue(isTransmitDisplayed, "Transmit button should be displayed.");
-
-        List<WebElement> claimIdElements = fetchClaimIdElements(driver);
-
-        // Check if claimIdElements has fewer items than required; scroll until required count is fetched
-        int requiredCount = encounterNumbersList.size();
-        while (claimIdElements.size() < requiredCount) {
-            scrollPage(driver);
-            claimIdElements = fetchClaimIdElements(driver); // Fetch updated list after scrolling
-        }
-
-        // Extract the top requiredCount claim IDs
-        List<String> claimIds = claimIdElements.stream()
-                .limit(requiredCount) // Take only the top N items
-                .map(WebElement::getText)
-                .collect(Collectors.toList());
-
-        // Create JSON structure for claim data
-        JSONArray encounterPresenceArray = new JSONArray();
-        for (int i = 0; i < requiredCount; i++) {
-            JSONObject claimObject = new JSONObject();
-            claimObject.put("claim_id", claimIds.get(i));
-            System.out.println("Claim ID extracted: " + claimIds.get(i));
-            encounterPresenceArray.put(claimObject);
-        }
-
-        // Root JSON object to store claim presence data
-        JSONObject json = new JSONObject();
-        json.put("claim_presence_status", encounterPresenceArray);
-
-        // Write JSON data to file
-        try (FileWriter file = new FileWriter(filePath)) {
-            file.write(json.toString(4)); // Indented for readability
-            System.out.println("Claim presence data saved to " + filePath);
-        } catch (IOException e) {
-            System.err.println("Error writing claim presence data to JSON file.");
-            e.printStackTrace();
-        }
-
-        // Assert the correct number of claims were fetched
-        Assert.assertEquals(claimIds.size(), requiredCount, "The number of extracted claims should match the required count.");
+    // Clear the file by writing empty content
+    try (FileWriter file = new FileWriter(filePath)) {
+        file.write("");  // Clears the file content
+        logger.info("Previous encounter presence data file cleared.");
+    } catch (IOException e) {
+        logger.error("Error clearing the previous encounter presence data file.", e);
     }
 
+    WebElement manageClaim = retryingFindElement(By.xpath("//sl-tab-group//sl-tab[2]"));
+    manageClaim.click();
+    logger.info("Navigated to manage claim page.");
+    
+    WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
+    wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath("//img[contains(@src, 'loader.svg')]")));
 
-    // Scrolls down the page using JavaScript Executor
-    private static void scrollPage(WebDriver driver) {
-        JavascriptExecutor js = (JavascriptExecutor) driver;
-        js.executeScript("window.scrollBy(0, 500);"); // Adjust scroll value as needed
-        try {
-            Thread.sleep(500); // Allow time for loading
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+    WebElement Transmit = driver.findElement(By.xpath("//app-claims-list/ed-col/section/form/div/sl-button"));
+    boolean isTransmitDisplayed = Transmit.isDisplayed();
+    logger.info("Checking if Transmit button is displayed. Result: " + isTransmitDisplayed);
+    Assert.assertTrue(isTransmitDisplayed, "Transmit button should be displayed.");
+
+    List<WebElement> claimIdElements = fetchClaimIdElements(driver);
+    List<WebElement> statusElements = fetchStatusElements(driver);
+
+    // Ensure required number of elements are fetched
+    int requiredCount = encounterNumbersList.size();
+    while (claimIdElements.size() < requiredCount || statusElements.size() < requiredCount) {
+        scrollPage(driver);
+        claimIdElements = fetchClaimIdElements(driver); // Fetch updated list after scrolling
+        statusElements = fetchStatusElements(driver); // Fetch updated statuses
     }
 
-    // Fetch Claim ID Elements
-    private static List<WebElement> fetchClaimIdElements(WebDriver driver) {
-        return driver.findElements(By.xpath("//*[@id='tour-guide-billing-claims-step4']/td[1]/div/div/div/p"));
+    // Extract claim IDs and status
+    List<String> claimIds = claimIdElements.stream()
+            .limit(requiredCount) // Take only the required count
+            .map(WebElement::getText)
+            .collect(Collectors.toList());
+
+    List<String> claimStatuses = statusElements.stream()
+            .limit(requiredCount) // Take only the required count
+            .map(WebElement::getText)
+            .collect(Collectors.toList());
+
+    // Create JSON structure for claim data
+    JSONArray encounterPresenceArray = new JSONArray();
+    for (int i = 0; i < requiredCount; i++) {
+        JSONObject claimObject = new JSONObject();
+        claimObject.put("claim_id", claimIds.get(i));
+        claimObject.put("status", claimStatuses.get(i));
+        System.out.println("Claim ID extracted: " + claimIds.get(i) + " | Status: " + claimStatuses.get(i));
+        encounterPresenceArray.put(claimObject);
     }
 
-    // Fetch Status Elements
-    private static List<WebElement> fetchStatusElements(WebDriver driver) {
-        return driver.findElements(By.xpath("//*[@id='tour-guide-billing-claims-step4']/td[1]/div/div/div/div/span/sl-badge"));
+    // Root JSON object to store claim presence data
+    JSONObject json = new JSONObject();
+    json.put("claim_presence_status", encounterPresenceArray);
+
+    // Write JSON data to file
+    try (FileWriter file = new FileWriter(filePath)) {
+        file.write(json.toString(4)); // Indented for readability
+        System.out.println("Claim presence data saved to " + filePath);
+    } catch (IOException e) {
+        System.err.println("Error writing claim presence data to JSON file.");
+        e.printStackTrace();
     }
+
+    // Assert the correct number of claims were fetched
+    Assert.assertEquals(claimIds.size(), requiredCount, "The number of extracted claims should match the required count.");
+    Assert.assertEquals(claimStatuses.size(), requiredCount, "The number of extracted statuses should match the required count.");
+}
+
+// Scrolls down the page using JavaScript Executor
+private static void scrollPage(WebDriver driver) {
+    JavascriptExecutor js = (JavascriptExecutor) driver;
+    js.executeScript("window.scrollBy(0, 500);"); // Adjust scroll value as needed
+    try {
+        Thread.sleep(500); // Allow time for loading
+    } catch (InterruptedException e) {
+        e.printStackTrace();
+    }
+}
+
+// Fetch Claim ID Elements
+private static List<WebElement> fetchClaimIdElements(WebDriver driver) {
+    return driver.findElements(By.xpath("//*[@id='tour-guide-billing-claims-step4']/td[1]/div/div/div/p"));
+}
+
+// Fetch Status Elements
+private static List<WebElement> fetchStatusElements(WebDriver driver) {
+    return driver.findElements(By.xpath("//*[@id='tour-guide-billing-claims-step4']/td[1]/div/div/div/div/span/sl-badge"));
+}
+
 
     @DataProvider(name = "dataProviderTest")
     public Object[][] dataProvider() throws IOException {
         // Get limited data (e.g., 10 entries)
-        List<HashMap<String, String>> limitedData = dr.getLimitedJsonData(7);
+        List<HashMap<String, String>> limitedData = dr.getLimitedJsonData(5);
 
         Object[][] dataArray = new Object[limitedData.size()][1];
 

@@ -11,6 +11,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.net.URL;
 
 import org.json.JSONArray;
@@ -22,6 +24,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import com.Edvak_EHR_Automation_V1.pageObjects.BillingGenerateClaims;
@@ -99,25 +102,29 @@ public class TC_EraBilling extends BaseClass {
             logger.info("Initializing Encounter Claim Data from JSON file: " + JSON_FILE_PATH);
             ObjectMapper objectMapper = new ObjectMapper();
             JsonNode rootNode = objectMapper.readTree(new File(JSON_FILE_PATH));
-            
-            // Check if rootNode contains the key "encounter_presence_status"
-            if (rootNode.get("encounter_presence_status") == null) {
-                logger.error("Invalid JSON structure: Missing 'encounter_presence_status' key.");
+
+            // Validate JSON structure
+            if (!rootNode.has("claim_presence_status") || !rootNode.get("claim_presence_status").isArray()) {
+                logger.error("Invalid JSON structure: Missing or incorrect 'claim_presence_status' key.");
                 return;
             }
 
             encounterClaimData = new HashMap<>();
-            for (JsonNode encounterNode : rootNode.get("encounter_presence_status")) {
-                if (!encounterNode.has("encounter_number")) {
-                    logger.warn("Skipping entry due to missing 'encounter_number'.");
+
+            for (JsonNode encounterNode : rootNode.get("claim_presence_status")) {
+                // Validate "claim_id"
+                if (!encounterNode.has("claim_id")) {
+                    logger.warn("Skipping entry due to missing 'claim_id'.");
                     continue;
                 }
 
-                String encounterNumber = encounterNode.get("encounter_number").asText();
+                String encounterNumber = encounterNode.get("claim_id").asText();
                 List<Map<String, String>> claimsList = new ArrayList<>();
 
-                if (encounterNode.has("claims")) {
-                    for (JsonNode claimNode : encounterNode.get("claims")) {
+                // Validate and extract claims
+                JsonNode claimsArray = encounterNode.get("claims");
+                if (claimsArray != null && claimsArray.isArray()) {
+                    for (JsonNode claimNode : claimsArray) {
                         if (!claimNode.has("claim_id") || !claimNode.has("status")) {
                             logger.warn("Skipping claim due to missing 'claim_id' or 'status'.");
                             continue;
@@ -129,7 +136,7 @@ public class TC_EraBilling extends BaseClass {
                         claimsList.add(claimData);
                     }
                 } else {
-                    logger.warn("No 'claims' found for encounter number: " + encounterNumber);
+                    logger.warn("No valid 'claims' array found for encounter number: " + encounterNumber);
                 }
 
                 encounterClaimData.put(encounterNumber, claimsList);
@@ -140,36 +147,73 @@ public class TC_EraBilling extends BaseClass {
             logger.error("Failed to load encounter claim data from JSON file.", e);
         }
     }
+
     public static Map<String, List<Map<String, String>>> loadEncounterClaimData() {
         encounterClaimData = new HashMap<>();
 
         try (FileReader reader = new FileReader(JSON_FILE_PATH)) {
             JSONObject json = new JSONObject(new JSONTokener(reader));
-            JSONArray encounterPresenceArray = json.getJSONArray("encounter_presence_status");
+
+            // Validate JSON structure
+            if (!json.has("claim_presence_status") || !json.get("claim_presence_status").getClass().equals(JSONArray.class)) {
+                logger.error("Invalid JSON format: 'claim_presence_status' key is missing or not an array.");
+                return encounterClaimData;
+            }
+
+            JSONArray encounterPresenceArray = json.getJSONArray("claim_presence_status");
 
             for (int i = 0; i < encounterPresenceArray.length(); i++) {
                 JSONObject encounterObject = encounterPresenceArray.getJSONObject(i);
-                String encounterNumber = encounterObject.getString("encounter_number");
 
-                if (encounterObject.getBoolean("is_present")) {
-                    JSONArray claimsArray = encounterObject.getJSONArray("claims");
-                    List<Map<String, String>> claimsList = new ArrayList<>();
-
-                    for (int j = 0; j < claimsArray.length(); j++) {
-                        JSONObject claimObject = claimsArray.getJSONObject(j);
-                        Map<String, String> claimData = new HashMap<>();
-                        claimData.put("claim_id", claimObject.getString("claim_id"));
-                        claimData.put("status", claimObject.getString("status"));
-                        claimsList.add(claimData);
-                    }
-                    encounterClaimData.put(encounterNumber, claimsList);
+                // Validate 'claim_id' presence
+                if (!encounterObject.has("claim_id")) {
+                    logger.warn("Skipping entry due to missing 'claim_id'.");
+                    continue;
                 }
+
+                String encounterNumber = encounterObject.getString("claim_id");
+
+                // Check if encounter is present before processing claims
+                if (!encounterObject.has("is_present") || !encounterObject.getBoolean("is_present")) {
+                    logger.warn("Skipping claim_id: " + encounterNumber + " as 'is_present' is false or missing.");
+                    continue;
+                }
+
+                // Validate 'claims' array
+                if (!encounterObject.has("claims") || !encounterObject.get("claims").getClass().equals(JSONArray.class)) {
+                    logger.warn("No valid 'claims' array found for encounter number: " + encounterNumber);
+                    continue;
+                }
+
+                JSONArray claimsArray = encounterObject.getJSONArray("claims");
+                List<Map<String, String>> claimsList = new ArrayList<>();
+
+                for (int j = 0; j < claimsArray.length(); j++) {
+                    JSONObject claimObject = claimsArray.getJSONObject(j);
+
+                    // Validate 'claim_id' and 'status' presence
+                    if (!claimObject.has("claim_id") || !claimObject.has("status")) {
+                        logger.warn("Skipping claim due to missing 'claim_id' or 'status'.");
+                        continue;
+                    }
+
+                    Map<String, String> claimData = new HashMap<>();
+                    claimData.put("claim_id", claimObject.getString("claim_id"));
+                    claimData.put("status", claimObject.getString("status"));
+                    claimsList.add(claimData);
+                }
+
+                encounterClaimData.put(encounterNumber, claimsList);
             }
+
+            logger.info("Successfully loaded Encounter Claim Data. Total Encounters: " + encounterClaimData.size());
         } catch (IOException e) {
             logger.error("Error reading JSON data from file.", e);
         }
-		return encounterClaimData;
+
+        return encounterClaimData;
     }
+
     @Test(priority=1, dependsOnMethods = {"EraREceived"})
     public static void eRAClaim() throws Exception {
         // Ensure encounterClaimData is loaded
@@ -362,7 +406,7 @@ public class TC_EraBilling extends BaseClass {
              }
          }
      }
-//      String Check = driver.findElement(By.xpath("//td[4]/div")).getText(); 
+//      String Check= driver.findElement(By.xpath("//td[4]/div")).getText(); 
 //      String StatusEra = driver.findElement(By.xpath("//td[2]/div/sl-badge")).getText(); 
 //      WebElement EraList = driver.findElement(By.xpath("//sl-tab-panel//tbody//tr[1]"));
 //      EraList.click();
