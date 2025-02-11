@@ -5,15 +5,13 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
+import java.net.URL;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-import java.net.URL;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -24,7 +22,6 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import com.Edvak_EHR_Automation_V1.pageObjects.BillingGenerateClaims;
@@ -48,13 +45,16 @@ public class TC_EraBilling extends BaseClass {
 
     @Test(priority = 1)
     public void EraREceived() throws InterruptedException {
-        initializeEncounterClaimData();  // Initialize encounterClaimData
+        // Initialize encounterClaimData
+        initializeEncounterClaimData();
 
+        // Check if the encounterClaimData is null or empty
         if (encounterClaimData == null || encounterClaimData.isEmpty()) {
             logger.error("Encounter Claim Data is null or empty. Cannot process claims.");
             return;
         }
 
+        // Log in to the application
         LoginPage lp = new LoginPage(driver);
         logger.info("******** Test Starts Here ********");
         driver.get(baseURL);
@@ -75,10 +75,12 @@ public class TC_EraBilling extends BaseClass {
 
         StringBuilder claimIdsBuilder = new StringBuilder();
 
+        // Iterate over the encounterClaimData to extract claim IDs with specific statuses
         for (List<Map<String, String>> claimsList : encounterClaimData.values()) {
             for (Map<String, String> claimData : claimsList) {
                 String status = claimData.get("status");
-                if ("Awaiting to post".equals(status) || "Awaiting to transmit".equals(status)) {
+                // Trim status to avoid issues with spaces
+                if ("Awaiting to post".equals(status.trim()) || "Awaiting to transmit".equals(status.trim())) {
                     if (claimIdsBuilder.length() > 0) {
                         claimIdsBuilder.append(",");
                     }
@@ -87,12 +89,14 @@ public class TC_EraBilling extends BaseClass {
             }
         }
 
+        // If claim IDs were found, create a Sample ERA
         String claimIds = claimIdsBuilder.toString();
         if (!claimIds.isEmpty()) {
             ApiIntegrationTest api = new ApiIntegrationTest();
             api.createSampleERA(claimIds);
             logger.info("Sample ERA created with Claim IDs: " + claimIds);
         } else {
+            // Log a warning if no claim IDs with the expected status were found
             logger.warn("No claim IDs with status 'Awaiting to post' or 'Awaiting to transmit' found in the JSON data.");
         }
     }
@@ -102,51 +106,45 @@ public class TC_EraBilling extends BaseClass {
             logger.info("Initializing Encounter Claim Data from JSON file: " + JSON_FILE_PATH);
             ObjectMapper objectMapper = new ObjectMapper();
             JsonNode rootNode = objectMapper.readTree(new File(JSON_FILE_PATH));
-
+    
             // Validate JSON structure
             if (!rootNode.has("claim_presence_status") || !rootNode.get("claim_presence_status").isArray()) {
                 logger.error("Invalid JSON structure: Missing or incorrect 'claim_presence_status' key.");
                 return;
             }
-
+    
             encounterClaimData = new HashMap<>();
-
+    
+            // Iterate over each entry in the claim_presence_status array
             for (JsonNode encounterNode : rootNode.get("claim_presence_status")) {
-                // Validate "claim_id"
+                // Validate "claim_id" in each encounter node
                 if (!encounterNode.has("claim_id")) {
                     logger.warn("Skipping entry due to missing 'claim_id'.");
                     continue;
                 }
-
+    
                 String encounterNumber = encounterNode.get("claim_id").asText();
                 List<Map<String, String>> claimsList = new ArrayList<>();
-
-                // Validate and extract claims
-                JsonNode claimsArray = encounterNode.get("claims");
-                if (claimsArray != null && claimsArray.isArray()) {
-                    for (JsonNode claimNode : claimsArray) {
-                        if (!claimNode.has("claim_id") || !claimNode.has("status")) {
-                            logger.warn("Skipping claim due to missing 'claim_id' or 'status'.");
-                            continue;
-                        }
-
-                        Map<String, String> claimData = new HashMap<>();
-                        claimData.put("claim_id", claimNode.get("claim_id").asText());
-                        claimData.put("status", claimNode.get("status").asText());
-                        claimsList.add(claimData);
-                    }
+    
+                // Extract the claim's status from the node
+                if (encounterNode.has("status")) {
+                    Map<String, String> claimData = new HashMap<>();
+                    claimData.put("claim_id", encounterNode.get("claim_id").asText());
+                    claimData.put("status", encounterNode.get("status").asText());
+                    claimsList.add(claimData);
                 } else {
-                    logger.warn("No valid 'claims' array found for encounter number: " + encounterNumber);
+                    logger.warn("Skipping entry due to missing 'status'.");
                 }
-
+    
                 encounterClaimData.put(encounterNumber, claimsList);
             }
-
+    
             logger.info("Successfully initialized Encounter Claim Data. Total Encounters: " + encounterClaimData.size());
         } catch (IOException e) {
             logger.error("Failed to load encounter claim data from JSON file.", e);
         }
     }
+    
 
     public static Map<String, List<Map<String, String>>> loadEncounterClaimData() {
         encounterClaimData = new HashMap<>();
