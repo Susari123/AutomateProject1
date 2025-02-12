@@ -19,15 +19,14 @@ import org.json.JSONTokener;
 import org.openqa.selenium.By;
 import org.openqa.selenium.ElementClickInterceptedException;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.Test;
 
 import com.Edvak_EHR_Automation_V1.pageObjects.BillingGenerateClaims;
-import com.Edvak_EHR_Automation_V1.pageObjects.LoginPage;
 import com.Edvak_EHR_Automation_V1.utilities.ApiIntegrationTest;
 import com.Edvak_EHR_Automation_V1.utilities.DataReader;
+import com.Edvak_EHR_Automation_V1.utilities.LoginUtils;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 //import com.gargoylesoftware.htmlunit.javascript.host.URL;
@@ -45,62 +44,81 @@ public class TC_EraBilling extends BaseClass {
 
     @Test(priority = 1)
     public void EraREceived() throws InterruptedException {
-        // Initialize encounterClaimData
-        initializeEncounterClaimData();
-
-        // Check if the encounterClaimData is null or empty
-        if (encounterClaimData == null || encounterClaimData.isEmpty()) {
-            logger.error("Encounter Claim Data is null or empty. Cannot process claims.");
-            return;
-        }
-
-        // Log in to the application
-        LoginPage lp = new LoginPage(driver);
-        logger.info("******** Test Starts Here ********");
-        driver.get(baseURL);
-        driver.manage().window().maximize();
-
-        lp.setUserName("souravsusari311@gmail.com");
-        lp.setPassword("Edvak@3210");
-
-        WebElement loginButton = driver.findElement(By.xpath("/html/body/app-root/div/div/app-login/section/div/div/form/div[3]/sl-button"))
-                                       .getShadowRoot().findElement(By.cssSelector("button"));
-        new Actions(driver).moveToElement(loginButton).click().build().perform();
-
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(100));
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//nav/a[5]/span[1]/sl-icon")));
-
-        clickWithRetry(driver.findElement(By.xpath("//nav/a[5]/span[1]/sl-icon")), 3);
-        logger.info("Billing button is clicked");
-
-        StringBuilder claimIdsBuilder = new StringBuilder();
-
-        // Iterate over the encounterClaimData to extract claim IDs with specific statuses
-        for (List<Map<String, String>> claimsList : encounterClaimData.values()) {
-            for (Map<String, String> claimData : claimsList) {
-                String status = claimData.get("status");
-                // Trim status to avoid issues with spaces
-                if ("Awaiting to post".equals(status.trim()) || "Awaiting to transmit".equals(status.trim())) {
-                    if (claimIdsBuilder.length() > 0) {
-                        claimIdsBuilder.append(",");
-                    }
-                    claimIdsBuilder.append(claimData.get("claim_id"));
-                }
+        try {
+            // Initialize encounterClaimData
+            initializeEncounterClaimData();
+    
+            // Check if encounterClaimData is empty
+            if (encounterClaimData == null || encounterClaimData.isEmpty()) {
+                logger.error("❌ Encounter Claim Data is empty. Cannot process claims.");
+                return;
             }
+    
+            // Log in to the application using reusable login method
+            LoginUtils.loginToApplication(driver, baseURL, "souravsusari311@gmail.com", "Edvak@3210");
+    
+            // Navigate to the Billing Page
+            navigateToBillingPage();
+    
+            // Extract claim IDs for ERA processing
+            String claimIds = extractClaimIdsForEraProcessing();
+    
+            // If claim IDs were found, create a Sample ERA
+            if (!claimIds.isEmpty()) {
+                createSampleEra(claimIds);
+            } else {
+                logger.warn("⚠️ No claim IDs found with status 'Awaiting to post' or 'Awaiting to transmit'.");
+            }
+    
+        } catch (Exception e) {
+            logger.error("🚨 Error in EraReceived: ", e);
         }
-
-        // If claim IDs were found, create a Sample ERA
-        String claimIds = claimIdsBuilder.toString();
-        if (!claimIds.isEmpty()) {
-            ApiIntegrationTest api = new ApiIntegrationTest();
-            api.createSampleERA(claimIds);
-            logger.info("Sample ERA created with Claim IDs: " + claimIds);
-        } else {
-            // Log a warning if no claim IDs with the expected status were found
-            logger.warn("No claim IDs with status 'Awaiting to post' or 'Awaiting to transmit' found in the JSON data.");
+    }
+    private void navigateToBillingPage() {
+        try {
+            WebElement billingButton = driver.findElement(By.xpath("//nav/a[5]/span[1]/sl-icon"));
+            clickWithRetry(billingButton, 3);
+            logger.info("📂 Navigated to the Billing Page.");
+        } catch (Exception e) {
+            logger.error("🚨 Failed to navigate to the Billing Page: ", e);
         }
     }
 
+    private String extractClaimIdsForEraProcessing() {
+        StringBuilder claimIdsBuilder = new StringBuilder();
+        try {
+            for (List<Map<String, String>> claimsList : encounterClaimData.values()) {
+                for (Map<String, String> claimData : claimsList) {
+                    String status = claimData.get("status").trim();
+    
+                    if ("Awaiting to post".equalsIgnoreCase(status) || "Awaiting to transmit".equalsIgnoreCase(status)) {
+                        if (claimIdsBuilder.length() > 0) {
+                            claimIdsBuilder.append(",");
+                        }
+                        claimIdsBuilder.append(claimData.get("claim_id"));
+                    }
+                }
+            }
+        } catch (Exception e) {
+            logger.error("🚨 Error extracting claim IDs for ERA processing: ", e);
+        }
+    
+        String claimIds = claimIdsBuilder.toString();
+        logger.info("📝 Total Claims for ERA Processing: " + (claimIds.isEmpty() ? "None" : claimIds));
+        return claimIds;
+    }
+    
+    private void createSampleEra(String claimIds) {
+        try {
+            logger.info("📡 Initiating Sample ERA API Call...");
+            ApiIntegrationTest api = new ApiIntegrationTest();
+            api.createSampleERA(claimIds);
+            logger.info("✅ Sample ERA successfully created for Claim IDs: " + claimIds);
+        } catch (Exception e) {
+            logger.error("🚨 Error in creating Sample ERA: ", e);
+        }
+    }
+        
     private void initializeEncounterClaimData() {
         try {
             logger.info("Initializing Encounter Claim Data from JSON file: " + JSON_FILE_PATH);
