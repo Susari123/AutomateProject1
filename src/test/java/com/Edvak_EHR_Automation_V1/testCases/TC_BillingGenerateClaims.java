@@ -24,7 +24,6 @@ import org.openqa.selenium.NoAlertPresentException;
 import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
@@ -32,9 +31,9 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import com.Edvak_EHR_Automation_V1.pageObjects.BillingGenerateClaims;
-import com.Edvak_EHR_Automation_V1.pageObjects.LoginPage;
 import com.Edvak_EHR_Automation_V1.utilities.DataReader;
 import com.Edvak_EHR_Automation_V1.utilities.GenerateRandomNumberBetweenLength;
+import com.Edvak_EHR_Automation_V1.utilities.LoginUtils;
 import com.Edvak_EHR_Automation_V1.utilities.TestData;
 
 
@@ -45,41 +44,23 @@ public class TC_BillingGenerateClaims extends BaseClass {
     List<String> encounterNumbersList = new ArrayList<>();
     
     @Test(priority = 0)
-    public void testQuickRegistration() throws InterruptedException {
-        LoginPage lp = new LoginPage(driver);
-        logger.info("********Test Starts Here********");
-        logger.info("'testQuickRegistrationWithValidData' test execution starts here:");
-        logger.info("Opening URL: " + baseURL);
-        driver.get(baseURL);
-        logger.info("Opened URL: " + baseURL);
-        driver.manage().window().maximize();
+public void testQuickRegistration() throws InterruptedException {
+    logger.info("********Test Starts Here********");
+    logger.info("'testQuickRegistrationWithValidData' test execution starts here:");
 
-        logger.info("Entering username in Username Text field");
-        lp.setUserName("souravsusari311@gmail.com");
-        logger.info("Entered Username in Username Text field");
+    // Use LoginUtils for login instead of repeating login steps
+    LoginUtils.loginToApplication(driver, baseURL, "souravsusari311@gmail.com", "Edvak@3210");
 
-        logger.info("Entering Password in password Text field");
-        lp.setPassword("Edvak@3210");
-        logger.info("Entered Password in password Text field");
+    WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(100));
+    wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//nav/a[5]/span[1]/sl-icon")));
+    wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//app-header/header/h4")));
 
-        logger.info("Clicking on Login button");
-        WebElement loginButton = driver
-                .findElement(By.xpath("/html/body/app-root/div/div/app-login/section/div/div/form/div[3]/sl-button"))
-                .getShadowRoot().findElement(By.cssSelector("button"));
-        new Actions(driver).moveToElement(loginButton).click().build().perform();
-        logger.info("Clicked on Login button");
-        Thread.sleep(1000);
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(100));
-        
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//nav/a[5]/span[1]/sl-icon")));
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//app-header/header/h4")));
-        WebElement dashboardElement = driver.findElement(By.xpath("//app-header/header/h4"));
-//        bi.getTextBillingPageHeader();
-        Assert.assertTrue(dashboardElement.isDisplayed(), "Dashboard should be visible after login.");
-        clickWithRetry(driver.findElement(By.xpath("//nav/a[5]/span[1]/sl-icon")), 3);
-        logger.info("Billing button is clicked");
-        
-    }
+    WebElement dashboardElement = driver.findElement(By.xpath("//app-header/header/h4"));
+    Assert.assertTrue(dashboardElement.isDisplayed(), "Dashboard should be visible after login.");
+
+    clickWithRetry(driver.findElement(By.xpath("//nav/a[5]/span[1]/sl-icon")), 3);
+    logger.info("Billing button is clicked");
+}
 
     @Test(priority = 1, dataProvider = "dataProviderTest", dependsOnMethods = {"testQuickRegistration"})
     void testBillingGenerateClaims(HashMap<String, String> data) throws InterruptedException, IOException {

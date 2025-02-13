@@ -50,7 +50,7 @@ public class TC_EraBilling extends BaseClass {
     
             // Check if encounterClaimData is empty
             if (encounterClaimData == null || encounterClaimData.isEmpty()) {
-                logger.error("❌ Encounter Claim Data is empty. Cannot process claims.");
+                logger.error(" Encounter Claim Data is empty. Cannot process claims.");
                 return;
             }
     
@@ -67,20 +67,20 @@ public class TC_EraBilling extends BaseClass {
             if (!claimIds.isEmpty()) {
                 createSampleEra(claimIds);
             } else {
-                logger.warn("⚠️ No claim IDs found with status 'Awaiting to post' or 'Awaiting to transmit'.");
+                logger.warn(" No claim IDs found with status 'Awaiting to post' or 'Awaiting to transmit'.");
             }
     
         } catch (Exception e) {
-            logger.error("🚨 Error in EraReceived: ", e);
+            logger.error(" Error in EraReceived: ", e);
         }
     }
     private void navigateToBillingPage() {
         try {
             WebElement billingButton = driver.findElement(By.xpath("//nav/a[5]/span[1]/sl-icon"));
             clickWithRetry(billingButton, 3);
-            logger.info("📂 Navigated to the Billing Page.");
+            logger.info(" Navigated to the Billing Page.");
         } catch (Exception e) {
-            logger.error("🚨 Failed to navigate to the Billing Page: ", e);
+            logger.error(" Failed to navigate to the Billing Page: ", e);
         }
     }
 
@@ -100,11 +100,11 @@ public class TC_EraBilling extends BaseClass {
                 }
             }
         } catch (Exception e) {
-            logger.error("🚨 Error extracting claim IDs for ERA processing: ", e);
+            logger.error(" Error extracting claim IDs for ERA processing: ", e);
         }
     
         String claimIds = claimIdsBuilder.toString();
-        logger.info("📝 Total Claims for ERA Processing: " + (claimIds.isEmpty() ? "None" : claimIds));
+        logger.info(" Total Claims for ERA Processing: " + (claimIds.isEmpty() ? "None" : claimIds));
         return claimIds;
     }
     
@@ -113,9 +113,9 @@ public class TC_EraBilling extends BaseClass {
             logger.info("📡 Initiating Sample ERA API Call...");
             ApiIntegrationTest api = new ApiIntegrationTest();
             api.createSampleERA(claimIds);
-            logger.info("✅ Sample ERA successfully created for Claim IDs: " + claimIds);
+            logger.info(" Sample ERA successfully created for Claim IDs: " + claimIds);
         } catch (Exception e) {
-            logger.error("🚨 Error in creating Sample ERA: ", e);
+            logger.error(" Error in creating Sample ERA: ", e);
         }
     }
         

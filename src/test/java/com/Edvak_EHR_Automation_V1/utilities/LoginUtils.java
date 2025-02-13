@@ -36,9 +36,9 @@ public class LoginUtils {
             WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
             wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//nav/a[5]/span[1]/sl-icon")));
 
-            logger.info("✅ Login successful.");
+            logger.info("Login successful.");
         } catch (Exception e) {
-            logger.error("🚨 Login failed: ", e);
+            logger.error("Login failed: ", e);
         }
     }
 }
