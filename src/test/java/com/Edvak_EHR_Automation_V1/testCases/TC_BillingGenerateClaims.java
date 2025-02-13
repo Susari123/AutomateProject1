@@ -31,6 +31,7 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import com.Edvak_EHR_Automation_V1.pageObjects.BillingGenerateClaims;
+import com.Edvak_EHR_Automation_V1.pageObjects.ManageClaimsPage;
 import com.Edvak_EHR_Automation_V1.utilities.DataReader;
 import com.Edvak_EHR_Automation_V1.utilities.GenerateRandomNumberBetweenLength;
 import com.Edvak_EHR_Automation_V1.utilities.LoginUtils;
@@ -502,15 +503,15 @@ public void verifyEncountersInManageClaims() throws InterruptedException {
         logger.error("Error clearing the previous encounter presence data file.", e);
     }
 
-    WebElement manageClaim = retryingFindElement(By.xpath("//sl-tab-group//sl-tab[2]"));
+    WebElement manageClaim = retryingFindElement(ManageClaimsPage.MANAGE_CLAIMS_TAB);
     manageClaim.click();
     logger.info("Navigated to manage claim page.");
-    
-    WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
-    wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath("//img[contains(@src, 'loader.svg')]")));
 
-    WebElement Transmit = driver.findElement(By.xpath("//app-claims-list/ed-col/section/form/div/sl-button"));
-    boolean isTransmitDisplayed = Transmit.isDisplayed();
+    WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
+    wait.until(ExpectedConditions.invisibilityOfElementLocated(ManageClaimsPage.LOADER_ICON));
+
+    WebElement transmitButton = driver.findElement(ManageClaimsPage.TRANSMIT_BUTTON);
+    boolean isTransmitDisplayed = transmitButton.isDisplayed();
     logger.info("Checking if Transmit button is displayed. Result: " + isTransmitDisplayed);
     Assert.assertTrue(isTransmitDisplayed, "Transmit button should be displayed.");
 
@@ -521,18 +522,18 @@ public void verifyEncountersInManageClaims() throws InterruptedException {
     int requiredCount = encounterNumbersList.size();
     while (claimIdElements.size() < requiredCount || statusElements.size() < requiredCount) {
         scrollPage(driver);
-        claimIdElements = fetchClaimIdElements(driver); // Fetch updated list after scrolling
-        statusElements = fetchStatusElements(driver); // Fetch updated statuses
+        claimIdElements = fetchClaimIdElements(driver);
+        statusElements = fetchStatusElements(driver);
     }
 
     // Extract claim IDs and status
     List<String> claimIds = claimIdElements.stream()
-            .limit(requiredCount) // Take only the required count
+            .limit(requiredCount)
             .map(WebElement::getText)
             .collect(Collectors.toList());
 
     List<String> claimStatuses = statusElements.stream()
-            .limit(requiredCount) // Take only the required count
+            .limit(requiredCount)
             .map(WebElement::getText)
             .collect(Collectors.toList());
 
