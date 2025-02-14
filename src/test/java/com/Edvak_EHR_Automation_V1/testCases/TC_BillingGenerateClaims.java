@@ -11,7 +11,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
-import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 import org.json.JSONArray;
@@ -40,11 +39,10 @@ import com.Edvak_EHR_Automation_V1.utilities.TestData;
 
 public class TC_BillingGenerateClaims extends BaseClass {
 	DataReader dr = new DataReader();
-    BillingGenerateClaims bi = new BillingGenerateClaims(driver);
     String encounterNumber ="";
     List<String> encounterNumbersList = new ArrayList<>();
     
-    @Test(priority = 0)
+   @Test(priority = 0)
 public void testQuickRegistration() throws InterruptedException {
     logger.info("********Test Starts Here********");
     logger.info("'testQuickRegistrationWithValidData' test execution starts here:");
@@ -52,82 +50,87 @@ public void testQuickRegistration() throws InterruptedException {
     // Use LoginUtils for login instead of repeating login steps
     LoginUtils.loginToApplication(driver, baseURL, "souravsusari311@gmail.com", "Edvak@3210");
 
+    BillingGenerateClaims billingPage = new BillingGenerateClaims(driver);
+
     WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(100));
-    wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//nav/a[5]/span[1]/sl-icon")));
-    wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//app-header/header/h4")));
+    wait.until(ExpectedConditions.visibilityOf(billingPage.getBillingIconElement()));
+    wait.until(ExpectedConditions.visibilityOf(billingPage.getDashboardElement()));
 
-    WebElement dashboardElement = driver.findElement(By.xpath("//app-header/header/h4"));
-    Assert.assertTrue(dashboardElement.isDisplayed(), "Dashboard should be visible after login.");
+    Assert.assertTrue(billingPage.isDashboardDisplayed(), "Dashboard should be visible after login.");
 
-    clickWithRetry(driver.findElement(By.xpath("//nav/a[5]/span[1]/sl-icon")), 3);
+    clickWithRetry(billingPage.getBillingIconElement(), 3);
     logger.info("Billing button is clicked");
 }
 
-    @Test(priority = 1, dataProvider = "dataProviderTest", dependsOnMethods = {"testQuickRegistration"})
-    void testBillingGenerateClaims(HashMap<String, String> data) throws InterruptedException, IOException {
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(100));
-        // Assertion to verify that Billing page is loaded
-       wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h4[normalize-space()='billing']")));
-       WebElement billingPageHeader = driver.findElement(By.xpath("//h4[normalize-space()='billing']"));
+
+@Test(priority = 1, dataProvider = "dataProviderTest", dependsOnMethods = {"testQuickRegistration"})
+void testBillingGenerateClaims(HashMap<String, String> data) throws InterruptedException, IOException {
+    WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(100));
+    // Assertion to verify that Billing page is loaded
+    BillingGenerateClaims billingPage = new BillingGenerateClaims(driver);
+
+    // Page loading & Tab Selection
+    billingPage.waitForBillingPageHeader(driver);
 //       Assert.assertTrue(billingPageHeader.isDisplayed(), "Billing page should be displayed.");
-        
-       wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//form//div//sl-button[@id='tour-guide-billing-Step4']")));
-       wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//table//tbody//tr//td")));
-        WebElement button = driver.findElement(By.xpath("//sl-tab-group//sl-tab[1]"));
-       String ariaSelected = button.getAttribute("aria-selected");
+    
+   wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//form//div//sl-button[@id='tour-guide-billing-Step4']")));
+   wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//table//tbody//tr//td")));
+    WebElement button = driver.findElement(By.xpath("//sl-tab-group//sl-tab[1]"));
+   String ariaSelected = button.getAttribute("aria-selected");
 
-       if (!"true".equals(ariaSelected)) {
+   if (!"true".equals(ariaSelected)) {
 
-           Assert.assertTrue(button.isDisplayed(), "Button is not visible!");
-           button.click();
-           System.out.println("Button clicked successfully!");
+       Assert.assertTrue(button.isDisplayed(), "Button is not visible!");
+       button.click();
+       System.out.println("Button clicked successfully!");
 
-       } else {
-           System.out.println("Button is already selected, no need to click.");
-       }
+   } else {
+       System.out.println("Button is already selected, no need to click.");
+   }
 
-        newCharge();
+   newCharge(billingPage);
 
-        handleAlertIfPresent(driver);
+    handleAlertIfPresent(driver);
 
-        // Fill out patient details
-      
-        WebElement newChargeText = driver.findElement(By.xpath("//h6[contains(text(), 'New Charge')]"));
-        String message = newChargeText.isDisplayed() ? "Visible" : "\u001B[31mNot Visible\u001B[0m"; 
-        logger.info("The New charge Text button visibility: " + message);
-        Assert.assertTrue(newChargeText.isDisplayed(), "The  New charge Text should be visible.");  
-        WebElement printButton = driver.findElement(By.xpath("//ed-drawer-header/div[2]/sl-tooltip/sl-icon-button"));
-        logger.info("The print button is " + (printButton.getAttribute("disabled") != null ? "disabled." : "enabled."));
-        Assert.assertNotNull(printButton.getAttribute("disabled"), "The print button should be disabled.");
+    // Fill out patient details
+  
+    WebElement newChargeText = driver.findElement(By.xpath("//h6[contains(text(), 'New Charge')]"));
+    String message = newChargeText.isDisplayed() ? "Visible" : "\u001B[31mNot Visible\u001B[0m"; 
+    logger.info("The New charge Text button visibility: " + message);
+    Assert.assertTrue(newChargeText.isDisplayed(), "The  New charge Text should be visible.");  
+    WebElement printButton = driver.findElement(By.xpath("//ed-drawer-header/div[2]/sl-tooltip/sl-icon-button"));
+    logger.info("The print button is " + (printButton.getAttribute("disabled") != null ? "disabled." : "enabled."));
+    Assert.assertNotNull(printButton.getAttribute("disabled"), "The print button should be disabled.");
 
 //        logger.info("The cross button visibility: " + (driver.findElement(By.xpath("//ed-drawer/ed-drawer-header/div[2]/sl-icon-button")).isDisplayed() ? "Visible" : "Not Visible")); Assert.assertTrue(driver.findElement(By.xpath("//ed-drawer/ed-drawer-header/div[2]/sl-icon-button")).isDisplayed(), "The cross button should be visible.");
-        
-        WebElement patientNameInput = driver.findElement(By.xpath("//input[@class='w-full form-input']"));
-        patientNameInput.sendKeys(data.get("patientName"));
-        Thread.sleep(100);
+    
+    WebElement patientNameInput = driver.findElement(By.xpath("//input[@class='w-full form-input']"));
+    patientNameInput.sendKeys(data.get("patientName"));
+    Thread.sleep(100);
 //         Assertion to verify patient name input
-        Assert.assertEquals(patientNameInput.getAttribute("value"), data.get("patientName"),
-                "Patient name input should match the provided data.");
+    Assert.assertEquals(patientNameInput.getAttribute("value"), data.get("patientName"),
+            "Patient name input should match the provided data.");
 
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("/html[1]/body[1]/app-root[1]/div[1]/div[2]/app-right-side-bar[1]/ed-modal[1]/app-charge-entry[1]/main[1]/ed-drawer[1]/ed-drawer-body[1]/div[1]/div[1]/div[1]/type-ahead[1]/div[1]/div[1]/div[1]")));
+    wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("/html[1]/body[1]/app-root[1]/div[1]/div[2]/app-right-side-bar[1]/ed-modal[1]/app-charge-entry[1]/main[1]/ed-drawer[1]/ed-drawer-body[1]/div[1]/div[1]/div[1]/type-ahead[1]/div[1]/div[1]/div[1]")));
 
-        WebElement patientName1 = driver.findElement(By.xpath("/html[1]/body[1]/app-root[1]/div[1]/div[2]/app-right-side-bar[1]/ed-modal[1]/app-charge-entry[1]/main[1]/ed-drawer[1]/ed-drawer-body[1]/div[1]/div[1]/div[1]/type-ahead[1]/div[1]/div[1]/div[1]"));
-        patientName1.click();
-        Thread.sleep(3000);
-        // Handling encounter and other related inputs
-        fillEncounterDetails(data, wait);
-        
-        Thread.sleep(2000);
-        wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath("//img[contains(@src, 'loader.svg')]")));
-        // ICD and CPT input
-        fillIcdAndCptDetails(data);
+    WebElement patientName1 = driver.findElement(By.xpath("/html[1]/body[1]/app-root[1]/div[1]/div[2]/app-right-side-bar[1]/ed-modal[1]/app-charge-entry[1]/main[1]/ed-drawer[1]/ed-drawer-body[1]/div[1]/div[1]/div[1]/type-ahead[1]/div[1]/div[1]/div[1]"));
+    patientName1.click();
+    Thread.sleep(3000);
+    // Handling encounter and other related inputs
+    fillEncounterDetails(data, wait, billingPage);
 
-        // Generate Claim
-        generateClaim(data);
-        Thread.sleep(2000);
-	    Assert.assertTrue(billingPageHeader.isDisplayed(), "Billing page should be displayed.");
+    
+    Thread.sleep(2000);
+    wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath("//img[contains(@src, 'loader.svg')]")));
+    // ICD and CPT input
+    fillIcdAndCptDetails(data, billingPage);
 
-    }
+
+    // Generate Claim
+    generateClaim(data);
+    Thread.sleep(2000);
+
+}
 
     public WebElement retryingFindElement(By by) {
         WebElement element = null;
@@ -144,24 +147,25 @@ public void testQuickRegistration() throws InterruptedException {
         return element;
     }
 
-    private void newCharge() {
-        WebElement GenerateClaim = driver.findElement(By.xpath("//sl-tab-group//sl-tab[1]"));
-        GenerateClaim.click();
-        logger.info("Generate Claim Tab CLicked");
-        WebElement filter = driver.findElement(By.xpath("//*[@id='tour-guide-billing-Step3']/form/div/app-filter-panel-head/sl-dropdown"));
-        String message = filter.isDisplayed() ? "Visible" : "\u001B[31mNot Visible\u001B[0m"; 
-        logger.info("The filter button visibility: " + message);
-        Assert.assertTrue(filter.isDisplayed(), "The filter button should be visible.");  
-      
-        WebElement input = driver.findElement(By.xpath("//*[@id=\"tour-guide-billing-Step3\"]/form/div/div/input"));
-        String message1 = input.isDisplayed() ? "Visible" : "\u001B[31mNot Visible\u001B[0m"; 
-        logger.info("The input field visibility: " + message1);
-        Assert.assertTrue(input.isDisplayed(), "The input field should be visible."); 
-        WebElement newCharge = driver.findElement(By.xpath("//sl-button[@id='tour-guide-billing-Step4']"));
-        newCharge.click();
-        logger.info("New Charge button is clicked");
-//         Assertion to verify new charge creation
-//        Assert.assertTrue(newCharge.isDisplayed(), "New charge should be created.");
+    private void newCharge(BillingGenerateClaims billingPage) {
+        // Click Charge Tab (Optional, depends on your test logic)
+        billingPage.clickChargeTabIfNotSelected(driver);
+    
+        // Verify Filter Button Visibility
+        WebElement filterButton = billingPage.getFilterButton();
+        String filterMessage = filterButton.isDisplayed() ? "Visible" : "\u001B[31mNot Visible\u001B[0m";
+        logger.info("The filter button visibility: " + filterMessage);
+        Assert.assertTrue(filterButton.isDisplayed(), "The filter button should be visible.");
+    
+        // Verify Input Field Visibility
+        WebElement inputField = billingPage.getFilterInputField();
+        String inputMessage = inputField.isDisplayed() ? "Visible" : "\u001B[31mNot Visible\u001B[0m";
+        logger.info("The input field visibility: " + inputMessage);
+        Assert.assertTrue(inputField.isDisplayed(), "The input field should be visible.");
+    
+        // Click New Charge Button
+        billingPage.clickNewChargeButton();
+        logger.info("New Charge button is clicked.");
     }
 
     public void clickWithRetry(WebElement element, int maxRetries) {
@@ -196,108 +200,105 @@ public void testQuickRegistration() throws InterruptedException {
         }
     }
 
-    private void fillEncounterDetails(HashMap<String, String> data, WebDriverWait wait) throws InterruptedException, IOException {
+    private void fillEncounterDetails(@SuppressWarnings("unused") HashMap<String, String> data, WebDriverWait wait, BillingGenerateClaims billingPage) throws InterruptedException, IOException {
         // Encounter selection
-        WebElement encounterDropdown = driver.findElement(By.xpath("//app-encounter-selection/sl-dropdown"));
-        encounterDropdown.click();
+        billingPage.getEncounterSelectionDropdown().click();
         logger.info("Encounter dropdown clicked");
-
-        // Assertion to verify encounter dropdown is clicked
-//        Assert.assertTrue(encounterDropdown.isDisplayed(), "Encounter dropdown should be displayed.");
-
-        WebElement newEncounterOption = driver.findElement(By.xpath("//div/sl-button-group/sl-button[2]"));
-        newEncounterOption.click();
-        Thread.sleep(2000);
-
-        // Assertion to verify new encounter selection
-//        Assert.assertTrue(newEncounterOption.isDisplayed(), "New encounter option should be selected.");
-
-        WebElement provider = wait.until(ExpectedConditions.presenceOfElementLocated(By.className("ng-select")));
-        provider.click();
-        logger.info("Provider Selected");
+    
+        billingPage.getNewEncounterSelectionOption().click();
+        Thread.sleep(2000); // Optional: consider replacing with explicit wait
+    
+        // Provider Selection
+        billingPage.getProviderDropdown().click();
+        logger.info("Provider dropdown clicked");
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("ng-dropdown-panel-items")));
-        WebElement option = driver.findElement(By.xpath("//ng-dropdown-panel//div//div[2]//div[1]"));
-        option.click();
-
-        // Assertion to verify provider name selection
-//        Assert.assertTrue(option.isDisplayed(), "Provider name should be selected.");
-
-        WebElement location = wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//ng-select//div[@class='ng-select-container']//span[@class='ng-arrow-wrapper']")));
-        location.click();
-        logger.info("location entered--------");
+        WebElement providerOption = driver.findElement(By.xpath("//ng-dropdown-panel//div//div[2]//div[1]"));
+        providerOption.click();
+    
+        // Location Selection
+        billingPage.getLocationDropdown().click();
+        logger.info("Location dropdown clicked");
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("ng-dropdown-panel-items")));
-        WebElement option1 = driver.findElement(By.xpath("(//*[@formcontrolname='location']/descendant::div[@role='option'])[" + new GenerateRandomNumberBetweenLength().generateRandomNumber(1, 3) + "]"));
-        option1.click();
-
-        // Assertion to verify location selection
-//        Assert.assertTrue(option1.isDisplayed(), "Location should be selected.");
-
-        WebElement ngSelect2 = wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("/html[1]/body[1]/app-root[1]/div[1]/div[2]/app-right-side-bar[1]/ed-modal[1]/app-charge-entry[1]/main[1]/ed-drawer[1]/ed-drawer-body[1]/div[1]/div[2]/app-encounter-selection[1]/sl-dropdown[1]/main[1]/div[2]/div[1]/div[2]/div[2]/ng-select[1]/div[1]/div[1]/div[2]/input[1]")));
-        ngSelect2.click();
-        logger.info("---------");
+        long randomNumber = GenerateRandomNumberBetweenLength.generateRandomNumber(1, 3);
+        WebElement randomLocationOption = driver.findElement(By.xpath("(//*[@formcontrolname='location']/descendant::div[@role='option'])[" + randomNumber + "]"));
+        randomLocationOption.click();
+    
+        // Service Dropdown Selection
+        billingPage.getServiceDropdown().click();
+        logger.info("Service dropdown clicked");
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("ng-dropdown-panel-items")));
-        WebElement option2 = driver.findElement(By.xpath("//ng-dropdown-panel//div//div[2]//div[1]"));
-        option2.click();
-
-        WebElement ngSelect3 = wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("/html[1]/body[1]/app-root[1]/div[1]/div[2]/app-right-side-bar[1]/ed-modal[1]/app-charge-entry[1]/main[1]/ed-drawer[1]/ed-drawer-body[1]/div[1]/div[2]/app-encounter-selection[1]/sl-dropdown[1]/main[1]/div[2]/div[1]/div[2]/div[3]/input[1]")));
+        WebElement serviceOption = driver.findElement(By.xpath("//ng-dropdown-panel//div//div[2]//div[1]"));
+        serviceOption.click();
+    
+        // Date Input
         DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
         DateTimeFormatter expectedFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         String dateToEnter = TestData.randomizePolicyDates().getFrom();
-        ngSelect3.sendKeys(dateToEnter);
+    
+        billingPage.getEncounterDateInput().sendKeys(dateToEnter);
         logger.info("Date entered: " + dateToEnter);
         LocalDate parsedDate = LocalDate.parse(dateToEnter, inputFormatter);
         String expectedDate = parsedDate.format(expectedFormatter);
-        String enteredDate = ngSelect3.getAttribute("value");
+        String enteredDate = billingPage.getEncounterDateInput().getAttribute("value");
+    
         logger.info("Confirmed entered date: " + enteredDate);
         Assert.assertEquals(enteredDate, expectedDate, "The entered date should match the date provided.");
-        WebElement createEncounter = driver.findElement(By.xpath("/html/body/app-root/div/div[2]/app-right-side-bar/ed-modal/app-charge-entry/main/ed-drawer/ed-drawer-body/div[1]/div[2]/app-encounter-selection/sl-dropdown/main/div[2]/div/div[3]/sl-button"));
-        createEncounter.click();
-        
+    
+        // Create Encounter
+        billingPage.getCreateEncounterButton().click();
+        logger.info("Create Encounter button clicked");
+    
+        // Wait for Encounter Number
         By encounterNumberLocator = By.xpath("//div[contains(text(), 'Encounter#:')]");
         wait.until(ExpectedConditions.visibilityOfElementLocated(encounterNumberLocator));
-        WebElement encounterDiv = driver.findElement(By.xpath("/html/body/app-root/div/div[2]/app-right-side-bar/ed-modal/app-charge-entry/main/ed-drawer/ed-drawer-body/div[1]/div[2]/app-encounter-selection/sl-dropdown/div/div"));
-
-        String fullText = encounterDiv.getText().trim();
-        
+    
+        String fullText = billingPage.getEncounterNumberDiv().getText().trim();
         String[] parts = fullText.split("Encounter#: ");
         if (parts.length > 1) {
             encounterNumber = parts[1].trim();
-            System.out.println("Encounter Number: " + encounterNumber);   
+            logger.info("Encounter Number: " + encounterNumber);
             encounterNumbersList.add(encounterNumber);
         } else {
-            System.out.println("Encounter# not found");
+            logger.info("Encounter# not found");
         }
-
     }
+    
 
-    private void fillIcdAndCptDetails(HashMap<String, String> data) throws InterruptedException {
-        WebElement IcdInput = driver.findElement(By.xpath("//div[@class='control flex']//input[1]"));
-        IcdInput.sendKeys(data.get("icd"));
-        Thread.sleep(2000);
-        WebElement icd1 = driver.findElement(By.xpath("/html/body/app-root/div/div[2]/app-right-side-bar/ed-modal/app-charge-entry/main/ed-drawer/ed-drawer-body/div[4]/div[1]/div[2]/div/div[1]/div"));
-        icd1.click();
-        logger.info("Icd Added");
-        // Assertion to verify ICD selection
-        Assert.assertTrue(IcdInput.isDisplayed(), "ICD code should be selected.");
-
-        WebElement cptCode = driver.findElement(By.xpath("//input[@placeholder='Search CPT Codes to add to the below list']"));
-        cptCode.sendKeys(data.get("cpt"));
+    private void fillIcdAndCptDetails(HashMap<String, String> data, BillingGenerateClaims billingPage) throws InterruptedException {
+        // Enter ICD Code
+        WebElement icdInput = billingPage.getIcdInput(); // this is actually `icdInput` in your Page Object
+        icdInput.sendKeys(data.get("icd"));
+        Thread.sleep(2000); // This can be replaced with a better wait if needed
+    
+        // Select ICD Suggestion
+        billingPage.getIcdSuggestionOption().click();
+        logger.info("ICD Added");
+        Assert.assertTrue(icdInput.isDisplayed(), "ICD code should be selected.");
+    
+        // Enter CPT Code
+        WebElement cptInput = billingPage.getCptInput();
+        cptInput.sendKeys(data.get("cpt"));
         Thread.sleep(3000);
-        WebElement cpt1 = driver.findElement(By.xpath("/html/body/app-root/div/div[2]/app-right-side-bar/ed-modal/app-charge-entry/main/ed-drawer/ed-drawer-body/div[4]/div[2]/div[1]/div[2]/div/div/div"));
-        cpt1.click();
-
-        // Assertion to verify CPT selection
-        Assert.assertTrue(cptCode.isDisplayed(), "CPT code should be selected.");
+    
+        // Select CPT Suggestion
+        billingPage.getCptSuggestionOption().click();
+        logger.info("CPT Added");
+        Assert.assertTrue(cptInput.isDisplayed(), "CPT code should be selected.");
     }
+    
 
     private void generateClaim(HashMap<String, String> data) throws InterruptedException {
     	WebElement printButton = driver.findElement(By.xpath("//ed-drawer-header/div[2]/sl-tooltip/sl-icon-button"));
-        logger.info("The print  button is " + (printButton.isEnabled() ? "enabled." : "disabled.")); Assert.assertTrue(printButton.isDisplayed(), "The icon button should be visible.");
+        logger.info("The print button is " + (printButton.isEnabled() ? "enabled." : "disabled."));
+        Assert.assertTrue(printButton.isDisplayed(), "The icon button should be visible.");
 
-    	WebElement submitButton = driver.findElement(By.xpath("//ed-drawer//ed-drawer-footer//sl-button[1]"));
+        WebElement submitButton = driver.findElement(By.xpath("//ed-drawer//ed-drawer-footer//sl-button[1]"));
         submitButton.click();
 
-        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+        // Replace deprecated implicit wait with Duration
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+
+        // Explicit wait example
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(100));
         wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath("//img[contains(@src, 'loader.svg')]")));
         String dynamicXPath = "//table//tbody//tr//p[text()=' " + encounterNumber + " ']";
@@ -553,11 +554,11 @@ public void verifyEncountersInManageClaims() throws InterruptedException {
 
     // Write JSON data to file
     try (FileWriter file = new FileWriter(filePath)) {
-        file.write(json.toString(4)); // Indented for readability
+        file.write(json.toString(4));
         System.out.println("Claim presence data saved to " + filePath);
     } catch (IOException e) {
-        System.err.println("Error writing claim presence data to JSON file.");
-        e.printStackTrace();
+        System.err.println("Error writing claim presence data to JSON file: " + filePath + " - " + e.getMessage());
+         // Keep this only if you still need stack trace visibility
     }
 
     // Assert the correct number of claims were fetched
@@ -566,13 +567,15 @@ public void verifyEncountersInManageClaims() throws InterruptedException {
 }
 
 // Scrolls down the page using JavaScript Executor
-private static void scrollPage(WebDriver driver) {
-    JavascriptExecutor js = (JavascriptExecutor) driver;
-    js.executeScript("window.scrollBy(0, 500);"); // Adjust scroll value as needed
-    try {
+    private static void scrollPage(WebDriver driver) {
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        try {
+        js.executeScript("window.scrollBy(0, 500);"); // Adjust scroll value as needed
         Thread.sleep(500); // Allow time for loading
-    } catch (InterruptedException e) {
-        e.printStackTrace();
+         } catch (InterruptedException e) {
+        Thread.currentThread().interrupt(); // Restore the interrupted status
+        // Optional: Use a logging framework like Log4j or SLF4J instead of e.printStackTrace()
+        System.err.println("Thread was interrupted during scroll wait: " + e.getMessage());
     }
 }
 

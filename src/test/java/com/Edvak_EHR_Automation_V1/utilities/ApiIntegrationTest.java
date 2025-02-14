@@ -6,7 +6,6 @@ import org.testng.Assert;
 
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
-
 public class ApiIntegrationTest {
     private double[] generateRandomProportions() {
         Random random = new Random(); 
@@ -21,9 +20,7 @@ public class ApiIntegrationTest {
             roundedC = roundToOneDecimal(roundedC); 
         }
         return new double[]{roundedA, roundedB, roundedC};
-    }
-
-    
+    }  
     private double roundToOneDecimal(double value) {
         double roundedValue = Math.round(value * 10) / 10.0; 
         if (roundedValue > -1 && roundedValue < 1) {
@@ -31,8 +28,6 @@ public class ApiIntegrationTest {
         }
         return roundedValue;
     }
-
-    
     public void createSampleERA(String claimNumber) {
         
         double[] proportions = generateRandomProportions();
