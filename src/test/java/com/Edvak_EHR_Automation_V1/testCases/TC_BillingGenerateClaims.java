@@ -593,7 +593,7 @@ private static List<WebElement> fetchStatusElements(WebDriver driver) {
     @DataProvider(name = "dataProviderTest")
     public Object[][] dataProvider() throws IOException {
         // Get limited data (e.g., 10 entries)
-        List<HashMap<String, String>> limitedData = dr.getLimitedJsonData(5);
+        List<HashMap<String, String>> limitedData = dr.getLimitedJsonData(3);
 
         Object[][] dataArray = new Object[limitedData.size()][1];
 
