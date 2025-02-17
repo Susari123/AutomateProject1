@@ -13,7 +13,6 @@ import java.util.Random;
 import org.openqa.selenium.By;
 import org.openqa.selenium.ElementClickInterceptedException;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
@@ -21,11 +20,11 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import com.Edvak_EHR_Automation_V1.pageObjects.BillingGenerateClaims;
-import com.Edvak_EHR_Automation_V1.pageObjects.LoginPage;
-import com.Edvak_EHR_Automation_V1.utilities.ApiIntegrationTest;
+import com.Edvak_EHR_Automation_V1.pageObjects.PaymentPage;
 import com.Edvak_EHR_Automation_V1.utilities.DataReader;
 import com.Edvak_EHR_Automation_V1.utilities.DateUtils;
 import com.Edvak_EHR_Automation_V1.utilities.EncounterDataProvider;
+import com.Edvak_EHR_Automation_V1.utilities.LoginUtils;
 
 
 public class TC_Payment extends BaseClass{
@@ -35,43 +34,25 @@ public class TC_Payment extends BaseClass{
     BillingGenerateClaims bi = new BillingGenerateClaims(driver);
     String encounterNumber ="";
     List<String> encounterNumbersList = new ArrayList<>();
-    @Test(priority = 0)
-    public void testQuickRegistration() throws InterruptedException {
-    	
-    	LoginPage lp = new LoginPage(driver);
-        logger.info("********Test Starts Here********");
-        logger.info("'testQuickRegistrationWithValidData' test execution starts here:");
-        logger.info("Opening URL: " + baseURL);
-        driver.get(baseURL);
-        logger.info("Opened URL: " + baseURL);
-        driver.manage().window().maximize();
+       @Test(priority = 0)
+public void testQuickRegistration() throws InterruptedException {
+    logger.info("********Test Starts Here********");
+    logger.info("'testQuickRegistrationWithValidData' test execution starts here:");
 
-        logger.info("Entering username in Username Text field");
-        lp.setUserName("souravsusari311@gmail.com");
-        logger.info("Entered Username in Username Text field");
+    // Use LoginUtils for login instead of repeating login steps
+    LoginUtils.loginToApplication(driver, baseURL, "souravsusari311@gmail.com", "Edvak@3210");
 
-        logger.info("Entering Password in password Text field");
-        lp.setPassword("Edvak@321");
-        logger.info("Entered Password in password Text field");
+    BillingGenerateClaims billingPage = new BillingGenerateClaims(driver);
 
-        logger.info("Clicking on Login button");
-        WebElement loginButton = driver
-                .findElement(By.xpath("/html/body/app-root/div/div/app-login/section/div/div/form/div[3]/sl-button"))
-                .getShadowRoot().findElement(By.cssSelector("button"));
-        new Actions(driver).moveToElement(loginButton).click().build().perform();
-        logger.info("Clicked on Login button");
-        Thread.sleep(1000);
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(100));
-        
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//nav/a[5]/span[1]/sl-icon")));
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//app-header/header/h4")));
-        WebElement dashboardElement = driver.findElement(By.xpath("//app-header/header/h4"));
-//        bi.getTextBillingPageHeader();
-        Assert.assertTrue(dashboardElement.isDisplayed(), "Dashboard should be visible after login.");
-        clickWithRetry(driver.findElement(By.xpath("//nav/a[5]/span[1]/sl-icon")), 3);
-        logger.info("Billing button is clicked");
-        
-    }
+    WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(100));
+    wait.until(ExpectedConditions.visibilityOf(billingPage.getBillingIconElement()));
+    wait.until(ExpectedConditions.visibilityOf(billingPage.getDashboardElement()));
+
+    Assert.assertTrue(billingPage.isDashboardDisplayed(), "Dashboard should be visible after login.");
+
+    clickWithRetry(billingPage.getBillingIconElement(), 3);
+    logger.info("Billing button is clicked");
+}
     @Test(priority=1,dataProvider = "combinedDataProvider", dependsOnMethods = {"testQuickRegistration"})
 	public void payment(String encounterNumber, String status, String currentDate, String futureDate) throws InterruptedException {
 		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(100));
@@ -79,80 +60,67 @@ public class TC_Payment extends BaseClass{
     //    WebElement billingPageHeader = driver.findElement(By.xpath("//h2[normalize-space()='billing']"));
     //    wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//form//div//sl-button[@id='tour-guide-billing-Step4']")));
        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//table//tbody//tr//td")));
-       WebElement paymentTab = driver.findElement(By.xpath("//sl-tab-group//sl-tab[3]"));
-       paymentTab.click();
-//       wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(" //*[@id=\"sl-tab-panel-9\"]/app-payments-list/ed-col/section/div[2]/table/tbody/tr[1]")));
-      // Access the shadow host element (in this case the sl-icon-button)
-       WebElement plus = driver.findElement(By.xpath("//sl-icon-button[@name='add']"));
-       plus.click();
-       wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//ed-drawer-header//h6[contains(text(), 'New Payment')]")));
-       WebElement date = driver.findElement(By.xpath("//input[@formcontrolname='submission_Date']"));
-       date.sendKeys(currentDate);
-        WebElement paymentType = driver.findElement(By.xpath("//ed-drawer/ed-drawer-body/div[2]/div/ng-select/div/div/div[3]"));
-        paymentType.click();
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//ng-dropdown-panel//div[2]//div")));
-        System.out.println("Status: " + status);
-        if (status.equalsIgnoreCase("Statement Ready")) {
-            WebElement patientPaymentOption = driver.findElement(By.xpath("//ng-dropdown-panel//span[contains(text(), ' Patient ')]"));
-            if (patientPaymentOption.isEnabled()) {
-                patientPaymentOption.click();
-                System.out.println("Patient Payment option selected.");
-            } else {
-                System.out.println("Patient Payment option is not available.");
-            }
-            Thread.sleep(200);
-            WebElement PatientName = driver.findElement(By.xpath("//input[@placeholder ='Search Patient']"));
-            PatientName.sendKeys("Radiousone Smith");          
-            WebElement optionpatient = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//ed-drawer/ed-drawer-body/div[3]/div/type-ahead/div/div/div/section")));
-            optionpatient.click();
-            
+        PaymentPage paymentPage = new PaymentPage(driver);
+    // Perform actions via Page Object methods
+    paymentPage.clickPaymentTab();
+    paymentPage.clickPlusButton();
+    paymentPage.waitForNewPaymentHeader();
+
+    paymentPage.enterSubmissionDate(currentDate);
+    paymentPage.openPaymentTypeDropdown();
+
+    System.out.println("Status: " + status);
+
+    if (status.equalsIgnoreCase("Statement Ready")) {
+        // Patient Flow
+        if (paymentPage.isPatientPaymentOptionEnabled()) {
+            paymentPage.selectPatientPaymentOption();
+            System.out.println("Patient Payment option selected.");
         } else {
-            WebElement insuranceOption = driver.findElement(By.xpath("//ng-dropdown-panel//span[contains(text(), 'Insurance')]"));
-            if (insuranceOption.isEnabled()) {
-                insuranceOption.click();
-                logger.info("Insurance option selected.");
-            } else {
-            	logger.info("Insurance option is not available.");
-            }
-            Thread.sleep(200);
-            WebElement insurancePlanName = driver.findElement(By.xpath("//input[@placeholder ='Search insurance plan']"));
-            insurancePlanName.sendKeys("CareCore National, Inc.");
-            logger.info("Insurance searched");
-            wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//app-dropdown-templates-loader[1]/app-dropdown-template-insurance/div/section/span")));
-            WebElement option = driver.findElement(By.xpath("//app-dropdown-templates-loader[1]/app-dropdown-template-insurance/div/section/span"));
-            option.click(); 
-            logger.info("insurance selected");
+            System.out.println("Patient Payment option is not available.");
         }
-        WebElement modeOfPayment = driver.findElement(By.xpath("//ed-drawer/ed-drawer-body/div[4]/div/ng-select/div/span"));
-        modeOfPayment.click();  
-        WebElement cash = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//ng-dropdown-panel//span[contains(text(), ' Cash ')]")));
-        cash.click();
-        logger.info("mode of payment selected");
-        WebElement amount = driver.findElement(By.xpath("//app-new-payments/main/ed-drawer/ed-drawer-body/div[5]/div/input"));
-        String randomAmount = TC_Payment.getRandomAmount();
-        amount.sendKeys(randomAmount);
-        logger.info("amount entered");
-        WebElement notes = driver.findElement(By.xpath("//app-new-payments/main/ed-drawer/ed-drawer-body/div[6]/div/textarea"));
-        notes.sendKeys("NoteADDED");
-        logger.info("note added");
-        WebElement addPayment = driver.findElement(By.xpath("//ed-drawer/ed-drawer-footer/sl-button[1]"));
-        addPayment.click();
-        logger.info("payment created");
-        Thread.sleep(4000);
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//table//tbody//tr")));
-        WebElement payment = driver.findElement(By.xpath("//table//tbody//tr"));
-    	payment.click();
-    	logger.info("opening the created payment");
-    	Thread.sleep(4000);
-    	wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//app-patient-payments/div/header/h4")));
-        WebElement element = driver.findElement(By.xpath("//app-patient-payments/div/div[1]/div[1]/div[2]/div[1]/strong"));
-        String value = element.getText().trim();
-        if (value.equalsIgnoreCase("Insurance")) {
-        	TC_Payment.insurancePayment(encounterNumber);     
+
+        Thread.sleep(200); // Retaining your original delay
+
+        paymentPage.searchAndSelectPatient("Radiousone Smith");
+
+    } else {
+        // Insurance Flow
+        if (paymentPage.isInsurancePaymentOptionEnabled()) {
+            paymentPage.selectInsurancePaymentOption();
+            logger.info("Insurance option selected.");
         } else {
-        	TC_Payment.patientPayment(encounterNumber);
+            logger.info("Insurance option is not available.");
         }
-//        deleteJsonFile("encounters_with_status.json");
+
+        Thread.sleep(200); // Retaining your original delay
+
+        paymentPage.searchAndSelectInsurancePlan("CareCore National, Inc.");
+        logger.info("Insurance searched");
+        paymentPage.selectInsurancePlanResult();
+        logger.info("Insurance selected");
+    }
+    paymentPage.selectModeOfPayment("Cash");
+
+    String randomAmount = TC_Payment.getRandomAmount();
+    paymentPage.enterPaymentAmount(randomAmount);
+    
+    paymentPage.enterPaymentNotes("NoteADDED");
+    paymentPage.submitPayment();
+    
+    Thread.sleep(4000); // Optional, but you can rely on wait methods
+    
+    paymentPage.waitForPaymentToAppear();
+    paymentPage.openCreatedPayment();
+    
+    Thread.sleep(4000); // Optional
+    
+    String paymentType = paymentPage.getPaymentType();
+    if (paymentType.equalsIgnoreCase("Insurance")) {
+        TC_Payment.insurancePayment(encounterNumber);
+    } else {
+        TC_Payment.patientPayment(encounterNumber);
+    }
     }
     public static void insurancePayment(String encounterNumber) throws InterruptedException {
     	WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(100));
