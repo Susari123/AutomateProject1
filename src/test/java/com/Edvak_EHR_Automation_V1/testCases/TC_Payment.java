@@ -3,7 +3,6 @@ package com.Edvak_EHR_Automation_V1.testCases;
 import java.io.File;
 import java.text.DecimalFormat;
 import java.time.Duration;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,19 +20,13 @@ import org.testng.annotations.Test;
 
 import com.Edvak_EHR_Automation_V1.pageObjects.BillingGenerateClaims;
 import com.Edvak_EHR_Automation_V1.pageObjects.PaymentPage;
-import com.Edvak_EHR_Automation_V1.utilities.DataReader;
 import com.Edvak_EHR_Automation_V1.utilities.DateUtils;
 import com.Edvak_EHR_Automation_V1.utilities.EncounterDataProvider;
 import com.Edvak_EHR_Automation_V1.utilities.LoginUtils;
 
 
 public class TC_Payment extends BaseClass{
-	WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(100));
-
-	DataReader dr = new DataReader();
-    BillingGenerateClaims bi = new BillingGenerateClaims(driver);
-    String encounterNumber ="";
-    List<String> encounterNumbersList = new ArrayList<>();
+	
        @Test(priority = 0)
 public void testQuickRegistration() throws InterruptedException {
     logger.info("********Test Starts Here********");
@@ -321,9 +314,66 @@ public void testQuickRegistration() throws InterruptedException {
            }
            logger.info("Test Pass: Total Adjust Amount matches Claim Adjust.");
            logger.info("Test pass as all the senerio is completed.");
-    }
-    
+           WebElement serviceLine = driver.findElement(By.xpath("//app-patient-payments/div/div[2]/div[2]/div[2]/table/tbody/tr[1]")); 
+           serviceLine.click();
+           wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h5[contains(text(), 'Payment Allocation')]"))); 
+           PaymentPage paymentPage = new PaymentPage(driver);
+           if (insuranceBalance == 0) {
+               System.out.println("Insurance Balance is 0. Nothing to split.");
+               return;
+           }
+       
+           // Split the balance into 35%, 35%, and 30%
+           double part1 = Math.round(insuranceBalance * 0.15 * 100.0) / 100.0;
+           double part2 = Math.round(insuranceBalance * 0.55 * 100.0) / 100.0;
+           double part3 = Math.round(insuranceBalance * 0.30 * 100.0) / 100.0;
+       
+           System.out.println("Insurance Balance: " + insuranceBalance);
+           System.out.println("35% Part 1: " + part1);
+           System.out.println("35% Part 2: " + part2);
+           System.out.println("30% Part 3: " + part3);
+        System.out.println("Insurance Balance: " + insuranceBalance);
+        System.out.println("Unapplied Amount: " + unappliedAmount);
+           paymentPage.clickadjustTransfterinsu();
+           paymentPage.enterAmountToAajust(part1);
+           paymentPage.selectAdjustmentType();
+           paymentPage.enterTransferAmount(part2);
+           paymentPage.clickSaveButton();
+           Thread.sleep(4000);
+           if (part3 > unappliedAmount && unappliedAmount > 0) {
+            paymentPage.enterAmountToApply(unappliedAmount);
+            System.out.println("Applied Unapplied Amount: " + unappliedAmount);
+            paymentPage.clickApplyButton();
+        } else if (part3 <= unappliedAmount && part3 > 0) {
+            paymentPage.enterAmountToApply(part3);
+            System.out.println("Applied Insurance Balance Amount (30% Part3): " + part3);
+            paymentPage.clickApplyButton();
+        } else if (part3 == 0 || unappliedAmount == 0) {
+            System.out.println("No amount to apply. Skipping...");
+        } else {
+            System.out.println("Unexpected Condition – Check Balances.");
+        }
+        Thread.sleep(10000);
+        double patientBalanceAmount = paymentPage.getPatientBalanceAmount();
 
+        double patietnAdjust = Math.round((patientBalanceAmount / 2) * 100.0) / 100.0;
+        double PatientApplied = patientBalanceAmount - part1;
+
+        System.out.println("Patient Balance Amount: " + patientBalanceAmount);
+        System.out.println("Part 1: " + patietnAdjust);
+        System.out.println("Parrt 2: " + PatientApplied);
+        paymentPage.clickpatientAdjust();
+        paymentPage.enterAmountToAajust(patietnAdjust);
+
+        paymentPage.selectAdjustmentType();
+        WebElement SaveButton = driver.findElement(By.xpath("//app-adjust-patient-balance/ed-drawer/ed-drawer-footer/sl-button[1]"));
+        SaveButton.click();
+        // paymentPage.clickSaveButton();
+        Thread.sleep(4000);
+        paymentPage.clickPatientPayment();
+        paymentPage.applyLesserAmount(PatientApplied);
+
+    }
     public static void patientPayment(String encounterNumber) throws InterruptedException {
     	WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(100));
     	try {
