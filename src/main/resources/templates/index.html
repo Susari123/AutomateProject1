@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Test Suite Runner</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Select a TestNG Suite to Run</h1>
+        <form action="/runTest" method="get">
+            <label for="suiteFile">Choose TestNG XML Suite:</label>
+            <select name="suiteFile" id="suiteFile">
+                <option value="PaymentTestNG.xml">PaymentTestNG.xml</option>
+                <option value="LoginTestNG.xml">LoginTestNG.xml</option>
+                <option value="BillingGenerateClaimTestNG.xml">BillingGenerateClaimTestNG.xml</option>
+            </select>
+            <button type="submit">Run Test Suite</button>
+        </form>
+
+        <div th:if="${message}" class="result">
+            <h3 th:text="${message}"></h3>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,8 @@
+[{
+    "patientName": "Radious Smith",
+    "date": "8/16/2024",
+    "icd": "cholera",
+    "cpt": "99202",
+    "amount": "200",
+    "claimType": "paper"
+}]
