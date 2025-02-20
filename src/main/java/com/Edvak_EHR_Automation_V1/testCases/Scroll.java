@@ -1,30 +1,22 @@
 package com.Edvak_EHR_Automation_V1.testCases;
 
 import java.time.Duration;
-import java.util.ArrayList;
-import java.util.List;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.ElementClickInterceptedException;
-import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import org.openqa.selenium.Keys;
 import org.testng.Assert;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import com.Edvak_EHR_Automation_V1.pageObjects.BillingGenerateClaims;
 import com.Edvak_EHR_Automation_V1.pageObjects.LoginPage;
-import com.Edvak_EHR_Automation_V1.utilities.DataReader;
+
 
 public class Scroll extends BaseClass {
-    DataReader dr = new DataReader();
-    BillingGenerateClaims bi = new BillingGenerateClaims(driver);
-    String encounterNumber = "";
-    List<String> encounterNumbersList = new ArrayList<>();
+    
 
 //    @BeforeMethod
 //    public void setUp() {
@@ -109,11 +101,11 @@ public class Scroll extends BaseClass {
         // Scroll down using PAGE_DOWN key without clicking
         for (int i = 0; i < 5; i++) { // Adjust the number based on the height of the content
             actions.sendKeys(Keys.PAGE_DOWN).perform();
-            try {
-                Thread.sleep(500); // Wait for content to load if necessary
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+            // try {
+            //     Thread.sleep(500); // Wait for content to load if necessary
+            // } catch (InterruptedException e) {
+            //     e.printStackTrace();
+            // }
         }
         logger.info("Scrolled to the bottom of the table container using Page Down keys without clicking.");
     }

@@ -13,7 +13,6 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import com.Edvak_EHR_Automation_V1.pageObjects.LoginPage;
-import com.Edvak_EHR_Automation_V1.testCases.BaseClass;
 import com.Edvak_EHR_Automation_V1.utilities.XLUtils;
 
 import junit.framework.Assert;

@@ -3,9 +3,7 @@ package com.Edvak_EHR_Automation_V1.testCases;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Random;
@@ -20,17 +18,11 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import com.Edvak_EHR_Automation_V1.pageObjects.BillingGenerateClaims;
 import com.Edvak_EHR_Automation_V1.pageObjects.LoginPage;
-import com.Edvak_EHR_Automation_V1.utilities.DataReader;
+
 
 public class TC_Refund extends BaseClass{
-	WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(100));
-
-	DataReader dr = new DataReader();
-    BillingGenerateClaims bi = new BillingGenerateClaims(driver);
-    String encounterNumber ="";
-    List<String> encounterNumbersList = new ArrayList<>();
+	
     @Test(priority = 0)
     public void testQuickRegistration() throws InterruptedException {
     	
@@ -120,6 +112,7 @@ public class TC_Refund extends BaseClass{
          Thread.sleep(4000);
          try {
         	    // Check if 'No payments found' message is present
+                    @SuppressWarnings("SizeReplaceableByIsEmpty")
         	    boolean noPaymentsFoundPresent = driver.findElements(By.xpath("//div[contains(text(), ' No payments found ')]")).size() > 0;
 
         	    if (!noPaymentsFoundPresent) {
@@ -176,6 +169,7 @@ public class TC_Refund extends BaseClass{
          WebElement status = driver.findElement(By.xpath("//ed-drawer-body/div/form/ed-col/div[3]/div"));
          status.click();
          Thread.sleep(200);
+            @SuppressWarnings("unused")
          WebElement option = driver.findElement(By.xpath("//div/span[contains(text(), 'Processing')]"));
 //         option.click();
          WebElement click1 = driver.findElement(By.xpath("//div/form/ed-col/div[3]/div/ng-select/div/span[2]"));

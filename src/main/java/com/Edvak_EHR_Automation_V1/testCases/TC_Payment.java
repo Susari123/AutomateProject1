@@ -274,7 +274,8 @@ public void testQuickRegistration() throws InterruptedException {
             }
         }
         System.out.println("Total billed of Claim Balances in td[6]: " + totalbill);
-           double ClaimAdjust = Double.parseDouble(driver.findElement(By.xpath("//app-patient-payments/div/div[2]/div[2]/div[2]/table/tbody/tr/td[5]")).getText().replaceAll("[^\\d.]", ""));
+           @SuppressWarnings("unused")
+        double ClaimAdjust = Double.parseDouble(driver.findElement(By.xpath("//app-patient-payments/div/div[2]/div[2]/div[2]/table/tbody/tr/td[5]")).getText().replaceAll("[^\\d.]", ""));
            double totaladjusted = 0.0;
            for (WebElement row : rows) {
                String cellValue = row.findElement(By.xpath("./td[5]")).getText();
@@ -375,6 +376,7 @@ public void testQuickRegistration() throws InterruptedException {
 
     }
     public static void patientPayment(String encounterNumber) throws InterruptedException {
+            @SuppressWarnings("unused")
     	WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(100));
     	try {
             WebElement firstButton = driver.findElement(By.xpath("//html/body/app-root/div/div[2]/app-patient-payments/div/div[2]/div[1]/div/table/tbody/tr/td/div/sl-tooltip/sl-button"));            
@@ -458,6 +460,7 @@ public void testQuickRegistration() throws InterruptedException {
             return String.valueOf((int) randomAmount);
         }
     }
+       @SuppressWarnings("unused")
     private void deleteJsonFile(String filePath) {
         File file = new File(filePath);
         if (file.exists()) {
