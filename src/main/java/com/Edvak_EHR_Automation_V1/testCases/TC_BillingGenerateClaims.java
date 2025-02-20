@@ -352,7 +352,7 @@ void testBillingGenerateClaims(HashMap<String, String> data) throws InterruptedE
             WebElement modifiersDropdown2 = driver.findElement(By.xpath("//app-ed-dropdown//div[1]"));
             modifiersDropdown2.click();
             logger.info("modifiers entered..");
-            WebElement modifierOption2 = driver.findElement(By.xpath("(//*[@id='mod1']/descendant::button)[1]"));
+            WebElement modifierOption2 = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//*[@id='mod1']/descendant::button)[1]")));
             modifierOption2.click();
             logger.info("modifiers option2 is selected..");
             WebElement cptCodeIcon1 = driver.findElement(By.xpath("//*[@id=\"tour-guide-billing-encounter-step5\"]/sl-icon-button"));

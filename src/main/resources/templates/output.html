@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Test Output</title>
+    <link rel="stylesheet" href="/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar">
+        <a href="/">🏠 Home</a>
+        <a href="/viewOutput">📄 View Last Output</a>
+    </nav>
+
+    <div class="container">
+        <h1>🧪 <strong>Test Suite Output</strong></h1>
+
+        <!-- Show "Test not started yet" message -->
+        <div th:if="${consoleOutput == null}" class="empty-output-message">
+            <p>🚫 <strong>Test has not been started yet!</strong></p>
+            <a href="/" class="btn-home">🏠 Go to Home</a>
+        </div>
+
+        <!-- Show Output if available -->
+        <div th:if="${consoleOutput != null}" class="output-section">
+            <div class="console-output">
+                <pre th:text="${consoleOutput}"></pre>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
