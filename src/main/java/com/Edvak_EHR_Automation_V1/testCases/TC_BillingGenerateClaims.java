@@ -322,7 +322,8 @@ void testBillingGenerateClaims(HashMap<String, String> data) throws InterruptedE
             logger.info("paper claim option is selected ");
             WebElement modifiersDropdown = driver.findElement(By.xpath("//app-ed-dropdown//div[1]"));
             modifiersDropdown.click();
-            WebElement modifierOption = driver.findElement(By.xpath("(//*[@id='mod1']/descendant::button)[1]"));
+            Thread.sleep(4000);
+            WebElement modifierOption = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("(//*[@id='mod1']/descendant::button)[1]")));
             modifierOption.click();
             logger.info("modifiers entered ..");
             WebElement cptCodeIcon = driver.findElement(By.xpath("//*[@id=\"tour-guide-billing-encounter-step5\"]/sl-icon-button"));
@@ -336,6 +337,7 @@ void testBillingGenerateClaims(HashMap<String, String> data) throws InterruptedE
             Thread.sleep(200);
             WebElement modifiersDropdown1 = driver.findElement(By.xpath("//tr[2]/td[5]/div/div[1]/app-ed-dropdown/div"));
             modifiersDropdown1.click();
+            Thread.sleep(4000);
             WebElement modifierOption1 = driver.findElement(By.xpath("(//*[@id='mod9']/descendant::button)[1]"));
             modifierOption1.click();
             logger.info("modifiers entered ..");
@@ -352,7 +354,9 @@ void testBillingGenerateClaims(HashMap<String, String> data) throws InterruptedE
             WebElement modifiersDropdown2 = driver.findElement(By.xpath("//app-ed-dropdown//div[1]"));
             modifiersDropdown2.click();
             logger.info("modifiers entered..");
-            WebElement modifierOption2 = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//*[@id='mod1']/descendant::button)[1]")));
+            Thread.sleep(4000);
+            // wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//*[@id='mod1']/descendant::button)[1]")));
+            WebElement modifierOption2 = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("(//*[@id='mod1']/descendant::button)[1]")));
             modifierOption2.click();
             logger.info("modifiers option2 is selected..");
             WebElement cptCodeIcon1 = driver.findElement(By.xpath("//*[@id=\"tour-guide-billing-encounter-step5\"]/sl-icon-button"));
@@ -366,6 +370,7 @@ void testBillingGenerateClaims(HashMap<String, String> data) throws InterruptedE
             Thread.sleep(200);
             WebElement modifiersDropdown12 = driver.findElement(By.xpath("//tr[2]/td[5]/div/div[1]/app-ed-dropdown/div"));
             modifiersDropdown12.click();
+            Thread.sleep(4000);
             WebElement modifierOption12 = driver.findElement(By.xpath("(//*[@id='mod9']/descendant::button)[1]"));
             modifierOption12.click();
             logger.info("modifiers entered ..");

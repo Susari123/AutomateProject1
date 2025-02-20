@@ -10,7 +10,7 @@
       <class name="com.Edvak_EHR_Automation_V1.testCases.TC_Payment">
         <methods>
           <include name="tearDown"/>
-          <include name="payment"/>
+          <include name="payment" invocation-numbers="0"/>
           <include name="testQuickRegistration"/>
           <include name="setup"/>
           <include name="captureScreen"/>
