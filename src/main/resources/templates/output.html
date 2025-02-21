@@ -12,21 +12,51 @@
         <a href="/viewOutput">📄 View Last Output</a>
     </nav>
 
-    <div class="container">
+    <div class="container no-hover">
         <h1>🧪 <strong>Test Suite Output</strong></h1>
 
         <!-- Show "Test not started yet" message -->
         <div th:if="${consoleOutput == null}" class="empty-output-message">
             <p>🚫 <strong>Test has not been started yet!</strong></p>
-            <a href="/" class="btn-home">🏠 Go to Home</a>
+            <a href="/" class="btn-home">🏠 Return to Home</a>
         </div>
 
         <!-- Show Output if available -->
-        <div th:if="${consoleOutput != null}" class="output-section">
-            <div class="console-output">
-                <pre th:text="${consoleOutput}"></pre>
+        <div th:if="${consoleOutput != null}">
+            <div class="output-section">
+                <div class="console-output">
+                    <pre th:text="${consoleOutput}"></pre>
+                </div>
             </div>
+
+            <!-- Action Buttons -->
+            <button onclick="copyOutput()" class="btn-back">📋 Copy Output</button>
+            <button onclick="toggleOutput()" class="btn-back">🔽 Toggle Output Visibility</button>
         </div>
     </div>
+
+    <!-- JS: Scroll to Bottom -->
+    <script>
+        window.addEventListener('DOMContentLoaded', (event) => {
+            const outputContainer = document.querySelector('.console-output');
+            if (outputContainer) {
+                outputContainer.scrollTop = outputContainer.scrollHeight;
+            }
+        });
+
+        function copyOutput() {
+            const outputText = document.querySelector('.console-output pre').innerText;
+            navigator.clipboard.writeText(outputText).then(() => {
+                alert('Output copied to clipboard!');
+            }).catch(err => {
+                console.error('Failed to copy output:', err);
+            });
+        }
+
+        function toggleOutput() {
+            const outputSection = document.querySelector('.output-section');
+            outputSection.classList.toggle('hidden');
+        }
+    </script>
 </body>
 </html>

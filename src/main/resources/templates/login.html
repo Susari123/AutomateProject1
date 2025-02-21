@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>🔐 Login | Test Suite</title>
+    <link rel="stylesheet" href="/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <div class="login-container fade-in">
+        <h1>🔐 Login</h1>
+
+        <!-- Show logout success message -->
+        <div th:if="${logoutSuccess}" id="logout-message" class="success-message fade-in">
+            ✅ <span th:text="${logoutSuccess}"></span>
+        </div>
+
+        <!-- Show error message if login fails -->
+        <div th:if="${error}" class="error-message fade-in">
+            ❌ <span th:text="${error}"></span>
+        </div>
+
+        <form action="/login" method="post" onsubmit="showLoginLoader()">
+            <label for="username">👤 Username:</label>
+            <input type="text" id="username" name="username" required placeholder="Enter your username">
+        
+            <label for="password">🔑 Password:</label>
+            <input type="password" id="password" name="password" required placeholder="Enter your password">
+        
+            <button type="submit">🚀 Login</button>
+        </form>
+
+        <!-- Loading Animation (Hidden initially) -->
+        <div id="loading-login" class="spinner-overlay hidden">
+            <div class="spinner-content">
+                <div class="loader"></div>
+                <p class="spinner-text">Logging in... Please wait</p>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        function showLoginLoader() {
+            document.getElementById('loading-login').classList.remove('hidden');
+        }
+
+        // Hide the logout success message after 3 seconds
+        window.addEventListener('DOMContentLoaded', (event) => {
+            const logoutMessage = document.getElementById('logout-message');
+            if (logoutMessage) {
+                setTimeout(() => {
+                    logoutMessage.style.opacity = '0';
+                    setTimeout(() => logoutMessage.style.display = 'none', 500); // Extra 0.5s delay before removing
+                }, 3000);
+            }
+        });
+    </script>
+
+</body>
+</html>

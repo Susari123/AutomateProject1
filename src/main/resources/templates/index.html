@@ -7,18 +7,27 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 </head>
 <body>
+
+    <!-- Background Video -->
+    <video autoplay loop muted playsinline id="background-video">
+        <source src="https://cdn.pixabay.com/video/2018/07/05/17085-278405143_large.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+    <div class="overlay"></div>
+
     <nav class="navbar">
         <a href="/">🏠 Home</a>
         <a href="/viewOutput">📄 View Last Output</a>
+        <a href="/logout" class="logout-btn" th:if="${session.user != null}">🚪 Logout</a>
     </nav>
-
+    
     <div class="container">
         <h1>🚀 Run Your Test Suite</h1>
 
         <form action="/runTest" method="get" onsubmit="showSpinner()">
             <label for="suiteFile">Choose TestNG XML Suite:</label>
             <div class="select-wrapper">
-                <select name="suiteFile" id="suiteFile">
+                <select name="suiteFile" id="suiteFile" required>
                     <option value="PaymentTestNG.xml">PaymentTestNG.xml</option>
                     <option value="LoginTestNG.xml">LoginTestNG.xml</option>
                     <option value="BillingGenerateClaimTestNG.xml">BillingGenerateClaimTestNG.xml</option>
@@ -27,8 +36,9 @@
             <button type="submit">▶️ Run Test Suite</button>
         </form>
 
-        <!-- Success / Error message popup -->
-        <div th:if="${message}" class="message-popup" th:classappend="${message.contains('Failed')} ? 'error' : 'success'">
+        <!-- Success / Error message popup with auto-hide -->
+        <div th:if="${message}" id="notificationPopup" class="message-popup"
+             th:classappend="${message.contains('Failed')} ? 'error' : 'success'">
             <p th:text="${message}"></p>
         </div>
 
@@ -38,17 +48,31 @@
         </div>
     </div>
 
-    <!-- Loading Spinner (hidden initially) -->
-    <div id="loading-spinner" class="spinner hidden">
-        <div class="loader"></div>
-        <p>Running tests... Please wait</p>
+    <div id="loading-spinner" class="spinner-overlay hidden">
+        <div class="spinner-content">
+            <div class="loader"></div>
+            <p class="spinner-text">Running tests... Please wait</p>
+        </div>
     </div>
 
-    <!-- Optional JS for the Spinner -->
+    <!-- Optional JS for Button Lock & Spinner -->
     <script>
         function showSpinner() {
             document.getElementById('loading-spinner').classList.remove('hidden');
+            const submitButton = document.querySelector('button[type="submit"]');
+            submitButton.disabled = true;
+            submitButton.textContent = '⏳ Running...';
         }
+
+        window.addEventListener('DOMContentLoaded', (event) => {
+            const popup = document.getElementById('notificationPopup');
+            if (popup) {
+                setTimeout(() => {
+                    popup.style.display = 'none';
+                }, 5000);
+            }
+        });
     </script>
+
 </body>
 </html>

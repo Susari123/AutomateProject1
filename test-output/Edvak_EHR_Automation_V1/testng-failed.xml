@@ -7,15 +7,16 @@
   <test thread-count="5" name="TestCases1(failed)">
     <parameter name="browser" value="chrome"/>
     <classes>
-      <class name="com.Edvak_EHR_Automation_V1.testCases.TC_Payment">
+      <class name="com.Edvak_EHR_Automation_V1.testCases.TC_BillingGenerateClaims">
         <methods>
           <include name="tearDown"/>
-          <include name="payment" invocation-numbers="0"/>
-          <include name="testQuickRegistration"/>
+          <include name="verifyEncountersInManageClaims"/>
+          <include name="testBillingGenerateClaims"/>
           <include name="setup"/>
           <include name="captureScreen"/>
+          <include name="testQuickRegistration"/>
         </methods>
-      </class> <!-- com.Edvak_EHR_Automation_V1.testCases.TC_Payment -->
+      </class> <!-- com.Edvak_EHR_Automation_V1.testCases.TC_BillingGenerateClaims -->
     </classes>
   </test> <!-- TestCases1(failed) -->
 </suite> <!-- Failed suite [Edvak_EHR_Automation_V1] -->

@@ -3,11 +3,74 @@ body {
     font-family: 'Poppins', sans-serif;
     margin: 0;
     padding: 0;
-    background: linear-gradient(to right, #74ebd5, #ACB6E5);
     height: 100vh;
     display: flex;
     flex-direction: column;
+    background: linear-gradient(to right, #74ebd5, #ACB6E5);
+    overflow: hidden;
+    position: relative;
 }
+
+/* SVG Background Waves */
+body::before {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 150px;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="%23007bff" fill-opacity="0.3" d="M0,224L80,192C160,160,320,96,480,90.7C640,85,800,139,960,170.7C1120,203,1280,213,1360,208L1440,203V320H0Z"></path></svg>') no-repeat bottom center;
+    background-size: cover;
+    z-index: -1;
+}
+
+/* Additional Floating Circles for Modern Look */
+body::after {
+    content: "";
+    position: absolute;
+    top: 10%;
+    left: 30%;
+    width: 150px;
+    height: 150px;
+    background: rgba(0, 123, 255, 0.2);
+    border-radius: 50%;
+    filter: blur(40px);
+    z-index: -1;
+}
+/* Background Video */
+#background-video {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    object-fit: cover;
+    z-index: -2;
+    opacity: 0.7; /* Adjust transparency */
+}
+
+/* Optional: Dark overlay to make text readable */
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.3); /* Adjust transparency */
+    z-index: -1;
+}
+@media (max-width: 768px) {
+    body::before {
+        height: 100px;
+    }
+    body::after {
+        width: 100px;
+        height: 100px;
+        top: 15%;
+        left: 50%;
+    }
+}
+
 
 /* Navbar Styles */
 .navbar {
@@ -212,20 +275,37 @@ button:hover,
     color: #333;
 }
 
-/* Loading Spinner */
-.spinner {
+.spinner-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background-color: rgba(255, 255, 255, 0.9);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     text-align: center;
-    margin-top: 20px;
+    z-index: 1000;
+}
+
+/* Centered Loader */
+@keyframes multiColorSpin {
+    0% { border-top-color: #ff3e3e; }
+    25% { border-top-color: #ffea00; }
+    50% { border-top-color: #47d147; }
+    75% { border-top-color: #1e90ff; }
+    100% { border-top-color: #ff3e3e; }
 }
 
 .loader {
-    border: 6px solid #f3f3f3;
-    border-top: 6px solid #3498db;
+    border: 6px solid rgba(255, 255, 255, 0.2);
+    border-top: 6px solid #ff3e3e;
     border-radius: 50%;
-    width: 40px;
-    height: 40px;
-    animation: spin 1s linear infinite;
-    margin: 0 auto;
+    width: 60px;
+    height: 60px;
+    animation: spin 1s linear infinite, multiColorSpin 3s linear infinite;
 }
 
 @keyframes spin {
@@ -233,43 +313,18 @@ button:hover,
     100% { transform: rotate(360deg); }
 }
 
+.spinner-text {
+    margin-top: 15px;
+    font-size: 18px;
+    font-weight: 500;
+    color: #007bff;
+    text-align: center;
+    width: 100%;
+}
+
+
 .hidden {
     display: none;
-}
-
-/* Fade-in Animation */
-.fade-in {
-    opacity: 0;
-    animation: fadeIn 1s ease-in-out forwards;
-}
-
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(-10px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-
-/* Success / Error Popup */
-.message-popup {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    background-color: #4caf50;
-    color: white;
-    padding: 15px;
-    border-radius: 5px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-    opacity: 0;
-    transform: translateY(20px);
-    animation: slideIn 0.5s ease-out forwards;
-}
-
-.message-popup.error {
-    background-color: #f44336;
-}
-
-@keyframes slideIn {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
 }
 
 @media (max-width: 600px) {
@@ -287,4 +342,122 @@ button:hover,
         width: 100%;
         text-align: center;
     }
+}
+.logout-btn {
+    background-color: #ff4d4d;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: 500;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    margin-left: auto;
+}
+
+.logout-btn:hover {
+    background-color: #d63031;
+    transform: translateY(-2px);
+}
+/* Login Form Container */
+.login-container {
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+    text-align: center;
+    width: 100%;
+    max-width: 400px;
+    margin: 100px auto;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    animation: fadeIn 0.6s ease-in-out;
+}
+
+/* Input Fields */
+input[type="text"], input[type="password"] {
+        width: 100%;
+        padding: 12px;
+        margin: 7px -42px;
+        border: 1px solid #ccc;
+        text-align: center;
+        border-radius: 98px;
+        font-size: 16px;
+        transition: all 0.3sease-in-out;  
+}
+
+/* Highlight input on focus */
+input:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+    outline: none;
+}
+
+/* Error Message */
+.error-message {
+    background-color: #ff4d4d;
+    color: white;
+    padding: 10px;
+    border-radius: 6px;
+    margin-bottom: 15px;
+    font-weight: bold;
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+/* Fade-in Animation */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Centered Full-page Loader */
+.spinner-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background-color: rgba(255, 255, 255, 0.9);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    flex-direction: column;
+}
+
+/* Loader */
+.loader {
+    border: 6px solid #f3f3f3;
+    border-top: 6px solid #007bff;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    animation: spin 1s linear infinite;
+}
+
+/* Loading Text */
+.spinner-text {
+    margin-top: 15px;
+    font-size: 18px;
+    font-weight: 500;
+    color: #007bff;
+    text-align: center;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Hide Element */
+.hidden {
+    display: none;
+}
+/* Success Message */
+.success-message {
+    background-color: #28a745;
+    color: white;
+    padding: 10px;
+    border-radius: 6px;
+    margin-bottom: 15px;
+    font-weight: bold;
+    animation: fadeIn 0.5s ease-in-out;
 }
