@@ -18,48 +18,31 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import com.Edvak_EHR_Automation_V1.pageObjects.LoginPage;
+import com.Edvak_EHR_Automation_V1.pageObjects.BillingGenerateClaims;
+import com.Edvak_EHR_Automation_V1.utilities.LoginUtils;
 
 
 public class TC_Refund extends BaseClass{
 	
-    @Test(priority = 0)
-    public void testQuickRegistration() throws InterruptedException {
-    	
-    	LoginPage lp = new LoginPage(driver);
-        logger.info("********Test Starts Here********");
-        logger.info("'testQuickRegistrationWithValidData' test execution starts here:");
-        logger.info("Opening URL: " + baseURL);
-        driver.get(baseURL);
-        logger.info("Opened URL: " + baseURL);
-        driver.manage().window().maximize();
+   @Test(priority = 0)
+public void testQuickRegistration() throws InterruptedException {
+    logger.info("********Test Starts Here********");
+    logger.info("'testQuickRegistrationWithValidData' test execution starts here:");
 
-        logger.info("Entering username in Username Text field");
-        lp.setUserName("souravsusari311@gmail.com");
-        logger.info("Entered Username in Username Text field");
+    // Use LoginUtils for login instead of repeating login steps
+    LoginUtils.loginToApplication(driver, baseURL, "souravsusari311@gmail.com", "Edvak@3210");
 
-        logger.info("Entering Password in password Text field");
-        lp.setPassword("Edvak@321");
-        logger.info("Entered Password in password Text field");
+    BillingGenerateClaims billingPage = new BillingGenerateClaims(driver);
 
-        logger.info("Clicking on Login button");
-        WebElement loginButton = driver
-                .findElement(By.xpath("/html/body/app-root/div/div/app-login/section/div/div/form/div[3]/sl-button"))
-                .getShadowRoot().findElement(By.cssSelector("button"));
-        new Actions(driver).moveToElement(loginButton).click().build().perform();
-        logger.info("Clicked on Login button");
-        Thread.sleep(1000);
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(100));
-        
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//nav/a[5]/span[1]/sl-icon")));
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//app-header/header/h4")));
-        WebElement dashboardElement = driver.findElement(By.xpath("//app-header/header/h4"));
-//        bi.getTextBillingPageHeader();
-        Assert.assertTrue(dashboardElement.isDisplayed(), "Dashboard should be visible after login.");
-        clickWithRetry(driver.findElement(By.xpath("//nav/a[5]/span[1]/sl-icon")), 3);
-        logger.info("Billing button is clicked");
-        
-    }
+    WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(100));
+    wait.until(ExpectedConditions.visibilityOf(billingPage.getBillingIconElement()));
+    wait.until(ExpectedConditions.visibilityOf(billingPage.getDashboardElement()));
+
+    Assert.assertTrue(billingPage.isDashboardDisplayed(), "Dashboard should be visible after login.");
+
+    clickWithRetry(billingPage.getBillingIconElement(), 3);
+    logger.info("Billing button is clicked");
+}
     @Test(priority = 1, dependsOnMethods = {"testQuickRegistration"})
     public void Refund()throws InterruptedException {
     	WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(100));

@@ -45,6 +45,7 @@ public class PaymentPage {
     private By transferAmount = By.xpath("//ed-drawer-body/div[2]/ed-row/div[2]/div/input");
     private By SaveButton = By.xpath("//ed-drawer-footer//sl-button[contains(text(), 'Save ')]");
     private By applybutton = By.xpath("//sl-button[normalize-space(text())='Apply']");
+    private By applyButton = By.xpath("//app-apply-patient-balance//sl-button[normalize-space(text())='Apply']");
     private By patientBalanceAmount = By.xpath("//ed-drawer-body/section[3]//span[contains(text(),'Patient Balance')]/following-sibling::strong");
     private By patientAdjust = By.xpath("//section[3]//sl-button[contains(text(), 'Adjust')]");
     private By selectPatientPayment = By.xpath("//sl-button[contains(text(), 'Select Patient Payment ')]");
@@ -93,12 +94,12 @@ public class PaymentPage {
     
         // Determine the Lesser Amount
         double amountToApply = Math.min(paymentBalance, patientAppliedAmount);
-    
+        
         // Apply the Amount
         WebElement inputElement = driver.findElement(amountInputLocator);
         inputElement.clear();
         inputElement.sendKeys(String.valueOf(amountToApply));
-        driver.findElement(applybutton).click();
+        driver.findElement(applyButton).click();
     }
   
     private void hoverAndClickButton(WebElement hoverArea, String buttonXpath) {

@@ -318,22 +318,23 @@ public void testQuickRegistration() throws InterruptedException {
            WebElement serviceLine = driver.findElement(By.xpath("//app-patient-payments/div/div[2]/div[2]/div[2]/table/tbody/tr[1]")); 
            serviceLine.click();
            wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h5[contains(text(), 'Payment Allocation')]"))); 
+           double insuranceServiceBalance = Double.parseDouble(driver.findElement(By.xpath("//app-adjust-apply-service-line/div/ed-drawer[1]/ed-drawer-body/section[2]/ed-row[3]/strong")).getText().replaceAll("[^\\d.]", ""));
            PaymentPage paymentPage = new PaymentPage(driver);
-           if (insuranceBalance == 0) {
+           if (insuranceServiceBalance == 0) {
                System.out.println("Insurance Balance is 0. Nothing to split.");
                return;
            }
        
            // Split the balance into 35%, 35%, and 30%
-           double part1 = Math.round(insuranceBalance * 0.15 * 100.0) / 100.0;
-           double part2 = Math.round(insuranceBalance * 0.55 * 100.0) / 100.0;
-           double part3 = Math.round(insuranceBalance * 0.30 * 100.0) / 100.0;
+           double part1 = Math.round(insuranceServiceBalance * 0.15 * 100.0) / 100.0;
+           double part2 = Math.round(insuranceServiceBalance * 0.55 * 100.0) / 100.0;
+           double part3 = Math.round(insuranceServiceBalance * 0.30 * 100.0) / 100.0;
        
-           System.out.println("Insurance Balance: " + insuranceBalance);
+           System.out.println("Insurance Balance: " + insuranceServiceBalance);
            System.out.println("35% Part 1: " + part1);
            System.out.println("35% Part 2: " + part2);
            System.out.println("30% Part 3: " + part3);
-        System.out.println("Insurance Balance: " + insuranceBalance);
+        System.out.println("Insurance Balance: " + insuranceServiceBalance);
         System.out.println("Unapplied Amount: " + unappliedAmount);
            paymentPage.clickadjustTransfterinsu();
            paymentPage.enterAmountToAajust(part1);
@@ -345,7 +346,7 @@ public void testQuickRegistration() throws InterruptedException {
             paymentPage.enterAmountToApply(unappliedAmount);
             System.out.println("Applied Unapplied Amount: " + unappliedAmount);
             paymentPage.clickApplyButton();
-        } else if (part3 <= unappliedAmount && part3 > 0) {
+        } else if (part3 < unappliedAmount && part3 > 0) {
             paymentPage.enterAmountToApply(part3);
             System.out.println("Applied Insurance Balance Amount (30% Part3): " + part3);
             paymentPage.clickApplyButton();

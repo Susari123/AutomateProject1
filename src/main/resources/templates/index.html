@@ -31,8 +31,17 @@
                     <option value="PaymentTestNG.xml">PaymentTestNG.xml</option>
                     <option value="LoginTestNG.xml">LoginTestNG.xml</option>
                     <option value="BillingGenerateClaimTestNG.xml">BillingGenerateClaimTestNG.xml</option>
+                    <option value="ErabillingTestNG.xml">ErabillingTestNG.xml</option>
+                    <option value="TC_RefundTestNG.xml">TC_RefundTestNG.xml</option>
                 </select>
             </div>
+
+            <!-- Task count input; hidden by default -->
+            <div id="taskCountDiv" style="display: none;">
+                <label for="taskCount">Number of Tasks:</label>
+                <input type="number" name="taskCount" id="taskCount" min="1" placeholder="Enter number of tasks" />
+            </div>
+            
             <button type="submit">▶️ Run Test Suite</button>
         </form>
 
@@ -55,8 +64,9 @@
         </div>
     </div>
 
-    <!-- Optional JS for Button Lock & Spinner -->
+    <!-- JavaScript for Button Lock, Spinner & Task Count Toggle -->
     <script>
+        // Function to show the spinner and disable the submit button
         function showSpinner() {
             document.getElementById('loading-spinner').classList.remove('hidden');
             const submitButton = document.querySelector('button[type="submit"]');
@@ -64,13 +74,23 @@
             submitButton.textContent = '⏳ Running...';
         }
 
-        window.addEventListener('DOMContentLoaded', (event) => {
-            const popup = document.getElementById('notificationPopup');
-            if (popup) {
-                setTimeout(() => {
-                    popup.style.display = 'none';
-                }, 5000);
+        // Function to toggle the visibility of the task count input
+        function toggleTaskCountInput() {
+            const suiteSelect = document.getElementById('suiteFile');
+            const taskCountDiv = document.getElementById('taskCountDiv');
+            if (suiteSelect.value === 'BillingGenerateClaimTestNG.xml') {
+                taskCountDiv.style.display = 'block';
+            } else {
+                taskCountDiv.style.display = 'none';
             }
+        }
+
+        // Bind the toggle function on page load and on dropdown change
+        document.addEventListener('DOMContentLoaded', function() {
+            const suiteSelect = document.getElementById('suiteFile');
+            suiteSelect.addEventListener('change', toggleTaskCountInput);
+            // Initialize the state on page load
+            toggleTaskCountInput();
         });
     </script>
 

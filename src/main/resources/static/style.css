@@ -417,10 +417,11 @@ input:focus {
     height: 100vh;
     background-color: rgba(255, 255, 255, 0.9);
     display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
     flex-direction: column;
+    justify-content: center; /* Fix for centering */
+    align-items: center; /* Fix for centering */
+    text-align: center;
+    z-index: 1000;
 }
 
 /* Loader */
@@ -432,7 +433,6 @@ input:focus {
     height: 50px;
     animation: spin 1s linear infinite;
 }
-
 /* Loading Text */
 .spinner-text {
     margin-top: 15px;

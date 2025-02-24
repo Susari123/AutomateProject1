@@ -595,18 +595,28 @@ private static List<WebElement> fetchStatusElements(WebDriver driver) {
 }
 
 
-    @DataProvider(name = "dataProviderTest")
-    public Object[][] dataProvider() throws IOException {
-        // Get limited data (e.g., 10 entries)
-        List<HashMap<String, String>> limitedData = dr.getLimitedJsonData(3);
-
-        Object[][] dataArray = new Object[limitedData.size()][1];
-
-        for (int i = 0; i < limitedData.size(); i++) {
-            dataArray[i][0] = limitedData.get(i);
+@DataProvider(name = "dataProviderTest")
+public Object[][] dataProvider() throws IOException {
+    // Default value if not set
+    int count = 3;
+    String taskCount = System.getProperty("taskCount");
+    if (taskCount != null) {
+        try {
+            count = Integer.parseInt(taskCount);
+        } catch (NumberFormatException e) {
+            // Log the error and fallback to default
+            System.err.println("Invalid task count provided, using default: " + e.getMessage());
         }
-
-        return dataArray;
     }
+
+    List<HashMap<String, String>> limitedData = dr.getLimitedJsonData(count);
+    Object[][] dataArray = new Object[limitedData.size()][1];
+
+    for (int i = 0; i < limitedData.size(); i++) {
+        dataArray[i][0] = limitedData.get(i);
+    }
+    return dataArray;
+}
+
 
 }

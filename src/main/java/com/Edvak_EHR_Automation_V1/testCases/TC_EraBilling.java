@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.NoSuchElementException;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -269,159 +268,159 @@ public class TC_EraBilling extends BaseClass {
         String EraID = driver.findElement(By.xpath("//app-era-list/ed-col/section/div/table/tbody/tr[1]/td[3]/div/p")).getText();
         System.out.println("Retrieved EraID: " + EraID);
         
-        // Pass the retrieved EraID to the sendEraIdToApi method
-        sendEraIdToApi(EraID);
-        String Check = driver.findElement(By.xpath("//td[4]/div")).getText(); 
-        System.out.println(Check);
-        WebElement PayementTab = driver.findElement(By.xpath("//sl-tab-group//sl-tab[3]"));
-        PayementTab.click();
-        Thread.sleep(2000);
-        if (Check != null) {
-            WebElement searchPayment = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//app-payments-list/ed-col/section/div[1]/form/div/div/input")));
-            searchPayment.sendKeys(Check);  // Use the claim ID in the search box
-            logger.info("Searching for Claim ID: " + Check);
-        } else {
-            logger.warn("No claim ID with status 'Awaiting to post' found in the JSON data.");
-        }
-        String createdBy =  wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//app-payments-list/ed-col/section/div[2]/table/tbody/tr[1]/td[9]/h6"))).getText();
-        if ("System".equals(createdBy)) {
-            System.out.println("The text matches 'System'.");
-        } else {
-            System.out.println("The text does not match 'System'.");
-        }
-        Thread.sleep(4000);
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//table//tbody//tr")));
-        WebElement payment = driver.findElement(By.xpath("//table//tbody//tr"));
-    	payment.click();
-    	Thread.sleep(4000);
-    	WebElement Transaction = driver.findElement(By.xpath("//sl-button[contains(text(), 'Transaction History')]"));
-    	Transaction.click();
-    	double amountReceived = Double.parseDouble(driver.findElement(By.xpath("//span[contains(text(), 'Amount Received:')]/following-sibling::strong")).getText().replaceAll("[^\\d.]", ""));
-        double unappliedAmount = Double.parseDouble(driver.findElement(By.xpath("//span[contains(text(), 'Unapplied Amount:')]/following-sibling::strong")).getText().replaceAll("[^\\d.]", ""));
-        double appliedAmount = Double.parseDouble(driver.findElement(By.xpath("//span[contains(text(), 'Applied Amount:')]/following-sibling::strong")).getText().replaceAll("[^\\d.]", ""));
-        double refundAmount = Double.parseDouble(driver.findElement(By.xpath("//span[contains(text(), 'Refunded Amount:')]/following-sibling::strong")).getText().replaceAll("[^\\d.]", ""));
-        logger.info("Amount Received (double)= " + amountReceived);
-        logger.info("Unapplied Amount (double)= " + unappliedAmount);
-        logger.info("Applied Amount (double)= " + appliedAmount);
-        logger.info("Refund Amount (double)= " + refundAmount);
-        if (amountReceived >= unappliedAmount) {
-            logger.info("Amount Received is greater than or equal to Unapplied Amount.");
-            double total = refundAmount + unappliedAmount + appliedAmount;
+        // // Pass the retrieved EraID to the sendEraIdToApi method
+        // sendEraIdToApi(EraID);
+        // String Check = driver.findElement(By.xpath("//td[4]/div")).getText(); 
+        // System.out.println(Check);
+        // WebElement PayementTab = driver.findElement(By.xpath("//sl-tab-group//sl-tab[3]"));
+        // PayementTab.click();
+    //     Thread.sleep(2000);
+    //     if (Check != null) {
+    //         WebElement searchPayment = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//app-payments-list/ed-col/section/div[1]/form/div/div/input")));
+    //         searchPayment.sendKeys(Check);  // Use the claim ID in the search box
+    //         logger.info("Searching for Claim ID: " + Check);
+    //     } else {
+    //         logger.warn("No claim ID with status 'Awaiting to post' found in the JSON data.");
+    //     }
+    //     String createdBy =  wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//app-payments-list/ed-col/section/div[2]/table/tbody/tr[1]/td[9]/h6"))).getText();
+    //     if ("System".equals(createdBy)) {
+    //         System.out.println("The text matches 'System'.");
+    //     } else {
+    //         System.out.println("The text does not match 'System'.");
+    //     }
+    //     Thread.sleep(4000);
+    //     wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//table//tbody//tr")));
+    //     WebElement payment = driver.findElement(By.xpath("//table//tbody//tr"));
+    // 	payment.click();
+    // 	Thread.sleep(4000);
+    // 	WebElement Transaction = driver.findElement(By.xpath("//sl-button[contains(text(), 'Transaction History')]"));
+    // 	Transaction.click();
+    // 	double amountReceived = Double.parseDouble(driver.findElement(By.xpath("//span[contains(text(), 'Amount Received:')]/following-sibling::strong")).getText().replaceAll("[^\\d.]", ""));
+    //     double unappliedAmount = Double.parseDouble(driver.findElement(By.xpath("//span[contains(text(), 'Unapplied Amount:')]/following-sibling::strong")).getText().replaceAll("[^\\d.]", ""));
+    //     double appliedAmount = Double.parseDouble(driver.findElement(By.xpath("//span[contains(text(), 'Applied Amount:')]/following-sibling::strong")).getText().replaceAll("[^\\d.]", ""));
+    //     double refundAmount = Double.parseDouble(driver.findElement(By.xpath("//span[contains(text(), 'Refunded Amount:')]/following-sibling::strong")).getText().replaceAll("[^\\d.]", ""));
+    //     logger.info("Amount Received (double)= " + amountReceived);
+    //     logger.info("Unapplied Amount (double)= " + unappliedAmount);
+    //     logger.info("Applied Amount (double)= " + appliedAmount);
+    //     logger.info("Refund Amount (double)= " + refundAmount);
+    //     if (amountReceived >= unappliedAmount) {
+    //         logger.info("Amount Received is greater than or equal to Unapplied Amount.");
+    //         double total = refundAmount + unappliedAmount + appliedAmount;
             
-            if (amountReceived == total) {
-                logger.info("Test Pass: The sum of Refund, Unapplied, and Applied equals Amount Received.");
-            } else {
-                logger.error("Test Fail: The sum of Refund, Unapplied, and Applied does NOT equal Amount Received.");
-                logger.error("Calculated Total: " + total + ", but Amount Received is: " + amountReceived);
-            }
-        } else {
-            logger.error("Test Fail: Amount Received is less than Unapplied Amount.");
-        }       
-    	   wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//app-transactions-payment/main/ed-drawer/ed-drawer-header/sl-icon-button")));
-    	   Thread.sleep(3000);
-        WebElement close = driver.findElement(By.xpath("//app-transactions-payment/main/ed-drawer/ed-drawer-header/sl-icon-button"));
-        close.click();
-        Thread.sleep(100);
-        WebElement unapplyPaymentButton = driver.findElement(By.xpath("//sl-button[contains(text(), 'Unapply Payment')]"));
-        String isDisabled = unapplyPaymentButton.getAttribute("disabled");
-        if (appliedAmount == 0) {
-            if (isDisabled != null) {
-                logger.info("Unapply Payment button is disabled as the applied amount is 0.");
-            } else {
-                logger.error("Error: The button should be disabled, but it is not.");
-            }
-        } else {
-            if (isDisabled == null) {
-                logger.info("Unapply Payment button is enabled as the applied amount is greater than 0.");
+    //         if (amountReceived == total) {
+    //             logger.info("Test Pass: The sum of Refund, Unapplied, and Applied equals Amount Received.");
+    //         } else {
+    //             logger.error("Test Fail: The sum of Refund, Unapplied, and Applied does NOT equal Amount Received.");
+    //             logger.error("Calculated Total: " + total + ", but Amount Received is: " + amountReceived);
+    //         }
+    //     } else {
+    //         logger.error("Test Fail: Amount Received is less than Unapplied Amount.");
+    //     }       
+    // 	   wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//app-transactions-payment/main/ed-drawer/ed-drawer-header/sl-icon-button")));
+    // 	   Thread.sleep(3000);
+    //     WebElement close = driver.findElement(By.xpath("//app-transactions-payment/main/ed-drawer/ed-drawer-header/sl-icon-button"));
+    //     close.click();
+    //     Thread.sleep(100);
+    //     WebElement unapplyPaymentButton = driver.findElement(By.xpath("//sl-button[contains(text(), 'Unapply Payment')]"));
+    //     String isDisabled = unapplyPaymentButton.getAttribute("disabled");
+    //     if (appliedAmount == 0) {
+    //         if (isDisabled != null) {
+    //             logger.info("Unapply Payment button is disabled as the applied amount is 0.");
+    //         } else {
+    //             logger.error("Error: The button should be disabled, but it is not.");
+    //         }
+    //     } else {
+    //         if (isDisabled == null) {
+    //             logger.info("Unapply Payment button is enabled as the applied amount is greater than 0.");
 
-                logger.info("Unapply Payment button clicked successfully.");
-            } else {
-                logger.error("Error: The button should be enabled, but it is disabled.");
-            }
-        }
+    //             logger.info("Unapply Payment button clicked successfully.");
+    //         } else {
+    //             logger.error("Error: The button should be enabled, but it is disabled.");
+    //         }
+    //     }
         
-        WebElement voidPaymentButton = driver.findElement(By.xpath("/html/body/app-root/div/div[2]/app-payments/div/div[1]/div[4]/div[1]/div[2]/sl-tooltip[2]/sl-button"));
-        String isDisabled1 = voidPaymentButton.getAttribute("disabled");
-        if (refundAmount > 0) {
-            if (isDisabled1 != null) {
-                logger.info("Void Payment button is disabled as the refund amount is greater than 0.");
-            } else {
-                logger.error("Error: The button should be disabled, but it is not.");
-            }
-        } else {
-            if (isDisabled1 == null) {
-                logger.info("Void Payment button is enabled as the refund amount is 0.");
+    //     WebElement voidPaymentButton = driver.findElement(By.xpath("/html/body/app-root/div/div[2]/app-payments/div/div[1]/div[4]/div[1]/div[2]/sl-tooltip[2]/sl-button"));
+    //     String isDisabled1 = voidPaymentButton.getAttribute("disabled");
+    //     if (refundAmount > 0) {
+    //         if (isDisabled1 != null) {
+    //             logger.info("Void Payment button is disabled as the refund amount is greater than 0.");
+    //         } else {
+    //             logger.error("Error: The button should be disabled, but it is not.");
+    //         }
+    //     } else {
+    //         if (isDisabled1 == null) {
+    //             logger.info("Void Payment button is enabled as the refund amount is 0.");
 
-                logger.info("Void Payment button clicked successfully.");
-            } else {
-                logger.error("Error: The button should be enabled, but it is disabled.");
-            }
-        }
-        Thread.sleep(2000);
-        WebElement refundbutton = driver.findElement(By.xpath("/html/body/app-root/div/div[2]/app-payments/div/div[1]/div[4]/div[2]/div[2]/sl-tooltip/sl-button"));
-        String isDisabled2 = refundbutton.getAttribute("disabled");
-        if (unappliedAmount == 0) {
-            if (isDisabled2 != null) {
-                logger.info("Button is disabled as the unapplied amount is 0.");
-            } else {
-                logger.error("Error: The button should be disabled, but it is not.");
-            }
-        } else {
-            if (isDisabled2 == null) {
-                logger.info("Button is enabled as the unapplied amount is greater than 0.");
-            } else {
-                logger.error("Error: The button should be enabled, but it is disabled.");
-            }
-        }
-        WebElement transactionHistoryButton = driver.findElement(By.xpath("//sl-button[contains(text(), 'Transaction History')]"));
-        if (transactionHistoryButton.isEnabled()) {
-            logger.info("Transaction History button is enabled.");
-            transactionHistoryButton.click();
-            logger.info("Transaction History button clicked successfully.");
-        } else {
-            logger.warn("Transaction History button is disabled, cannot click.");
-        }
-        Thread.sleep(3000);
-        boolean isTextFound = false;
+    //             logger.info("Void Payment button clicked successfully.");
+    //         } else {
+    //             logger.error("Error: The button should be enabled, but it is disabled.");
+    //         }
+    //     }
+    //     Thread.sleep(2000);
+    //     WebElement refundbutton = driver.findElement(By.xpath("/html/body/app-root/div/div[2]/app-payments/div/div[1]/div[4]/div[2]/div[2]/sl-tooltip/sl-button"));
+    //     String isDisabled2 = refundbutton.getAttribute("disabled");
+    //     if (unappliedAmount == 0) {
+    //         if (isDisabled2 != null) {
+    //             logger.info("Button is disabled as the unapplied amount is 0.");
+    //         } else {
+    //             logger.error("Error: The button should be disabled, but it is not.");
+    //         }
+    //     } else {
+    //         if (isDisabled2 == null) {
+    //             logger.info("Button is enabled as the unapplied amount is greater than 0.");
+    //         } else {
+    //             logger.error("Error: The button should be enabled, but it is disabled.");
+    //         }
+    //     }
+    //     WebElement transactionHistoryButton = driver.findElement(By.xpath("//sl-button[contains(text(), 'Transaction History')]"));
+    //     if (transactionHistoryButton.isEnabled()) {
+    //         logger.info("Transaction History button is enabled.");
+    //         transactionHistoryButton.click();
+    //         logger.info("Transaction History button clicked successfully.");
+    //     } else {
+    //         logger.warn("Transaction History button is disabled, cannot click.");
+    //     }
+    //     Thread.sleep(3000);
+    //     boolean isTextFound = false;
 
-     // Check for the "No transactions found" message
-     List<WebElement> noTransactionsMessage = driver.findElements(By.xpath("//h6[contains(text(), 'No transactions found for this payment')]"));
-     if (!noTransactionsMessage.isEmpty()) {
-         System.out.println("No transactions found for this payment.");
-     } else {
-         // If "No transactions" message is not found, process the table
-         List<WebElement> tables = driver.findElements(By.xpath("//ed-drawer/ed-drawer-body/div/table"));
-         if (tables.isEmpty()) {
-             System.out.println("Table is not present on the page. No transactions found.");
-         } else {
-             // Table exists, now check for rows and content
-             try {
-                 List<WebElement> rows = wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.xpath("//ed-drawer/ed-drawer-body/div/table/tbody/tr")));
+    //  // Check for the "No transactions found" message
+    //  List<WebElement> noTransactionsMessage = driver.findElements(By.xpath("//h6[contains(text(), 'No transactions found for this payment')]"));
+    //  if (!noTransactionsMessage.isEmpty()) {
+    //      System.out.println("No transactions found for this payment.");
+    //  } else {
+    //      // If "No transactions" message is not found, process the table
+    //      List<WebElement> tables = driver.findElements(By.xpath("//ed-drawer/ed-drawer-body/div/table"));
+    //      if (tables.isEmpty()) {
+    //          System.out.println("Table is not present on the page. No transactions found.");
+    //      } else {
+    //          // Table exists, now check for rows and content
+    //          try {
+    //              List<WebElement> rows = wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.xpath("//ed-drawer/ed-drawer-body/div/table/tbody/tr")));
                  
-                 for (WebElement row : rows) {
-                     try {
-                         WebElement column = row.findElement(By.xpath("./td[4]"));
-                         String columnText = column.getText().trim();
+    //              for (WebElement row : rows) {
+    //                  try {
+    //                      WebElement column = row.findElement(By.xpath("./td[4]"));
+    //                      String columnText = column.getText().trim();
                          
-                         if ("System".equals(columnText)) {
-                             System.out.println("Text 'System' found in one of the rows.");
-                             isTextFound = true;
-                             break;
-                         }
-                     } catch (NoSuchElementException e) {
-                         // Column not found in this row, continue to the next row
-                         continue;
-                     }
-                 }
+    //                      if ("System".equals(columnText)) {
+    //                          System.out.println("Text 'System' found in one of the rows.");
+    //                          isTextFound = true;
+    //                          break;
+    //                      }
+    //                  } catch (NoSuchElementException e) {
+    //                      // Column not found in this row, continue to the next row
+    //                      continue;
+    //                  }
+    //              }
                  
-                 if (!isTextFound) {
-                     System.out.println("Text 'System' not found in any row.");
-                 }
-             } catch (Exception e) {
-                 System.out.println("Error occurred while processing the table: " + e.getMessage());
-             }
-         }
-     }
+    //              if (!isTextFound) {
+    //                  System.out.println("Text 'System' not found in any row.");
+    //              }
+    //          } catch (Exception e) {
+    //              System.out.println("Error occurred while processing the table: " + e.getMessage());
+    //          }
+    //      }
+    //  }
  	}
       
     

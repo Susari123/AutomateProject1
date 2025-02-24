@@ -31,7 +31,9 @@ public class TestRunnerController {
     }
 
     @GetMapping("/runTest")
-    public ModelAndView runTest(@RequestParam String suiteFile, HttpSession session) {
+    public ModelAndView runTest(@RequestParam String suiteFile,
+                                @RequestParam(required = false) Integer taskCount,
+                                HttpSession session) {
         if (session.getAttribute("user") == null) {
             return new ModelAndView("redirect:/login");
         }
@@ -43,9 +45,19 @@ public class TestRunnerController {
             return mav;
         }
 
-        if (!suiteFile.matches("^(PaymentTestNG\\.xml|LoginTestNG\\.xml|BillingGenerateClaimTestNG\\.xml)$")) {
+        if (!suiteFile.matches("^(PaymentTestNG\\.xml|LoginTestNG\\.xml|BillingGenerateClaimTestNG\\.xml|ErabillingTestNG\\.xml|TC_RefundTestNG\\.xml)$")) {
             mav.addObject("message", "❌ Invalid Suite File Selection!");
             return mav;
+        }
+
+        // If BillingGenerateClaimTestNG.xml is selected, ensure that taskCount is provided.
+        if ("BillingGenerateClaimTestNG.xml".equals(suiteFile)) {
+            if (taskCount == null) {
+                mav.addObject("message", "❌ Please provide the number of tasks for BillingGenerateClaimTestNG.xml!");
+                return mav;
+            }
+            // Pass the task count to the test via a system property.
+            System.setProperty("taskCount", String.valueOf(taskCount));
         }
 
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
@@ -60,13 +72,13 @@ public class TestRunnerController {
             TestNG testng = new TestNG();
             testng.setTestSuites(Collections.singletonList(suiteFile));
 
-            // Track Test Results using Listeners
+            // Track test results using a listener.
             TestResultListener resultListener = new TestResultListener();
             testng.addListener((IResultListener) resultListener);
 
             testng.run();
 
-            // Check if tests failed
+            // Check if tests failed.
             if (resultListener.hasFailures()) {
                 testFailed = true;
             }
@@ -85,7 +97,7 @@ public class TestRunnerController {
             logger.warn("Console output was trimmed because it exceeded {} characters.", OUTPUT_LIMIT);
         }
 
-        // Show success or failure message based on test results
+        // Set the success or failure message based on test results.
         if (testFailed) {
             mav.addObject("message", "❌ Test Execution Failed!");
         } else {
