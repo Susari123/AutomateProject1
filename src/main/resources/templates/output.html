@@ -5,6 +5,51 @@
     <title>Test Output</title>
     <link rel="stylesheet" href="/style.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/stompjs/lib/stomp.min.js"></script>
+    <style>
+        .hidden { display: none; }
+        .console-output {
+            background: #ffffff;
+            color: #0d71c4;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-y: auto;
+            max-height: 400px;
+            font-family: monospace;
+            white-space: pre-wrap;
+            border: 1px solid #444;
+        }
+        .btn-container {
+            margin-top: 10px;
+        }
+        .btn-back {
+            background: #4CAF50;
+            color: white;
+            padding: 8px 16px;
+            margin-right: 5px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: 0.3s;
+        }
+        .btn-back:hover {
+            background: #45a049;
+        }
+        .empty-output-message {
+            text-align: center;
+            font-size: 18px;
+            font-weight: bold;
+            color: red;
+        }
+        .loading {
+            text-align: center;
+            font-size: 18px;
+            font-weight: bold;
+            color: blue;
+            margin-top: 20px;
+        }
+    </style>
 </head>
 <body>
     <nav class="navbar">
@@ -18,45 +63,96 @@
         <!-- Show "Test not started yet" message -->
         <div th:if="${consoleOutput == null}" class="empty-output-message">
             <p>🚫 <strong>Test has not been started yet!</strong></p>
-            <a href="/" class="btn-home">🏠 Return to Home</a>
+            <a href="/" class="btn-back">🏠 Return to Home</a>
         </div>
 
         <!-- Show Output if available -->
         <div th:if="${consoleOutput != null}">
             <div class="output-section">
-                <div class="console-output">
+                <div class="console-output" id="consoleOutput">
                     <pre th:text="${consoleOutput}"></pre>
                 </div>
             </div>
 
+            <!-- Test Running Indicator -->
+            <div id="loadingIndicator" class="loading hidden">
+                ⏳ Running tests... Updating output...
+            </div>
+
             <!-- Action Buttons -->
-            <button onclick="copyOutput()" class="btn-back">📋 Copy Output</button>
-            <button onclick="toggleOutput()" class="btn-back">🔽 Toggle Output Visibility</button>
+            <div class="btn-container">
+                <button onclick="copyOutput()" class="btn-back">📋 Copy Output</button>
+                <button onclick="toggleOutput()" class="btn-back">🔽 Toggle Output Visibility</button>
+                <button onclick="clearOutput()" class="btn-back">🗑️ Clear Output</button>
+                <a href="/downloadLog" class="btn-back">📥 Download Log</a>
+            </div>
         </div>
     </div>
 
-    <!-- JS: Scroll to Bottom -->
+    <!-- JavaScript: WebSocket & Actions -->
     <script>
-        window.addEventListener('DOMContentLoaded', (event) => {
-            const outputContainer = document.querySelector('.console-output');
-            if (outputContainer) {
-                outputContainer.scrollTop = outputContainer.scrollHeight;
+       let stompClient = null;
+
+function connectWebSocket() {
+    let socket = new SockJS('/ws');
+    stompClient = Stomp.over(socket);
+
+    stompClient.connect({}, function (frame) {
+        console.log("✅ Connected to WebSocket: " + frame);
+
+        stompClient.subscribe('/topic/logs', function (message) {
+            let logData = message.body;
+            console.log("📩 Received log:", logData); // Debugging
+
+            const consoleOutput = document.getElementById("consoleOutput");
+            if (consoleOutput) {
+                // Append logs instead of replacing text
+                let newLog = document.createElement("div");
+                newLog.textContent = logData;
+                consoleOutput.appendChild(newLog);
+                consoleOutput.scrollTop = consoleOutput.scrollHeight; // Auto-scroll to bottom
+            } else {
+                console.error("❌ consoleOutput element not found!");
             }
         });
+    }, function (error) {
+        console.error("🚨 WebSocket Error:", error);
+    });
+}
+
+// Ensure WebSocket connection starts
+document.addEventListener("DOMContentLoaded", connectWebSocket);
+
+
 
         function copyOutput() {
-            const outputText = document.querySelector('.console-output pre').innerText;
+            const outputText = document.getElementById("consoleOutput").innerText;
             navigator.clipboard.writeText(outputText).then(() => {
-                alert('Output copied to clipboard!');
+                alert('✅ Output copied to clipboard!');
             }).catch(err => {
-                console.error('Failed to copy output:', err);
+                console.error('❌ Failed to copy output:', err);
             });
         }
 
         function toggleOutput() {
-            const outputSection = document.querySelector('.output-section');
-            outputSection.classList.toggle('hidden');
+            document.querySelector('.output-section').classList.toggle('hidden');
         }
+
+        function clearOutput() {
+            fetch('/clearOutput')
+                .then(response => {
+                    if (!response.ok) throw new Error("Failed to clear output");
+                    return response.text();
+                })
+                .then(data => {
+                    alert("✅ Console output cleared!");
+                    window.location.href = "/viewOutput"; // Redirect to empty output page
+                })
+                .catch(error => console.error("Error clearing output:", error));
+        }
+
+        // Connect WebSocket on page load
+        document.addEventListener("DOMContentLoaded", connectWebSocket);
     </script>
 </body>
 </html>

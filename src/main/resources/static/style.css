@@ -276,7 +276,7 @@ button:hover,
 }
 
 .spinner-overlay {
-    position: fixed;
+    position: fixed; /* ❌ This causes full-page blocking */
     top: 0;
     left: 0;
     width: 100%;
@@ -289,7 +289,14 @@ button:hover,
     text-align: center;
     z-index: 1000;
 }
-
+.spinner-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    margin-top: 20px; /* ✅ Show below the form */
+}
 /* Centered Loader */
 @keyframes multiColorSpin {
     0% { border-top-color: #ff3e3e; }
@@ -300,12 +307,12 @@ button:hover,
 }
 
 .loader {
-    border: 6px solid rgba(255, 255, 255, 0.2);
-    border-top: 6px solid #ff3e3e;
+    border: 6px solid #f3f3f3;
+    border-top: 6px solid #007bff;
     border-radius: 50%;
-    width: 60px;
-    height: 60px;
-    animation: spin 1s linear infinite, multiColorSpin 3s linear infinite;
+    width: 50px;
+    height: 50px;
+    animation: spin 1s linear infinite;
 }
 
 @keyframes spin {
@@ -314,12 +321,11 @@ button:hover,
 }
 
 .spinner-text {
-    margin-top: 15px;
-    font-size: 18px;
+    margin-top: 10px;
+    font-size: 16px;
     font-weight: 500;
     color: #007bff;
     text-align: center;
-    width: 100%;
 }
 
 
@@ -408,39 +414,6 @@ input:focus {
     to { opacity: 1; transform: translateY(0); }
 }
 
-/* Centered Full-page Loader */
-.spinner-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100vh;
-    background-color: rgba(255, 255, 255, 0.9);
-    display: flex;
-    flex-direction: column;
-    justify-content: center; /* Fix for centering */
-    align-items: center; /* Fix for centering */
-    text-align: center;
-    z-index: 1000;
-}
-
-/* Loader */
-.loader {
-    border: 6px solid #f3f3f3;
-    border-top: 6px solid #007bff;
-    border-radius: 50%;
-    width: 50px;
-    height: 50px;
-    animation: spin 1s linear infinite;
-}
-/* Loading Text */
-.spinner-text {
-    margin-top: 15px;
-    font-size: 18px;
-    font-weight: 500;
-    color: #007bff;
-    text-align: center;
-}
 
 @keyframes spin {
     0% { transform: rotate(0deg); }

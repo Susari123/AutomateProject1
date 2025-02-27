@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-SpringBootApp<Edvak_EHR_Automation_V1>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.Edvak_EHR_Automation_V1.SpringBootApp",
+            "projectName": "Edvak_EHR_Automation_V1",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}

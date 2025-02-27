@@ -57,22 +57,35 @@
         </div>
     </div>
 
-    <div id="loading-spinner" class="spinner-overlay hidden">
-        <div class="spinner-content">
-            <div class="loader"></div>
-            <p class="spinner-text">Running tests... Please wait</p>
-        </div>
-    </div>
+    <!-- Spinner inside the test section, NOT full-page overlay -->
+<div id="loading-spinner" class="spinner-container hidden">
+    <div class="loader"></div>
+    <p class="spinner-text">Running tests... Please wait</p>
+</div>
+
 
     <!-- JavaScript for Button Lock, Spinner & Task Count Toggle -->
     <script>
-        // Function to show the spinner and disable the submit button
-        function showSpinner() {
-            document.getElementById('loading-spinner').classList.remove('hidden');
-            const submitButton = document.querySelector('button[type="submit"]');
-            submitButton.disabled = true;
-            submitButton.textContent = '⏳ Running...';
-        }
+        // ✅ Show loader WITHOUT disabling submit button
+// New function: Show spinner BELOW the test form (does NOT disable entire page)
+function showSpinner() {
+    const spinner = document.getElementById('loading-spinner');
+    spinner.classList.remove('hidden');  // Show only the spinner below the form
+
+    // Disable only the submit button, NOT the entire page
+    const submitButton = document.querySelector('button[type="submit"]');
+    submitButton.disabled = true;
+    submitButton.innerHTML = '⏳ Running...';
+}
+
+// ✅ Hide loader when test is complete
+function hideSpinner() {
+    document.getElementById('loading-spinner').classList.add('hidden');
+
+    // Restore button text
+    const submitButton = document.querySelector('button[type="submit"]');
+    submitButton.textContent = '▶️ Run Test Suite';
+}
 
         // Function to toggle the visibility of the task count input
         function toggleTaskCountInput() {
