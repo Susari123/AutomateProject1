@@ -61,72 +61,87 @@
         <h1>🧪 <strong>Test Suite Output</strong></h1>
 
         <!-- Show "Test not started yet" message -->
-        <div th:if="${consoleOutput == null}" class="empty-output-message">
+        <div id="alertMessage" class="empty-output-message">
             <p>🚫 <strong>Test has not been started yet!</strong></p>
             <a href="/" class="btn-back">🏠 Return to Home</a>
         </div>
 
-        <!-- Show Output if available -->
-        <div th:if="${consoleOutput != null}">
-            <div class="output-section">
-                <div class="console-output" id="consoleOutput">
-                    <pre th:text="${consoleOutput}"></pre>
-                </div>
-            </div>
+        <div class="output-section">
+            <div class="console-output" id="consoleOutput"></div>
+        </div>
 
-            <!-- Test Running Indicator -->
-            <div id="loadingIndicator" class="loading hidden">
-                ⏳ Running tests... Updating output...
-            </div>
+        <!-- Test Running Indicator -->
+        <div id="loadingIndicator" class="loading hidden">
+            ⏳ Running tests... Updating output...
+        </div>
 
-            <!-- Action Buttons -->
-            <div class="btn-container">
-                <button onclick="copyOutput()" class="btn-back">📋 Copy Output</button>
-                <button onclick="toggleOutput()" class="btn-back">🔽 Toggle Output Visibility</button>
-                <button onclick="clearOutput()" class="btn-back">🗑️ Clear Output</button>
-                <a href="/downloadLog" class="btn-back">📥 Download Log</a>
-            </div>
+        <!-- Action Buttons -->
+        <div class="btn-container">
+            <button onclick="copyOutput()" class="btn-back">📋 Copy Output</button>
+            <button onclick="toggleOutput()" class="btn-back">🔽 Toggle Output Visibility</button>
+            <button onclick="clearOutput()" class="btn-back">🗑️ Clear Output</button>
+            <a href="/downloadLog" class="btn-back">📥 Download Log</a>
         </div>
     </div>
 
     <!-- JavaScript: WebSocket & Actions -->
     <script>
-       let stompClient = null;
+        let stompClient = null;
+        let logsLoaded = false; // ✅ Prevents duplicate logs
+        const consoleOutput = document.getElementById("consoleOutput");
+        const alertMessage = document.getElementById("alertMessage");
 
-function connectWebSocket() {
-    let socket = new SockJS('/ws');
-    stompClient = Stomp.over(socket);
+        function connectWebSocket() {
+            let socket = new SockJS('/ws');
+            stompClient = Stomp.over(socket);
 
-    stompClient.connect({}, function (frame) {
-        console.log("✅ Connected to WebSocket: " + frame);
+            stompClient.connect({}, function (frame) {
+                console.log("✅ Connected to WebSocket:", frame);
 
-        stompClient.subscribe('/topic/logs', function (message) {
-            let logData = message.body;
-            console.log("📩 Received log:", logData); // Debugging
+                stompClient.subscribe('/topic/logs', function (message) {
+                    if (!message.body) return;
+                    console.log("📩 Received log:", message.body);
 
-            const consoleOutput = document.getElementById("consoleOutput");
-            if (consoleOutput) {
-                // Append logs instead of replacing text
-                let newLog = document.createElement("div");
-                newLog.textContent = logData;
-                consoleOutput.appendChild(newLog);
-                consoleOutput.scrollTop = consoleOutput.scrollHeight; // Auto-scroll to bottom
-            } else {
-                console.error("❌ consoleOutput element not found!");
+                    if (alertMessage) alertMessage.style.display = "none";
+
+                    let newLog = document.createElement("pre");
+                    newLog.textContent = message.body;
+                    consoleOutput.appendChild(newLog);
+                    consoleOutput.scrollTop = consoleOutput.scrollHeight;
+                });
+
+            }, function (error) {
+                console.error("🚨 WebSocket Error:", error);
+                setTimeout(connectWebSocket, 5000); // ✅ Reconnect after 5 seconds
+            });
+        }
+
+        function fetchPreviousLogs() {
+        fetch('/logs/previous')
+        .then(response => {
+            if (!response.ok) {
+                throw new Error("Failed to fetch previous logs");
             }
-        });
-    }, function (error) {
-        console.error("🚨 WebSocket Error:", error);
-    });
+            return response.text();
+        })
+        .then(logData => {
+            if (logData.trim()) {
+                // ✅ Append instead of overwriting logs
+                consoleOutput.innerHTML = `<pre>${logData}</pre>` + consoleOutput.innerHTML;
+                document.getElementById("alertMessage").style.display = "none"; // Hide message
+            }
+        })
+        .catch(error => console.error("❌ Error fetching previous logs:", error));
 }
 
-// Ensure WebSocket connection starts
-document.addEventListener("DOMContentLoaded", connectWebSocket);
-
-
+        document.addEventListener("DOMContentLoaded", function () {
+            console.log("🔌 Attempting WebSocket connection...");
+            fetchPreviousLogs();
+            connectWebSocket();
+        });
 
         function copyOutput() {
-            const outputText = document.getElementById("consoleOutput").innerText;
+            const outputText = consoleOutput.innerText;
             navigator.clipboard.writeText(outputText).then(() => {
                 alert('✅ Output copied to clipboard!');
             }).catch(err => {
@@ -144,15 +159,13 @@ document.addEventListener("DOMContentLoaded", connectWebSocket);
                     if (!response.ok) throw new Error("Failed to clear output");
                     return response.text();
                 })
-                .then(data => {
+                .then(() => {
+                    consoleOutput.innerHTML = "";
+                    alertMessage.style.display = "block";
                     alert("✅ Console output cleared!");
-                    window.location.href = "/viewOutput"; // Redirect to empty output page
                 })
                 .catch(error => console.error("Error clearing output:", error));
         }
-
-        // Connect WebSocket on page load
-        document.addEventListener("DOMContentLoaded", connectWebSocket);
     </script>
 </body>
 </html>
