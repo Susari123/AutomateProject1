@@ -1,0 +1,402 @@
+[
+  {
+    "CPTModifier": "0A",
+    "CPTDescription": "BRCA1 Herd breas/ovarn ca"
+  },
+  {
+    "CPTModifier": "0E",
+    "CPTDescription": "c-RET Mult endocrine neopl"
+  },
+  {
+    "CPTModifier": "1G",
+    "CPTDescription": "MYCN (Neuroblastoma)"
+  },
+  {
+    "CPTModifier": "1I",
+    "CPTDescription": "TFE3/ASPSCR1 (alv sft prts)"
+  },
+  {
+    "CPTModifier": "2C",
+    "CPTDescription": "PBX1-TCF3-CGF1"
+  },
+  {
+    "CPTModifier": "2H",
+    "CPTDescription": "BCL2/bcl-2 lymphoma"
+  },
+  {
+    "CPTModifier": "2O",
+    "CPTDescription": "SIL or TAL1 (T cell leukemia)"
+  },
+  {
+    "CPTModifier": "2R",
+    "CPTDescription": "NPM or ALK"
+  },
+  {
+    "CPTModifier": "2Z",
+    "CPTDescription": "Lymph/hematopoetc neoplasia"
+  },
+  {
+    "CPTModifier": "3B",
+    "CPTDescription": "FACC Fanconi anemia"
+  },
+  {
+    "CPTModifier": "3D",
+    "CPTDescription": "HBB Beta globin thalass"
+  },
+  {
+    "CPTModifier": "3J",
+    "CPTDescription": "Beta globin"
+  },
+  {
+    "CPTModifier": "3P",
+    "CPTDescription": "Perf meas excld-sys reasn"
+  },
+  {
+    "CPTModifier": "4M",
+    "CPTDescription": "Fingerprnt mat vs fetal"
+  },
+  {
+    "CPTModifier": "4O",
+    "CPTDescription": "Microsatellite loss"
+  },
+  {
+    "CPTModifier": "51",
+    "CPTDescription": "Multiple procedures"
+  },
+  {
+    "CPTModifier": "52",
+    "CPTDescription": "Reduced services"
+  },
+  {
+    "CPTModifier": "53",
+    "CPTDescription": "Discontinued procedure"
+  },
+  {
+    "CPTModifier": "57",
+    "CPTDescription": "Decision for surgery"
+  },
+  {
+    "CPTModifier": "5E",
+    "CPTDescription": "GABRA, NIPA1, UBE3A"
+  },
+  {
+    "CPTModifier": "5H",
+    "CPTDescription": "SNRPN-Prader Willi-Angelmn"
+  },
+  {
+    "CPTModifier": "5I",
+    "CPTDescription": "SCA1 - Ataxin-1"
+  },
+  {
+    "CPTModifier": "5Z",
+    "CPTDescription": "Neurologic, non-neoplastic"
+  },
+  {
+    "CPTModifier": "62",
+    "CPTDescription": "Two surgeons"
+  },
+  {
+    "CPTModifier": "6E",
+    "CPTDescription": "MTTK - tRNAlys (MERRF)"
+  },
+  {
+    "CPTModifier": "76",
+    "CPTDescription": "Repeat procedure same phys"
+  },
+  {
+    "CPTModifier": "7A",
+    "CPTDescription": "APOE - Apolipoprotein E"
+  },
+  {
+    "CPTModifier": "7D",
+    "CPTDescription": "HFE Hemochromatosis"
+  },
+  {
+    "CPTModifier": "80",
+    "CPTDescription": "Assistant surgeon"
+  },
+  {
+    "CPTModifier": "91",
+    "CPTDescription": "Repeat lab same day"
+  },
+  {
+    "CPTModifier": "9A",
+    "CPTDescription": "TPMT pts on antmetblite tx"
+  },
+  {
+    "CPTModifier": "9D",
+    "CPTDescription": "NAT2 (Drug metabolism)"
+  },
+  {
+    "CPTModifier": "9P",
+    "CPTDescription": "TWIST Saethre-Chotzen synd"
+  },
+  {
+    "CPTModifier": "9Z",
+    "CPTDescription": "Dysmorphology"
+  },
+  {
+    "CPTModifier": "A5",
+    "CPTDescription": "Dressing five wounds"
+  },
+  {
+    "CPTModifier": "A8",
+    "CPTDescription": "Dressing eight wounds"
+  },
+  {
+    "CPTModifier": "AA",
+    "CPTDescription": "Anesthes by anesthesiologist"
+  },
+  {
+    "CPTModifier": "AJ",
+    "CPTDescription": "Clinical social worker"
+  },
+  {
+    "CPTModifier": "AQ",
+    "CPTDescription": "Phys serv HPSA area"
+  },
+  {
+    "CPTModifier": "AT",
+    "CPTDescription": "Acute treatment"
+  },
+  {
+    "CPTModifier": "AV",
+    "CPTDescription": "Nurse practit rural non team"
+  },
+  {
+    "CPTModifier": "AX",
+    "CPTDescription": "Item w/dialysis srvc"
+  },
+  {
+    "CPTModifier": "BO",
+    "CPTDescription": "Oral ntr, not fdng tube"
+  },
+  {
+    "CPTModifier": "CA",
+    "CPTDescription": "Procedure payable inpatient"
+  },
+  {
+    "CPTModifier": "CC",
+    "CPTDescription": "Procedure code change"
+  },
+  {
+    "CPTModifier": "CR",
+    "CPTDescription": "Catastrophe/disaster related"
+  },
+  {
+    "CPTModifier": "D3",
+    "CPTDescription": "Three concurrent procedures, medically directed"
+  },
+  {
+    "CPTModifier": "EJ",
+    "CPTDescription": "Subsequent claim"
+  },
+  {
+    "CPTModifier": "F1",
+    "CPTDescription": "Left hand, second digit"
+  },
+  {
+    "CPTModifier": "F3",
+    "CPTDescription": "Left hand, fourth digit"
+  },
+  {
+    "CPTModifier": "F4",
+    "CPTDescription": "Left hand, fifth digit"
+  },
+  {
+    "CPTModifier": "F5",
+    "CPTDescription": "Right hand, thumb"
+  },
+  {
+    "CPTModifier": "F6",
+    "CPTDescription": "Right hand, second digit"
+  },
+  {
+    "CPTModifier": "F7",
+    "CPTDescription": "Right hand, third digit"
+  },
+  {
+    "CPTModifier": "G2",
+    "CPTDescription": "URR reading 60 to 64.9"
+  },
+  {
+    "CPTModifier": "GA",
+    "CPTDescription": "Waiver of liability on file"
+  },
+  {
+    "CPTModifier": "GE",
+    "CPTDescription": "Serv by resident w/o physic"
+  },
+  {
+    "CPTModifier": "0B",
+    "CPTDescription": "BRCA2 Hereditary breast ca"
+  },
+  {
+    "CPTModifier": "0D",
+    "CPTDescription": "Merlin Neurofibromatosis"
+  },
+  {
+    "CPTModifier": "0H",
+    "CPTDescription": "SDHB Heredtry parganglioma"
+  },
+  {
+    "CPTModifier": "0I",
+    "CPTDescription": "ERRB2-Her-2/neu"
+  },
+  {
+    "CPTModifier": "0K",
+    "CPTDescription": "MSH2/MSH6-PMS2"
+  },
+  {
+    "CPTModifier": "0M",
+    "CPTDescription": "Rb Retinoblastoma"
+  },
+  {
+    "CPTModifier": "0O",
+    "CPTDescription": "PTEN"
+  },
+  {
+    "CPTModifier": "1D",
+    "CPTDescription": "DD8T3 or FUS (Myx liposrc)"
+  },
+  {
+    "CPTModifier": "1E",
+    "CPTDescription": "NR4A3, RBF56, or TCF12"
+  },
+  {
+    "CPTModifier": "1F",
+    "CPTDescription": "SSX1, SSX2, or SYT"
+  },
+  {
+    "CPTModifier": "22",
+    "CPTDescription": "Unusual services"
+  },
+  {
+    "CPTModifier": "23",
+    "CPTDescription": "Unusual anesthesia"
+  },
+  {
+    "CPTModifier": "27",
+    "CPTDescription": "Mult outpt hosp E&M same day"
+  },
+  {
+    "CPTModifier": "2K",
+    "CPTDescription": "IgH lymphoma/leukemia"
+  },
+  {
+    "CPTModifier": "2N",
+    "CPTDescription": "TRG lymphoma/leukemia"
+  },
+  {
+    "CPTModifier": "2P",
+    "CPTDescription": "Perf Meas Excld-Pt Choice"
+  },
+  {
+    "CPTModifier": "2Q",
+    "CPTDescription": "API1 or MALT1 MALT lymphma"
+  },
+  {
+    "CPTModifier": "2S",
+    "CPTDescription": "FLT3 Acute mylgenous leuk"
+  },
+  {
+    "CPTModifier": "3H",
+    "CPTDescription": "F8 Factor VIII hemop A/VWF"
+  },
+  {
+    "CPTModifier": "3Z",
+    "CPTDescription": "Non-neoplastic hemato/coag"
+  },
+  {
+    "CPTModifier": "4A",
+    "CPTDescription": "HLA-A"
+  },
+  {
+    "CPTModifier": "4E",
+    "CPTDescription": "HLA-DR"
+  },
+  {
+    "CPTModifier": "4G",
+    "CPTDescription": "HLA-DP"
+  },
+  {
+    "CPTModifier": "4I",
+    "CPTDescription": "Fingerprint for engraftment"
+  },
+  {
+    "CPTModifier": "4J",
+    "CPTDescription": "Fingerprnt donr allelotype"
+  },
+  {
+    "CPTModifier": "4N",
+    "CPTDescription": "Microsatellite instability"
+  },
+  {
+    "CPTModifier": "50",
+    "CPTDescription": "Bilateral procedure"
+  },
+  {
+    "CPTModifier": "54",
+    "CPTDescription": "Surgical care only"
+  },
+  {
+    "CPTModifier": "58",
+    "CPTDescription": "Relat proc same phys po"
+  },
+  {
+    "CPTModifier": "5G",
+    "CPTDescription": "GJB1, Connexin-32"
+  },
+  {
+    "CPTModifier": "5L",
+    "CPTDescription": "CACNA1A Spinocerebellar"
+  },
+  {
+    "CPTModifier": "5N",
+    "CPTDescription": "PMP-22 Charct-Marie-Tooth"
+  },
+  {
+    "CPTModifier": "6F",
+    "CPTDescription": "MTTL1 - tRNAleu (MELAS)"
+  },
+  {
+    "CPTModifier": "6Z",
+    "CPTDescription": "Muscular NOS"
+  },
+  {
+    "CPTModifier": "73",
+    "CPTDescription": "Disc outpt h/asc rx bef anes"
+  },
+  {
+    "CPTModifier": "79",
+    "CPTDescription": "Unrelat proc same phys po"
+  },
+  {
+    "CPTModifier": "7F",
+    "CPTDescription": "ACADM acyl CoA dydrgns def"
+  },
+  {
+    "CPTModifier": "81",
+    "CPTDescription": "Minimum assistant surgeon"
+  },
+  {
+    "CPTModifier": "8Z",
+    "CPTDescription": "Metabolic transport"
+  },
+  {
+    "CPTModifier": "9Q",
+    "CPTDescription": "DGCR - CATCH-22"
+  },
+  {
+    "CPTModifier": "A6",
+    "CPTDescription": "Dressing six wounds"
+  },
+  {
+    "CPTModifier": "AF",
+    "CPTDescription": "Anesth comp totl hypothermia"
+  },
+  {
+    "CPTModifier": "AP",
+    "CPTDescription": "Refractive state not perform"
+  }
+]

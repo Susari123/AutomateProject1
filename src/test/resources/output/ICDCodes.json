@@ -1,0 +1,975 @@
+[
+  {
+    "ICDCodes": "A01.00",
+    "Description": "Typhoid fever, unspecified"
+  },
+  {
+    "ICDCodes": "A01.09",
+    "Description": "Typhoid fever with other complications"
+  },
+  {
+    "ICDCodes": "A01.1",
+    "Description": "Paratyphoid fever A"
+  },
+  {
+    "ICDCodes": "A01.2",
+    "Description": "Paratyphoid fever B"
+  },
+  {
+    "ICDCodes": "A01.3",
+    "Description": "Paratyphoid fever C"
+  },
+  {
+    "ICDCodes": "A01.4",
+    "Description": "Paratyphoid fever, unspecified"
+  },
+  {
+    "ICDCodes": "A25.1",
+    "Description": "Streptobacillosis"
+  },
+  {
+    "ICDCodes": "A38.8",
+    "Description": "Scarlet fever with other complications"
+  },
+  {
+    "ICDCodes": "A38.9",
+    "Description": "Scarlet fever, uncomplicated"
+  },
+  {
+    "ICDCodes": "A75.0",
+    "Description": "Epidemic louse-borne typhus fever due to Rickettsia prowazekii"
+  },
+  {
+    "ICDCodes": "A77.0",
+    "Description": "Spotted fever due to Rickettsia rickettsii"
+  },
+  {
+    "ICDCodes": "A77.9",
+    "Description": "Spotted fever, unspecified"
+  },
+  {
+    "ICDCodes": "A79.0",
+    "Description": "Trench fever"
+  },
+  {
+    "ICDCodes": "A79.81",
+    "Description": "Rickettsiosis due to Ehrlichia sennetsu"
+  },
+  {
+    "ICDCodes": "A75.3",
+    "Description": "Typhus fever due to Rickettsia tsutsugamushi"
+  },
+  {
+    "ICDCodes": "A75.9",
+    "Description": "Typhus fever, unspecified"
+  },
+  {
+    "ICDCodes": "A77.2",
+    "Description": "Spotted fever due to Rickettsia siberica"
+  },
+  {
+    "ICDCodes": "A01.01",
+    "Description": "Typhoid meningitis"
+  },
+  {
+    "ICDCodes": "A01.02",
+    "Description": "Typhoid fever with heart involvement"
+  },
+  {
+    "ICDCodes": "A25.0",
+    "Description": "Spirillosis"
+  },
+  {
+    "ICDCodes": "A25.9",
+    "Description": "Rat-bite fever, unspecified"
+  },
+  {
+    "ICDCodes": "A38.1",
+    "Description": "Scarlet fever with myocarditis"
+  },
+  {
+    "ICDCodes": "A01.03",
+    "Description": "Typhoid pneumonia"
+  },
+  {
+    "ICDCodes": "A38.0",
+    "Description": "Scarlet fever with otitis media"
+  },
+  {
+    "ICDCodes": "A68.1",
+    "Description": "Tick-borne relapsing fever"
+  },
+  {
+    "ICDCodes": "A75.2",
+    "Description": "Typhus fever due to Rickettsia typhi"
+  },
+  {
+    "ICDCodes": "A77.1",
+    "Description": "Spotted fever due to Rickettsia conorii"
+  },
+  {
+    "ICDCodes": "A77.3",
+    "Description": "Spotted fever due to Rickettsia australis"
+  },
+  {
+    "ICDCodes": "A77.8",
+    "Description": "Other spotted fevers"
+  },
+  {
+    "ICDCodes": "A48.2",
+    "Description": "Nonpneumonic Legionnaires' disease [Pontiac fever]"
+  },
+  {
+    "ICDCodes": "A48.4",
+    "Description": "Brazilian purpuric fever"
+  },
+  {
+    "ICDCodes": "A68.0",
+    "Description": "Louse-borne relapsing fever"
+  },
+  {
+    "ICDCodes": "A68.9",
+    "Description": "Relapsing fever, unspecified"
+  },
+  {
+    "ICDCodes": "A78",
+    "Description": "Q fever"
+  },
+  {
+    "ICDCodes": "A92.39",
+    "Description": "West Nile virus infection with other complications"
+  },
+  {
+    "ICDCodes": "A92.4",
+    "Description": "Rift Valley fever"
+  },
+  {
+    "ICDCodes": "A93.1",
+    "Description": "Sandfly fever"
+  },
+  {
+    "ICDCodes": "A95.1",
+    "Description": "Urban yellow fever"
+  },
+  {
+    "ICDCodes": "A95.9",
+    "Description": "Yellow fever, unspecified"
+  },
+  {
+    "ICDCodes": "A96.0",
+    "Description": "Junin hemorrhagic fever"
+  },
+  {
+    "ICDCodes": "A98.0",
+    "Description": "Crimean-Congo hemorrhagic fever"
+  },
+  {
+    "ICDCodes": "A91",
+    "Description": "Dengue hemorrhagic fever"
+  },
+  {
+    "ICDCodes": "A92.0",
+    "Description": "Chikungunya virus disease"
+  },
+  {
+    "ICDCodes": "A92.2",
+    "Description": "Venezuelan equine fever"
+  },
+  {
+    "ICDCodes": "A92.32",
+    "Description": "West Nile virus infection with other neurologic manifestation"
+  },
+  {
+    "ICDCodes": "A95.0",
+    "Description": "Sylvatic yellow fever"
+  },
+  {
+    "ICDCodes": "A96.8",
+    "Description": "Other arenaviral hemorrhagic fevers"
+  },
+  {
+    "ICDCodes": "A98.1",
+    "Description": "Omsk hemorrhagic fever"
+  },
+  {
+    "ICDCodes": "A98.8",
+    "Description": "Other specified viral hemorrhagic fevers"
+  },
+  {
+    "ICDCodes": "A99",
+    "Description": "Unspecified viral hemorrhagic fever"
+  },
+  {
+    "ICDCodes": "B54",
+    "Description": "Unspecified malaria"
+  },
+  {
+    "ICDCodes": "A88.0",
+    "Description": "Enteroviral exanthematous fever [Boston exanthem]"
+  },
+  {
+    "ICDCodes": "A93.2",
+    "Description": "Colorado tick fever"
+  },
+  {
+    "ICDCodes": "A93.8",
+    "Description": "Other specified arthropod-borne viral fevers"
+  },
+  {
+    "ICDCodes": "A94",
+    "Description": "Unspecified arthropod-borne viral fever"
+  },
+  {
+    "ICDCodes": "A96.1",
+    "Description": "Machupo hemorrhagic fever"
+  },
+  {
+    "ICDCodes": "A96.9",
+    "Description": "Arenaviral hemorrhagic fever, unspecified"
+  },
+  {
+    "ICDCodes": "A98.5",
+    "Description": "Hemorrhagic fever with renal syndrome"
+  },
+  {
+    "ICDCodes": "A90",
+    "Description": "Dengue fever [classical dengue]"
+  },
+  {
+    "ICDCodes": "A92.1",
+    "Description": "O'nyong-nyong fever"
+  },
+  {
+    "ICDCodes": "A92.8",
+    "Description": "Other specified mosquito-borne viral fevers"
+  },
+  {
+    "ICDCodes": "A92.9",
+    "Description": "Mosquito-borne viral fever, unspecified"
+  },
+  {
+    "ICDCodes": "A96.2",
+    "Description": "Lassa fever"
+  },
+  {
+    "ICDCodes": "B30.2",
+    "Description": "Viral pharyngoconjunctivitis"
+  },
+  {
+    "ICDCodes": "B33.1",
+    "Description": "Ross River disease"
+  },
+  {
+    "ICDCodes": "B38.0",
+    "Description": "Acute pulmonary coccidioidomycosis"
+  },
+  {
+    "ICDCodes": "D70.9",
+    "Description": "Neutropenia, unspecified"
+  },
+  {
+    "ICDCodes": "E85.0",
+    "Description": "Non-neuropathic heredofamilial amyloidosis"
+  },
+  {
+    "ICDCodes": "I00",
+    "Description": "Rheumatic fever without heart involvement"
+  },
+  {
+    "ICDCodes": "J02.9",
+    "Description": "Acute pharyngitis, unspecified"
+  },
+  {
+    "ICDCodes": "I88.9",
+    "Description": "Nonspecific lymphadenitis, unspecified"
+  },
+  {
+    "ICDCodes": "J45.909",
+    "Description": "Unspecified asthma, uncomplicated"
+  },
+  {
+    "ICDCodes": "K12.0",
+    "Description": "Recurrent oral aphthae"
+  },
+  {
+    "ICDCodes": "M04.1",
+    "Description": "Periodic fever syndromes"
+  },
+  {
+    "ICDCodes": "N39.0",
+    "Description": "Urinary tract infection, site not specified"
+  },
+  {
+    "ICDCodes": "O86.4",
+    "Description": "Pyrexia of unknown origin following delivery"
+  },
+  {
+    "ICDCodes": "R50.2",
+    "Description": "Drug induced fever"
+  },
+  {
+    "ICDCodes": "R50.81",
+    "Description": "Fever presenting with conditions classified elsewhere"
+  },
+  {
+    "ICDCodes": "R50.82",
+    "Description": "Postprocedural fever"
+  },
+  {
+    "ICDCodes": "R68.83",
+    "Description": "Chills (without fever)"
+  },
+  {
+    "ICDCodes": "R50.9",
+    "Description": "Fever, unspecified"
+  },
+  {
+    "ICDCodes": "R50.83",
+    "Description": "Postvaccination fever"
+  },
+  {
+    "ICDCodes": "R56.00",
+    "Description": "Simple febrile convulsions"
+  },
+  {
+    "ICDCodes": "Z23",
+    "Description": "Encounter for immunization"
+  },
+  {
+    "ICDCodes": "Z86.19",
+    "Description": "Personal history of other infectious and parasitic diseases"
+  },
+  {
+    "ICDCodes": "A01.0",
+    "Description": "Typhoid fever"
+  },
+  {
+    "ICDCodes": "A38",
+    "Description": "Scarlet fever"
+  },
+  {
+    "ICDCodes": "A25",
+    "Description": "Rat-bite fevers"
+  },
+  {
+    "ICDCodes": "A96",
+    "Description": "Arenaviral hemorrhagic fever"
+  },
+  {
+    "ICDCodes": "A75",
+    "Description": "Typhus fever"
+  },
+  {
+    "ICDCodes": "A92",
+    "Description": "Other mosquito-borne viral fevers"
+  },
+  {
+    "ICDCodes": "A93",
+    "Description": "Other arthropod-borne viral fevers, not elsewhere classified"
+  },
+  {
+    "ICDCodes": "A95",
+    "Description": "Yellow fever"
+  },
+  {
+    "ICDCodes": "A98",
+    "Description": "Other viral hemorrhagic fevers, not elsewhere classified"
+  },
+  {
+    "ICDCodes": "A01",
+    "Description": "Typhoid and paratyphoid fevers"
+  },
+  {
+    "ICDCodes": "A68",
+    "Description": "Relapsing fevers"
+  },
+  {
+    "ICDCodes": "A77",
+    "Description": "Spotted fever [tick-borne rickettsioses]"
+  },
+  {
+    "ICDCodes": "I01",
+    "Description": "Rheumatic fever with heart involvement"
+  },
+  {
+    "ICDCodes": "R50",
+    "Description": "Fever of other and unknown origin"
+  },
+  {
+    "ICDCodes": "R50.8",
+    "Description": "Other specified fever"
+  },
+  {
+    "ICDCodes": "A01.00",
+    "Description": "Typhoid fever, unspecified"
+  },
+  {
+    "ICDCodes": "A01.04",
+    "Description": "Typhoid arthritis"
+  },
+  {
+    "ICDCodes": "A01.09",
+    "Description": "Typhoid fever with other complications"
+  },
+  {
+    "ICDCodes": "A01.1",
+    "Description": "Paratyphoid fever A"
+  },
+  {
+    "ICDCodes": "A01.2",
+    "Description": "Paratyphoid fever B"
+  },
+  {
+    "ICDCodes": "A01.3",
+    "Description": "Paratyphoid fever C"
+  },
+  {
+    "ICDCodes": "A01.4",
+    "Description": "Paratyphoid fever, unspecified"
+  },
+  {
+    "ICDCodes": "A01.01",
+    "Description": "Typhoid meningitis"
+  },
+  {
+    "ICDCodes": "A01.02",
+    "Description": "Typhoid fever with heart involvement"
+  },
+  {
+    "ICDCodes": "A01.03",
+    "Description": "Typhoid pneumonia"
+  },
+  {
+    "ICDCodes": "A01.05",
+    "Description": "Typhoid osteomyelitis"
+  },
+  {
+    "ICDCodes": "Z22.0",
+    "Description": "Carrier of typhoid"
+  },
+  {
+    "ICDCodes": "Z23",
+    "Description": "Encounter for immunization"
+  },
+  {
+    "ICDCodes": "Z86.19",
+    "Description": "Personal history of other infectious and parasitic diseases"
+  },
+  {
+    "ICDCodes": "A01.0",
+    "Description": "Typhoid fever"
+  },
+  {
+    "ICDCodes": "A01",
+    "Description": "Typhoid and paratyphoid fevers"
+  },
+  {
+    "ICDCodes": "A37.01",
+    "Description": "Whooping cough due to Bordetella pertussis with pneumonia"
+  },
+  {
+    "ICDCodes": "A37.81",
+    "Description": "Whooping cough due to other Bordetella species with pneumonia"
+  },
+  {
+    "ICDCodes": "A37.91",
+    "Description": "Whooping cough, unspecified species with pneumonia"
+  },
+  {
+    "ICDCodes": "A37.00",
+    "Description": "Whooping cough due to Bordetella pertussis without pneumonia"
+  },
+  {
+    "ICDCodes": "A37.90",
+    "Description": "Whooping cough, unspecified species without pneumonia"
+  },
+  {
+    "ICDCodes": "A37.10",
+    "Description": "Whooping cough due to Bordetella parapertussis without pneumonia"
+  },
+  {
+    "ICDCodes": "A37.11",
+    "Description": "Whooping cough due to Bordetella parapertussis with pneumonia"
+  },
+  {
+    "ICDCodes": "A37.80",
+    "Description": "Whooping cough due to other Bordetella species without pneumonia"
+  },
+  {
+    "ICDCodes": "F45.8",
+    "Description": "Other somatoform disorders"
+  },
+  {
+    "ICDCodes": "G44.83",
+    "Description": "Primary cough headache"
+  },
+  {
+    "ICDCodes": "J45.991",
+    "Description": "Cough variant asthma"
+  },
+  {
+    "ICDCodes": "R05.1",
+    "Description": "Acute cough"
+  },
+  {
+    "ICDCodes": "R05.4",
+    "Description": "Cough syncope"
+  },
+  {
+    "ICDCodes": "R06.6",
+    "Description": "Hiccough"
+  },
+  {
+    "ICDCodes": "R05.2",
+    "Description": "Subacute cough"
+  },
+  {
+    "ICDCodes": "R05.8",
+    "Description": "Other specified cough"
+  },
+  {
+    "ICDCodes": "R05.9",
+    "Description": "Cough, unspecified"
+  },
+  {
+    "ICDCodes": "R05.3",
+    "Description": "Chronic cough"
+  },
+  {
+    "ICDCodes": "T48.3X5A",
+    "Description": "Adverse effect of antitussives, initial encounter"
+  },
+  {
+    "ICDCodes": "Z20.818",
+    "Description": "Contact with and (suspected) exposure to other bacterial communicable diseases"
+  },
+  {
+    "ICDCodes": "Z86.19",
+    "Description": "Personal history of other infectious and parasitic diseases"
+  },
+  {
+    "ICDCodes": "A37.0",
+    "Description": "Whooping cough due to Bordetella pertussis"
+  },
+  {
+    "ICDCodes": "A37.8",
+    "Description": "Whooping cough due to other Bordetella species"
+  },
+  {
+    "ICDCodes": "A37",
+    "Description": "Whooping cough"
+  },
+  {
+    "ICDCodes": "A37.1",
+    "Description": "Whooping cough due to Bordetella parapertussis"
+  },
+  {
+    "ICDCodes": "A37.9",
+    "Description": "Whooping cough, unspecified species"
+  },
+  {
+    "ICDCodes": "R05",
+    "Description": "Cough"
+  },
+  {
+    "ICDCodes": "B02.29",
+    "Description": "Other postherpetic nervous system involvement"
+  },
+  {
+    "ICDCodes": "B02.23",
+    "Description": "Postherpetic polyneuropathy"
+  },
+  {
+    "ICDCodes": "F45.42",
+    "Description": "Pain disorder with related psychological factors"
+  },
+  {
+    "ICDCodes": "F45.1",
+    "Description": "Undifferentiated somatoform disorder"
+  },
+  {
+    "ICDCodes": "F52.6",
+    "Description": "Dyspareunia not due to a substance or known physiological condition"
+  },
+  {
+    "ICDCodes": "F45.41",
+    "Description": "Pain disorder exclusively related to psychological factors"
+  },
+  {
+    "ICDCodes": "G44.059",
+    "Description": "Short lasting unilateral neuralgiform headache with conjunctival injection and tearing (SUNCT), not intractable"
+  },
+  {
+    "ICDCodes": "G57.72",
+    "Description": "Causalgia of left lower limb"
+  },
+  {
+    "ICDCodes": "G89.12",
+    "Description": "Acute post-thoracotomy pain"
+  },
+  {
+    "ICDCodes": "G90.523",
+    "Description": "Complex regional pain syndrome I of lower limb, bilateral"
+  },
+  {
+    "ICDCodes": "G90.529",
+    "Description": "Complex regional pain syndrome I of unspecified lower limb"
+  },
+  {
+    "ICDCodes": "G44.051",
+    "Description": "Short lasting unilateral neuralgiform headache with conjunctival injection and tearing (SUNCT), intractable"
+  },
+  {
+    "ICDCodes": "G50.0",
+    "Description": "Trigeminal neuralgia"
+  },
+  {
+    "ICDCodes": "G56.40",
+    "Description": "Causalgia of unspecified upper limb"
+  },
+  {
+    "ICDCodes": "G56.41",
+    "Description": "Causalgia of right upper limb"
+  },
+  {
+    "ICDCodes": "G50.1",
+    "Description": "Atypical facial pain"
+  },
+  {
+    "ICDCodes": "G54.6",
+    "Description": "Phantom limb syndrome with pain"
+  },
+  {
+    "ICDCodes": "G54.7",
+    "Description": "Phantom limb syndrome without pain"
+  },
+  {
+    "ICDCodes": "G56.42",
+    "Description": "Causalgia of left upper limb"
+  },
+  {
+    "ICDCodes": "G71.032",
+    "Description": "Autosomal recessive limb girdle muscular dystrophy due to calpain-3 dysfunction"
+  },
+  {
+    "ICDCodes": "G89.21",
+    "Description": "Chronic pain due to trauma"
+  },
+  {
+    "ICDCodes": "G90.50",
+    "Description": "Complex regional pain syndrome I, unspecified"
+  },
+  {
+    "ICDCodes": "G90.511",
+    "Description": "Complex regional pain syndrome I of right upper limb"
+  },
+  {
+    "ICDCodes": "G90.513",
+    "Description": "Complex regional pain syndrome I of upper limb, bilateral"
+  },
+  {
+    "ICDCodes": "G52.1",
+    "Description": "Disorders of glossopharyngeal nerve"
+  },
+  {
+    "ICDCodes": "G54.8",
+    "Description": "Other nerve root and plexus disorders"
+  },
+  {
+    "ICDCodes": "G57.71",
+    "Description": "Causalgia of right lower limb"
+  },
+  {
+    "ICDCodes": "G89.11",
+    "Description": "Acute pain due to trauma"
+  },
+  {
+    "ICDCodes": "G89.29",
+    "Description": "Other chronic pain"
+  },
+  {
+    "ICDCodes": "G89.3",
+    "Description": "Neoplasm related pain (acute) (chronic)"
+  },
+  {
+    "ICDCodes": "G89.4",
+    "Description": "Chronic pain syndrome"
+  },
+  {
+    "ICDCodes": "G90.519",
+    "Description": "Complex regional pain syndrome I of unspecified upper limb"
+  },
+  {
+    "ICDCodes": "G90.522",
+    "Description": "Complex regional pain syndrome I of left lower limb"
+  },
+  {
+    "ICDCodes": "G89.0",
+    "Description": "Central pain syndrome"
+  },
+  {
+    "ICDCodes": "G89.18",
+    "Description": "Other acute postprocedural pain"
+  },
+  {
+    "ICDCodes": "G89.22",
+    "Description": "Chronic post-thoracotomy pain"
+  },
+  {
+    "ICDCodes": "G89.28",
+    "Description": "Other chronic postprocedural pain"
+  },
+  {
+    "ICDCodes": "G90.512",
+    "Description": "Complex regional pain syndrome I of left upper limb"
+  },
+  {
+    "ICDCodes": "G90.521",
+    "Description": "Complex regional pain syndrome I of right lower limb"
+  },
+  {
+    "ICDCodes": "G90.59",
+    "Description": "Complex regional pain syndrome I of other specified site"
+  },
+  {
+    "ICDCodes": "H57.12",
+    "Description": "Ocular pain, left eye"
+  },
+  {
+    "ICDCodes": "H57.11",
+    "Description": "Ocular pain, right eye"
+  },
+  {
+    "ICDCodes": "H57.10",
+    "Description": "Ocular pain, unspecified eye"
+  },
+  {
+    "ICDCodes": "H57.13",
+    "Description": "Ocular pain, bilateral"
+  },
+  {
+    "ICDCodes": "H92.09",
+    "Description": "Otalgia, unspecified ear"
+  },
+  {
+    "ICDCodes": "H92.03",
+    "Description": "Otalgia, bilateral"
+  },
+  {
+    "ICDCodes": "I20.9",
+    "Description": "Angina pectoris, unspecified"
+  },
+  {
+    "ICDCodes": "I31.9",
+    "Description": "Disease of pericardium, unspecified"
+  },
+  {
+    "ICDCodes": "I70.222",
+    "Description": "Atherosclerosis of native arteries of extremities with rest pain, left leg"
+  },
+  {
+    "ICDCodes": "I70.328",
+    "Description": "Atherosclerosis of unspecified type of bypass graft(s) of the extremities with rest pain, other extremity"
+  },
+  {
+    "ICDCodes": "I70.422",
+    "Description": "Atherosclerosis of autologous vein bypass graft(s) of the extremities with rest pain, left leg"
+  },
+  {
+    "ICDCodes": "I70.423",
+    "Description": "Atherosclerosis of autologous vein bypass graft(s) of the extremities with rest pain, bilateral legs"
+  },
+  {
+    "ICDCodes": "I70.428",
+    "Description": "Atherosclerosis of autologous vein bypass graft(s) of the extremities with rest pain, other extremity"
+  },
+  {
+    "ICDCodes": "I70.429",
+    "Description": "Atherosclerosis of autologous vein bypass graft(s) of the extremities with rest pain, unspecified extremity"
+  },
+  {
+    "ICDCodes": "I70.221",
+    "Description": "Atherosclerosis of native arteries of extremities with rest pain, right leg"
+  },
+  {
+    "ICDCodes": "I70.223",
+    "Description": "Atherosclerosis of native arteries of extremities with rest pain, bilateral legs"
+  },
+  {
+    "ICDCodes": "I70.229",
+    "Description": "Atherosclerosis of native arteries of extremities with rest pain, unspecified extremity"
+  },
+  {
+    "ICDCodes": "I70.421",
+    "Description": "Atherosclerosis of autologous vein bypass graft(s) of the extremities with rest pain, right leg"
+  },
+  {
+    "ICDCodes": "I70.622",
+    "Description": "Atherosclerosis of nonbiological bypass graft(s) of the extremities with rest pain, left leg"
+  },
+  {
+    "ICDCodes": "I70.623",
+    "Description": "Atherosclerosis of nonbiological bypass graft(s) of the extremities with rest pain, bilateral legs"
+  },
+  {
+    "ICDCodes": "I70.628",
+    "Description": "Atherosclerosis of nonbiological bypass graft(s) of the extremities with rest pain, other extremity"
+  },
+  {
+    "ICDCodes": "I70.629",
+    "Description": "Atherosclerosis of nonbiological bypass graft(s) of the extremities with rest pain, unspecified extremity"
+  },
+  {
+    "ICDCodes": "I73.9",
+    "Description": "Peripheral vascular disease, unspecified"
+  },
+  {
+    "ICDCodes": "I70.721",
+    "Description": "Atherosclerosis of other type of bypass graft(s) of the extremities with rest pain, right leg"
+  },
+  {
+    "ICDCodes": "I70.722",
+    "Description": "Atherosclerosis of other type of bypass graft(s) of the extremities with rest pain, left leg"
+  },
+  {
+    "ICDCodes": "I70.728",
+    "Description": "Atherosclerosis of other type of bypass graft(s) of the extremities with rest pain, other extremity"
+  },
+  {
+    "ICDCodes": "I70.228",
+    "Description": "Atherosclerosis of native arteries of extremities with rest pain, other extremity"
+  },
+  {
+    "ICDCodes": "I70.321",
+    "Description": "Atherosclerosis of unspecified type of bypass graft(s) of the extremities with rest pain, right leg"
+  },
+  {
+    "ICDCodes": "I70.322",
+    "Description": "Atherosclerosis of unspecified type of bypass graft(s) of the extremities with rest pain, left leg"
+  },
+  {
+    "ICDCodes": "I70.522",
+    "Description": "Atherosclerosis of nonautologous biological bypass graft(s) of the extremities with rest pain, left leg"
+  },
+  {
+    "ICDCodes": "I70.528",
+    "Description": "Atherosclerosis of nonautologous biological bypass graft(s) of the extremities with rest pain, other extremity"
+  },
+  {
+    "ICDCodes": "I70.323",
+    "Description": "Atherosclerosis of unspecified type of bypass graft(s) of the extremities with rest pain, bilateral legs"
+  },
+  {
+    "ICDCodes": "I70.329",
+    "Description": "Atherosclerosis of unspecified type of bypass graft(s) of the extremities with rest pain, unspecified extremity"
+  },
+  {
+    "ICDCodes": "I70.521",
+    "Description": "Atherosclerosis of nonautologous biological bypass graft(s) of the extremities with rest pain, right leg"
+  },
+  {
+    "ICDCodes": "I70.523",
+    "Description": "Atherosclerosis of nonautologous biological bypass graft(s) of the extremities with rest pain, bilateral legs"
+  },
+  {
+    "ICDCodes": "I70.529",
+    "Description": "Atherosclerosis of nonautologous biological bypass graft(s) of the extremities with rest pain, unspecified extremity"
+  },
+  {
+    "ICDCodes": "I70.621",
+    "Description": "Atherosclerosis of nonbiological bypass graft(s) of the extremities with rest pain, right leg"
+  },
+  {
+    "ICDCodes": "I70.723",
+    "Description": "Atherosclerosis of other type of bypass graft(s) of the extremities with rest pain, bilateral legs"
+  },
+  {
+    "ICDCodes": "I70.729",
+    "Description": "Atherosclerosis of other type of bypass graft(s) of the extremities with rest pain, unspecified extremity"
+  },
+  {
+    "ICDCodes": "I83.819",
+    "Description": "Varicose veins of unspecified lower extremity with pain"
+  },
+  {
+    "ICDCodes": "J32.9",
+    "Description": "Chronic sinusitis, unspecified"
+  },
+  {
+    "ICDCodes": "I83.811",
+    "Description": "Varicose veins of right lower extremity with pain"
+  },
+  {
+    "ICDCodes": "I83.813",
+    "Description": "Varicose veins of bilateral lower extremities with pain"
+  },
+  {
+    "ICDCodes": "I83.812",
+    "Description": "Varicose veins of left lower extremity with pain"
+  },
+  {
+    "ICDCodes": "I99.8",
+    "Description": "Other disorder of circulatory system"
+  },
+  {
+    "ICDCodes": "K59.00",
+    "Description": "Constipation, unspecified"
+  },
+  {
+    "ICDCodes": "K62.89",
+    "Description": "Other specified diseases of anus and rectum"
+  },
+  {
+    "ICDCodes": "M25.50",
+    "Description": "Pain in unspecified joint"
+  },
+  {
+    "ICDCodes": "M25.511",
+    "Description": "Pain in right shoulder"
+  },
+  {
+    "ICDCodes": "M25.542",
+    "Description": "Pain in joints of left hand"
+  },
+  {
+    "ICDCodes": "M25.559",
+    "Description": "Pain in unspecified hip"
+  },
+  {
+    "ICDCodes": "M25.562",
+    "Description": "Pain in left knee"
+  },
+  {
+    "ICDCodes": "M25.519",
+    "Description": "Pain in unspecified shoulder"
+  },
+  {
+    "ICDCodes": "M25.549",
+    "Description": "Pain in joints of unspecified hand"
+  },
+  {
+    "ICDCodes": "M25.532",
+    "Description": "Pain in left wrist"
+  },
+  {
+    "ICDCodes": "M25.541",
+    "Description": "Pain in joints of right hand"
+  },
+  {
+    "ICDCodes": "M25.561",
+    "Description": "Pain in right knee"
+  },
+  {
+    "ICDCodes": "M25.569",
+    "Description": "Pain in unspecified knee"
+  },
+  {
+    "ICDCodes": "M25.571",
+    "Description": "Pain in right ankle and joints of right foot"
+  },
+  {
+    "ICDCodes": "M25.512",
+    "Description": "Pain in left shoulder"
+  }
+
+]

@@ -22,7 +22,7 @@ public class DataReader {
      */
     public List<HashMap<String, String>> getLimitedJsonData(int limit) throws IOException {
         // File path
-        File file = new File("C:\\Users\\sksusari\\eclipse-workspace\\cucumber\\Restapi\\RestApiTestingProject\\src\\test\\resources\\output\\CombinedData.json");
+        File file = new File("C:\\Users\\sksusari\\git\\ehr-webapp-automation\\src\\test\\resources\\output\\CombinedData.json");
 
         if (!file.exists()) {
             throw new IOException("File not found: " + file.getAbsolutePath());

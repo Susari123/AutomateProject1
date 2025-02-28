@@ -1,0 +1,596 @@
+[ {
+  "patientName" : "Olly Pope",
+  "icd" : "Typhoid fever, unspecified",
+  "cpt" : "99202",
+  "amount" : "409",
+  "claimType" : "Self",
+  "Mode" : "Generate"
+}, {
+  "patientName" : "Fd Fd Df",
+  "icd" : "Typhoid fever with other complications",
+  "cpt" : "99203",
+  "amount" : "111.23",
+  "claimType" : "Self",
+  "Mode" : "Generate"
+}, {
+  "patientName" : "Vsgsdg Sdgvdsd",
+  "icd" : "Paratyphoid fever A",
+  "cpt" : "99205",
+  "amount" : "541",
+  "claimType" : "Self",
+  "Mode" : "Generate"
+}, {
+  "patientName" : "Julia Robert",
+  "icd" : "Paratyphoid fever B",
+  "cpt" : "99232",
+  "amount" : "231.41",
+  "claimType" : "Self",
+  "Mode" : "Generate"
+}, {
+  "patientName" : "Vvvv Vvvvv",
+  "icd" : "Paratyphoid fever C",
+  "cpt" : "99233",
+  "amount" : "930",
+  "claimType" : "Self",
+  "Mode" : "Generate"
+}, {
+  "patientName" : "Zzzz Zxzz",
+  "icd" : "Paratyphoid fever, unspecified",
+  "cpt" : "99235",
+  "amount" : "478",
+  "claimType" : "Self",
+  "Mode" : "Generate"
+}, {
+  "patientName" : "Test Summer",
+  "icd" : "Streptobacillosis",
+  "cpt" : "99238",
+  "amount" : "565.56",
+  "claimType" : "Self",
+  "Mode" : "Generate"
+}, {
+  "patientName" : "Test Patient Regristration",
+  "icd" : "Scarlet fever with other complications",
+  "cpt" : "99239",
+  "amount" : "262",
+  "claimType" : "Self",
+  "Mode" : "Generate"
+}, {
+  "patientName" : "Sourav12 Susari",
+  "icd" : "Scarlet fever, uncomplicated",
+  "cpt" : "99245",
+  "amount" : "394.10",
+  "claimType" : "Self",
+  "Mode" : "Generate"
+}, {
+  "patientName" : "Sourav Susari",
+  "icd" : "Epidemic louse-borne typhus fever due to Rickettsia prowazekii",
+  "cpt" : "99253",
+  "amount" : "422.92",
+  "claimType" : "Self",
+  "Mode" : "Generate"
+}, {
+  "patientName" : "Test One",
+  "icd" : "Spotted fever due to Rickettsia rickettsii",
+  "cpt" : "99254",
+  "amount" : "344.61",
+  "claimType" : "Self",
+  "Mode" : "Generate"
+}, {
+  "patientName" : "Gourav Patil",
+  "icd" : "Spotted fever, unspecified",
+  "cpt" : "99255",
+  "amount" : "999.28",
+  "claimType" : "Paper",
+  "Mode" : "Generate"
+}, {
+  "patientName" : "Samna Sadhanandhan",
+  "icd" : "Trench fever",
+  "cpt" : "99283",
+  "amount" : "487",
+  "claimType" : "Paper",
+  "Mode" : "Generate"
+}, {
+  "patientName" : "Sukumar N",
+  "icd" : "Rickettsiosis due to Ehrlichia sennetsu",
+  "cpt" : "99285",
+  "amount" : "398.83",
+  "claimType" : "Electronic",
+  "Mode" : "Generate"
+}, {
+  "patientName" : "Mark Hood",
+  "icd" : "Typhus fever due to Rickettsia tsutsugamushi",
+  "cpt" : "99288",
+  "amount" : "184.67",
+  "claimType" : "Self",
+  "Mode" : "Generate"
+}, {
+  "patientName" : "Robeert Williams",
+  "icd" : "Typhus fever, unspecified",
+  "cpt" : "99304",
+  "amount" : "642",
+  "claimType" : "Paper",
+  "Mode" : "Generate"
+}, {
+  "patientName" : "Jesse Pinkman",
+  "icd" : "Spotted fever due to Rickettsia siberica",
+  "cpt" : "99306",
+  "amount" : "325",
+  "claimType" : "Paper",
+  "Mode" : "Generate"
+}, {
+  "patientName" : "Test A",
+  "icd" : "Typhoid meningitis",
+  "cpt" : "99309",
+  "amount" : "754",
+  "claimType" : "Paper",
+  "Mode" : "Generate"
+}, {
+  "patientName" : "Encounter Testsrv",
+  "icd" : "Typhoid fever with heart involvement",
+  "cpt" : "99341",
+  "amount" : "749",
+  "claimType" : "Electronic",
+  "Mode" : "Generate"
+}, {
+  "patientName" : "Jack Sparrow",
+  "icd" : "Spirillosis",
+  "cpt" : "99344",
+  "amount" : "335.81",
+  "claimType" : "Paper",
+  "Mode" : "Generate"
+}, {
+  "patientName" : "Sid Boyle",
+  "icd" : "Rat-bite fever, unspecified",
+  "cpt" : "99347",
+  "amount" : "921.99",
+  "claimType" : "Self",
+  "Mode" : "Generate"
+}, {
+  "patientName" : "Mavis Schulist",
+  "icd" : "Scarlet fever with myocarditis",
+  "cpt" : "99348",
+  "amount" : "633",
+  "claimType" : "Self",
+  "Mode" : "Generate"
+}, {
+  "patientName" : "Laurette Lind",
+  "icd" : "Typhoid pneumonia",
+  "cpt" : "99359",
+  "amount" : "333",
+  "claimType" : "Paper",
+  "Mode" : "Generate"
+}, {
+  "patientName" : "Eliana Erdman",
+  "icd" : "Scarlet fever with otitis media",
+  "cpt" : "99378",
+  "amount" : "984",
+  "claimType" : "Self",
+  "Mode" : "Generate"
+}, {
+  "patientName" : "Solomon Haag",
+  "icd" : "Tick-borne relapsing fever",
+  "cpt" : "99381",
+  "amount" : "152.80",
+  "claimType" : "Self",
+  "Mode" : "Generate"
+}, {
+  "patientName" : "Self Pay",
+  "icd" : "Typhus fever due to Rickettsia typhi",
+  "cpt" : "99384",
+  "amount" : "162.88",
+  "claimType" : "Self",
+  "Mode" : "Generate"
+}, {
+  "patientName" : "Edit Claim",
+  "icd" : "Spotted fever due to Rickettsia conorii",
+  "cpt" : "99395",
+  "amount" : "372.09",
+  "claimType" : "Electronic",
+  "Mode" : "Generate"
+}, {
+  "patientName" : "Amreeth Kp",
+  "icd" : "Spotted fever due to Rickettsia australis",
+  "cpt" : "99397",
+  "amount" : "895",
+  "claimType" : "Self",
+  "Mode" : "Generate"
+}, {
+  "patientName" : "James Smith",
+  "icd" : "Other spotted fevers",
+  "cpt" : "99451",
+  "amount" : "103.84",
+  "claimType" : "Paper",
+  "Mode" : "Generate"
+}, {
+  "patientName" : "John Cena",
+  "icd" : "Nonpneumonic Legionnaires' disease [Pontiac fever]",
+  "cpt" : "99457",
+  "amount" : "617",
+  "claimType" : "Paper",
+  "Mode" : "Generate"
+}, {
+  "patientName" : "Esperanza Brekke",
+  "icd" : "Brazilian purpuric fever",
+  "cpt" : "99450",
+  "amount" : "400",
+  "claimType" : "Electronic",
+  "Mode" : "Generate"
+}, {
+  "patientName" : "Georgette Schroeder",
+  "icd" : "Louse-borne relapsing fever",
+  "cpt" : "99456",
+  "amount" : "584",
+  "claimType" : "Paper",
+  "Mode" : "Generate"
+}, {
+  "patientName" : "Byron Parisian",
+  "icd" : "Relapsing fever, unspecified",
+  "cpt" : "99461",
+  "amount" : "226.66",
+  "claimType" : "Electronic",
+  "Mode" : "Generate"
+}, {
+  "patientName" : "Wood Jane",
+  "icd" : "Q fever",
+  "cpt" : "99464",
+  "amount" : "725.69",
+  "claimType" : "Self",
+  "Mode" : "Generate"
+}, {
+  "patientName" : "Afzal As",
+  "icd" : "West Nile virus infection with other complications",
+  "cpt" : "99466",
+  "amount" : "748.68",
+  "claimType" : "Electronic",
+  "Mode" : "Generate"
+}, {
+  "patientName" : "Billing Filter",
+  "icd" : "Rift Valley fever",
+  "cpt" : "99467",
+  "amount" : "605",
+  "claimType" : "Electronic",
+  "Mode" : "Generate"
+}, {
+  "patientName" : "Test Patient34",
+  "icd" : "Sandfly fever",
+  "cpt" : "99468",
+  "amount" : "573.20",
+  "claimType" : "Paper",
+  "Mode" : "Generate"
+}, {
+  "patientName" : "Sourav Susarione",
+  "icd" : "Urban yellow fever",
+  "cpt" : "99472",
+  "amount" : "698.44",
+  "claimType" : "Self",
+  "Mode" : "Generate"
+}, {
+  "patientName" : "Radiousone Smith",
+  "icd" : "Yellow fever, unspecified",
+  "cpt" : "99475",
+  "amount" : "570",
+  "claimType" : "Electronic",
+  "Mode" : "Generate"
+}, {
+  "patientName" : "Radious Smith",
+  "icd" : "Junin hemorrhagic fever",
+  "cpt" : "99439",
+  "amount" : "665.62",
+  "claimType" : "Self",
+  "Mode" : "Generate"
+}, {
+  "patientName" : "Olly Pope",
+  "icd" : "Crimean-Congo hemorrhagic fever",
+  "cpt" : "99487",
+  "amount" : "835",
+  "claimType" : "Electronic",
+  "Mode" : "Generate"
+}, {
+  "patientName" : "Olly Pope",
+  "icd" : "Dengue hemorrhagic fever",
+  "cpt" : "99427",
+  "amount" : "913",
+  "claimType" : "Paper",
+  "Mode" : "Generate"
+}, {
+  "patientName" : "Olly Pope",
+  "icd" : "Chikungunya virus disease",
+  "cpt" : "99494",
+  "amount" : "253.70",
+  "claimType" : "Electronic",
+  "Mode" : "Generate"
+}, {
+  "patientName" : "Olly Pope",
+  "icd" : "Venezuelan equine fever",
+  "cpt" : "00103",
+  "amount" : "853.43",
+  "claimType" : "Electronic",
+  "Mode" : "Generate"
+}, {
+  "patientName" : "Olly Pope",
+  "icd" : "West Nile virus infection with other neurologic manifestation",
+  "cpt" : "00120",
+  "amount" : "214",
+  "claimType" : "Paper",
+  "Mode" : "Generate"
+}, {
+  "patientName" : "Olly Pope",
+  "icd" : "Sylvatic yellow fever",
+  "cpt" : "00212",
+  "amount" : "716.63",
+  "claimType" : "Paper",
+  "Mode" : "Generate"
+}, {
+  "patientName" : "Olly Pope",
+  "icd" : "Other arenaviral hemorrhagic fevers",
+  "cpt" : "00352",
+  "amount" : "718",
+  "claimType" : "Paper",
+  "Mode" : "Generate"
+}, {
+  "patientName" : "Olly Pope",
+  "icd" : "Omsk hemorrhagic fever",
+  "cpt" : "00400",
+  "amount" : "148",
+  "claimType" : "Electronic",
+  "Mode" : "Generate"
+}, {
+  "patientName" : "Sourav Susarione",
+  "icd" : "Other specified viral hemorrhagic fevers",
+  "cpt" : "00410",
+  "amount" : "225",
+  "claimType" : "Paper",
+  "Mode" : "Generate"
+}, {
+  "patientName" : "Daniel Robinson",
+  "icd" : "Unspecified viral hemorrhagic fever",
+  "cpt" : "00522",
+  "amount" : "375.23",
+  "claimType" : "Electronic",
+  "Mode" : "Generate"
+}, {
+  "patientName" : "Emily Johnson",
+  "icd" : "Unspecified malaria",
+  "cpt" : "00528",
+  "amount" : "794.76",
+  "claimType" : "Electronic",
+  "Mode" : "Generate"
+}, {
+  "patientName" : "New Patient4",
+  "icd" : "Enteroviral exanthematous fever [Boston exanthem]",
+  "cpt" : "00529",
+  "amount" : "980",
+  "claimType" : "Paper",
+  "Mode" : "Generate"
+}, {
+  "patientName" : "James Taylor",
+  "icd" : "Colorado tick fever",
+  "cpt" : "00530",
+  "amount" : "597.06",
+  "claimType" : "Paper",
+  "Mode" : "Generate"
+}, {
+  "patientName" : "Anon Three",
+  "icd" : "Other specified arthropod-borne viral fevers",
+  "cpt" : "00537",
+  "amount" : "607",
+  "claimType" : "Paper",
+  "Mode" : "Generate"
+}, {
+  "patientName" : "Anon Three",
+  "icd" : "Unspecified arthropod-borne viral fever",
+  "cpt" : "00542",
+  "amount" : "544",
+  "claimType" : "Electronic",
+  "Mode" : "Generate"
+}, {
+  "patientName" : "Rimuru Tempest",
+  "icd" : "Machupo hemorrhagic fever",
+  "cpt" : "00550",
+  "amount" : "783.37",
+  "claimType" : "Paper",
+  "Mode" : "Generate"
+}, {
+  "patientName" : "Rebill Three",
+  "icd" : "Arenaviral hemorrhagic fever, unspecified",
+  "cpt" : "00561",
+  "amount" : "436",
+  "claimType" : "Electronic",
+  "Mode" : "Generate"
+}, {
+  "patientName" : "Meow one",
+  "icd" : "Hemorrhagic fever with renal syndrome",
+  "cpt" : "00566",
+  "amount" : "785",
+  "claimType" : "Paper",
+  "Mode" : "Generate"
+}, {
+  "patientName" : "Rebill TestTwo",
+  "icd" : "Dengue fever [classical dengue]",
+  "cpt" : "00635",
+  "amount" : "773.21",
+  "claimType" : "Electronic",
+  "Mode" : "Generate"
+}, {
+  "patientName" : "Anon Five",
+  "icd" : "O'nyong-nyong fever",
+  "cpt" : "00796",
+  "amount" : "536",
+  "claimType" : "Paper",
+  "Mode" : "Generate"
+}, {
+  "patientName" : "Anon Four",
+  "icd" : "Other specified mosquito-borne viral fevers",
+  "cpt" : "00813",
+  "amount" : "199",
+  "claimType" : "Self",
+  "Mode" : "Generate"
+}, {
+  "patientName" : "Anon Four",
+  "icd" : "Mosquito-borne viral fever, unspecified",
+  "cpt" : "00832",
+  "amount" : "113.51",
+  "claimType" : "Paper",
+  "Mode" : "Generate"
+}, {
+  "patientName" : "Anon Three",
+  "icd" : "Lassa fever",
+  "cpt" : "00834",
+  "amount" : "200",
+  "claimType" : "Paper",
+  "Mode" : "Generate"
+}, {
+  "patientName" : "Elizabeth Johnson",
+  "icd" : "Viral pharyngoconjunctivitis",
+  "cpt" : "00851",
+  "amount" : "939.61",
+  "claimType" : "Electronic",
+  "Mode" : "Generate"
+}, {
+  "patientName" : "Test Test",
+  "icd" : "Ross River disease",
+  "cpt" : "00860",
+  "amount" : "112.51",
+  "claimType" : "Self",
+  "Mode" : "Generate"
+}, {
+  "patientName" : "Settle Patient",
+  "icd" : "Acute pulmonary coccidioidomycosis",
+  "cpt" : "00864",
+  "amount" : "464",
+  "claimType" : "Self",
+  "Mode" : "Generate"
+}, {
+  "patientName" : "Test Insurance",
+  "icd" : "Neutropenia, unspecified",
+  "cpt" : "99204",
+  "amount" : "298",
+  "claimType" : "Self",
+  "Mode" : "Generate"
+}, {
+  "patientName" : "Collect Payment12",
+  "icd" : "Non-neuropathic heredofamilial amyloidosis",
+  "cpt" : "99211",
+  "amount" : "114",
+  "claimType" : "Electronic",
+  "Mode" : "Generate"
+}, {
+  "patientName" : "Joe Root",
+  "icd" : "Rheumatic fever without heart involvement",
+  "cpt" : "99212",
+  "amount" : "462.83",
+  "claimType" : "Paper",
+  "Mode" : "Generate"
+}, {
+  "patientName" : "Collect Payment1",
+  "icd" : "Acute pharyngitis, unspecified",
+  "cpt" : "99221",
+  "amount" : "210",
+  "claimType" : "Paper",
+  "Mode" : "Generate"
+}, {
+  "patientName" : "Check Eligiblity12",
+  "icd" : "Nonspecific lymphadenitis, unspecified",
+  "cpt" : "99242",
+  "amount" : "584.35",
+  "claimType" : "Electronic",
+  "Mode" : "Generate"
+}, {
+  "patientName" : "Harry Potter",
+  "icd" : "Unspecified asthma, uncomplicated",
+  "cpt" : "99282",
+  "amount" : "311.26",
+  "claimType" : "Electronic",
+  "Mode" : "Generate"
+}, {
+  "patientName" : "Child Patient",
+  "icd" : "Recurrent oral aphthae",
+  "cpt" : "99316",
+  "amount" : "829.69",
+  "claimType" : "Electronic",
+  "Mode" : "Generate"
+}, {
+  "patientName" : "Spouse Patient",
+  "icd" : "Periodic fever syndromes",
+  "cpt" : "99345",
+  "amount" : "575.85",
+  "claimType" : "Paper",
+  "Mode" : "Generate"
+}, {
+  "patientName" : "Other Patient",
+  "icd" : "Urinary tract infection, site not specified",
+  "cpt" : "99415",
+  "amount" : "843",
+  "claimType" : "Electronic",
+  "Mode" : "Generate"
+}, {
+  "patientName" : "Employee Patient",
+  "icd" : "Pyrexia of unknown origin following delivery",
+  "cpt" : "99416",
+  "amount" : "122",
+  "claimType" : "Electronic",
+  "Mode" : "Generate"
+}, {
+  "patientName" : "Sourav Test",
+  "icd" : "Drug induced fever",
+  "cpt" : "99367",
+  "amount" : "318",
+  "claimType" : "Paper",
+  "Mode" : "Generate"
+}, {
+  "patientName" : "Shaik Sultana",
+  "icd" : "Fever presenting with conditions classified elsewhere",
+  "cpt" : "99368",
+  "amount" : "133",
+  "claimType" : "Paper",
+  "Mode" : "Generate"
+}, {
+  "patientName" : "Tejaswini Parvathaneni",
+  "icd" : "Postprocedural fever",
+  "cpt" : "99379",
+  "amount" : "796.67",
+  "claimType" : "Electronic",
+  "Mode" : "Generate"
+}, {
+  "patientName" : "Ashok Kumar",
+  "icd" : "Chills (without fever)",
+  "cpt" : "99380",
+  "amount" : "921",
+  "claimType" : "Electronic",
+  "Mode" : "Generate"
+}, {
+  "patientName" : "Vinay Test",
+  "icd" : "Fever, unspecified",
+  "cpt" : "99382",
+  "amount" : "303.13",
+  "claimType" : "Electronic",
+  "Mode" : "Generate"
+}, {
+  "patientName" : "Sourav Susari",
+  "icd" : "Postvaccination fever",
+  "cpt" : "99393",
+  "amount" : "548",
+  "claimType" : "Electronic",
+  "Mode" : "Generate"
+}, {
+  "patientName" : "New Two",
+  "icd" : "Simple febrile convulsions",
+  "cpt" : "99394",
+  "amount" : "188.98",
+  "claimType" : "Electronic",
+  "Mode" : "Generate"
+}, {
+  "patientName" : "Test One",
+  "icd" : "Encounter for immunization",
+  "cpt" : "99396",
+  "amount" : "483",
+  "claimType" : "Electronic",
+  "Mode" : "Generate"
+}, {
+  "patientName" : "Billing Test",
+  "icd" : "Personal history of other infectious and parasitic diseases",
+  "cpt" : "99406",
+  "amount" : "966",
+  "claimType" : "Paper",
+  "Mode" : "Generate"
+} ]

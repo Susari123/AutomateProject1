@@ -1,0 +1,2055 @@
+[
+  {
+    "CPTCode": "99202",
+    "Description": "New patient office or other outpatient visit with straightforward medical decision making, if using time, 15 minutes or more"
+  },
+  {
+    "CPTCode": "99203",
+    "Description": "New patient office or other outpatient visit with low level of medical decision making, if using time, 30 minutes or more"
+  },
+  {
+    "CPTCode": "99205",
+    "Description": "New patient office or other outpatient visit with a high level of medical decision making, if using time, 60 minutes or more"
+  },
+  {
+    "CPTCode": "99232",
+    "Description": "Subsequent hospital care with moderate levelof medical decision making, if using time, at least 35 minutes"
+  },
+  {
+    "CPTCode": "99233",
+    "Description": "Subsequent hospital care with moderate levelof medical decision making, if using time, at least 50 minutes"
+  },
+  {
+    "CPTCode": "99235",
+    "Description": "Initial hospital care with same-day admission and discharge with moderate level of medical decision making, per day, if using time, at least 70 minutes"
+  },
+  {
+    "CPTCode": "99238",
+    "Description": "Hospital discharge day management, 30 minutes or less"
+  },
+  {
+    "CPTCode": "99239",
+    "Description": "Hospital discharge day management, more than 30 minutes"
+  },
+  {
+    "CPTCode": "99245",
+    "Description": "Outpatient consultation with high level of medical decision making, if using time, at least 55 minutes"
+  },
+  {
+    "CPTCode": "99253",
+    "Description": "Hospital consultation with low level of medical decision making, if using time, at least 45 minutes"
+  },
+  {
+    "CPTCode": "99254",
+    "Description": "Hospital consultation with moderate level of medical decision making, if using time, at least 45 minutes"
+  },
+  {
+    "CPTCode": "99255",
+    "Description": "Hospital consultation with high level of medical decision making, if using time, at least 80 minutes"
+  },
+  {
+    "CPTCode": "99283",
+    "Description": "Emergency department visit with low level of medical decision making"
+  },
+  {
+    "CPTCode": "99285",
+    "Description": "Emergency department visit with high level of medical decision making"
+  },
+  {
+    "CPTCode": "99288",
+    "Description": "Physician direction of emergency advanced life support paramedic services"
+  },
+  {
+    "CPTCode": "99304",
+    "Description": "Initial nursing facility care with straightforward or low level of medical decision making, per day, if using time, at least 25 minutes"
+  },
+  {
+    "CPTCode": "99306",
+    "Description": "Initial nursing facility care with high level of medical decision making, per day, if using time, 50 minutes or more"
+  },
+  {
+    "CPTCode": "99309",
+    "Description": "Subsequent nursing facility care with moderate level of medical decision making, per day, if using time, at least 30 minutes"
+  },
+  {
+    "CPTCode": "99341",
+    "Description": "Residence visit for new patient with straightforward medical decision making, per day, if using time, at least 15 minutes"
+  },
+  {
+    "CPTCode": "99344",
+    "Description": "Residence visit for new patient with moderate level of medical decision making, per day, if using time, at least 60 minutes"
+  },
+  {
+    "CPTCode": "99347",
+    "Description": "Residence visit for established patient with straightforward medical decision making, per day, if using time, at least 15 minutes"
+  },
+  {
+    "CPTCode": "99348",
+    "Description": "Residence visit for established patient with low level of medical decision making, per day, if using time, at least 30 minutes"
+  },
+  {
+    "CPTCode": "99359",
+    "Description": "Extended patient service without direct patient contact, each additional 30 minutes"
+  },
+  {
+    "CPTCode": "99378",
+    "Description": "Physician supervision of patient hospice services per month, 30 minutes or more"
+  },
+  {
+    "CPTCode": "99381",
+    "Description": "Initial new patient preventive medicine evaluation (younger than 1 year)"
+  },
+  {
+    "CPTCode": "99384",
+    "Description": "Initial new patient preventive medicine evaluation (12-17 years)"
+  },
+  {
+    "CPTCode": "99395",
+    "Description": "Established patient periodic preventive medicine examination (18-39 years)"
+  },
+  {
+    "CPTCode": "99397",
+    "Description": "Established patient periodic preventive medicine examination (65 year old or older)"
+  },
+  {
+    "CPTCode": "99451",
+    "Description": "Telephone, internet, or electronic health record assessment and management with written report by consulting physician, at least 5 minutes"
+  },
+  {
+    "CPTCode": "99457",
+    "Description": "Management using the results of remote vital sign monitoring per calendar month, first 20 minutes"
+  },
+  {
+    "CPTCode": "99450",
+    "Description": "Basic life and/or disability examination"
+  },
+  {
+    "CPTCode": "99456",
+    "Description": "Work-related or medical disability examination by other than the treating physician"
+  },
+  {
+    "CPTCode": "99461",
+    "Description": "Initial evaluation and management of newborn not in hospital or birthing center per day"
+  },
+  {
+    "CPTCode": "99464",
+    "Description": "Physician attendance at delivery and stabilization of newborn"
+  },
+  {
+    "CPTCode": "99466",
+    "Description": "Critical care during transport between facilities, first 30-74 minutes (2 years or younger)"
+  },
+  {
+    "CPTCode": "99467",
+    "Description": "Critical care during transport between facilities, each additional 30 minutes (2 years or younger)"
+  },
+  {
+    "CPTCode": "99468",
+    "Description": "Initial inpatient hospital critical care of newborn per day (28 days or younger)"
+  },
+  {
+    "CPTCode": "99472",
+    "Description": "Follow-up inpatient hospital critical care of infant or young child per day (29 days to 2 years)"
+  },
+  {
+    "CPTCode": "99475",
+    "Description": "Initial inpatient hospital critical care of infant or young child per day (2-5 years)"
+  },
+  {
+    "CPTCode": "99439",
+    "Description": "Chronic care management services for two or more chronic conditions, additional 20 minutes of clinical staff time directed by health care professional, per calendar month"
+  },
+  {
+    "CPTCode": "99487",
+    "Description": "Complex chronic care management services for two or more chronic conditions, first 60 minutes of clinical staff time directed by health care professional, per calendar month"
+  },
+  {
+    "CPTCode": "99427",
+    "Description": "Principal care management services for a single high-risk disease, each additional 30 minutes of clinical staff time directed by health care professional, per calendar month"
+  },
+  {
+    "CPTCode": "99494",
+    "Description": "Psychiatric collaborative care management per calendar month, each additional 30 minutes"
+  },
+  {
+    "CPTCode": "00103",
+    "Description": "Anesthesia for procedure on eyelid"
+  },
+  {
+    "CPTCode": "00120",
+    "Description": "Anesthesia for other procedure on external middle and inner ear"
+  },
+  {
+    "CPTCode": "00212",
+    "Description": "Anesthesia for removal of fluid from brain"
+  },
+  {
+    "CPTCode": "00352",
+    "Description": "Anesthesia for tying large blood vessels of neck"
+  },
+  {
+    "CPTCode": "00400",
+    "Description": "Anesthesia for other procedure on skin of arms, legs, and front body"
+  },
+  {
+    "CPTCode": "00410",
+    "Description": "Anesthesia for procedure to correct abnormal heart rhythm"
+  },
+  {
+    "CPTCode": "00522",
+    "Description": "Anesthesia for closed needle biopsy of lung"
+  },
+  {
+    "CPTCode": "00528",
+    "Description": "Anesthesia for closed exam of chest using an endoscope"
+  },
+  {
+    "CPTCode": "00529",
+    "Description": "Anesthesia for closed exam of chest using an endoscope with 1 lung inflated"
+  },
+  {
+    "CPTCode": "00530",
+    "Description": "Anesthesia for insertion of permanent heart pacemaker"
+  },
+  {
+    "CPTCode": "00537",
+    "Description": "Anesthesia for procedure to assess heart electrical activity"
+  },
+  {
+    "CPTCode": "00542",
+    "Description": "Anesthesia for removal of tissue from around lung"
+  },
+  {
+    "CPTCode": "00550",
+    "Description": "Anesthesia for removal of breast bone tissue"
+  },
+  {
+    "CPTCode": "00561",
+    "Description": "Anesthesia for procedure on heart and large blood vessels using heart-lung machine (younger than 1 year)"
+  },
+  {
+    "CPTCode": "00566",
+    "Description": "Anesthesia for heart artery bypass grafting"
+  },
+  {
+    "CPTCode": "00635",
+    "Description": "Anesthesia for spinal tap"
+  },
+  {
+    "CPTCode": "00796",
+    "Description": "Anesthesia for liver transplant recipient including use of an endoscope"
+  },
+  {
+    "CPTCode": "00813",
+    "Description": "Anesthesia for procedure on small and large bowel using an endoscope"
+  },
+  {
+    "CPTCode": "00832",
+    "Description": "Anesthesia for repair of abdominal wall hernia"
+  },
+  {
+    "CPTCode": "00834",
+    "Description": "Anesthesia for other repair of lower abdomen hernia (younger than 1 year)"
+  },
+  {
+    "CPTCode": "00851",
+    "Description": "Anesthesia for tying or incision of fallopian tubes using an endoscope"
+  },
+  {
+    "CPTCode": "00860",
+    "Description": "Anesthesia for other procedure on lower abdomen outside abdominal cavity"
+  },
+  {
+    "CPTCode": "00864",
+    "Description": "Anesthesia for total removal of bladder"
+  },
+  {
+    "CPTCode": "99204",
+    "Description": "New patient office or other outpatient visit with moderate level of medical decision making, if using time, 45 minutes or more"
+  },
+  {
+    "CPTCode": "99211",
+    "Description": "Office or other outpatient visit for the evaluation and management of established patient that may not require presence of healthcare professional"
+  },
+  {
+    "CPTCode": "99212",
+    "Description": "Established patient office or other outpatient visit with straightforward medical decision making, if using time, 10 minutes or more"
+  },
+  {
+    "CPTCode": "99221",
+    "Description": "Initial hospital care with straightforward or low level of medical decision making, per day, if using time, at least 40 minutes"
+  },
+  {
+    "CPTCode": "99242",
+    "Description": "Outpatient consultation with straightforward medical decision making, if using time, at least 20 minutes"
+  },
+  {
+    "CPTCode": "99282",
+    "Description": "Emergency department visit with straightforward medical decision making"
+  },
+  {
+    "CPTCode": "99316",
+    "Description": "Nursing facility discharge management, more than 30 minutes"
+  },
+  {
+    "CPTCode": "99345",
+    "Description": "Residence visit for new patient with high level of medical decision making, per day, if using time, at least 75 minutes"
+  },
+  {
+    "CPTCode": "99415",
+    "Description": "Extended office or other outpatient service by clinical staff, first hour"
+  },
+  {
+    "CPTCode": "99416",
+    "Description": "Extended office or other outpatient service by clinical staff, each additional 30 minutes"
+  },
+  {
+    "CPTCode": "99367",
+    "Description": "Medical team conference with physician, 30 minutes or more"
+  },
+  {
+    "CPTCode": "99368",
+    "Description": "Medical team conference with nonphysician health care professionals. 30 minutes or more"
+  },
+  {
+    "CPTCode": "99379",
+    "Description": "Supervision of nursing facility patient services per month, 15-29 minutes"
+  },
+  {
+    "CPTCode": "99380",
+    "Description": "Supervision of nursing facility patient services per month, 30 minutes or more"
+  },
+  {
+    "CPTCode": "99382",
+    "Description": "Initial new patient preventive medicine evaluation (1-4 years)"
+  },
+  {
+    "CPTCode": "99393",
+    "Description": "Established patient periodic preventive medicine examination (5-11 years)"
+  },
+  {
+    "CPTCode": "99394",
+    "Description": "Established patient periodic preventive medicine examination (12-17 years)"
+  },
+  {
+    "CPTCode": "99396",
+    "Description": "Established patient periodic preventive medicine examination (40-64 years)"
+  },
+  {
+    "CPTCode": "99406",
+    "Description": "Smoking and tobacco use intensive counseling, 4-10 minutes"
+  },
+  {
+    "CPTCode": "99407",
+    "Description": "Smoking and tobacco use intensive counseling, more than 10 minutes"
+  },
+  {
+    "CPTCode": "99411",
+    "Description": "Group preventive medicine counseling, typically 30 minutes"
+  },
+  {
+    "CPTCode": "99441",
+    "Description": "Telephone medical discussion with physician, 5-10 minutes"
+  },
+  {
+    "CPTCode": "99421",
+    "Description": "Online digital evaluation and management service for an established patient for up to 7 days, total time 5-10 minutes"
+  },
+  {
+    "CPTCode": "99446",
+    "Description": "Telephone, internet, or electronic health record assessment and management with verbal and written report by consulting physician, 5-10 minutes"
+  },
+  {
+    "CPTCode": "99447",
+    "Description": "Telephone or internet assessment with verbal and written report by consulting physician, 11-20 minutes"
+  },
+  {
+    "CPTCode": "99449",
+    "Description": "Telephone or internet assessment with verbal and written report by consulting physician, more than 30 minutes"
+  },
+  {
+    "CPTCode": "99473",
+    "Description": "Education and training to self measure blood pressure"
+  },
+  {
+    "CPTCode": "99458",
+    "Description": "Management using the results of remote vital sign monitoring per calendar month, each additional 20 minutes"
+  },
+  {
+    "CPTCode": "99455",
+    "Description": "Work-related or medical disability examination by the treating physician"
+  },
+  {
+    "CPTCode": "99460",
+    "Description": "Initial evaluation and management of newborn per day"
+  },
+  {
+    "CPTCode": "99485",
+    "Description": "Supervision of interfacility transport care of critical patient, first 30 minutes (2 years or younger)"
+  },
+  {
+    "CPTCode": "99490",
+    "Description": "Chronic care management services, first 20 minutes of clinical staff time directed by health care professional, per calendar month"
+  },
+  {
+    "CPTCode": "99424",
+    "Description": "Principal care management services for a single high-risk disease, first 30 minutes provided personally by qualified health care professional, per calendar month."
+  },
+  {
+    "CPTCode": "99426",
+    "Description": "Principal care management services for a single high-risk disease, first 30 minutes of clinical staff time directed by health care professional, per calendar month"
+  },
+  {
+    "CPTCode": "99202",
+    "Description": "Test Custom"
+  },
+  {
+    "CPTCode": "1234",
+    "Description": "New Custom Code"
+  },
+  {
+    "CPTCode": "32310",
+    "Description": "Removal of lining of chest cavity"
+  },
+  {
+    "CPTCode": "30000",
+    "Description": "Drainage of abscess or blood accumulation of nose"
+  },
+  {
+    "CPTCode": "Q2041",
+    "Description": "TEst dgfd"
+  },
+  {
+    "CPTCode": "98925",
+    "Description": "Osteopathic manipulative treatment, 1-2 body regions"
+  },
+  {
+    "CPTCode": "89050",
+    "Description": "Body fluid cell count"
+  },
+  {
+    "CPTCode": "45000",
+    "Description": "TEst One"
+  },
+  {
+    "CPTCode": "11111",
+    "Description": "Test Custom"
+  },
+  {
+    "CPTCode": "33333",
+    "Description": "Test Test"
+  },
+  {
+    "CPTCode": "2222222",
+    "Description": "ds dgsdg sddsg sdsgsg"
+  },
+  {
+    "CPTCode": "4343434",
+    "Description": "dfgdfg dfgdf dfgdfgdf dfgdfg"
+  },
+  {
+    "CPTCode": "77777",
+    "Description": "TEst"
+  },
+  {
+    "CPTCode": "99493",
+    "Description": "Follow-up psychiatric collaborative care management, subsequent calendar month, first 60 minutes"
+  },
+  {
+    "CPTCode": "99498",
+    "Description": "Advance care planning, each additional 30 minutes"
+  },
+  {
+    "CPTCode": "99459",
+    "Description": "Pelvic exam"
+  },
+  {
+    "CPTCode": "00142",
+    "Description": "Anesthesia for lens surgery"
+  },
+  {
+    "CPTCode": "00145",
+    "Description": "Anesthesia for retinal surgery"
+  },
+  {
+    "CPTCode": "00172",
+    "Description": "Anesthesia for procedure on mouth to repair palate deformity"
+  },
+  {
+    "CPTCode": "00190",
+    "Description": "Anesthesia for other procedure on face bones or skull"
+  },
+  {
+    "CPTCode": "00215",
+    "Description": "Anesthesia for procedure to repair skull or skull fracture"
+  },
+  {
+    "CPTCode": "00218",
+    "Description": "Anesthesia for procedure on brain while sitting up"
+  },
+  {
+    "CPTCode": "00300",
+    "Description": "Anesthesia for other procedure on skin, muscles, or nerves of head, neck, and upper back"
+  },
+  {
+    "CPTCode": "00322",
+    "Description": "Anesthesia for needle biopsy of thyroid"
+  },
+  {
+    "CPTCode": "00470",
+    "Description": "Anesthesia for other partial removal of rib"
+  },
+  {
+    "CPTCode": "00472",
+    "Description": "Anesthesia for partial removal of rib and chest wall repair"
+  },
+  {
+    "CPTCode": "00474",
+    "Description": "Anesthesia for extensive partial removal of rib"
+  },
+  {
+    "CPTCode": "00500",
+    "Description": "Anesthesia for procedure on esophagus"
+  },
+  {
+    "CPTCode": "00520",
+    "Description": "Anesthesia for other closed procedure on chest"
+  },
+  {
+    "CPTCode": "00524",
+    "Description": "Anesthesia for closed drainage of lung fluid"
+  },
+  {
+    "CPTCode": "00539",
+    "Description": "Anesthesia for reconstruction of airway"
+  },
+  {
+    "CPTCode": "00548",
+    "Description": "Anesthesia for procedure on airway"
+  },
+  {
+    "CPTCode": "00562",
+    "Description": "Anesthesia for procedure on heart and large blood vessels using heart-lung machine (1 year or older)"
+  },
+  {
+    "CPTCode": "00567",
+    "Description": "Anesthesia for heart artery bypass grafting on heart-lung machine"
+  },
+  {
+    "CPTCode": "00625",
+    "Description": "Anesthesia for procedure on middle spine through chest wall"
+  },
+  {
+    "CPTCode": "00640",
+    "Description": "Anesthesia for manipulation or closed procedure of spine"
+  },
+  {
+    "CPTCode": "00700",
+    "Description": "Anesthesia for other procedure on upper front abdomen"
+  },
+  {
+    "CPTCode": "00770",
+    "Description": "Anesthesia for procedure on large blood vessels in abdomen"
+  },
+  {
+    "CPTCode": "00790",
+    "Description": "Anesthesia for other procedure on upper abdomen"
+  },
+  {
+    "CPTCode": "00797",
+    "Description": "Anesthesia for procedure on stomach for weight loss"
+  },
+  {
+    "CPTCode": "00802",
+    "Description": "Anesthesia for removal of excess tissue of lower rear abdomen"
+  },
+  {
+    "CPTCode": "00812",
+    "Description": "Anesthesia for exam of colon using an endoscope"
+  },
+  {
+    "CPTCode": "00820",
+    "Description": "Anesthesia for procedure on lower rear abdomen"
+  },
+  {
+    "CPTCode": "00868",
+    "Description": "Anesthesia for kidney transplant"
+  },
+  {
+    "CPTCode": "00870",
+    "Description": "Anesthesia for removal of urinary bladder stone"
+  },
+  {
+    "CPTCode": "00880",
+    "Description": "Anesthesia for other procedure on large blood vessel of lower abdomen"
+  },
+  {
+    "CPTCode": "00908",
+    "Description": "Anesthesia for removal of prostate"
+  },
+  {
+    "CPTCode": "00920",
+    "Description": "Anesthesia for other procedure on male genitals"
+  },
+  {
+    "CPTCode": "00938",
+    "Description": "Anesthesia for insertion of penile prosthesis"
+  },
+  {
+    "CPTCode": "00940",
+    "Description": "Anesthesia for other procedure on female genitals"
+  },
+  {
+    "CPTCode": "00948",
+    "Description": "Anesthesia for suture closure of cervix"
+  },
+  {
+    "CPTCode": "00952",
+    "Description": "Anesthesia for exam of uterus using an endoscope"
+  },
+  {
+    "CPTCode": "01150",
+    "Description": "Anesthesia for extensive removal of growth of hip bone"
+  },
+  {
+    "CPTCode": "01173",
+    "Description": "Anesthesia for repair of broken hip bone"
+  },
+  {
+    "CPTCode": "01250",
+    "Description": "Anesthesia for procedure on nerves, muscles, tendons, and tissue of upper leg"
+  },
+  {
+    "CPTCode": "01432",
+    "Description": "Anesthesia for repair of abnormal artery-vein formation of knee"
+  },
+  {
+    "CPTCode": "01470",
+    "Description": "Anesthesia for other procedure on nerves, muscles, tendons, and tissue of lower leg, ankle, and foot"
+  },
+  {
+    "CPTCode": "01484",
+    "Description": "Anesthesia for open reconstruction of lower leg, ankle, and/or foot bone"
+  },
+  {
+    "CPTCode": "01610",
+    "Description": "Anesthesia for procedure on nerves, muscles, tendons, fascia, and bursae of shoulder and underarm"
+  },
+  {
+    "CPTCode": "01620",
+    "Description": "Anesthesia for closed procedure on top of arm bone and shoulder joint"
+  },
+  {
+    "CPTCode": "01636",
+    "Description": "Anesthesia for open or endoscopic amputation of arm, shoulder blade, and collar bone"
+  },
+  {
+    "CPTCode": "01638",
+    "Description": "Anesthesia for open or endoscopic total shoulder joint replacement"
+  },
+  {
+    "CPTCode": "01654",
+    "Description": "Anesthesia for bypass graft on artery of shoulder and underarm"
+  },
+  {
+    "CPTCode": "01710",
+    "Description": "Anesthesia for other procedures on nerves, muscles, tendons, and tissue of upper arm and elbow"
+  },
+  {
+    "CPTCode": "01758",
+    "Description": "Anesthesia for removal of cyst or growth of upper arm"
+  },
+  {
+    "CPTCode": "01772",
+    "Description": "Anesthesia for removal of blood clot from upper arm or elbow artery"
+  },
+  {
+    "CPTCode": "01830",
+    "Description": "Anesthesia for other procedure on forearm, wrist, or hand bones"
+  },
+  {
+    "CPTCode": "01840",
+    "Description": "Anesthesia for other procedure on arteries of forearm, wrist, and hand"
+  },
+  {
+    "CPTCode": "01842",
+    "Description": "Anesthesia for removal of blood clot in artery of forearm, wrist, and hand"
+  },
+  {
+    "CPTCode": "01850",
+    "Description": "Anesthesia for other procedure on veins of forearm, wrist, and hand"
+  },
+  {
+    "CPTCode": "01916",
+    "Description": "Anesthesia for X-ray exam of arteries and veins using contrast"
+  },
+  {
+    "CPTCode": "01924",
+    "Description": "Anesthesia for X-ray on arteries"
+  },
+  {
+    "CPTCode": "01932",
+    "Description": "Anesthesia for x-ray on vein of chest or neck"
+  },
+  {
+    "CPTCode": "01933",
+    "Description": "Anesthesia for x-ray on vein of brain"
+  },
+  {
+    "CPTCode": "01937",
+    "Description": "Anesthesia for injection, drainage or aspiration procedures on spine or spinal cord of neck or upper back accessed through skin using imaging guidance"
+  },
+  {
+    "CPTCode": "01952",
+    "Description": "Anesthesia for treatment of second and third degree burn, 4-9% of total body surface area"
+  },
+  {
+    "CPTCode": "01958",
+    "Description": "Anesthesia for procedure to turn the position of fetus in uterus"
+  },
+  {
+    "CPTCode": "01992",
+    "Description": "Anesthesia for nerve block and injection procedure, prone position"
+  },
+  {
+    "CPTCode": "10012",
+    "Description": "Fine needle aspiration biopsy of growth using MRI guidance, each additional growth"
+  },
+  {
+    "CPTCode": "10030",
+    "Description": "Drainage of fluid collection in soft tissue using imaging guidance"
+  },
+  {
+    "CPTCode": "10036",
+    "Description": "Placement of soft tissue locating device using X-ray, each additional growth"
+  },
+  {
+    "CPTCode": "10040",
+    "Description": "Acne surgery"
+  },
+  {
+    "CPTCode": "10081",
+    "Description": "Complicated drainage of cyst of tailbone"
+  },
+  {
+    "CPTCode": "10140",
+    "Description": "Drainage of blood or fluid accumulation"
+  },
+  {
+    "CPTCode": "10160",
+    "Description": "Aspiration of abscess, blood, or cyst"
+  },
+  {
+    "CPTCode": "11004",
+    "Description": "Removal of infected skin, tissue or muscle of genitals"
+  },
+  {
+    "CPTCode": "11008",
+    "Description": "Removal of infected artificial material or mesh from abdomen"
+  },
+  {
+    "CPTCode": "11044",
+    "Description": "Removal of bone, 20.0 sq cm or less"
+  },
+  {
+    "CPTCode": "11102",
+    "Description": "Biopsy of related skin growth, first growth"
+  },
+  {
+    "CPTCode": "11201",
+    "Description": "Removal of skin tag, each additional 10 skin tags"
+  },
+  {
+    "CPTCode": "11305",
+    "Description": "Shaving of skin growth of scalp, neck, hands, feet, or genitals, 0.5 cm or less"
+  },
+  {
+    "CPTCode": "11306",
+    "Description": "Shaving of skin growth of scalp, neck, hands, feet, or genitals, 0.6-1.0 cm"
+  },
+  {
+    "CPTCode": "11307",
+    "Description": "Shaving of skin growth of scalp, neck, hands, feet, or genitals, 1.1-2.0 cm"
+  },
+  {
+    "CPTCode": "11308",
+    "Description": "Shaving of skin growth of scalp, neck, hands, feet, or genitals, more than 2.0 cm"
+  },
+  {
+    "CPTCode": "11313",
+    "Description": "Shaving of skin growth of face, ears, eyelids, nose, lips, or mouth, more than 2.0 cm"
+  },
+  {
+    "CPTCode": "11404",
+    "Description": "Removal of noncancer skin growth of body, arms, or legs, 3.1-4.0 cm"
+  },
+  {
+    "CPTCode": "11406",
+    "Description": "Removal of noncancer skin growth of body, arms, or legs, more than 4.0 cm"
+  },
+  {
+    "CPTCode": "00830",
+    "Description": "Anesthesia for other repair of lower abdomen hernia (1 year or older)"
+  },
+  {
+    "CPTCode": "00848",
+    "Description": "Anesthesia for removal of pelvic organs including use of an endoscope"
+  },
+  {
+    "CPTCode": "00862",
+    "Description": "Anesthesia for procedure on upper urinary tubes or removal of kidney for transplant"
+  },
+  {
+    "CPTCode": "00906",
+    "Description": "Anesthesia for removal of external female genitals"
+  },
+  {
+    "CPTCode": "00910",
+    "Description": "Anesthesia for other procedure on urinary system through urethra"
+  },
+  {
+    "CPTCode": "00912",
+    "Description": "Anesthesia for removal of urinary bladder tumors including use of an endoscope"
+  },
+  {
+    "CPTCode": "00921",
+    "Description": "Anesthesia for vasectomy"
+  },
+  {
+    "CPTCode": "00936",
+    "Description": "Anesthesia for amputation of penis and removal of lymph nodes on both sides of groin and pelvis (inguinal and iliac nodes)"
+  },
+  {
+    "CPTCode": "00944",
+    "Description": "Anesthesia for vaginal removal of uterus"
+  },
+  {
+    "CPTCode": "01202",
+    "Description": "Anesthesia for procedure on hip joint using an endoscope"
+  },
+  {
+    "CPTCode": "01230",
+    "Description": "Anesthesia for procedure on upper 2/3rd of thigh bone"
+  },
+  {
+    "CPTCode": "01260",
+    "Description": "Anesthesia for procedure on veins in upper leg"
+  },
+  {
+    "CPTCode": "01270",
+    "Description": "Anesthesia for other procedure on artery of upper leg"
+  },
+  {
+    "CPTCode": "01272",
+    "Description": "Anesthesia for tying of artery of upper leg"
+  },
+  {
+    "CPTCode": "01340",
+    "Description": "Anesthesia for closed procedure on lower 1/3rd of thigh bone"
+  },
+  {
+    "CPTCode": "01402",
+    "Description": "Anesthesia for procedure for total knee joint replacement"
+  },
+  {
+    "CPTCode": "01420",
+    "Description": "Anesthesia for application, removal, or repair of cast to knee"
+  },
+  {
+    "CPTCode": "01430",
+    "Description": "Anesthesia for other procedure on vein of knee"
+  },
+  {
+    "CPTCode": "01472",
+    "Description": "Anesthesia for repair of Achilles tendon"
+  },
+  {
+    "CPTCode": "01680",
+    "Description": "Anesthesia for other application, removal, or repair of cast"
+  },
+  {
+    "CPTCode": "01712",
+    "Description": "Anesthesia for procedure on tendon of elbow to shoulder"
+  },
+  {
+    "CPTCode": "01716",
+    "Description": "Anesthesia for procedure on tendon of upper arm muscle"
+  },
+  {
+    "CPTCode": "01742",
+    "Description": "Anesthesia for incision or partial removal of upper arm bone"
+  },
+  {
+    "CPTCode": "01760",
+    "Description": "Anesthesia for total elbow joint replacement"
+  },
+  {
+    "CPTCode": "01780",
+    "Description": "Anesthesia for other procedure on veins of upper arm and elbow"
+  },
+  {
+    "CPTCode": "01810",
+    "Description": "Anesthesia for procedure on nerves, muscles, tendons, and tissue of forearm, wrist, and hand"
+  },
+  {
+    "CPTCode": "01852",
+    "Description": "Anesthesia for suture of forearm, wrist, or hand vein"
+  },
+  {
+    "CPTCode": "01920",
+    "Description": "Anesthesia for X-ray on heart vessels and chambers"
+  },
+  {
+    "CPTCode": "01939",
+    "Description": "Anesthesia for nerve destruction procedures on spine or spinal cord of neck or upper back accessed through skin using imaging guidance"
+  },
+  {
+    "CPTCode": "01940",
+    "Description": "Anesthesia for nerve destruction procedures on spine or spinal cord of lower back accessed through skin using imaging guidance"
+  },
+  {
+    "CPTCode": "01941",
+    "Description": "Anesthesia for nerve modulation procedure spinal cord or repair of bone of spine of neck or upper back accessed through skin using imaging guidance"
+  },
+  {
+    "CPTCode": "01942",
+    "Description": "Anesthesia for nerve modulation procedure spinal cord or repair of bone of spine of lower back accessed through skin using imaging guidance"
+  },
+  {
+    "CPTCode": "01953",
+    "Description": "Anesthesia for treatment of second and third degree burn, each additional 9% of total body surface area or less"
+  },
+  {
+    "CPTCode": "01961",
+    "Description": "Anesthesia for cesarean delivery"
+  },
+  {
+    "CPTCode": "01963",
+    "Description": "Anesthesia for cesarean and removal of uterus"
+  },
+  {
+    "CPTCode": "01991",
+    "Description": "Anesthesia for nerve block and injection"
+  },
+  {
+    "CPTCode": "10004",
+    "Description": "Fine needle aspiration biopsy, each additional growth"
+  },
+  {
+    "CPTCode": "10006",
+    "Description": "Fine needle aspiration biopsy using ultrasound guidance, each additional growth"
+  },
+  {
+    "CPTCode": "10035",
+    "Description": "Placement of soft tissue locating device using X-ray, first growth"
+  },
+  {
+    "CPTCode": "10080",
+    "Description": "Simple drainage of cyst of tailbone"
+  },
+  {
+    "CPTCode": "10120",
+    "Description": "Removal of foreign body from tissue, accessed beneath the skin, simple"
+  },
+  {
+    "CPTCode": "11000",
+    "Description": "Removal of inflamed or infected skin, up to 10% of body surface"
+  },
+  {
+    "CPTCode": "11006",
+    "Description": "Removal of infected skin, tissue or muscle of genitals, perineum, or abdomen"
+  },
+  {
+    "CPTCode": "11011",
+    "Description": "Removal of foreign material from skin, tissue, and muscle at open broken and/or dislocated bone"
+  },
+  {
+    "CPTCode": "11046",
+    "Description": "Removal of muscle and/or tissue, each additional 20.0 sq cm or less"
+  },
+  {
+    "CPTCode": "11103",
+    "Description": "Biopsy of related skin growth, each additional growth"
+  },
+  {
+    "CPTCode": "11104",
+    "Description": "Punch biopsy, first skin growth"
+  },
+  {
+    "CPTCode": "11105",
+    "Description": "Punch biopsy, each additional skin growth"
+  },
+  {
+    "CPTCode": "11301",
+    "Description": "Shaving of skin growth of body, arms, or legs, 0.6-1.0 cm"
+  },
+  {
+    "CPTCode": "11311",
+    "Description": "Shaving of skin growth of face, ears, eyelids, nose, lips, or mouth, 0.6-1.0 cm"
+  },
+  {
+    "CPTCode": "11312",
+    "Description": "Shaving of skin growth of face, ears, eyelids, nose, lips, or mouth, 1.1-2.0 cm"
+  },
+  {
+    "CPTCode": "11400",
+    "Description": "Removal of noncancer skin growth of body, arms, or legs, 0.5 cm or less"
+  },
+  {
+    "CPTCode": "11401",
+    "Description": "Removal of noncancer skin growth of body, arms, or legs, 0.6-1.0 cm"
+  },
+  {
+    "CPTCode": "11403",
+    "Description": "Removal of noncancer skin growth of body, arms, or legs, 2.1-3.0 cm"
+  },
+  {
+    "CPTCode": "99213",
+    "Description": "Established patient office or other outpatient visit with low level od decision making, if using time, 20 minutes or more"
+  },
+  {
+    "CPTCode": "99215",
+    "Description": "Established patient office or other outpatient visit with high level of medical decision making, if using time, 40 minutes or more"
+  },
+  {
+    "CPTCode": "99222",
+    "Description": "Initial hospital care with straightforward or low-level medical decision making, if using time, at least 55 minutes"
+  },
+  {
+    "CPTCode": "99223",
+    "Description": "Initial hospital care with moderate level of medical decision making, if using time, at least 75 minutes"
+  },
+  {
+    "CPTCode": "99234",
+    "Description": "Initial hospital care with same-day admission and discharge with straightforward or low level of medical decision making, per day, if using time, at least 45 minutes"
+  },
+  {
+    "CPTCode": "99284",
+    "Description": "Emergency department visit with moderate level of medical decision making"
+  },
+  {
+    "CPTCode": "99291",
+    "Description": "Critical care, first 30-74 minutes"
+  },
+  {
+    "CPTCode": "99305",
+    "Description": "Initial nursing facility care with moderate level of medical decision making, per day, if using time, at least 35 minutes"
+  },
+  {
+    "CPTCode": "99307",
+    "Description": "Subsequent nursing facility care with straightforward level of medical decision making, per day, if using time, at least 10 minutes"
+  },
+  {
+    "CPTCode": "99308",
+    "Description": "Subsequent nursing facility care with straightforward level of medical decision making, per day, if using time, 20 minutes or more"
+  },
+  {
+    "CPTCode": "99310",
+    "Description": "Subsequent nursing facility care with high level of medical decision making, per day, if using time, at least 45 minutes"
+  },
+  {
+    "CPTCode": "99315",
+    "Description": "Nursing facility discharge day management, 30 minutes or less"
+  },
+  {
+    "CPTCode": "99350",
+    "Description": "Residence visit for established patient with high level of medical decision making, per day, if using time, at least 60 minutes"
+  },
+  {
+    "CPTCode": "99360",
+    "Description": "Extended physician standby service, each 30 minutes"
+  },
+  {
+    "CPTCode": "99377",
+    "Description": "Physician supervision of patient hospice services per month, 15-29 minutes"
+  },
+  {
+    "CPTCode": "99383",
+    "Description": "Initial new patient preventive medicine evaluation (5-11 years)"
+  },
+  {
+    "CPTCode": "99387",
+    "Description": "Initial new patient preventive medicine evaluation (65 years or older)"
+  },
+  {
+    "CPTCode": "99392",
+    "Description": "Established patient periodic preventive medicine examination (1-4 years)"
+  },
+  {
+    "CPTCode": "99402",
+    "Description": "Preventive medicine counseling, typically 30 minutes"
+  },
+  {
+    "CPTCode": "99403",
+    "Description": "Preventive medicine counseling, typically 45 minutes"
+  },
+  {
+    "CPTCode": "99408",
+    "Description": "Alcohol and/or substance abuse screening and intervention, 15-30 minutes"
+  },
+  {
+    "CPTCode": "99409",
+    "Description": "Alcohol and/or substance abuse screening and intervention, more than 30 minutes"
+  },
+  {
+    "CPTCode": "99412",
+    "Description": "Group preventive medicine counseling, typically 1 hour"
+  },
+  {
+    "CPTCode": "99429",
+    "Description": "Other preventive medicine service"
+  },
+  {
+    "CPTCode": "99422",
+    "Description": "Online digital evaluation and management service for an established patient for up to 7 days, total time 11-20 minutes"
+  },
+  {
+    "CPTCode": "99452",
+    "Description": "Telephone or internet referral service, 30 minutes"
+  },
+  {
+    "CPTCode": "99454",
+    "Description": "Remote monitoring of physiologic parameters, initial supply of devices with daily recordings or programmed alerts transmission, each 30 days"
+  },
+  {
+    "CPTCode": "99462",
+    "Description": "Follow-up hospital care of newborn per day"
+  },
+  {
+    "CPTCode": "99465",
+    "Description": "Reviving newborn at delivery"
+  },
+  {
+    "CPTCode": "99469",
+    "Description": "Follow-up inpatient hospital critical care of newborn per day (28 days or younger)"
+  },
+  {
+    "CPTCode": "99477",
+    "Description": "Initial intensive care of newborn per day (28 days or younger)"
+  },
+  {
+    "CPTCode": "99479",
+    "Description": "Follow-up intensive care of recovering low birth weight infant per day"
+  },
+  {
+    "CPTCode": "99480",
+    "Description": "Follow-up intensive care of recovering medium birth weight infant per day"
+  },
+  {
+    "CPTCode": "99483",
+    "Description": "Assessment of and care planning for patient with impaired thought processing, typically 60 minutes"
+  },
+  {
+    "CPTCode": "99491",
+    "Description": "Chronic care management services for two or more chronic conditions, first 30 minutes provided personally by health care professional, per calendar month"
+  },
+  {
+    "CPTCode": "99425",
+    "Description": "Principal care management services for a single high-risk disease, each additional 30 minutes provided personally by qualified health care professional, per calendar month"
+  },
+  {
+    "CPTCode": "99492",
+    "Description": "Initial psychiatric collaborative care management, first calendar month, first 70 minutes"
+  },
+  {
+    "CPTCode": "99495",
+    "Description": "Transitional care management services for problem of at least moderate complexity"
+  },
+  {
+    "CPTCode": "99484",
+    "Description": "Care management services for behavioral health conditions, 20 minutes or more clinical staff time directed by health care professional"
+  },
+  {
+    "CPTCode": "00102",
+    "Description": "Anesthesia for plastic repair of lip defect"
+  },
+  {
+    "CPTCode": "00124",
+    "Description": "Anesthesia for exam of ear using an endoscope"
+  },
+  {
+    "CPTCode": "00126",
+    "Description": "Anesthesia for incision of ear drum"
+  },
+  {
+    "CPTCode": "00140",
+    "Description": "Anesthesia for other procedure on eye"
+  },
+  {
+    "CPTCode": "00160",
+    "Description": "Anesthesia for other procedure on nose and sinuses"
+  },
+  {
+    "CPTCode": "00164",
+    "Description": "Anesthesia for biopsy of soft tissue of nose and sinus"
+  },
+  {
+    "CPTCode": "00170",
+    "Description": "Anesthesia for other procedure on mouth"
+  },
+  {
+    "CPTCode": "00174",
+    "Description": "Anesthesia for procedure on throat for removal of tumor"
+  },
+  {
+    "CPTCode": "00176",
+    "Description": "Anesthesia for extensive surgery on mouth"
+  },
+  {
+    "CPTCode": "00192",
+    "Description": "Anesthesia for extensive surgery on face bones or skull"
+  },
+  {
+    "CPTCode": "00211",
+    "Description": "Anesthesia for removal of blood collection from brain"
+  },
+  {
+    "CPTCode": "00214",
+    "Description": "Anesthesia for procedure to create holes in skull including X-ray imaging"
+  },
+  {
+    "CPTCode": "00216",
+    "Description": "Anesthesia for procedure on blood vessels in brain"
+  },
+  {
+    "CPTCode": "00222",
+    "Description": "Anesthesia for procedure on nerve in brain"
+  },
+  {
+    "CPTCode": "00320",
+    "Description": "Anesthesia for other procedure on neck area (1 year or older)"
+  },
+  {
+    "CPTCode": "00326",
+    "Description": "Anesthesia for other procedure on neck area (younger than 1 year)"
+  },
+  {
+    "CPTCode": "00404",
+    "Description": "Anesthesia for removal of all or part of breast"
+  },
+  {
+    "CPTCode": "00406",
+    "Description": "Anesthesia for removal of breast and lymph nodes"
+  },
+  {
+    "CPTCode": "00450",
+    "Description": "Anesthesia for other procedure on collar bone and shoulder blade"
+  },
+  {
+    "CPTCode": "00532",
+    "Description": "Anesthesia for access to central vein"
+  },
+  {
+    "CPTCode": "00541",
+    "Description": "Anesthesia for procedure on chest with 1 lung inflated"
+  },
+  {
+    "CPTCode": "00560",
+    "Description": "Anesthesia for procedure on heart and large blood vessels"
+  },
+  {
+    "CPTCode": "00563",
+    "Description": "Anesthesia for procedure on heart and large blood vessels using heart-lung machine and stopping blood flow"
+  },
+  {
+    "CPTCode": "00580",
+    "Description": "Anesthesia for heart or heart-lung transplant"
+  },
+  {
+    "CPTCode": "00604",
+    "Description": "Anesthesia for procedure on upper spine with sitting up"
+  },
+  {
+    "CPTCode": "00620",
+    "Description": "Anesthesia for other procedure on middle spine"
+  },
+  {
+    "CPTCode": "00632",
+    "Description": "Anesthesia for removal of nerves in lower spine"
+  },
+  {
+    "CPTCode": "00670",
+    "Description": "Anesthesia for extensive surgery on spine"
+  },
+  {
+    "CPTCode": "00702",
+    "Description": "Anesthesia for biopsy of liver"
+  },
+  {
+    "CPTCode": "00730",
+    "Description": "Anesthesia for procedure on upper rear abdomen"
+  },
+  {
+    "CPTCode": "00750",
+    "Description": "Anesthesia for other repair of upper abdomen hernia"
+  },
+  {
+    "CPTCode": "00794",
+    "Description": "Anesthesia for removal of pancreas including use of an endoscope"
+  },
+  {
+    "CPTCode": "00800",
+    "Description": "Anesthesia for other procedure on lower front abdomen"
+  },
+  {
+    "CPTCode": "00811",
+    "Description": "Anesthesia for other procedure on large bowel using an endoscope"
+  },
+  {
+    "CPTCode": "00902",
+    "Description": "Anesthesia for procedure on anus and rectum"
+  },
+  {
+    "CPTCode": "00904",
+    "Description": "Anesthesia for extensive procedure on perineum"
+  },
+  {
+    "CPTCode": "00914",
+    "Description": "Anesthesia for removal of prostate including use of an endoscope"
+  },
+  {
+    "CPTCode": "00916",
+    "Description": "Anesthesia for procedure to control urinary system bleeding including use of an endoscope"
+  },
+  {
+    "CPTCode": "00924",
+    "Description": "Anesthesia for procedure on undescended testicle"
+  },
+  {
+    "CPTCode": "00928",
+    "Description": "Anesthesia for removal of testicle through incision in abdomen"
+  },
+  {
+    "CPTCode": "01160",
+    "Description": "Anesthesia for closed procedure on pubic bone or pelvic joint"
+  },
+  {
+    "CPTCode": "01170",
+    "Description": "Anesthesia for procedure on pubic bone or pelvic joint"
+  },
+  {
+    "CPTCode": "01200",
+    "Description": "Anesthesia for closed procedure on hip joint"
+  },
+  {
+    "CPTCode": "01212",
+    "Description": "Anesthesia for removal of hip bone at joint"
+  },
+  {
+    "CPTCode": "01214",
+    "Description": "Anesthesia for total hip replacement"
+  },
+  {
+    "CPTCode": "01220",
+    "Description": "Anesthesia for closed procedure on upper 2/3rd of thigh bone"
+  },
+  {
+    "CPTCode": "01360",
+    "Description": "Anesthesia for procedure on lower 1/3rd of thigh bone"
+  },
+  {
+    "CPTCode": "01380",
+    "Description": "Anesthesia for closed procedure on knee joint"
+  },
+  {
+    "CPTCode": "01382",
+    "Description": "Anesthesia for exam of knee joint using an endoscope"
+  },
+  {
+    "CPTCode": "01392",
+    "Description": "Anesthesia for procedure on kneecap and/or upper part of lower leg bones"
+  },
+  {
+    "CPTCode": "01400",
+    "Description": "Anesthesia for other procedure or exam of knee joint using an endoscope"
+  },
+  {
+    "CPTCode": "01404",
+    "Description": "Anesthesia for removal of leg at knee joint"
+  },
+  {
+    "CPTCode": "01440",
+    "Description": "Anesthesia for other procedure on artery of knee"
+  },
+  {
+    "CPTCode": "01464",
+    "Description": "Anesthesia for procedure on ankle or foot using an endoscope"
+  },
+  {
+    "CPTCode": "01474",
+    "Description": "Anesthesia for repair of calf muscle"
+  },
+  {
+    "CPTCode": "01520",
+    "Description": "Anesthesia for other procedure on vein of lower leg"
+  },
+  {
+    "CPTCode": "01522",
+    "Description": "Anesthesia for removal of obstruction in vein of lower leg"
+  },
+  {
+    "CPTCode": "01634",
+    "Description": "Anesthesia for removal of arm at shoulder joint"
+  },
+  {
+    "CPTCode": "01650",
+    "Description": "Anesthesia for other procedure on arteries of shoulder and underarm"
+  },
+  {
+    "CPTCode": "01670",
+    "Description": "Anesthesia for procedure on veins of shoulder and underarm"
+  },
+  {
+    "CPTCode": "01714",
+    "Description": "Anesthesia for repair of elbow to shoulder tendon"
+  },
+  {
+    "CPTCode": "01730",
+    "Description": "Anesthesia for closed procedure on upper arm and elbow"
+  },
+  {
+    "CPTCode": "01732",
+    "Description": "Anesthesia for exam of elbow joint using an endoscope"
+  },
+  {
+    "CPTCode": "01740",
+    "Description": "Anesthesia for other procedure on elbow"
+  },
+  {
+    "CPTCode": "01744",
+    "Description": "Anesthesia for repair of nonhealed broken upper arm bone"
+  },
+  {
+    "CPTCode": "01756",
+    "Description": "Anesthesia for extensive procedure on elbow"
+  },
+  {
+    "CPTCode": "01820",
+    "Description": "Anesthesia for closed procedure on bones of forearm, wrist, or hand"
+  },
+  {
+    "CPTCode": "01832",
+    "Description": "Anesthesia for total wrist joint replacement"
+  },
+  {
+    "CPTCode": "01922",
+    "Description": "Anesthesia for X-ray or radiation therapy"
+  },
+  {
+    "CPTCode": "01931",
+    "Description": "Anesthesia for X-ray on vein of liver"
+  },
+  {
+    "CPTCode": "01938",
+    "Description": "Anesthesia for injection, drainage or aspiration procedures on spine or spinal cord of lower back accessed through skin using imaging guidance"
+  },
+  {
+    "CPTCode": "01962",
+    "Description": "Anesthesia for procedure to remove uterus following delivery"
+  },
+  {
+    "CPTCode": "01966",
+    "Description": "Anesthesia for induced abortion"
+  },
+  {
+    "CPTCode": "01967",
+    "Description": "Anesthesia for labor during planned vaginal delivery"
+  },
+  {
+    "CPTCode": "01968",
+    "Description": "Anesthesia for cesarean delivery following labor"
+  },
+  {
+    "CPTCode": "01969",
+    "Description": "Anesthesia for cesarean removal of uterus following labor"
+  },
+  {
+    "CPTCode": "01996",
+    "Description": "Daily hospital management of continuous spinal drug administration"
+  },
+  {
+    "CPTCode": "01999",
+    "Description": "Other anesthesia procedure"
+  },
+  {
+    "CPTCode": "10007",
+    "Description": "Fine needle aspiration biopsy using fluoroscopic guidance, first growth"
+  },
+  {
+    "CPTCode": "10008",
+    "Description": "Fine needle aspiration biopsy using fluoroscopic guidance, each additional growth"
+  },
+  {
+    "CPTCode": "10121",
+    "Description": "Removal of foreign body from tissue, accessed beneath the skin, complex"
+  },
+  {
+    "CPTCode": "10180",
+    "Description": "Complex drainage of wound infection after surgery"
+  },
+  {
+    "CPTCode": "11012",
+    "Description": "Removal of foreign material from skin, tissue, muscle, and bone at open broken and/or dislocated bone"
+  },
+  {
+    "CPTCode": "11047",
+    "Description": "Removal of bone, each additional 20.0 sq cm or less"
+  },
+  {
+    "CPTCode": "11055",
+    "Description": "Removal of noncancer thickened skin growth, 1 growth"
+  },
+  {
+    "CPTCode": "11056",
+    "Description": "Removal of noncancer thickened skin growth, 2-4 growths"
+  },
+  {
+    "CPTCode": "11057",
+    "Description": "Removal of noncancer thickened skin growth, more than 4 growths"
+  },
+  {
+    "CPTCode": "11106",
+    "Description": "Incision biopsy, first skin growth"
+  },
+  {
+    "CPTCode": "11107",
+    "Description": "Incision biopsy, each additional skin growth"
+  },
+  {
+    "CPTCode": "11300",
+    "Description": "Shaving of skin growth of body, arms, or legs, 0.5 cm or less"
+  },
+  {
+    "CPTCode": "11303",
+    "Description": "Shaving of skin growth of body, arms, or legs, more than 2.0 cm"
+  },
+  {
+    "CPTCode": "99214",
+    "Description": "Established patient office or other outpatient visit with moderate level of decision making, if using time, 30 minutes or more"
+  },
+  {
+    "CPTCode": "99231",
+    "Description": "Subsequent hospital care with straightforward or low level of medical decision making, per day, if using time, at least 25 minutes"
+  },
+  {
+    "CPTCode": "99236",
+    "Description": "Initial hospital care with same-day admission and discharge with high level of medical decision making, per day, if using time, at least 85 minutes"
+  },
+  {
+    "CPTCode": "99243",
+    "Description": "Outpatient consultation with low level of medical decision making, if using time, at least 30 minutes"
+  },
+  {
+    "CPTCode": "99244",
+    "Description": "Outpatient consultation with moderate level of medical decision making, if using time, at least 40 minutes"
+  },
+  {
+    "CPTCode": "99252",
+    "Description": "Hospital consultation with straightforward medical decision making, if using time, at least 35 minutes"
+  },
+  {
+    "CPTCode": "99281",
+    "Description": "Emergency department visit for problem that may not require health care professional"
+  },
+  {
+    "CPTCode": "99292",
+    "Description": "Critical care, each additional 30 minutes"
+  },
+  {
+    "CPTCode": "99342",
+    "Description": "Residence visit for new patient with low level of medical decision making, per day, if using time, at least 30 minutes"
+  },
+  {
+    "CPTCode": "99349",
+    "Description": "Residence visit for established patient with moderate level of medical decision making, per day, if using time, at least 40 minutes"
+  },
+  {
+    "CPTCode": "99358",
+    "Description": "Extended patient service without direct patient contact, first hour"
+  },
+  {
+    "CPTCode": "99417",
+    "Description": "Prolonged outpatient service, each 15 minutes of total time beyond required time of primary service"
+  },
+  {
+    "CPTCode": "99418",
+    "Description": "Prolonged inpatient or observation service, each 15 minutes of total time beyond required time of primary service"
+  },
+  {
+    "CPTCode": "99366",
+    "Description": "Medical team conference with patient and/or family, and nonphysician health care professionals, 30 minutes or more"
+  },
+  {
+    "CPTCode": "99374",
+    "Description": "Physician supervision of patient home health agency services per month, 15-29 minutes"
+  },
+  {
+    "CPTCode": "99375",
+    "Description": "Physician supervision of patient home health agency services per month, 30 minutes or more"
+  },
+  {
+    "CPTCode": "99385",
+    "Description": "Initial new patient preventive medicine evaluation (18-39 years)"
+  },
+  {
+    "CPTCode": "99386",
+    "Description": "Initial new patient preventive medicine evaluation (40-64 years)"
+  },
+  {
+    "CPTCode": "99391",
+    "Description": "Established patient periodic preventive medicine examination (younger than 1 year)"
+  },
+  {
+    "CPTCode": "99401",
+    "Description": "Preventive medicine counseling, typically 15 minutes"
+  },
+  {
+    "CPTCode": "99404",
+    "Description": "Preventive medicine counseling, typically 1 hour"
+  },
+  {
+    "CPTCode": "99442",
+    "Description": "Telephone medical discussion with physician, 11-20 minutes"
+  },
+  {
+    "CPTCode": "99443",
+    "Description": "Telephone medical discussion with physician, 21-30 minutes"
+  },
+  {
+    "CPTCode": "99423",
+    "Description": "Online digital evaluation and management service for an established patient for up to 7 days, total time 21 or more minutes"
+  },
+  {
+    "CPTCode": "99448",
+    "Description": "Telephone or internet assessment with verbal and written report by consulting physician, 21-30 minutes"
+  },
+  {
+    "CPTCode": "99453",
+    "Description": "Remote monitoring of physiologic parameters, initial set-up and patient education on use of equipment"
+  },
+  {
+    "CPTCode": "99091",
+    "Description": "Collection and interpretation of physical parameters stored in computers and/or transmitted by the patient and/or caregiver to qualified health care professional, requiring 30 minutes or more, per 30 days"
+  },
+  {
+    "CPTCode": "99474",
+    "Description": "Self measured blood pressure measurements"
+  },
+  {
+    "CPTCode": "99463",
+    "Description": "Initial inpatient hospital or birthing center same date care and discharge of newborn"
+  },
+  {
+    "CPTCode": "99486",
+    "Description": "Supervision of interfacility transport care of critical patient, each additional 30 minutes (2 years or younger)"
+  },
+  {
+    "CPTCode": "99471",
+    "Description": "Initial inpatient hospital critical care of infant or young child per day (29 days to 2 years)"
+  },
+  {
+    "CPTCode": "99476",
+    "Description": "Follow-up inpatient hospital critical care of infant or young child per day (2-5 years)"
+  },
+  {
+    "CPTCode": "99478",
+    "Description": "Follow-up intensive care of recovering very low birth weight infant per day"
+  },
+  {
+    "CPTCode": "99437",
+    "Description": "Chronic care management services for two or more chronic conditions, additional 30 minutes provided personally by health care professional, per calendar month"
+  },
+  {
+    "CPTCode": "99489",
+    "Description": "Complex chronic care management services for two or more chronic conditions, each additional 60 minutes of clinical staff time directed by health care professional, per calendar month"
+  },
+  {
+    "CPTCode": "99496",
+    "Description": "Transitional care management services for problem of high complexity"
+  },
+  {
+    "CPTCode": "99497",
+    "Description": "Advance care planning, first 30 minutes"
+  },
+  {
+    "CPTCode": "99499",
+    "Description": "Other evaluation and management service"
+  },
+  {
+    "CPTCode": "00100",
+    "Description": "Anesthesia for procedure on saliva gland"
+  },
+  {
+    "CPTCode": "00104",
+    "Description": "Anesthesia for electroshock therapy"
+  },
+  {
+    "CPTCode": "00144",
+    "Description": "Anesthesia for procedure on eye for corneal transplant"
+  },
+  {
+    "CPTCode": "00147",
+    "Description": "Anesthesia for procedure on eye for removal of iris"
+  },
+  {
+    "CPTCode": "00148",
+    "Description": "Anesthesia for exam of inner eye using an endoscope"
+  },
+  {
+    "CPTCode": "00162",
+    "Description": "Anesthesia for extensive surgery on nose and sinuses"
+  },
+  {
+    "CPTCode": "00210",
+    "Description": "Anesthesia for other procedure on brain"
+  },
+  {
+    "CPTCode": "00220",
+    "Description": "Anesthesia for procedure to drain brain and spinal cord fluid"
+  },
+  {
+    "CPTCode": "00350",
+    "Description": "Anesthesia for other procedure on large blood vessel of neck"
+  },
+  {
+    "CPTCode": "00402",
+    "Description": "Anesthesia for reconstruction of breast"
+  },
+  {
+    "CPTCode": "00454",
+    "Description": "Anesthesia for biopsy of collar bone"
+  },
+  {
+    "CPTCode": "00534",
+    "Description": "Anesthesia for insertion or replace of pacing heart defibrillator"
+  },
+  {
+    "CPTCode": "00540",
+    "Description": "Anesthesia for other procedure on chest"
+  },
+  {
+    "CPTCode": "00546",
+    "Description": "Anesthesia for removal of lung with chest wall repair"
+  },
+  {
+    "CPTCode": "00600",
+    "Description": "Anesthesia for other procedure on upper spine"
+  },
+  {
+    "CPTCode": "00626",
+    "Description": "Anesthesia for procedure on middle spine through chest wall with 1 lung inflated"
+  },
+  {
+    "CPTCode": "00630",
+    "Description": "Anesthesia for other procedure on lower spine"
+  },
+  {
+    "CPTCode": "00731",
+    "Description": "Anesthesia for other procedure on esophagus, stomach, or upper small bowel using an endoscope"
+  },
+  {
+    "CPTCode": "00732",
+    "Description": "Anesthesia for procedure on gallbladder, pancreas, or liver using an endoscope"
+  },
+  {
+    "CPTCode": "00752",
+    "Description": "Anesthesia for procedure to repair upper abdominal incisional hernia and/or wound opening"
+  },
+  {
+    "CPTCode": "00754",
+    "Description": "Anesthesia for procedure to repair upper abdominal hernia present at birth"
+  },
+  {
+    "CPTCode": "00756",
+    "Description": "Anesthesia for procedure to repair abdominal hernia"
+  },
+  {
+    "CPTCode": "00792",
+    "Description": "Anesthesia for partial removal of liver or management of bleeding including use of an endoscope"
+  },
+  {
+    "CPTCode": "00836",
+    "Description": "Anesthesia for repair of lower abdomen hernia (infant younger than 37 weeks at birth and younger than 50 weeks of age at time of surgery)"
+  },
+  {
+    "CPTCode": "00840",
+    "Description": "Anesthesia for other procedure on lower abdomen"
+  },
+  {
+    "CPTCode": "00842",
+    "Description": "Anesthesia for removal of amniotic fluid from uterus"
+  },
+  {
+    "CPTCode": "00844",
+    "Description": "Anesthesia for procedure on large bowel"
+  },
+  {
+    "CPTCode": "00846",
+    "Description": "Anesthesia for removal of uterus including use of an endoscope"
+  },
+  {
+    "CPTCode": "00865",
+    "Description": "Anesthesia for extensive removal of prostate"
+  },
+  {
+    "CPTCode": "00866",
+    "Description": "Anesthesia for removal of adrenal gland"
+  },
+  {
+    "CPTCode": "00872",
+    "Description": "Anesthesia for shock wave therapy for urinary system stones with water bath"
+  },
+  {
+    "CPTCode": "00873",
+    "Description": "Anesthesia for shock wave therapy for urinary system stones without water bath"
+  },
+  {
+    "CPTCode": "00882",
+    "Description": "Anesthesia for tying of large vein of lower abdomen"
+  },
+  {
+    "CPTCode": "00918",
+    "Description": "Anesthesia for fragmenting, manipulation and/or removal of kidney stone including use of an endoscope"
+  },
+  {
+    "CPTCode": "00922",
+    "Description": "Anesthesia for procedure on male genital glands"
+  },
+  {
+    "CPTCode": "00926",
+    "Description": "Anesthesia for removal of testicle through groin"
+  },
+  {
+    "CPTCode": "00930",
+    "Description": "Anesthesia for relocation of undescended testicle into scrotum"
+  },
+  {
+    "CPTCode": "00932",
+    "Description": "Anesthesia for complete amputation of penis"
+  },
+  {
+    "CPTCode": "00934",
+    "Description": "Anesthesia for amputation of penis and removal of lymph nodes of groin"
+  },
+  {
+    "CPTCode": "00942",
+    "Description": "Anesthesia for repair or removal of vagina and urinary procedure"
+  },
+  {
+    "CPTCode": "00950",
+    "Description": "Anesthesia for exam of cervix using an endoscope"
+  },
+  {
+    "CPTCode": "01112",
+    "Description": "Anesthesia for bone marrow aspiration and/or biopsy at pelvic bone"
+  },
+  {
+    "CPTCode": "01120",
+    "Description": "Anesthesia for procedure on hip bone"
+  },
+  {
+    "CPTCode": "01130",
+    "Description": "Anesthesia for application or revision of body cast"
+  },
+  {
+    "CPTCode": "01140",
+    "Description": "Anesthesia for amputation of leg including pelvic bone"
+  },
+  {
+    "CPTCode": "01210",
+    "Description": "Anesthesia for other procedure on hip joint"
+  },
+  {
+    "CPTCode": "01215",
+    "Description": "Anesthesia for revision of total hip replacement"
+  },
+  {
+    "CPTCode": "01232",
+    "Description": "Anesthesia for amputation on upper 2/3rd of thigh bone"
+  },
+  {
+    "CPTCode": "01234",
+    "Description": "Anesthesia for removal of muscle or tissue on upper 2/3rd of thigh bone"
+  },
+  {
+    "CPTCode": "01274",
+    "Description": "Anesthesia for removal of blood clot in artery of upper leg"
+  },
+  {
+    "CPTCode": "01320",
+    "Description": "Anesthesia for procedure on nerves, muscles, tendons, and tissue of knee"
+  },
+  {
+    "CPTCode": "01390",
+    "Description": "Anesthesia for closed procedure on kneecap and/or upper part of lower leg bones"
+  },
+  {
+    "CPTCode": "01442",
+    "Description": "Anesthesia for removal of blood clot of artery behind knee"
+  },
+  {
+    "CPTCode": "01444",
+    "Description": "Anesthesia for repair of bulging (aneurysm) defect in knee artery"
+  },
+  {
+    "CPTCode": "01462",
+    "Description": "Anesthesia for closed procedure on lower leg, ankle, and foot"
+  },
+  {
+    "CPTCode": "01480",
+    "Description": "Anesthesia for other procedure on lower leg, ankle, and foot bones"
+  },
+  {
+    "CPTCode": "01482",
+    "Description": "Anesthesia for open amputation below the knee"
+  },
+  {
+    "CPTCode": "01486",
+    "Description": "Anesthesia for open total ankle joint replacement"
+  },
+  {
+    "CPTCode": "01490",
+    "Description": "Anesthesia for application, removal, or repair of cast to lower leg"
+  },
+  {
+    "CPTCode": "01500",
+    "Description": "Anesthesia for other procedure on artery of lower leg"
+  },
+  {
+    "CPTCode": "01502",
+    "Description": "Anesthesia for removal of blood clot in artery of lower leg"
+  },
+  {
+    "CPTCode": "01622",
+    "Description": "Anesthesia for exam of shoulder joint using an endoscope"
+  },
+  {
+    "CPTCode": "01630",
+    "Description": "Anesthesia for other procedure on top of arm bone and shoulder joint"
+  },
+  {
+    "CPTCode": "01652",
+    "Description": "Anesthesia for repair of bulging artery of shoulder and underarm"
+  },
+  {
+    "CPTCode": "01656",
+    "Description": "Anesthesia for bypass graft from groin artery to shoulder and underarm artery"
+  },
+  {
+    "CPTCode": "01770",
+    "Description": "Anesthesia for other procedure on arteries of upper arm and elbow"
+  },
+  {
+    "CPTCode": "01782",
+    "Description": "Anesthesia for suture of vein of upper arm and elbow"
+  },
+  {
+    "CPTCode": "01829",
+    "Description": "Anesthesia for exam of wrist using an endoscope"
+  },
+  {
+    "CPTCode": "01844",
+    "Description": "Anesthesia for placement or revision of blood flow shunt"
+  },
+  {
+    "CPTCode": "01860",
+    "Description": "Anesthesia for application, removal, or repair cast to forearm, wrist and hand"
+  },
+  {
+    "CPTCode": "01925",
+    "Description": "Anesthesia for X-ray on artery of neck or heart"
+  },
+  {
+    "CPTCode": "01926",
+    "Description": "Anesthesia for X-ray on artery of brain, heart, or chest"
+  },
+  {
+    "CPTCode": "01930",
+    "Description": "Anesthesia for other X-ray on vein or lymph system"
+  },
+  {
+    "CPTCode": "01951",
+    "Description": "Anesthesia for treatment of second and third degree burn, less than 4% of total body surface area"
+  },
+  {
+    "CPTCode": "01960",
+    "Description": "Anesthesia for vaginal delivery"
+  },
+  {
+    "CPTCode": "01965",
+    "Description": "Anesthesia for incomplete or missed abortion"
+  },
+  {
+    "CPTCode": "01990",
+    "Description": "Physiological support for harvesting of organs"
+  },
+  {
+    "CPTCode": "10021",
+    "Description": "Fine needle aspiration biopsy, first growth"
+  },
+  {
+    "CPTCode": "10005",
+    "Description": "Fine needle aspiration biopsy using ultrasound guidance, first growth"
+  },
+  {
+    "CPTCode": "10009",
+    "Description": "Fine needle aspiration biopsy of growth using CT guidance, first growth"
+  },
+  {
+    "CPTCode": "10010",
+    "Description": "Fine needle aspiration biopsy of growth using CT guidance, each additional growth"
+  },
+  {
+    "CPTCode": "10011",
+    "Description": "Fine needle aspiration biopsy of growth using MRI guidance, first growth"
+  },
+  {
+    "CPTCode": "10060",
+    "Description": "Simple or single drainage of skin abscess"
+  },
+  {
+    "CPTCode": "10061",
+    "Description": "Complicated or multiple drainage of skin abscess"
+  },
+  {
+    "CPTCode": "11001",
+    "Description": "Removal of inflamed or infected skin, each additional 10% of body surface or less"
+  },
+  {
+    "CPTCode": "11005",
+    "Description": "Removal of infected skin, tissue or muscle of abdomen"
+  },
+  {
+    "CPTCode": "11010",
+    "Description": "Removal of foreign material from skin and tissue at open broken and/or dislocated bone"
+  },
+  {
+    "CPTCode": "11042",
+    "Description": "Removal of skin and tissue, 20.0 sq cm or less"
+  },
+  {
+    "CPTCode": "11045",
+    "Description": "Removal of skin and tissue, each additional 20.0 sq cm or less"
+  },
+  {
+    "CPTCode": "11043",
+    "Description": "Removal of muscle and/or tissue, 20.0 sq cm or less"
+  },
+  {
+    "CPTCode": "11200",
+    "Description": "Removal of skin tag, 1-15 skin tags"
+  },
+  {
+    "CPTCode": "11302",
+    "Description": "Shaving of skin growth of body, arms, or legs, 1.1-2.0 cm"
+  },
+  {
+    "CPTCode": "11310",
+    "Description": "Shaving of skin growth of face, ears, eyelids, nose, lips, or mouth, 0.5 cm or less"
+  },
+  {
+    "CPTCode": "11402",
+    "Description": "Removal of noncancer skin growth of body, arms, or legs, 1.1-2.0 cm"
+  }
+
+]
