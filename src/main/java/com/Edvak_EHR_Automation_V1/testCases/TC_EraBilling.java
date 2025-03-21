@@ -24,6 +24,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.Test;
 
 import com.Edvak_EHR_Automation_V1.pageObjects.BillingGenerateClaims;
+import com.Edvak_EHR_Automation_V1.service.SessionData;
 import com.Edvak_EHR_Automation_V1.utilities.ApiIntegrationTest;
 import com.Edvak_EHR_Automation_V1.utilities.DataReader;
 import com.Edvak_EHR_Automation_V1.utilities.LoginUtils;
@@ -31,6 +32,8 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 //import com.gargoylesoftware.htmlunit.javascript.host.URL;
 //import com.Edvak_EHR_Automation_V1.utilities.EncounterClaimStorage;
+
+import jakarta.servlet.http.HttpSession;
 
 
 public class TC_EraBilling extends BaseClass {
@@ -43,7 +46,7 @@ public class TC_EraBilling extends BaseClass {
     List<String> encounterNumbersList = new ArrayList<>();
 
     @Test(priority = 1)
-    public void EraREceived() throws InterruptedException {
+    public void EraREceived(HttpSession session) throws InterruptedException {
         try {
             // Initialize encounterClaimData
             initializeEncounterClaimData();
@@ -54,8 +57,22 @@ public class TC_EraBilling extends BaseClass {
                 return;
             }
     
-            // Log in to the application using reusable login method
-            LoginUtils.loginToApplication(driver, baseURL, "souravsusari311@gmail.com", "Edvak@3210");
+           // ✅ Retrieve email and password dynamically
+    String userEmail = SessionData.getUserEmail();
+    String userPassword = SessionData.getUserPassword();
+
+    if (userEmail == null || userPassword == null) {
+        logger.error("❌ Error: Email or Password not set!");
+        throw new IllegalStateException("User credentials are missing!");
+    }
+
+    // logger.info("✅ Using Email: {} for login", userEmail);
+
+    // ✅ Use retrieved email and password for login
+    LoginUtils.loginToApplication(driver, baseURL, userEmail, userPassword);
+
+    // ✅ Use received email & password for login
+    LoginUtils.loginToApplication(driver, baseURL, userEmail, userPassword);
     
             // Navigate to the Billing Page
             navigateToBillingPage();
