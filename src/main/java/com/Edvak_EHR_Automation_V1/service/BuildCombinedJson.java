@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Random;
 
 import org.springframework.stereotype.Service;
+import static org.testng.Assert.assertTrue;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -16,39 +17,73 @@ import com.fasterxml.jackson.databind.ObjectWriter;
 @Service
 public class BuildCombinedJson {
 
-    public  void buildCombinedJson() throws IOException {
-        String patientDetailsFilePath = "src/test/resources/output/PatientDetails.json";
+    public  void buildCombinedJson(String clearingHouseKey) throws IOException {
+         String patientDetailsFilePath = "src/test/resources/output/PatientDetails.json";
         String icdCodesFilePath = "src/test/resources/output/ICDCodes.json";
         String cptCodesFilePath = "src/test/resources/output/CPTCodes.json";
         String outputFilePath = "src/test/resources/output/CombinedData.json";
 
+        // Initialize ObjectMapper
         ObjectMapper objectMapper = new ObjectMapper();
 
+        // Parse JSON files
         JsonNode patientDetails = objectMapper.readTree(new File(patientDetailsFilePath));
         JsonNode icdCodes = objectMapper.readTree(new File(icdCodesFilePath));
         JsonNode cptCodes = objectMapper.readTree(new File(cptCodesFilePath));
 
+        // Ensure the output file and directories exist
+        File outputFile = new File(outputFilePath);
+        if (!outputFile.exists()) {
+            File parentDir = outputFile.getParentFile();
+            if (!parentDir.exists()) {
+                boolean dirsCreated = parentDir.mkdirs();
+                assertTrue(dirsCreated, "Failed to create directories for: " + outputFilePath);
+            }
+            boolean fileCreated = outputFile.createNewFile();
+            assertTrue(fileCreated, "Failed to create file: " + outputFilePath);
+        }
+
+        // Build the combined JSON
         List<JsonNode> combinedData = new ArrayList<>();
         Random random = new Random();
 
         for (int i = 0; i < patientDetails.size(); i++) {
             JsonNode patient = patientDetails.get(i);
 
+            // Extract patient details
             String patientName = patient.get("first_name").asText() + " " + patient.get("last_name").asText();
             boolean selfPay = patient.get("selfPay").asBoolean();
             boolean hasInsuranceField = patient.get("hasInsuranceField").asBoolean();
 
+            // Dynamically assign ICD and CPT codes (round-robin)
             String icd = icdCodes.get(i % icdCodes.size()).get("Description").asText();
             String cpt = cptCodes.get(i % cptCodes.size()).get("CPTCode").asText();
 
-            String claimType = (!selfPay && hasInsuranceField) ? 
-                (random.nextBoolean() ? "Electronic" : "Paper") : "Self";
+            // Determine claimType
+        String claimType;
+        if (!selfPay && hasInsuranceField) {
+            if ("change_health_care".equalsIgnoreCase(clearingHouseKey)) {
+                claimType = "Paper";
+            } else {
+                claimType = new Random().nextBoolean() ? "Electronic" : "Paper";
+            }
+        } else {
+            claimType = "Self";
+        }
 
-            double randomAmount = 100 + (900 * random.nextDouble());
-            String amount = random.nextBoolean() ? 
-                String.valueOf((int) randomAmount) :
-                BigDecimal.valueOf(randomAmount).setScale(2, RoundingMode.HALF_UP).toString();
+            // Generate random amount (integer or decimal)
+            double randomAmount = 100 + (900 * random.nextDouble()); // Random value between 100 and 1000
+            String amount;
+            if (random.nextBoolean()) {
+                // Generate integer amount
+                amount = String.valueOf((int) randomAmount);
+            } else {
+                // Generate decimal amount with 2 decimal places
+                BigDecimal formattedAmount = BigDecimal.valueOf(randomAmount).setScale(2, RoundingMode.HALF_UP);
+                amount = formattedAmount.toString();
+            }
 
+            // Construct the patient record
             JsonNode patientRecord = objectMapper.createObjectNode()
                     .put("patientName", patientName)
                     .put("icd", icd)
@@ -60,9 +95,14 @@ public class BuildCombinedJson {
             combinedData.add(patientRecord);
         }
 
+        // Pretty print the combined JSON
         ObjectWriter writer = objectMapper.writerWithDefaultPrettyPrinter();
-        writer.writeValue(new File(outputFilePath), combinedData);
+        writer.writeValue(outputFile, combinedData);
 
-        System.out.println("✅ Combined JSON saved to: " + outputFilePath);
+        // Validate the file exists and is not empty
+        assertTrue(outputFile.exists(), "CombinedData.json file should exist.");
+        assertTrue(outputFile.length() > 0, "CombinedData.json file should not be empty.");
+
+        System.out.println("Combined JSON data saved to: " + outputFilePath);
     }
 }

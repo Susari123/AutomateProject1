@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testng-results ignored="0" total="4" passed="3" failed="1" skipped="0">
+<testng-results ignored="0" total="3" passed="3" failed="0" skipped="0">
   <reporter-output>
   </reporter-output>
-  <suite started-at="2025-03-21T15:03:16 IST" name="Edvak_EHR_Automation_V1" finished-at="2025-03-21T15:06:12 IST" duration-ms="176167">
+  <suite started-at="2025-03-21T16:08:54 IST" name="Edvak_EHR_Automation_V1" finished-at="2025-03-21T16:10:22 IST" duration-ms="87671">
     <groups>
     </groups>
-    <test started-at="2025-03-21T15:03:16 IST" name="TestCases1" finished-at="2025-03-21T15:06:12 IST" duration-ms="176167">
+    <test started-at="2025-03-21T16:08:54 IST" name="TestCases1" finished-at="2025-03-21T16:10:22 IST" duration-ms="87671">
       <class name="com.Edvak_EHR_Automation_V1.testCases.TC_BillingGenerateClaims">
-        <test-method is-config="true" signature="setup(java.lang.String)[pri:0, instance:com.Edvak_EHR_Automation_V1.testCases.TC_BillingGenerateClaims@4c9fae9f]" started-at="2025-03-21T15:03:16 IST" name="setup" finished-at="2025-03-21T15:03:17 IST" duration-ms="1624" status="PASS">
+        <test-method is-config="true" signature="setup(java.lang.String)[pri:0, instance:com.Edvak_EHR_Automation_V1.testCases.TC_BillingGenerateClaims@71a60a25]" started-at="2025-03-21T16:08:54 IST" name="setup" finished-at="2025-03-21T16:08:58 IST" duration-ms="3347" status="PASS">
           <params>
             <param index="0">
               <value>
@@ -18,207 +18,59 @@
           <reporter-output>
           </reporter-output>
         </test-method> <!-- setup -->
-        <test-method signature="testQuickRegistration()[pri:0, instance:com.Edvak_EHR_Automation_V1.testCases.TC_BillingGenerateClaims@4c9fae9f]" started-at="2025-03-21T15:03:17 IST" name="testQuickRegistration" finished-at="2025-03-21T15:03:39 IST" duration-ms="21578" status="PASS">
+        <test-method signature="testQuickRegistration()[pri:0, instance:com.Edvak_EHR_Automation_V1.testCases.TC_BillingGenerateClaims@71a60a25]" started-at="2025-03-21T16:08:58 IST" name="testQuickRegistration" finished-at="2025-03-21T16:09:20 IST" duration-ms="22078" status="PASS">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- testQuickRegistration -->
-        <test-method is-config="true" signature="captureScreen(org.testng.ITestResult)[pri:0, instance:com.Edvak_EHR_Automation_V1.testCases.TC_BillingGenerateClaims@4c9fae9f]" started-at="2025-03-21T15:03:39 IST" name="captureScreen" finished-at="2025-03-21T15:03:39 IST" duration-ms="0" status="PASS">
+        <test-method is-config="true" signature="captureScreen(org.testng.ITestResult)[pri:0, instance:com.Edvak_EHR_Automation_V1.testCases.TC_BillingGenerateClaims@71a60a25]" started-at="2025-03-21T16:09:20 IST" name="captureScreen" finished-at="2025-03-21T16:09:20 IST" duration-ms="1" status="PASS">
           <params>
             <param index="0">
               <value>
-                <![CDATA[[TestResult name=testQuickRegistration status=SUCCESS method=TC_BillingGenerateClaims.testQuickRegistration()[pri:0, instance:com.Edvak_EHR_Automation_V1.testCases.TC_BillingGenerateClaims@4c9fae9f] output={null}]]]>
+                <![CDATA[[TestResult name=testQuickRegistration status=SUCCESS method=TC_BillingGenerateClaims.testQuickRegistration()[pri:0, instance:com.Edvak_EHR_Automation_V1.testCases.TC_BillingGenerateClaims@71a60a25] output={null}]]]>
               </value>
             </param>
           </params>
           <reporter-output>
           </reporter-output>
         </test-method> <!-- captureScreen -->
-        <test-method signature="testBillingGenerateClaims(java.util.HashMap)[pri:1, instance:com.Edvak_EHR_Automation_V1.testCases.TC_BillingGenerateClaims@4c9fae9f]" started-at="2025-03-21T15:03:39 IST" name="testBillingGenerateClaims" data-provider="dataProviderTest" finished-at="2025-03-21T15:04:53 IST" depends-on-methods="com.Edvak_EHR_Automation_V1.testCases.TC_BillingGenerateClaims.testQuickRegistration" duration-ms="73914" status="PASS">
+        <test-method signature="testBillingGenerateClaims(java.util.HashMap)[pri:1, instance:com.Edvak_EHR_Automation_V1.testCases.TC_BillingGenerateClaims@71a60a25]" started-at="2025-03-21T16:09:20 IST" name="testBillingGenerateClaims" data-provider="dataProviderTest" finished-at="2025-03-21T16:10:08 IST" depends-on-methods="com.Edvak_EHR_Automation_V1.testCases.TC_BillingGenerateClaims.testQuickRegistration" duration-ms="48838" status="PASS">
           <params>
             <param index="0">
               <value>
-                <![CDATA[{patientName=Ui Test, claimType=Self, amount=102, cpt=99202, Mode=Generate, icd=Typhoid fever, unspecified}]]>
+                <![CDATA[{patientName=Billing Kt, claimType=Self, amount=197.93, cpt=99202, Mode=Generate, icd=Typhoid fever, unspecified}]]>
               </value>
             </param>
           </params>
           <reporter-output>
           </reporter-output>
         </test-method> <!-- testBillingGenerateClaims -->
-        <test-method signature="testBillingGenerateClaims(java.util.HashMap)[pri:1, instance:com.Edvak_EHR_Automation_V1.testCases.TC_BillingGenerateClaims@4c9fae9f]" started-at="2025-03-21T15:04:53 IST" name="testBillingGenerateClaims" data-provider="dataProviderTest" finished-at="2025-03-21T15:05:50 IST" depends-on-methods="com.Edvak_EHR_Automation_V1.testCases.TC_BillingGenerateClaims.testQuickRegistration" duration-ms="56699" status="PASS">
+        <test-method is-config="true" signature="captureScreen(org.testng.ITestResult)[pri:0, instance:com.Edvak_EHR_Automation_V1.testCases.TC_BillingGenerateClaims@71a60a25]" started-at="2025-03-21T16:10:08 IST" name="captureScreen" finished-at="2025-03-21T16:10:08 IST" duration-ms="0" status="PASS">
           <params>
             <param index="0">
               <value>
-                <![CDATA[{patientName=Dani D, claimType=Self, amount=543, cpt=99203, Mode=Generate, icd=Typhoid fever with other complications}]]>
-              </value>
-            </param>
-          </params>
-          <reporter-output>
-          </reporter-output>
-        </test-method> <!-- testBillingGenerateClaims -->
-        <test-method is-config="true" signature="captureScreen(org.testng.ITestResult)[pri:0, instance:com.Edvak_EHR_Automation_V1.testCases.TC_BillingGenerateClaims@4c9fae9f]" started-at="2025-03-21T15:04:53 IST" name="captureScreen" finished-at="2025-03-21T15:04:53 IST" duration-ms="0" status="PASS">
-          <params>
-            <param index="0">
-              <value>
-                <![CDATA[[TestResult name=testBillingGenerateClaims status=SUCCESS method=TC_BillingGenerateClaims.testBillingGenerateClaims(java.util.HashMap)[pri:1, instance:com.Edvak_EHR_Automation_V1.testCases.TC_BillingGenerateClaims@4c9fae9f] output={null}]]]>
+                <![CDATA[[TestResult name=testBillingGenerateClaims status=SUCCESS method=TC_BillingGenerateClaims.testBillingGenerateClaims(java.util.HashMap)[pri:1, instance:com.Edvak_EHR_Automation_V1.testCases.TC_BillingGenerateClaims@71a60a25] output={null}]]]>
               </value>
             </param>
           </params>
           <reporter-output>
           </reporter-output>
         </test-method> <!-- captureScreen -->
-        <test-method is-config="true" signature="captureScreen(org.testng.ITestResult)[pri:0, instance:com.Edvak_EHR_Automation_V1.testCases.TC_BillingGenerateClaims@4c9fae9f]" started-at="2025-03-21T15:05:50 IST" name="captureScreen" finished-at="2025-03-21T15:05:50 IST" duration-ms="1" status="PASS">
-          <params>
-            <param index="0">
-              <value>
-                <![CDATA[[TestResult name=testBillingGenerateClaims status=SUCCESS method=TC_BillingGenerateClaims.testBillingGenerateClaims(java.util.HashMap)[pri:1, instance:com.Edvak_EHR_Automation_V1.testCases.TC_BillingGenerateClaims@4c9fae9f] output={null}]]]>
-              </value>
-            </param>
-          </params>
-          <reporter-output>
-          </reporter-output>
-        </test-method> <!-- captureScreen -->
-        <test-method signature="verifyEncountersInManageClaims()[pri:2, instance:com.Edvak_EHR_Automation_V1.testCases.TC_BillingGenerateClaims@4c9fae9f]" started-at="2025-03-21T15:05:50 IST" name="verifyEncountersInManageClaims" finished-at="2025-03-21T15:06:12 IST" depends-on-methods="com.Edvak_EHR_Automation_V1.testCases.TC_BillingGenerateClaims.testBillingGenerateClaims" duration-ms="22176" status="FAIL">
-          <exception class="org.openqa.selenium.NoSuchElementException">
-            <message>
-              <![CDATA[no such element: Unable to locate element: {"method":"xpath","selector":"//app-claims-list/ed-col/section/form/div/sl-button"}
-  (Session info: chrome=134.0.6998.89)
-For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#no-such-element-exception
-Build info: version: '4.14.1', revision: '03f8ede370'
-System info: os.name: 'Windows 10', os.arch: 'amd64', os.version: '10.0', java.version: '17.0.12'
-Driver info: org.openqa.selenium.chrome.ChromeDriver
-Command: [fcdf68a1f77c779af131e622eaa1b661, findElement {using=xpath, value=//app-claims-list/ed-col/section/form/div/sl-button}]
-Capabilities {acceptInsecureCerts: false, browserName: chrome, browserVersion: 134.0.6998.89, chrome: {chromedriverVersion: 134.0.6998.90 (219ee74681fc..., userDataDir: C:\Users\sksusari\AppData\L...}, fedcm:accounts: true, goog:chromeOptions: {debuggerAddress: localhost:63115}, networkConnectionEnabled: false, pageLoadStrategy: normal, platformName: windows, proxy: Proxy(), se:cdp: ws://localhost:63115/devtoo..., se:cdpVersion: 134.0.6998.89, setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: dismiss and notify, webauthn:extension:credBlob: true, webauthn:extension:largeBlob: true, webauthn:extension:minPinLength: true, webauthn:extension:prf: true, webauthn:virtualAuthenticators: true}
-Session ID: fcdf68a1f77c779af131e622eaa1b661]]>
-            </message>
-            <full-stacktrace>
-              <![CDATA[org.openqa.selenium.NoSuchElementException: no such element: Unable to locate element: {"method":"xpath","selector":"//app-claims-list/ed-col/section/form/div/sl-button"}
-  (Session info: chrome=134.0.6998.89)
-For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#no-such-element-exception
-Build info: version: '4.14.1', revision: '03f8ede370'
-System info: os.name: 'Windows 10', os.arch: 'amd64', os.version: '10.0', java.version: '17.0.12'
-Driver info: org.openqa.selenium.chrome.ChromeDriver
-Command: [fcdf68a1f77c779af131e622eaa1b661, findElement {using=xpath, value=//app-claims-list/ed-col/section/form/div/sl-button}]
-Capabilities {acceptInsecureCerts: false, browserName: chrome, browserVersion: 134.0.6998.89, chrome: {chromedriverVersion: 134.0.6998.90 (219ee74681fc..., userDataDir: C:\Users\sksusari\AppData\L...}, fedcm:accounts: true, goog:chromeOptions: {debuggerAddress: localhost:63115}, networkConnectionEnabled: false, pageLoadStrategy: normal, platformName: windows, proxy: Proxy(), se:cdp: ws://localhost:63115/devtoo..., se:cdpVersion: 134.0.6998.89, setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: dismiss and notify, webauthn:extension:credBlob: true, webauthn:extension:largeBlob: true, webauthn:extension:minPinLength: true, webauthn:extension:prf: true, webauthn:virtualAuthenticators: true}
-Session ID: fcdf68a1f77c779af131e622eaa1b661
-at java.base/jdk.internal.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
-at java.base/jdk.internal.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:77)
-at java.base/jdk.internal.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
-at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:499)
-at java.base/java.lang.reflect.Constructor.newInstance(Constructor.java:480)
-at org.openqa.selenium.remote.codec.w3c.W3CHttpResponseCodec.createException(W3CHttpResponseCodec.java:200)
-at org.openqa.selenium.remote.codec.w3c.W3CHttpResponseCodec.decode(W3CHttpResponseCodec.java:133)
-at org.openqa.selenium.remote.codec.w3c.W3CHttpResponseCodec.decode(W3CHttpResponseCodec.java:52)
-at org.openqa.selenium.remote.HttpCommandExecutor.execute(HttpCommandExecutor.java:191)
-at org.openqa.selenium.remote.service.DriverCommandExecutor.invokeExecute(DriverCommandExecutor.java:200)
-at org.openqa.selenium.remote.service.DriverCommandExecutor.execute(DriverCommandExecutor.java:175)
-at org.openqa.selenium.remote.RemoteWebDriver.execute(RemoteWebDriver.java:602)
-at org.openqa.selenium.remote.ElementLocation$ElementFinder$2.findElement(ElementLocation.java:165)
-at org.openqa.selenium.remote.ElementLocation.findElement(ElementLocation.java:59)
-at org.openqa.selenium.remote.RemoteWebDriver.findElement(RemoteWebDriver.java:359)
-at org.openqa.selenium.remote.RemoteWebDriver.findElement(RemoteWebDriver.java:353)
-at com.Edvak_EHR_Automation_V1.testCases.TC_BillingGenerateClaims.verifyEncountersInManageClaims(TC_BillingGenerateClaims.java:531)
-at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
-at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
-at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
-at java.base/java.lang.reflect.Method.invoke(Method.java:568)
-at org.testng.internal.MethodInvocationHelper.invokeMethod(MethodInvocationHelper.java:133)
-at org.testng.internal.TestInvoker.invokeMethod(TestInvoker.java:598)
-at org.testng.internal.TestInvoker.invokeTestMethod(TestInvoker.java:173)
-at org.testng.internal.MethodRunner.runInSequence(MethodRunner.java:46)
-at org.testng.internal.TestInvoker$MethodInvocationAgent.invoke(TestInvoker.java:824)
-at org.testng.internal.TestInvoker.invokeTestMethods(TestInvoker.java:146)
-at org.testng.internal.TestMethodWorker.invokeTestMethods(TestMethodWorker.java:146)
-at org.testng.internal.TestMethodWorker.run(TestMethodWorker.java:128)
-at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
-at org.testng.TestRunner.privateRun(TestRunner.java:794)
-at org.testng.TestRunner.run(TestRunner.java:596)
-at org.testng.SuiteRunner.runTest(SuiteRunner.java:377)
-at org.testng.SuiteRunner.runSequentially(SuiteRunner.java:371)
-at org.testng.SuiteRunner.privateRun(SuiteRunner.java:332)
-at org.testng.SuiteRunner.run(SuiteRunner.java:276)
-at org.testng.SuiteRunnerWorker.runSuite(SuiteRunnerWorker.java:53)
-at org.testng.SuiteRunnerWorker.run(SuiteRunnerWorker.java:96)
-at org.testng.TestNG.runSuitesSequentially(TestNG.java:1212)
-at org.testng.TestNG.runSuitesLocally(TestNG.java:1134)
-at org.testng.TestNG.runSuites(TestNG.java:1063)
-at org.testng.TestNG.run(TestNG.java:1031)
-at com.Edvak_EHR_Automation_V1.controller.TestRunnerController.runTest(TestRunnerController.java:234)
-at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
-at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
-at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
-at java.base/java.lang.reflect.Method.invoke(Method.java:568)
-at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:261)
-at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:189)
-at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:118)
-at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:917)
-at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:829)
-at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:87)
-at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1089)
-at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:979)
-at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1014)
-at org.springframework.web.servlet.FrameworkServlet.doGet(FrameworkServlet.java:903)
-at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:564)
-at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:885)
-at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:658)
-at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:205)
-at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:149)
-at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:51)
-at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:174)
-at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:149)
-at org.springframework.web.filter.CorsFilter.doFilterInternal(CorsFilter.java:91)
-at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
-at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:174)
-at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:149)
-at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)
-at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
-at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:174)
-at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:149)
-at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)
-at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
-at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:174)
-at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:149)
-at org.springframework.web.filter.ServerHttpObservationFilter.doFilterInternal(ServerHttpObservationFilter.java:109)
-at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
-at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:174)
-at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:149)
-at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201)
-at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
-at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:174)
-at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:149)
-at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:167)
-at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:90)
-at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:482)
-at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:115)
-at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:93)
-at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74)
-at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:340)
-at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:391)
-at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63)
-at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:896)
-at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1744)
-at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52)
-at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1191)
-at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659)
-at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
-at java.base/java.lang.Thread.run(Thread.java:842)
-]]>
-            </full-stacktrace>
-          </exception> <!-- org.openqa.selenium.NoSuchElementException -->
+        <test-method signature="verifyEncountersInManageClaims()[pri:2, instance:com.Edvak_EHR_Automation_V1.testCases.TC_BillingGenerateClaims@71a60a25]" started-at="2025-03-21T16:10:09 IST" name="verifyEncountersInManageClaims" finished-at="2025-03-21T16:10:22 IST" depends-on-methods="com.Edvak_EHR_Automation_V1.testCases.TC_BillingGenerateClaims.testBillingGenerateClaims" duration-ms="13118" status="PASS">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- verifyEncountersInManageClaims -->
-        <test-method is-config="true" signature="captureScreen(org.testng.ITestResult)[pri:0, instance:com.Edvak_EHR_Automation_V1.testCases.TC_BillingGenerateClaims@4c9fae9f]" started-at="2025-03-21T15:06:12 IST" name="captureScreen" finished-at="2025-03-21T15:06:12 IST" duration-ms="168" status="PASS">
+        <test-method is-config="true" signature="captureScreen(org.testng.ITestResult)[pri:0, instance:com.Edvak_EHR_Automation_V1.testCases.TC_BillingGenerateClaims@71a60a25]" started-at="2025-03-21T16:10:22 IST" name="captureScreen" finished-at="2025-03-21T16:10:22 IST" duration-ms="0" status="PASS">
           <params>
             <param index="0">
               <value>
-                <![CDATA[[TestResult name=verifyEncountersInManageClaims status=FAILURE method=TC_BillingGenerateClaims.verifyEncountersInManageClaims()[pri:2, instance:com.Edvak_EHR_Automation_V1.testCases.TC_BillingGenerateClaims@4c9fae9f] output={null}]]]>
+                <![CDATA[[TestResult name=verifyEncountersInManageClaims status=SUCCESS method=TC_BillingGenerateClaims.verifyEncountersInManageClaims()[pri:2, instance:com.Edvak_EHR_Automation_V1.testCases.TC_BillingGenerateClaims@71a60a25] output={null}]]]>
               </value>
             </param>
           </params>
           <reporter-output>
           </reporter-output>
         </test-method> <!-- captureScreen -->
-        <test-method is-config="true" signature="tearDown()[pri:0, instance:com.Edvak_EHR_Automation_V1.testCases.TC_BillingGenerateClaims@4c9fae9f]" started-at="2025-03-21T15:06:12 IST" name="tearDown" finished-at="2025-03-21T15:06:12 IST" duration-ms="0" status="PASS">
+        <test-method is-config="true" signature="tearDown()[pri:0, instance:com.Edvak_EHR_Automation_V1.testCases.TC_BillingGenerateClaims@71a60a25]" started-at="2025-03-21T16:10:22 IST" name="tearDown" finished-at="2025-03-21T16:10:22 IST" duration-ms="1" status="PASS">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- tearDown -->

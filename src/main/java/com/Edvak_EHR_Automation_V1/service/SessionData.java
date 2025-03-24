@@ -13,7 +13,7 @@ public class SessionData {
     // ✅ Retrieve email
     public static String getUserEmail() {
         return userEmail;
-    }
+    }   
 
     // ✅ Retrieve password
     public static String getUserPassword() {

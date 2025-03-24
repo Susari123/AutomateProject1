@@ -37,8 +37,6 @@ import com.Edvak_EHR_Automation_V1.utilities.GenerateRandomNumberBetweenLength;
 import com.Edvak_EHR_Automation_V1.utilities.LoginUtils;
 import com.Edvak_EHR_Automation_V1.utilities.TestData;
 
-import jakarta.servlet.http.HttpSession;
-
 
 public class TC_BillingGenerateClaims extends BaseClass {
 	DataReader dr = new DataReader();

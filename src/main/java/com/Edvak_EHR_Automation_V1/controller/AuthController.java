@@ -19,6 +19,7 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.Edvak_EHR_Automation_V1.service.DataFetchService;
+import static com.Edvak_EHR_Automation_V1.testCases.BaseClass.logger;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import jakarta.servlet.http.HttpSession;
@@ -65,7 +66,7 @@ public ModelAndView login(@RequestParam String username, @RequestParam String pa
     } catch (Exception e) {
         e.printStackTrace();
     }
-
+    
     // Prepare the HTTP entity
     HttpEntity<String> request = new HttpEntity<>(jsonPayload, headers);
 
@@ -96,7 +97,7 @@ public ModelAndView login(@RequestParam String username, @RequestParam String pa
                         // Store in session
                         session.setAttribute("p_id", p_id);
                         session.setAttribute("user", username);
-
+                        fetchAndStoreClearingHouseInfo(p_id, session);
                         return new ModelAndView("redirect:/dashboard");
                     } else {
                         System.err.println("❌ p_id not found in practiceInformation.");
@@ -128,7 +129,43 @@ public ModelAndView login(@RequestParam String username, @RequestParam String pa
     mav.setViewName("login");
     return mav;
 }
+private void fetchAndStoreClearingHouseInfo(String p_id, HttpSession session) {
+    String apiUrl = "https://darwinapi.edvak.com:3000/practice-settings/getPracticeSetting/" + p_id;
 
+    try {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
+        HttpEntity<String> entity = new HttpEntity<>(headers);
+
+        System.out.println("🔹 Calling Practice Settings API: " + apiUrl);
+
+        ResponseEntity<Map> response = restTemplate.exchange(apiUrl, HttpMethod.GET, entity, Map.class);
+
+        if (response.getStatusCode() == HttpStatus.OK && response.getBody() != null) {
+            Map<String, Object> body = response.getBody();
+            Map<String, Object> result = (Map<String, Object>) body.get("result");
+
+            if (result != null) {
+                Throwable clearingHouseKey = (Throwable) result.get("clearing_house_key");
+                String clearingHouseName = (String) result.get("clearing_house_name");
+            
+                logger.info("✅ clearing_house_key: {}", clearingHouseKey);
+                System.out.println("✅ clearing_house_key: " + clearingHouseKey);
+                System.out.println("✅ clearing_house_name: " + clearingHouseName);
+            
+                session.setAttribute("clearing_house_key", clearingHouseKey);
+                session.setAttribute("clearing_house_name", clearingHouseName);
+            } else {
+                logger.error("❌ 'result' is null in practice settings API.");
+            }
+        } else {
+            System.err.println("❌ Failed to fetch practice settings. Status: " + response.getStatusCode());
+        }
+
+    } catch (Exception e) {
+        System.err.println("❌ Error fetching practice settings: " + e.getMessage());
+    }
+}
 
     @GetMapping("/logout")
     public ModelAndView logout(HttpSession session) {
