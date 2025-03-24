@@ -18,13 +18,13 @@
     <nav class="navbar">
         <a href="/">🏠 Home</a>
         <a href="/viewOutput">📄 View Last Output</a>
-        <a href="/logout" class="logout-btn" th:if="${session.user != null}">🚪 Logout</a>
+        <a href="/logout" class="logout-btn" th:if="${session.p_id != null}">🚪 Logout</a>
     </nav>
     
     <div class="container">
         <h1>🚀 Run Your Test Suite</h1>
 
-        <form action="/runTest" method="get" onsubmit="showSpinner()">
+        <form action="/api/test/runTest" method="get" onsubmit="showSpinner()">
             <label for="suiteFile">Choose TestNG XML Suite:</label>
             <div class="select-wrapper">
                 <select name="suiteFile" id="suiteFile" required>

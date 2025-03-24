@@ -31,6 +31,7 @@ import org.testng.annotations.Test;
 
 import com.Edvak_EHR_Automation_V1.pageObjects.BillingGenerateClaims;
 import com.Edvak_EHR_Automation_V1.pageObjects.ManageClaimsPage;
+import com.Edvak_EHR_Automation_V1.service.SessionData;
 import com.Edvak_EHR_Automation_V1.utilities.DataReader;
 import com.Edvak_EHR_Automation_V1.utilities.GenerateRandomNumberBetweenLength;
 import com.Edvak_EHR_Automation_V1.utilities.LoginUtils;
@@ -45,10 +46,20 @@ public class TC_BillingGenerateClaims extends BaseClass {
    @Test(priority = 0)
 public void testQuickRegistration() throws InterruptedException {
     logger.info("********Test Starts Here********");
-    logger.info("'testQuickRegistrationWithValidData' test execution starts here:");
 
-    // Use LoginUtils for login instead of repeating login steps
-    LoginUtils.loginToApplication(driver, baseURL, "souravsusari311@gmail.com", "Edvak@3210");
+    // ✅ Retrieve email and password dynamically
+    String userEmail = SessionData.getUserEmail();
+    String userPassword = SessionData.getUserPassword();
+
+    if (userEmail == null || userPassword == null) {
+        logger.error("❌ Error: Email or Password not set!");
+        throw new IllegalStateException("User credentials are missing!");
+    }
+
+    // logger.info("✅ Using Email: {} for login", userEmail);
+
+    // ✅ Use retrieved email and password for login
+    LoginUtils.loginToApplication(driver, baseURL, userEmail, userPassword);
 
     BillingGenerateClaims billingPage = new BillingGenerateClaims(driver);
 
@@ -59,9 +70,8 @@ public void testQuickRegistration() throws InterruptedException {
     Assert.assertTrue(billingPage.isDashboardDisplayed(), "Dashboard should be visible after login.");
 
     clickWithRetry(billingPage.getBillingIconElement(), 3);
-    logger.info("Billing button is clicked");
+    logger.info("✅ Billing button is clicked");
 }
-
 
 @Test(priority = 1, dataProvider = "dataProviderTest", dependsOnMethods = {"testQuickRegistration"})
 void testBillingGenerateClaims(HashMap<String, String> data) throws InterruptedException, IOException {

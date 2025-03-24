@@ -1,5 +1,29 @@
 [
   {
+    "first_name": "Payment",
+    "last_name": "Check",
+    "selfPay": true,
+    "hasInsuranceField": false
+  },
+  {
+    "first_name": "Billing",
+    "last_name": "Kt",
+    "selfPay": false,
+    "hasInsuranceField": true
+  },
+  {
+    "first_name": "Test",
+    "last_name": "Newbill",
+    "selfPay": false,
+    "hasInsuranceField": true
+  },
+  {
+    "first_name": "Afzal",
+    "last_name": "As",
+    "selfPay": false,
+    "hasInsuranceField": true
+  },
+  {
     "first_name": "Olly",
     "last_name": "Pope",
     "selfPay": false,
