@@ -11,7 +11,7 @@
         <methods>
           <include name="tearDown"/>
           <include name="verifyEncountersInManageClaims"/>
-          <include name="testBillingGenerateClaims"/>
+          <include name="testBillingGenerateClaims" invocation-numbers="0 1 2"/>
           <include name="setup"/>
           <include name="captureScreen"/>
           <include name="testQuickRegistration"/>
