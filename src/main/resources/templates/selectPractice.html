@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>🏥 Select Practice | Tes Suite</title>
+    <link rel="stylesheet" href="/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <div class="login-container fade-in">
+        <h1>🏥 Select Your Practice</h1>
+
+        <!-- Error message for invalid selection or backend issue -->
+        <div th:if="${error}" class="error-message fade-in">
+            ❌ <span t:text="${error}"></span>
+        </div>
+
+        <form action="/api/test/selectPractice" method="post">
+            <label for="selectedPracticeId">Practice Name:</label>
+            <select name="selectedPracticeId" id="selectedPracticeId" required>
+                <option value="" disabled selected>-- Select your practice --</option>
+                <option th:each="practice : ${practices}"
+                        th:value="${practice.p_id}"
+                        th:text="${practice.name}">
+                </option>
+            </select>
+
+            <button type="submit">✅ Continue</button>
+        </form>
+    </div>
+
+</body>
+</html>

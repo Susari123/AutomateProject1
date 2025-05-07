@@ -43,35 +43,64 @@ public class TC_BillingGenerateClaims extends BaseClass {
     String encounterNumber ="";
     List<String> encounterNumbersList = new ArrayList<>();
     
-   @Test(priority = 0)
-public void testQuickRegistration() throws InterruptedException {
-    logger.info("********Test Starts Here********");
-
-    // ✅ Retrieve email and password dynamically
-    String userEmail = SessionData.getUserEmail();
-    String userPassword = SessionData.getUserPassword();
-
-    if (userEmail == null || userPassword == null) {
-        logger.error("❌ Error: Email or Password not set!");
-        throw new IllegalStateException("User credentials are missing!");
+    @Test(priority = 0)
+    public void testQuickRegistration() throws InterruptedException {
+        logger.info("********Test Starts Here********");
+    
+        String userEmail = SessionData.getUserEmail();
+        String userPassword = SessionData.getUserPassword();
+    
+        if (userEmail == null || userPassword == null) {
+            logger.error("❌ Error: Email or Password not set!");
+            throw new IllegalStateException("User credentials are missing!");
+        }
+    
+        LoginUtils.loginToApplication(driver, baseURL, userEmail, userPassword);
+    
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(100));
+        
+        try {
+            // Wait a few seconds to allow the optional dialog to appear
+            Thread.sleep(3000);
+    
+            List<WebElement> locationDialog = driver.findElements(By.xpath("//*[@id='mat-dialog-0']/app-select-location/div"));
+            if (!locationDialog.isEmpty()) {
+                logger.info("🔔 Location selection dialog detected.");
+    
+                // Click the Practice dropdown and select the 4th item
+                driver.findElement(By.xpath("//*[@id='practice-dropdown']/div[1]")).click();
+                Thread.sleep(1000);
+                driver.findElement(By.xpath("//*[@id='practice-dropdown']/div[2]/ul/li[4]")).click();
+    
+                // Wait for location dropdown to load
+                Thread.sleep(2000);
+    
+                // Click the Location dropdown and select the 1st item
+                driver.findElement(By.xpath("//*[@id='location-dropdown']/div[1]")).click();
+                Thread.sleep(1000);
+                driver.findElement(By.xpath("//*[@id='location-dropdown']/div[2]/ul/li[1]")).click();
+    
+                // Click the Continue button
+                driver.findElement(By.xpath("//button[contains(text(), 'Continue')]")).click();
+                logger.info("✅ Location selection completed.");
+                Thread.sleep(40000);
+            } else {
+                logger.info("ℹ️ Location dialog not present; continuing normally.");
+            }
+        } catch (Exception e) {
+            logger.warn("⚠️ Skipped optional location selection due to: {}");
+        }
+        // Proceed with billing page verification
+        BillingGenerateClaims billingPage = new BillingGenerateClaims(driver);
+        wait.until(ExpectedConditions.visibilityOf(billingPage.getBillingIconElement()));
+        wait.until(ExpectedConditions.visibilityOf(billingPage.getDashboardElement()));
+    
+        Assert.assertTrue(billingPage.isDashboardDisplayed(), "Dashboard should be visible after login.");
+    
+        clickWithRetry(billingPage.getBillingIconElement(), 3);
+        logger.info("✅ Billing button is clicked");
     }
-
-    // logger.info("✅ Using Email: {} for login", userEmail);
-
-    // ✅ Use retrieved email and password for login
-    LoginUtils.loginToApplication(driver, baseURL, userEmail, userPassword);
-
-    BillingGenerateClaims billingPage = new BillingGenerateClaims(driver);
-
-    WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(100));
-    wait.until(ExpectedConditions.visibilityOf(billingPage.getBillingIconElement()));
-    wait.until(ExpectedConditions.visibilityOf(billingPage.getDashboardElement()));
-
-    Assert.assertTrue(billingPage.isDashboardDisplayed(), "Dashboard should be visible after login.");
-
-    clickWithRetry(billingPage.getBillingIconElement(), 3);
-    logger.info("✅ Billing button is clicked");
-}
+    
 
 @Test(priority = 1, dataProvider = "dataProviderTest", dependsOnMethods = {"testQuickRegistration"})
 void testBillingGenerateClaims(HashMap<String, String> data) throws InterruptedException, IOException {
@@ -276,6 +305,10 @@ void testBillingGenerateClaims(HashMap<String, String> data) throws InterruptedE
 
     private void fillIcdAndCptDetails(HashMap<String, String> data, BillingGenerateClaims billingPage) throws InterruptedException {
         // Enter ICD Code
+        WebElement payerdummy = driver.findElement(By.xpath("//ed-drawer-body/div[1]/div[3]/ng-select/div/span"));
+        payerdummy.click();
+        WebElement payerrdummy = driver.findElement(By.xpath("//div[1]/div[3]/ng-select/ng-dropdown-panel/div/div[2]/div[1]"));
+        payerrdummy.click();
         WebElement icdInput = billingPage.getIcdInput(); // this is actually `icdInput` in your Page Object
         icdInput.sendKeys(data.get("icd"));
         Thread.sleep(2000); // This can be replaced with a better wait if needed

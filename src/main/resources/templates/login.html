@@ -31,14 +31,13 @@
             <button type="submit">🚀 Login</button>
         </form>
 
-        <!-- Loading Animation (Hidden initially) -->
+        <!-- Loading Animation -->
         <div id="loading-login" class="spinner-overlay hidden">
             <div class="spinner-content">
                 <div class="loader"></div>
                 <p class="spinner-text">Logging in... Please wait</p>
             </div>
         </div>
-
     </div>
 
     <script>
@@ -46,13 +45,12 @@
             document.getElementById('loading-login').classList.remove('hidden');
         }
 
-        // Hide the logout success message after 3 seconds
-        window.addEventListener('DOMContentLoaded', (event) => {
+        window.addEventListener('DOMContentLoaded', () => {
             const logoutMessage = document.getElementById('logout-message');
             if (logoutMessage) {
                 setTimeout(() => {
                     logoutMessage.style.opacity = '0';
-                    setTimeout(() => logoutMessage.style.display = 'none', 500); // Extra 0.5s delay before removing
+                    setTimeout(() => logoutMessage.style.display = 'none', 500);
                 }, 3000);
             }
         });
