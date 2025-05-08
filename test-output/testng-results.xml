@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testng-results ignored="0" total="5" passed="1" failed="3" skipped="1">
+<testng-results ignored="0" total="3" passed="1" failed="1" skipped="1">
   <reporter-output>
   </reporter-output>
-  <suite started-at="2025-05-07T10:35:01 IST" name="Edvak_EHR_Automation_V1" finished-at="2025-05-07T10:36:36 IST" duration-ms="95640">
+  <suite started-at="2025-05-08T12:07:08 IST" name="Edvak_EHR_Automation_V1" finished-at="2025-05-08T12:11:00 IST" duration-ms="232153">
     <groups>
     </groups>
-    <test started-at="2025-05-07T10:35:01 IST" name="TestCases1" finished-at="2025-05-07T10:36:36 IST" duration-ms="95640">
+    <test started-at="2025-05-08T12:07:08 IST" name="TestCases1" finished-at="2025-05-08T12:11:00 IST" duration-ms="232153">
       <class name="com.Edvak_EHR_Automation_V1.testCases.TC_BillingGenerateClaims">
-        <test-method is-config="true" signature="setup(java.lang.String)[pri:0, instance:com.Edvak_EHR_Automation_V1.testCases.TC_BillingGenerateClaims@20ce40a7]" started-at="2025-05-07T10:35:01 IST" name="setup" finished-at="2025-05-07T10:35:04 IST" duration-ms="3293" status="PASS">
+        <test-method is-config="true" signature="setup(java.lang.String)[pri:0, instance:com.Edvak_EHR_Automation_V1.testCases.TC_BillingGenerateClaims@61137b59]" started-at="2025-05-08T12:07:08 IST" name="setup" finished-at="2025-05-08T12:07:10 IST" duration-ms="2230" status="PASS">
           <params>
             <param index="0">
               <value>
@@ -18,53 +18,52 @@
           <reporter-output>
           </reporter-output>
         </test-method> <!-- setup -->
-        <test-method signature="testQuickRegistration()[pri:0, instance:com.Edvak_EHR_Automation_V1.testCases.TC_BillingGenerateClaims@20ce40a7]" started-at="2025-05-07T10:35:04 IST" name="testQuickRegistration" finished-at="2025-05-07T10:36:27 IST" duration-ms="82695" status="PASS">
+        <test-method signature="testQuickRegistration()[pri:0, instance:com.Edvak_EHR_Automation_V1.testCases.TC_BillingGenerateClaims@61137b59]" started-at="2025-05-08T12:07:10 IST" name="testQuickRegistration" finished-at="2025-05-08T12:10:10 IST" duration-ms="179925" status="PASS">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- testQuickRegistration -->
-        <test-method is-config="true" signature="captureScreen(org.testng.ITestResult)[pri:0, instance:com.Edvak_EHR_Automation_V1.testCases.TC_BillingGenerateClaims@20ce40a7]" started-at="2025-05-07T10:36:27 IST" name="captureScreen" finished-at="2025-05-07T10:36:27 IST" duration-ms="0" status="PASS">
+        <test-method is-config="true" signature="captureScreen(org.testng.ITestResult)[pri:0, instance:com.Edvak_EHR_Automation_V1.testCases.TC_BillingGenerateClaims@61137b59]" started-at="2025-05-08T12:10:10 IST" name="captureScreen" finished-at="2025-05-08T12:10:10 IST" duration-ms="3" status="PASS">
           <params>
             <param index="0">
               <value>
-                <![CDATA[[TestResult name=testQuickRegistration status=SUCCESS method=TC_BillingGenerateClaims.testQuickRegistration()[pri:0, instance:com.Edvak_EHR_Automation_V1.testCases.TC_BillingGenerateClaims@20ce40a7] output={null}]]]>
+                <![CDATA[[TestResult name=testQuickRegistration status=SUCCESS method=TC_BillingGenerateClaims.testQuickRegistration()[pri:0, instance:com.Edvak_EHR_Automation_V1.testCases.TC_BillingGenerateClaims@61137b59] output={null}]]]>
               </value>
             </param>
           </params>
           <reporter-output>
           </reporter-output>
         </test-method> <!-- captureScreen -->
-        <test-method signature="testBillingGenerateClaims(java.util.HashMap)[pri:1, instance:com.Edvak_EHR_Automation_V1.testCases.TC_BillingGenerateClaims@20ce40a7]" started-at="2025-05-07T10:36:27 IST" name="testBillingGenerateClaims" data-provider="dataProviderTest" finished-at="2025-05-07T10:36:33 IST" depends-on-methods="com.Edvak_EHR_Automation_V1.testCases.TC_BillingGenerateClaims.testQuickRegistration" duration-ms="6274" status="FAIL">
+        <test-method signature="testBillingGenerateClaims(java.util.HashMap)[pri:1, instance:com.Edvak_EHR_Automation_V1.testCases.TC_BillingGenerateClaims@61137b59]" started-at="2025-05-08T12:10:10 IST" name="testBillingGenerateClaims" data-provider="dataProviderTest" finished-at="2025-05-08T12:11:00 IST" depends-on-methods="com.Edvak_EHR_Automation_V1.testCases.TC_BillingGenerateClaims.testQuickRegistration" duration-ms="49347" status="FAIL">
           <params>
             <param index="0">
               <value>
-                <![CDATA[{patientName=Nyelle Tahlia, claimType=Electronic, amount=260.97, cpt=99202, Mode=Generate, icd=Typhoid fever, unspecified}]]>
+                <![CDATA[{patientName=David John, claimType=Self, amount=926.51, cpt=99202, Mode=Generate, icd=Typhoid fever, unspecified}]]>
               </value>
             </param>
           </params>
           <exception class="org.openqa.selenium.NoSuchElementException">
             <message>
-              <![CDATA[no such element: Unable to locate element: {"method":"xpath","selector":"//app-encounter-selection/sl-dropdown"}
+              <![CDATA[no such element: Unable to locate element: {"method":"xpath","selector":"/html/body/app-root/div/div[2]/app-right-side-bar/ed-modal/app-charge-entry/main/ed-drawer/ed-drawer-body/div[4]/div[1]/div[2]/div/div[1]/div"}
   (Session info: chrome=135.0.7049.115)
 For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#no-such-element-exception
 Build info: version: '4.14.1', revision: '03f8ede370'
 System info: os.name: 'Windows 10', os.arch: 'amd64', os.version: '10.0', java.version: '17.0.12'
 Driver info: org.openqa.selenium.chrome.ChromeDriver
-Command: [e25f3c5476c239bd01a1cf1f6e4ffd15, findElement {using=xpath, value=//app-encounter-selection/sl-dropdown}]
-Capabilities {acceptInsecureCerts: false, browserName: chrome, browserVersion: 135.0.7049.115, chrome: {chromedriverVersion: 135.0.7049.114 (63fd8a7d9d0..., userDataDir: C:\Users\sksusari\AppData\L...}, fedcm:accounts: true, goog:chromeOptions: {debuggerAddress: localhost:54473}, networkConnectionEnabled: false, pageLoadStrategy: normal, platformName: windows, proxy: Proxy(), se:cdp: ws://localhost:54473/devtoo..., se:cdpVersion: 135.0.7049.115, setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: dismiss and notify, webauthn:extension:credBlob: true, webauthn:extension:largeBlob: true, webauthn:extension:minPinLength: true, webauthn:extension:prf: true, webauthn:virtualAuthenticators: true}
-Session ID: e25f3c5476c239bd01a1cf1f6e4ffd15]]>
+Command: [aae9a43e5ad6503e17c01088e4ea1846, findElement {using=xpath, value=/html/body/app-root/div/div[2]/app-right-side-bar/ed-modal/app-charge-entry/main/ed-drawer/ed-drawer-body/div[4]/div[1]/div[2]/div/div[1]/div}]
+Capabilities {acceptInsecureCerts: false, browserName: chrome, browserVersion: 135.0.7049.115, chrome: {chromedriverVersion: 135.0.7049.114 (63fd8a7d9d0..., userDataDir: C:\Users\sksusari\AppData\L...}, fedcm:accounts: true, goog:chromeOptions: {debuggerAddress: localhost:55381}, networkConnectionEnabled: false, pageLoadStrategy: normal, platformName: windows, proxy: Proxy(), se:cdp: ws://localhost:55381/devtoo..., se:cdpVersion: 135.0.7049.115, setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: dismiss and notify, webauthn:extension:credBlob: true, webauthn:extension:largeBlob: true, webauthn:extension:minPinLength: true, webauthn:extension:prf: true, webauthn:virtualAuthenticators: true}
+Session ID: aae9a43e5ad6503e17c01088e4ea1846]]>
             </message>
             <full-stacktrace>
-              <![CDATA[org.openqa.selenium.NoSuchElementException: no such element: Unable to locate element: {"method":"xpath","selector":"//app-encounter-selection/sl-dropdown"}
+              <![CDATA[org.openqa.selenium.NoSuchElementException: no such element: Unable to locate element: {"method":"xpath","selector":"/html/body/app-root/div/div[2]/app-right-side-bar/ed-modal/app-charge-entry/main/ed-drawer/ed-drawer-body/div[4]/div[1]/div[2]/div/div[1]/div"}
   (Session info: chrome=135.0.7049.115)
 For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#no-such-element-exception
 Build info: version: '4.14.1', revision: '03f8ede370'
 System info: os.name: 'Windows 10', os.arch: 'amd64', os.version: '10.0', java.version: '17.0.12'
 Driver info: org.openqa.selenium.chrome.ChromeDriver
-Command: [e25f3c5476c239bd01a1cf1f6e4ffd15, findElement {using=xpath, value=//app-encounter-selection/sl-dropdown}]
-Capabilities {acceptInsecureCerts: false, browserName: chrome, browserVersion: 135.0.7049.115, chrome: {chromedriverVersion: 135.0.7049.114 (63fd8a7d9d0..., userDataDir: C:\Users\sksusari\AppData\L...}, fedcm:accounts: true, goog:chromeOptions: {debuggerAddress: localhost:54473}, networkConnectionEnabled: false, pageLoadStrategy: normal, platformName: windows, proxy: Proxy(), se:cdp: ws://localhost:54473/devtoo..., se:cdpVersion: 135.0.7049.115, setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: dismiss and notify, webauthn:extension:credBlob: true, webauthn:extension:largeBlob: true, webauthn:extension:minPinLength: true, webauthn:extension:prf: true, webauthn:virtualAuthenticators: true}
-Session ID: e25f3c5476c239bd01a1cf1f6e4ffd15
-at java.base/jdk.internal.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
-at java.base/jdk.internal.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:77)
+Command: [aae9a43e5ad6503e17c01088e4ea1846, findElement {using=xpath, value=/html/body/app-root/div/div[2]/app-right-side-bar/ed-modal/app-charge-entry/main/ed-drawer/ed-drawer-body/div[4]/div[1]/div[2]/div/div[1]/div}]
+Capabilities {acceptInsecureCerts: false, browserName: chrome, browserVersion: 135.0.7049.115, chrome: {chromedriverVersion: 135.0.7049.114 (63fd8a7d9d0..., userDataDir: C:\Users\sksusari\AppData\L...}, fedcm:accounts: true, goog:chromeOptions: {debuggerAddress: localhost:55381}, networkConnectionEnabled: false, pageLoadStrategy: normal, platformName: windows, proxy: Proxy(), se:cdp: ws://localhost:55381/devtoo..., se:cdpVersion: 135.0.7049.115, setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: dismiss and notify, webauthn:extension:credBlob: true, webauthn:extension:largeBlob: true, webauthn:extension:minPinLength: true, webauthn:extension:prf: true, webauthn:virtualAuthenticators: true}
+Session ID: aae9a43e5ad6503e17c01088e4ea1846
+at jdk.internal.reflect.GeneratedConstructorAccessor68.newInstance(Unknown Source)
 at java.base/jdk.internal.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
 at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:499)
 at java.base/java.lang.reflect.Constructor.newInstance(Constructor.java:480)
@@ -82,8 +81,8 @@ at org.openqa.selenium.remote.RemoteWebDriver.findElement(RemoteWebDriver.java:3
 at org.openqa.selenium.support.pagefactory.DefaultElementLocator.findElement(DefaultElementLocator.java:68)
 at org.openqa.selenium.support.pagefactory.internal.LocatingElementHandler.invoke(LocatingElementHandler.java:38)
 at jdk.proxy2/jdk.proxy2.$Proxy109.click(Unknown Source)
-at com.Edvak_EHR_Automation_V1.testCases.TC_BillingGenerateClaims.fillEncounterDetails(TC_BillingGenerateClaims.java:244)
-at com.Edvak_EHR_Automation_V1.testCases.TC_BillingGenerateClaims.testBillingGenerateClaims(TC_BillingGenerateClaims.java:159)
+at com.Edvak_EHR_Automation_V1.testCases.TC_BillingGenerateClaims.fillIcdAndCptDetails(TC_BillingGenerateClaims.java:362)
+at com.Edvak_EHR_Automation_V1.testCases.TC_BillingGenerateClaims.testBillingGenerateClaims(TC_BillingGenerateClaims.java:210)
 at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
 at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
 at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
@@ -109,7 +108,7 @@ at org.testng.TestNG.runSuitesSequentially(TestNG.java:1212)
 at org.testng.TestNG.runSuitesLocally(TestNG.java:1134)
 at org.testng.TestNG.runSuites(TestNG.java:1063)
 at org.testng.TestNG.run(TestNG.java:1031)
-at com.Edvak_EHR_Automation_V1.controller.TestRunnerController.runTest(TestRunnerController.java:354)
+at com.Edvak_EHR_Automation_V1.controller.TestRunnerController.runTest(TestRunnerController.java:419)
 at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
 at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
 at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
@@ -174,332 +173,24 @@ at java.base/java.lang.Thread.run(Thread.java:842)
           <reporter-output>
           </reporter-output>
         </test-method> <!-- testBillingGenerateClaims -->
-        <test-method is-config="true" signature="captureScreen(org.testng.ITestResult)[pri:0, instance:com.Edvak_EHR_Automation_V1.testCases.TC_BillingGenerateClaims@20ce40a7]" started-at="2025-05-07T10:36:33 IST" name="captureScreen" finished-at="2025-05-07T10:36:33 IST" duration-ms="194" status="PASS">
+        <test-method is-config="true" signature="captureScreen(org.testng.ITestResult)[pri:0, instance:com.Edvak_EHR_Automation_V1.testCases.TC_BillingGenerateClaims@61137b59]" started-at="2025-05-08T12:11:00 IST" name="captureScreen" finished-at="2025-05-08T12:11:00 IST" duration-ms="192" status="PASS">
           <params>
             <param index="0">
               <value>
-                <![CDATA[[TestResult name=testBillingGenerateClaims status=FAILURE method=TC_BillingGenerateClaims.testBillingGenerateClaims(java.util.HashMap)[pri:1, instance:com.Edvak_EHR_Automation_V1.testCases.TC_BillingGenerateClaims@20ce40a7] output={null}]]]>
+                <![CDATA[[TestResult name=testBillingGenerateClaims status=FAILURE method=TC_BillingGenerateClaims.testBillingGenerateClaims(java.util.HashMap)[pri:1, instance:com.Edvak_EHR_Automation_V1.testCases.TC_BillingGenerateClaims@61137b59] output={null}]]]>
               </value>
             </param>
           </params>
           <reporter-output>
           </reporter-output>
         </test-method> <!-- captureScreen -->
-        <test-method signature="testBillingGenerateClaims(java.util.HashMap)[pri:1, instance:com.Edvak_EHR_Automation_V1.testCases.TC_BillingGenerateClaims@20ce40a7]" started-at="2025-05-07T10:36:33 IST" name="testBillingGenerateClaims" data-provider="dataProviderTest" finished-at="2025-05-07T10:36:35 IST" depends-on-methods="com.Edvak_EHR_Automation_V1.testCases.TC_BillingGenerateClaims.testQuickRegistration" duration-ms="1285" status="FAIL">
-          <params>
-            <param index="0">
-              <value>
-                <![CDATA[{patientName=Phaedra Braith, claimType=Paper, amount=231.59, cpt=99203, Mode=Generate, icd=Typhoid fever with other complications}]]>
-              </value>
-            </param>
-          </params>
-          <exception class="org.openqa.selenium.ElementClickInterceptedException">
-            <message>
-              <![CDATA[element click intercepted: Element <sl-button _ngcontent-arg-c678="" id="tour-guide-billing-Step4" variant="primary" size="small" outline="" data-optional="" data-valid="" data-user-valid="">...</sl-button> is not clickable at point (1607, 152). Other element would receive the click: <label _ngcontent-arg-c212="" for="lastname" class="ng-tns-c212-4">...</label>
-  (Session info: chrome=135.0.7049.115)
-Build info: version: '4.14.1', revision: '03f8ede370'
-System info: os.name: 'Windows 10', os.arch: 'amd64', os.version: '10.0', java.version: '17.0.12'
-Driver info: org.openqa.selenium.chrome.ChromeDriver
-Command: [e25f3c5476c239bd01a1cf1f6e4ffd15, clickElement {id=f.6AC6DCFC9F83D28E7CC5A0AF37A5C77E.d.B0061D0A9063D5DA1FD721FD4A34E7F3.e.131}]
-Capabilities {acceptInsecureCerts: false, browserName: chrome, browserVersion: 135.0.7049.115, chrome: {chromedriverVersion: 135.0.7049.114 (63fd8a7d9d0..., userDataDir: C:\Users\sksusari\AppData\L...}, fedcm:accounts: true, goog:chromeOptions: {debuggerAddress: localhost:54473}, networkConnectionEnabled: false, pageLoadStrategy: normal, platformName: windows, proxy: Proxy(), se:cdp: ws://localhost:54473/devtoo..., se:cdpVersion: 135.0.7049.115, setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: dismiss and notify, webauthn:extension:credBlob: true, webauthn:extension:largeBlob: true, webauthn:extension:minPinLength: true, webauthn:extension:prf: true, webauthn:virtualAuthenticators: true}
-Element: [[ChromeDriver: chrome on windows (e25f3c5476c239bd01a1cf1f6e4ffd15)] -> xpath: //form//div//sl-button[@id='tour-guide-billing-Step4']]
-Session ID: e25f3c5476c239bd01a1cf1f6e4ffd15]]>
-            </message>
-            <full-stacktrace>
-              <![CDATA[org.openqa.selenium.ElementClickInterceptedException: element click intercepted: Element <sl-button _ngcontent-arg-c678="" id="tour-guide-billing-Step4" variant="primary" size="small" outline="" data-optional="" data-valid="" data-user-valid="">...</sl-button> is not clickable at point (1607, 152). Other element would receive the click: <label _ngcontent-arg-c212="" for="lastname" class="ng-tns-c212-4">...</label>
-  (Session info: chrome=135.0.7049.115)
-Build info: version: '4.14.1', revision: '03f8ede370'
-System info: os.name: 'Windows 10', os.arch: 'amd64', os.version: '10.0', java.version: '17.0.12'
-Driver info: org.openqa.selenium.chrome.ChromeDriver
-Command: [e25f3c5476c239bd01a1cf1f6e4ffd15, clickElement {id=f.6AC6DCFC9F83D28E7CC5A0AF37A5C77E.d.B0061D0A9063D5DA1FD721FD4A34E7F3.e.131}]
-Capabilities {acceptInsecureCerts: false, browserName: chrome, browserVersion: 135.0.7049.115, chrome: {chromedriverVersion: 135.0.7049.114 (63fd8a7d9d0..., userDataDir: C:\Users\sksusari\AppData\L...}, fedcm:accounts: true, goog:chromeOptions: {debuggerAddress: localhost:54473}, networkConnectionEnabled: false, pageLoadStrategy: normal, platformName: windows, proxy: Proxy(), se:cdp: ws://localhost:54473/devtoo..., se:cdpVersion: 135.0.7049.115, setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: dismiss and notify, webauthn:extension:credBlob: true, webauthn:extension:largeBlob: true, webauthn:extension:minPinLength: true, webauthn:extension:prf: true, webauthn:virtualAuthenticators: true}
-Element: [[ChromeDriver: chrome on windows (e25f3c5476c239bd01a1cf1f6e4ffd15)] -> xpath: //form//div//sl-button[@id='tour-guide-billing-Step4']]
-Session ID: e25f3c5476c239bd01a1cf1f6e4ffd15
-at java.base/jdk.internal.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
-at java.base/jdk.internal.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:77)
-at java.base/jdk.internal.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
-at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:499)
-at java.base/java.lang.reflect.Constructor.newInstance(Constructor.java:480)
-at org.openqa.selenium.remote.codec.w3c.W3CHttpResponseCodec.createException(W3CHttpResponseCodec.java:200)
-at org.openqa.selenium.remote.codec.w3c.W3CHttpResponseCodec.decode(W3CHttpResponseCodec.java:133)
-at org.openqa.selenium.remote.codec.w3c.W3CHttpResponseCodec.decode(W3CHttpResponseCodec.java:52)
-at org.openqa.selenium.remote.HttpCommandExecutor.execute(HttpCommandExecutor.java:191)
-at org.openqa.selenium.remote.service.DriverCommandExecutor.invokeExecute(DriverCommandExecutor.java:200)
-at org.openqa.selenium.remote.service.DriverCommandExecutor.execute(DriverCommandExecutor.java:175)
-at org.openqa.selenium.remote.RemoteWebDriver.execute(RemoteWebDriver.java:602)
-at org.openqa.selenium.remote.RemoteWebElement.execute(RemoteWebElement.java:224)
-at org.openqa.selenium.remote.RemoteWebElement.click(RemoteWebElement.java:77)
-at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
-at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
-at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
-at java.base/java.lang.reflect.Method.invoke(Method.java:568)
-at org.openqa.selenium.support.pagefactory.internal.LocatingElementHandler.invoke(LocatingElementHandler.java:51)
-at jdk.proxy2/jdk.proxy2.$Proxy109.click(Unknown Source)
-at com.Edvak_EHR_Automation_V1.pageObjects.BillingGenerateClaims.clickNewChargeButton(BillingGenerateClaims.java:216)
-at com.Edvak_EHR_Automation_V1.testCases.TC_BillingGenerateClaims.newCharge(TC_BillingGenerateClaims.java:206)
-at com.Edvak_EHR_Automation_V1.testCases.TC_BillingGenerateClaims.testBillingGenerateClaims(TC_BillingGenerateClaims.java:130)
-at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
-at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
-at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
-at java.base/java.lang.reflect.Method.invoke(Method.java:568)
-at org.testng.internal.MethodInvocationHelper.invokeMethod(MethodInvocationHelper.java:133)
-at org.testng.internal.TestInvoker.invokeMethod(TestInvoker.java:598)
-at org.testng.internal.TestInvoker.invokeTestMethod(TestInvoker.java:173)
-at org.testng.internal.MethodRunner.runInSequence(MethodRunner.java:46)
-at org.testng.internal.TestInvoker$MethodInvocationAgent.invoke(TestInvoker.java:824)
-at org.testng.internal.TestInvoker.invokeTestMethods(TestInvoker.java:146)
-at org.testng.internal.TestMethodWorker.invokeTestMethods(TestMethodWorker.java:146)
-at org.testng.internal.TestMethodWorker.run(TestMethodWorker.java:128)
-at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
-at org.testng.TestRunner.privateRun(TestRunner.java:794)
-at org.testng.TestRunner.run(TestRunner.java:596)
-at org.testng.SuiteRunner.runTest(SuiteRunner.java:377)
-at org.testng.SuiteRunner.runSequentially(SuiteRunner.java:371)
-at org.testng.SuiteRunner.privateRun(SuiteRunner.java:332)
-at org.testng.SuiteRunner.run(SuiteRunner.java:276)
-at org.testng.SuiteRunnerWorker.runSuite(SuiteRunnerWorker.java:53)
-at org.testng.SuiteRunnerWorker.run(SuiteRunnerWorker.java:96)
-at org.testng.TestNG.runSuitesSequentially(TestNG.java:1212)
-at org.testng.TestNG.runSuitesLocally(TestNG.java:1134)
-at org.testng.TestNG.runSuites(TestNG.java:1063)
-at org.testng.TestNG.run(TestNG.java:1031)
-at com.Edvak_EHR_Automation_V1.controller.TestRunnerController.runTest(TestRunnerController.java:354)
-at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
-at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
-at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
-at java.base/java.lang.reflect.Method.invoke(Method.java:568)
-at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:261)
-at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:189)
-at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:118)
-at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:917)
-at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:829)
-at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:87)
-at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1089)
-at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:979)
-at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1014)
-at org.springframework.web.servlet.FrameworkServlet.doGet(FrameworkServlet.java:903)
-at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:564)
-at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:885)
-at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:658)
-at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:205)
-at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:149)
-at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:51)
-at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:174)
-at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:149)
-at org.springframework.web.filter.CorsFilter.doFilterInternal(CorsFilter.java:91)
-at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
-at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:174)
-at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:149)
-at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)
-at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
-at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:174)
-at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:149)
-at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)
-at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
-at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:174)
-at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:149)
-at org.springframework.web.filter.ServerHttpObservationFilter.doFilterInternal(ServerHttpObservationFilter.java:109)
-at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
-at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:174)
-at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:149)
-at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201)
-at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
-at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:174)
-at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:149)
-at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:167)
-at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:90)
-at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:482)
-at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:115)
-at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:93)
-at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74)
-at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:340)
-at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:391)
-at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63)
-at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:896)
-at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1744)
-at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52)
-at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1191)
-at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659)
-at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
-at java.base/java.lang.Thread.run(Thread.java:842)
-]]>
-            </full-stacktrace>
-          </exception> <!-- org.openqa.selenium.ElementClickInterceptedException -->
-          <reporter-output>
-          </reporter-output>
-        </test-method> <!-- testBillingGenerateClaims -->
-        <test-method is-config="true" signature="captureScreen(org.testng.ITestResult)[pri:0, instance:com.Edvak_EHR_Automation_V1.testCases.TC_BillingGenerateClaims@20ce40a7]" started-at="2025-05-07T10:36:35 IST" name="captureScreen" finished-at="2025-05-07T10:36:35 IST" duration-ms="164" status="PASS">
-          <params>
-            <param index="0">
-              <value>
-                <![CDATA[[TestResult name=testBillingGenerateClaims status=FAILURE method=TC_BillingGenerateClaims.testBillingGenerateClaims(java.util.HashMap)[pri:1, instance:com.Edvak_EHR_Automation_V1.testCases.TC_BillingGenerateClaims@20ce40a7] output={null}]]]>
-              </value>
-            </param>
-          </params>
-          <reporter-output>
-          </reporter-output>
-        </test-method> <!-- captureScreen -->
-        <test-method signature="testBillingGenerateClaims(java.util.HashMap)[pri:1, instance:com.Edvak_EHR_Automation_V1.testCases.TC_BillingGenerateClaims@20ce40a7]" started-at="2025-05-07T10:36:35 IST" name="testBillingGenerateClaims" data-provider="dataProviderTest" finished-at="2025-05-07T10:36:36 IST" depends-on-methods="com.Edvak_EHR_Automation_V1.testCases.TC_BillingGenerateClaims.testQuickRegistration" duration-ms="1325" status="FAIL">
-          <params>
-            <param index="0">
-              <value>
-                <![CDATA[{patientName=Luneth Hesper, claimType=Electronic, amount=462.08, cpt=99205, Mode=Generate, icd=Paratyphoid fever A}]]>
-              </value>
-            </param>
-          </params>
-          <exception class="org.openqa.selenium.ElementClickInterceptedException">
-            <message>
-              <![CDATA[element click intercepted: Element <sl-button _ngcontent-arg-c678="" id="tour-guide-billing-Step4" variant="primary" size="small" outline="" data-optional="" data-valid="" data-user-valid="">...</sl-button> is not clickable at point (1607, 152). Other element would receive the click: <label _ngcontent-arg-c212="" for="lastname" class="ng-tns-c212-4">...</label>
-  (Session info: chrome=135.0.7049.115)
-Build info: version: '4.14.1', revision: '03f8ede370'
-System info: os.name: 'Windows 10', os.arch: 'amd64', os.version: '10.0', java.version: '17.0.12'
-Driver info: org.openqa.selenium.chrome.ChromeDriver
-Command: [e25f3c5476c239bd01a1cf1f6e4ffd15, clickElement {id=f.6AC6DCFC9F83D28E7CC5A0AF37A5C77E.d.B0061D0A9063D5DA1FD721FD4A34E7F3.e.131}]
-Capabilities {acceptInsecureCerts: false, browserName: chrome, browserVersion: 135.0.7049.115, chrome: {chromedriverVersion: 135.0.7049.114 (63fd8a7d9d0..., userDataDir: C:\Users\sksusari\AppData\L...}, fedcm:accounts: true, goog:chromeOptions: {debuggerAddress: localhost:54473}, networkConnectionEnabled: false, pageLoadStrategy: normal, platformName: windows, proxy: Proxy(), se:cdp: ws://localhost:54473/devtoo..., se:cdpVersion: 135.0.7049.115, setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: dismiss and notify, webauthn:extension:credBlob: true, webauthn:extension:largeBlob: true, webauthn:extension:minPinLength: true, webauthn:extension:prf: true, webauthn:virtualAuthenticators: true}
-Element: [[ChromeDriver: chrome on windows (e25f3c5476c239bd01a1cf1f6e4ffd15)] -> xpath: //form//div//sl-button[@id='tour-guide-billing-Step4']]
-Session ID: e25f3c5476c239bd01a1cf1f6e4ffd15]]>
-            </message>
-            <full-stacktrace>
-              <![CDATA[org.openqa.selenium.ElementClickInterceptedException: element click intercepted: Element <sl-button _ngcontent-arg-c678="" id="tour-guide-billing-Step4" variant="primary" size="small" outline="" data-optional="" data-valid="" data-user-valid="">...</sl-button> is not clickable at point (1607, 152). Other element would receive the click: <label _ngcontent-arg-c212="" for="lastname" class="ng-tns-c212-4">...</label>
-  (Session info: chrome=135.0.7049.115)
-Build info: version: '4.14.1', revision: '03f8ede370'
-System info: os.name: 'Windows 10', os.arch: 'amd64', os.version: '10.0', java.version: '17.0.12'
-Driver info: org.openqa.selenium.chrome.ChromeDriver
-Command: [e25f3c5476c239bd01a1cf1f6e4ffd15, clickElement {id=f.6AC6DCFC9F83D28E7CC5A0AF37A5C77E.d.B0061D0A9063D5DA1FD721FD4A34E7F3.e.131}]
-Capabilities {acceptInsecureCerts: false, browserName: chrome, browserVersion: 135.0.7049.115, chrome: {chromedriverVersion: 135.0.7049.114 (63fd8a7d9d0..., userDataDir: C:\Users\sksusari\AppData\L...}, fedcm:accounts: true, goog:chromeOptions: {debuggerAddress: localhost:54473}, networkConnectionEnabled: false, pageLoadStrategy: normal, platformName: windows, proxy: Proxy(), se:cdp: ws://localhost:54473/devtoo..., se:cdpVersion: 135.0.7049.115, setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: dismiss and notify, webauthn:extension:credBlob: true, webauthn:extension:largeBlob: true, webauthn:extension:minPinLength: true, webauthn:extension:prf: true, webauthn:virtualAuthenticators: true}
-Element: [[ChromeDriver: chrome on windows (e25f3c5476c239bd01a1cf1f6e4ffd15)] -> xpath: //form//div//sl-button[@id='tour-guide-billing-Step4']]
-Session ID: e25f3c5476c239bd01a1cf1f6e4ffd15
-at java.base/jdk.internal.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
-at java.base/jdk.internal.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:77)
-at java.base/jdk.internal.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
-at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:499)
-at java.base/java.lang.reflect.Constructor.newInstance(Constructor.java:480)
-at org.openqa.selenium.remote.codec.w3c.W3CHttpResponseCodec.createException(W3CHttpResponseCodec.java:200)
-at org.openqa.selenium.remote.codec.w3c.W3CHttpResponseCodec.decode(W3CHttpResponseCodec.java:133)
-at org.openqa.selenium.remote.codec.w3c.W3CHttpResponseCodec.decode(W3CHttpResponseCodec.java:52)
-at org.openqa.selenium.remote.HttpCommandExecutor.execute(HttpCommandExecutor.java:191)
-at org.openqa.selenium.remote.service.DriverCommandExecutor.invokeExecute(DriverCommandExecutor.java:200)
-at org.openqa.selenium.remote.service.DriverCommandExecutor.execute(DriverCommandExecutor.java:175)
-at org.openqa.selenium.remote.RemoteWebDriver.execute(RemoteWebDriver.java:602)
-at org.openqa.selenium.remote.RemoteWebElement.execute(RemoteWebElement.java:224)
-at org.openqa.selenium.remote.RemoteWebElement.click(RemoteWebElement.java:77)
-at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
-at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
-at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
-at java.base/java.lang.reflect.Method.invoke(Method.java:568)
-at org.openqa.selenium.support.pagefactory.internal.LocatingElementHandler.invoke(LocatingElementHandler.java:51)
-at jdk.proxy2/jdk.proxy2.$Proxy109.click(Unknown Source)
-at com.Edvak_EHR_Automation_V1.pageObjects.BillingGenerateClaims.clickNewChargeButton(BillingGenerateClaims.java:216)
-at com.Edvak_EHR_Automation_V1.testCases.TC_BillingGenerateClaims.newCharge(TC_BillingGenerateClaims.java:206)
-at com.Edvak_EHR_Automation_V1.testCases.TC_BillingGenerateClaims.testBillingGenerateClaims(TC_BillingGenerateClaims.java:130)
-at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
-at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
-at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
-at java.base/java.lang.reflect.Method.invoke(Method.java:568)
-at org.testng.internal.MethodInvocationHelper.invokeMethod(MethodInvocationHelper.java:133)
-at org.testng.internal.TestInvoker.invokeMethod(TestInvoker.java:598)
-at org.testng.internal.TestInvoker.invokeTestMethod(TestInvoker.java:173)
-at org.testng.internal.MethodRunner.runInSequence(MethodRunner.java:46)
-at org.testng.internal.TestInvoker$MethodInvocationAgent.invoke(TestInvoker.java:824)
-at org.testng.internal.TestInvoker.invokeTestMethods(TestInvoker.java:146)
-at org.testng.internal.TestMethodWorker.invokeTestMethods(TestMethodWorker.java:146)
-at org.testng.internal.TestMethodWorker.run(TestMethodWorker.java:128)
-at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
-at org.testng.TestRunner.privateRun(TestRunner.java:794)
-at org.testng.TestRunner.run(TestRunner.java:596)
-at org.testng.SuiteRunner.runTest(SuiteRunner.java:377)
-at org.testng.SuiteRunner.runSequentially(SuiteRunner.java:371)
-at org.testng.SuiteRunner.privateRun(SuiteRunner.java:332)
-at org.testng.SuiteRunner.run(SuiteRunner.java:276)
-at org.testng.SuiteRunnerWorker.runSuite(SuiteRunnerWorker.java:53)
-at org.testng.SuiteRunnerWorker.run(SuiteRunnerWorker.java:96)
-at org.testng.TestNG.runSuitesSequentially(TestNG.java:1212)
-at org.testng.TestNG.runSuitesLocally(TestNG.java:1134)
-at org.testng.TestNG.runSuites(TestNG.java:1063)
-at org.testng.TestNG.run(TestNG.java:1031)
-at com.Edvak_EHR_Automation_V1.controller.TestRunnerController.runTest(TestRunnerController.java:354)
-at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
-at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
-at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
-at java.base/java.lang.reflect.Method.invoke(Method.java:568)
-at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:261)
-at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:189)
-at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:118)
-at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:917)
-at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:829)
-at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:87)
-at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1089)
-at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:979)
-at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1014)
-at org.springframework.web.servlet.FrameworkServlet.doGet(FrameworkServlet.java:903)
-at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:564)
-at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:885)
-at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:658)
-at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:205)
-at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:149)
-at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:51)
-at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:174)
-at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:149)
-at org.springframework.web.filter.CorsFilter.doFilterInternal(CorsFilter.java:91)
-at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
-at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:174)
-at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:149)
-at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)
-at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
-at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:174)
-at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:149)
-at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)
-at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
-at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:174)
-at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:149)
-at org.springframework.web.filter.ServerHttpObservationFilter.doFilterInternal(ServerHttpObservationFilter.java:109)
-at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
-at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:174)
-at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:149)
-at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201)
-at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)
-at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:174)
-at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:149)
-at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:167)
-at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:90)
-at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:482)
-at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:115)
-at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:93)
-at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74)
-at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:340)
-at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:391)
-at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63)
-at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:896)
-at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1744)
-at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52)
-at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1191)
-at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659)
-at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
-at java.base/java.lang.Thread.run(Thread.java:842)
-]]>
-            </full-stacktrace>
-          </exception> <!-- org.openqa.selenium.ElementClickInterceptedException -->
-          <reporter-output>
-          </reporter-output>
-        </test-method> <!-- testBillingGenerateClaims -->
-        <test-method is-config="true" signature="captureScreen(org.testng.ITestResult)[pri:0, instance:com.Edvak_EHR_Automation_V1.testCases.TC_BillingGenerateClaims@20ce40a7]" started-at="2025-05-07T10:36:36 IST" name="captureScreen" finished-at="2025-05-07T10:36:36 IST" duration-ms="141" status="PASS">
-          <params>
-            <param index="0">
-              <value>
-                <![CDATA[[TestResult name=testBillingGenerateClaims status=FAILURE method=TC_BillingGenerateClaims.testBillingGenerateClaims(java.util.HashMap)[pri:1, instance:com.Edvak_EHR_Automation_V1.testCases.TC_BillingGenerateClaims@20ce40a7] output={null}]]]>
-              </value>
-            </param>
-          </params>
-          <reporter-output>
-          </reporter-output>
-        </test-method> <!-- captureScreen -->
-        <test-method signature="verifyEncountersInManageClaims()[pri:2, instance:com.Edvak_EHR_Automation_V1.testCases.TC_BillingGenerateClaims@20ce40a7]" started-at="2025-05-07T10:36:36 IST" name="verifyEncountersInManageClaims" finished-at="2025-05-07T10:36:36 IST" depends-on-methods="com.Edvak_EHR_Automation_V1.testCases.TC_BillingGenerateClaims.testBillingGenerateClaims" duration-ms="0" status="SKIP">
+        <test-method signature="verifyEncountersInManageClaims()[pri:2, instance:com.Edvak_EHR_Automation_V1.testCases.TC_BillingGenerateClaims@61137b59]" started-at="2025-05-08T12:11:00 IST" name="verifyEncountersInManageClaims" finished-at="2025-05-08T12:11:00 IST" depends-on-methods="com.Edvak_EHR_Automation_V1.testCases.TC_BillingGenerateClaims.testBillingGenerateClaims" duration-ms="0" status="SKIP">
           <exception class="java.lang.Throwable">
             <message>
-              <![CDATA[Method TC_BillingGenerateClaims.verifyEncountersInManageClaims()[pri:2, instance:com.Edvak_EHR_Automation_V1.testCases.TC_BillingGenerateClaims@20ce40a7] depends on not successfully finished methods]]>
+              <![CDATA[Method TC_BillingGenerateClaims.verifyEncountersInManageClaims()[pri:2, instance:com.Edvak_EHR_Automation_V1.testCases.TC_BillingGenerateClaims@61137b59] depends on not successfully finished methods]]>
             </message>
             <full-stacktrace>
-              <![CDATA[java.lang.Throwable: Method TC_BillingGenerateClaims.verifyEncountersInManageClaims()[pri:2, instance:com.Edvak_EHR_Automation_V1.testCases.TC_BillingGenerateClaims@20ce40a7] depends on not successfully finished methods
+              <![CDATA[java.lang.Throwable: Method TC_BillingGenerateClaims.verifyEncountersInManageClaims()[pri:2, instance:com.Edvak_EHR_Automation_V1.testCases.TC_BillingGenerateClaims@61137b59] depends on not successfully finished methods
 at org.testng.internal.TestInvoker.invokeTestMethods(TestInvoker.java:102)
 at org.testng.internal.TestMethodWorker.invokeTestMethods(TestMethodWorker.java:146)
 at org.testng.internal.TestMethodWorker.run(TestMethodWorker.java:128)
@@ -516,7 +207,7 @@ at org.testng.TestNG.runSuitesSequentially(TestNG.java:1212)
 at org.testng.TestNG.runSuitesLocally(TestNG.java:1134)
 at org.testng.TestNG.runSuites(TestNG.java:1063)
 at org.testng.TestNG.run(TestNG.java:1031)
-at com.Edvak_EHR_Automation_V1.controller.TestRunnerController.runTest(TestRunnerController.java:354)
+at com.Edvak_EHR_Automation_V1.controller.TestRunnerController.runTest(TestRunnerController.java:419)
 at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
 at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
 at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
@@ -581,7 +272,7 @@ at java.base/java.lang.Thread.run(Thread.java:842)
           <reporter-output>
           </reporter-output>
         </test-method> <!-- verifyEncountersInManageClaims -->
-        <test-method is-config="true" signature="tearDown()[pri:0, instance:com.Edvak_EHR_Automation_V1.testCases.TC_BillingGenerateClaims@20ce40a7]" started-at="2025-05-07T10:36:36 IST" name="tearDown" finished-at="2025-05-07T10:36:36 IST" duration-ms="0" status="PASS">
+        <test-method is-config="true" signature="tearDown()[pri:0, instance:com.Edvak_EHR_Automation_V1.testCases.TC_BillingGenerateClaims@61137b59]" started-at="2025-05-08T12:11:00 IST" name="tearDown" finished-at="2025-05-08T12:11:00 IST" duration-ms="0" status="PASS">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- tearDown -->

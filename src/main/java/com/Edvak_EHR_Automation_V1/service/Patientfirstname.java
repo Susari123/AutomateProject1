@@ -6,6 +6,8 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import io.restassured.RestAssured;
@@ -14,6 +16,8 @@ import io.restassured.response.Response;
 
 @Service
 public class Patientfirstname {
+
+    private static final Logger logger = LoggerFactory.getLogger(Patientfirstname.class);
 
     public void testGetPatientData(String token, String defaultLocation, String defaultLocationTimeZone) throws IOException {
         RestAssured.baseURI = "https://darwinapi.edvak.com:3000";
@@ -45,7 +49,7 @@ public class Patientfirstname {
                     .response();
 
             if (response.statusCode() != 200) {
-                System.out.println("❌ API Error: " + response.statusCode());
+                logger.error("❌ API Error on page {}: {}", currentPage, response.statusCode());
                 break;
             }
 
@@ -55,13 +59,13 @@ public class Patientfirstname {
                 List<Map<String, Object>> patients = (List<Map<String, Object>>) result.get(1);
 
                 if (patients == null || patients.isEmpty()) {
-                    System.out.println("No patient data found on page " + currentPage);
+                    logger.warn("No patient data found on page {}", currentPage);
                     break;
                 }
 
                 for (Map<String, Object> patient : patients) {
-                    String firstName = patient.getOrDefault("first_name", "null").toString();
-                    String lastName = patient.getOrDefault("last_name", "null").toString();
+                    String firstName = (String) patient.get("first_name");
+                    String lastName = (String) patient.get("last_name");
                     boolean selfPay = Boolean.TRUE.equals(patient.get("selfPay"));
 
                     boolean hasInsuranceField = false;
@@ -69,7 +73,6 @@ public class Patientfirstname {
 
                     if (insurancesObject instanceof List) {
                         List<Map<String, Object>> insurances = (List<Map<String, Object>>) insurancesObject;
-
                         for (Map<String, Object> insurance : insurances) {
                             Object nested = insurance.get("insurances");
                             if (nested instanceof Map) {
@@ -83,15 +86,15 @@ public class Patientfirstname {
                     }
 
                     jsonContent.append("  {\n");
-                    jsonContent.append("    \"first_name\": \"").append(firstName).append("\",\n");
-                    jsonContent.append("    \"last_name\": \"").append(lastName).append("\",\n");
+                    jsonContent.append("    \"first_name\": ").append(firstName != null ? "\"" + firstName + "\"" : null).append(",\n");
+                    jsonContent.append("    \"last_name\": ").append(lastName != null ? "\"" + lastName + "\"" : null).append(",\n");
                     jsonContent.append("    \"selfPay\": ").append(selfPay).append(",\n");
                     jsonContent.append("    \"hasInsuranceField\": ").append(hasInsuranceField).append("\n");
                     jsonContent.append("  },\n");
                 }
 
             } else {
-                System.out.println("Error: Invalid result structure on page " + currentPage);
+                logger.error("Invalid result structure on page {}", currentPage);
                 break;
             }
 
@@ -107,7 +110,7 @@ public class Patientfirstname {
 
         try (FileWriter file = new FileWriter(outputFilePath)) {
             file.write(jsonContent.toString());
-            System.out.println("✅ Patient details saved to: " + outputFilePath);
+            logger.info("✅ Patient details saved to: {}", outputFilePath);
         }
     }
 }

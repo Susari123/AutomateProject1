@@ -2,6 +2,7 @@ package com.Edvak_EHR_Automation_V1.testCases;
 
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Paths;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -31,11 +32,16 @@ import org.testng.annotations.Test;
 
 import com.Edvak_EHR_Automation_V1.pageObjects.BillingGenerateClaims;
 import com.Edvak_EHR_Automation_V1.pageObjects.ManageClaimsPage;
+import com.Edvak_EHR_Automation_V1.service.BuildCombinedJson;
+import com.Edvak_EHR_Automation_V1.service.Patientfirstname;
 import com.Edvak_EHR_Automation_V1.service.SessionData;
 import com.Edvak_EHR_Automation_V1.utilities.DataReader;
 import com.Edvak_EHR_Automation_V1.utilities.GenerateRandomNumberBetweenLength;
 import com.Edvak_EHR_Automation_V1.utilities.LoginUtils;
 import com.Edvak_EHR_Automation_V1.utilities.TestData;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import java.nio.file.Paths;
+
 
 
 public class TC_BillingGenerateClaims extends BaseClass {
@@ -44,7 +50,7 @@ public class TC_BillingGenerateClaims extends BaseClass {
     List<String> encounterNumbersList = new ArrayList<>();
     
     @Test(priority = 0)
-    public void testQuickRegistration() throws InterruptedException {
+    public void testQuickRegistration() throws InterruptedException, IOException {
         logger.info("********Test Starts Here********");
     
         String userEmail = SessionData.getUserEmail();
@@ -58,42 +64,81 @@ public class TC_BillingGenerateClaims extends BaseClass {
         LoginUtils.loginToApplication(driver, baseURL, userEmail, userPassword);
     
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(100));
-        
-        try {
+    
             // Wait a few seconds to allow the optional dialog to appear
-            Thread.sleep(3000);
+            Thread.sleep(30000);
     
             List<WebElement> locationDialog = driver.findElements(By.xpath("//*[@id='mat-dialog-0']/app-select-location/div"));
-            if (!locationDialog.isEmpty()) {
-                logger.info("🔔 Location selection dialog detected.");
-    
-                // Click the Practice dropdown and select the 4th item
-                driver.findElement(By.xpath("//*[@id='practice-dropdown']/div[1]")).click();
-                Thread.sleep(1000);
-                driver.findElement(By.xpath("//*[@id='practice-dropdown']/div[2]/ul/li[4]")).click();
-    
-                // Wait for location dropdown to load
-                Thread.sleep(2000);
-    
-                // Click the Location dropdown and select the 1st item
-                driver.findElement(By.xpath("//*[@id='location-dropdown']/div[1]")).click();
-                Thread.sleep(1000);
-                driver.findElement(By.xpath("//*[@id='location-dropdown']/div[2]/ul/li[1]")).click();
-    
-                // Click the Continue button
-                driver.findElement(By.xpath("//button[contains(text(), 'Continue')]")).click();
-                logger.info("✅ Location selection completed.");
-                Thread.sleep(40000);
-            } else {
-                logger.info("ℹ️ Location dialog not present; continuing normally.");
-            }
-        } catch (Exception e) {
-            logger.warn("⚠️ Skipped optional location selection due to: {}");
-        }
+            logger.info("location dropdown Found");
+if (!locationDialog.isEmpty()) {
+    logger.info("🔔 Location selection dialog detected.");
+
+    // Click practice dropdown
+    driver.findElement(By.xpath("//*[@id='practice-dropdown']/div[1]")).click();
+    Thread.sleep(1000);
+    logger.info("pRACTICE dropdown Found");
+    // Load selected practice name from file
+    String selectedPracticeName = getSelectedPracticeNameFromFile(); // Reads from selectedPractice.json
+    if (selectedPracticeName != null) {
+        WebElement practiceOption = driver.findElement(
+            By.xpath("//ul//li//p[contains(text(), '" + selectedPracticeName + "')]")
+        );
+        practiceOption.click();
+    } else {
+        logger.error("❌ selectedPracticeName is null, aborting test.");
+        return; // Stop execution
+    }
+    logger.info("practice selected dropdown Found");
+    Thread.sleep(2000); // Wait for location dropdown to load
+
+    // Select first location
+    driver.findElement(By.xpath("//*[@id='location-dropdown']/div[1]")).click();
+    Thread.sleep(1000);
+    driver.findElement(By.xpath("//*[@id='location-dropdown']/div[2]/ul/li[1]")).click();
+
+    // Click Continue to trigger backend actions
+    driver.findElement(By.xpath("//button[contains(text(), 'Continue')]")).click();
+    logger.info("✅ Location selection completed.");
+
+    // WAIT for token/p_id to be set by backend (use a file flag or fixed wait)
+    Thread.sleep(30000); // You can replace this with polling a JSON file
+        // WAIT for token/p_id to be set by backend (use a file flag or fixed wait)
+    Thread.sleep(20000); // You can replace this with polling a JSON file
+    JavascriptExecutor js = (JavascriptExecutor) driver;
+
+// Extract the updated token
+String token = (String) js.executeScript("return window.localStorage.getItem('token');");
+
+// Extract the updated p_id
+String p_id = (String) js.executeScript(
+    "let userDetails = window.localStorage.getItem('user_details');" +
+    "return userDetails ? JSON.parse(userDetails).p_id : null;"
+);
+
+// Extract the updated location_id and timezone
+String defaultLocation = (String) js.executeScript("return window.localStorage.getItem('location_id');");
+String timeZone = (String) js.executeScript("return window.localStorage.getItem('currentLocationTimeZone');");
+logger.info("🧾 Extracted token: " + token);
+logger.info("🧾 Extracted p_id: " + p_id);
+logger.info("🧾 Extracted location_id: " + defaultLocation);
+logger.info("🧾 Extracted timezone: " + timeZone);
+Patientfirstname patientService = new Patientfirstname();
+patientService.testGetPatientData(token, defaultLocation, timeZone);
+Thread.sleep(4000);
+// Add short wait to ensure file I/O is done
+Thread.sleep(4000); // or better: check that PatientDetails.json exists and is non-empty
+
+// ✅ Step 2: Read clearingHouseKey from localStorage or session file
+String clearingHouseKey = (String) js.executeScript("return window.localStorage.getItem('clearing_house_key');");
+
+// ✅ Step 3: Build combined JSON
+BuildCombinedJson combinedJsonBuilder = new BuildCombinedJson();
+combinedJsonBuilder.buildCombinedJson(clearingHouseKey);
+}
         // Proceed with billing page verification
         BillingGenerateClaims billingPage = new BillingGenerateClaims(driver);
         wait.until(ExpectedConditions.visibilityOf(billingPage.getBillingIconElement()));
-        wait.until(ExpectedConditions.visibilityOf(billingPage.getDashboardElement()));
+        // wait.until(ExpectedConditions.visibilityOf(billingPage.getDashboardElement()));
     
         Assert.assertTrue(billingPage.isDashboardDisplayed(), "Dashboard should be visible after login.");
     
@@ -636,7 +681,16 @@ private static List<WebElement> fetchClaimIdElements(WebDriver driver) {
 private static List<WebElement> fetchStatusElements(WebDriver driver) {
     return driver.findElements(By.xpath("//*[@id='tour-guide-billing-claims-step4']/td[1]/div/div/div/div/span/sl-badge"));
 }
-
+private String getSelectedPracticeNameFromFile() {
+    try {
+        ObjectMapper mapper = new ObjectMapper();
+        Map<String, String> data = mapper.readValue(Paths.get("selectedPractice.json").toFile(), Map.class);
+        return data.get("selectedPracticeName");
+    } catch (IOException e) {
+        logger.error("❌ Failed to read selected practice name: {}", e);
+        return null;
+    }
+}
 
 @DataProvider(name = "dataProviderTest")
 public Object[][] dataProvider() throws IOException {
