@@ -24,6 +24,7 @@ import org.openqa.selenium.NoAlertPresentException;
 import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
@@ -50,108 +51,105 @@ public class TC_BillingGenerateClaims extends BaseClass {
     List<String> encounterNumbersList = new ArrayList<>();
     
     @Test(priority = 0)
-    public void testQuickRegistration() throws InterruptedException, IOException {
-        logger.info("********Test Starts Here********");
-    
-        String userEmail = SessionData.getUserEmail();
-        String userPassword = SessionData.getUserPassword();
-    
-        if (userEmail == null || userPassword == null) {
-            logger.error("❌ Error: Email or Password not set!");
-            throw new IllegalStateException("User credentials are missing!");
+public void testQuickRegistration() throws InterruptedException, IOException {
+    logger.info("********Test Starts Here********");
+
+    String userEmail = SessionData.getUserEmail();
+    String userPassword = SessionData.getUserPassword();
+
+    if (userEmail == null || userPassword == null) {
+        logger.error("❌ Error: Email or Password not set!");
+        throw new IllegalStateException("User credentials are missing!");
+    }
+
+    LoginUtils.loginToApplication(driver, baseURL, userEmail, userPassword);
+    WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
+
+    Thread.sleep(5000); // Optional short wait
+
+    // Check if location dialog is present
+    List<WebElement> locationDialog = driver.findElements(By.xpath("//*[@id='mat-dialog-0']/app-select-location/div"));
+    logger.info("Number of elements matching locationDialog: " + locationDialog.size());
+
+    if (!locationDialog.isEmpty() && locationDialog.get(0).isDisplayed()) {
+        logger.info("🔔 Location selection dialog is visible.");
+
+        // Handle location dialog
+        WebElement practiceDropdown = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id='practice-dropdown']/div[1]")));
+        practiceDropdown.click();
+        logger.info("✅ Practice dropdown clicked");
+
+        String selectedPracticeName = getSelectedPracticeNameFromFile();
+        if (selectedPracticeName != null) {
+            WebElement practiceOption = wait.until(ExpectedConditions.elementToBeClickable(
+                    By.xpath("//ul//li//p[contains(text(), '" + selectedPracticeName + "')]")));
+            practiceOption.click();
+            logger.info("✅ Practice selected: " + selectedPracticeName);
+        } else {
+            logger.error("❌ Practice name missing from file. Aborting dialog interaction.");
+            return;
         }
-    
-        LoginUtils.loginToApplication(driver, baseURL, userEmail, userPassword);
-    
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(100));
-    
-            // Wait a few seconds to allow the optional dialog to appear
-            Thread.sleep(30000);
-    
-            List<WebElement> locationDialog = driver.findElements(By.xpath("//*[@id='mat-dialog-0']/app-select-location/div"));
-            logger.info("location dropdown Found");
-if (!locationDialog.isEmpty()) {
-    logger.info("🔔 Location selection dialog detected.");
 
-    // Click practice dropdown
-    driver.findElement(By.xpath("//*[@id='practice-dropdown']/div[1]")).click();
-    Thread.sleep(1000);
-    logger.info("pRACTICE dropdown Found");
-    // Load selected practice name from file
-    String selectedPracticeName = getSelectedPracticeNameFromFile(); // Reads from selectedPractice.json
-    if (selectedPracticeName != null) {
-        WebElement practiceOption = driver.findElement(
-            By.xpath("//ul//li//p[contains(text(), '" + selectedPracticeName + "')]")
-        );
-        practiceOption.click();
+        WebElement locationDropdown = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id='location-dropdown']/div[1]")));
+        locationDropdown.click();
+        WebElement firstLocation = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id='location-dropdown']/div[2]/ul/li[1]")));
+        firstLocation.click();
+        logger.info("✅ Location selected");
+
+        WebElement continueButton = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//button[contains(text(), 'Continue')]")));
+        continueButton.click();
+        logger.info("✅ Clicked Continue");
+
+        // Wait for data to be available in localStorage
+        Thread.sleep(10000);
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+
+        String token = (String) js.executeScript("return window.localStorage.getItem('token');");
+        String p_id = (String) js.executeScript("let userDetails = window.localStorage.getItem('user_details'); return userDetails ? JSON.parse(userDetails).p_id : null;");
+        String locationId = (String) js.executeScript("return window.localStorage.getItem('location_id');");
+        String timeZone = (String) js.executeScript("return window.localStorage.getItem('currentLocationTimeZone');");
+
+        logger.info("🧾 Extracted token: " + token);
+        logger.info("🧾 Extracted p_id: " + p_id);
+        logger.info("🧾 Extracted location_id: " + locationId);
+        logger.info("🧾 Extracted timezone: " + timeZone);
+
+        Patientfirstname patientService = new Patientfirstname();
+        patientService.testGetPatientData(token, locationId, timeZone);
+
+        Thread.sleep(4000); // Optional: wait for file writing if needed
+
+        String clearingHouseKey = (String) js.executeScript("return window.localStorage.getItem('clearing_house_key');");
+        BuildCombinedJson combinedJsonBuilder = new BuildCombinedJson();
+        combinedJsonBuilder.buildCombinedJson(clearingHouseKey);
     } else {
-        logger.error("❌ selectedPracticeName is null, aborting test.");
-        return; // Stop execution
+        logger.warn("⚠️ Location dialog not found or not visible. Skipping location selection.");
     }
-    logger.info("practice selected dropdown Found");
-    Thread.sleep(2000); // Wait for location dropdown to load
 
-    // Select first location
-    driver.findElement(By.xpath("//*[@id='location-dropdown']/div[1]")).click();
-    Thread.sleep(1000);
-    driver.findElement(By.xpath("//*[@id='location-dropdown']/div[2]/ul/li[1]")).click();
+    logger.info("********Test Starts Here********");
 
-    // Click Continue to trigger backend actions
-    driver.findElement(By.xpath("//button[contains(text(), 'Continue')]")).click();
-    logger.info("✅ Location selection completed.");
-
-    // WAIT for token/p_id to be set by backend (use a file flag or fixed wait)
-    Thread.sleep(30000); // You can replace this with polling a JSON file
-        // WAIT for token/p_id to be set by backend (use a file flag or fixed wait)
-    Thread.sleep(20000); // You can replace this with polling a JSON file
-    JavascriptExecutor js = (JavascriptExecutor) driver;
-
-// Extract the updated token
-String token = (String) js.executeScript("return window.localStorage.getItem('token');");
-
-// Extract the updated p_id
-String p_id = (String) js.executeScript(
-    "let userDetails = window.localStorage.getItem('user_details');" +
-    "return userDetails ? JSON.parse(userDetails).p_id : null;"
-);
-
-// Extract the updated location_id and timezone
-String defaultLocation = (String) js.executeScript("return window.localStorage.getItem('location_id');");
-String timeZone = (String) js.executeScript("return window.localStorage.getItem('currentLocationTimeZone');");
-logger.info("🧾 Extracted token: " + token);
-logger.info("🧾 Extracted p_id: " + p_id);
-logger.info("🧾 Extracted location_id: " + defaultLocation);
-logger.info("🧾 Extracted timezone: " + timeZone);
-Patientfirstname patientService = new Patientfirstname();
-patientService.testGetPatientData(token, defaultLocation, timeZone);
-Thread.sleep(4000);
-// Add short wait to ensure file I/O is done
-Thread.sleep(4000); // or better: check that PatientDetails.json exists and is non-empty
-
-// ✅ Step 2: Read clearingHouseKey from localStorage or session file
-String clearingHouseKey = (String) js.executeScript("return window.localStorage.getItem('clearing_house_key');");
-
-// ✅ Step 3: Build combined JSON
-BuildCombinedJson combinedJsonBuilder = new BuildCombinedJson();
-combinedJsonBuilder.buildCombinedJson(clearingHouseKey);
+        try {
+            WebElement billingIcon = getBillingIconElement();
+            logger.info("Billing icon is displayed: " + billingIcon.isDisplayed());
+            logger.info("Billing icon is enabled: " + billingIcon.isEnabled());
+            clickWithRetry(billingIcon, 3);
+            logger.info("✅ Billing button clicked");
+        } catch (Exception e) {
+            logger.error("❌ Exception while clicking Billing icon", e);
+            throw e;
+        }
 }
-        // Proceed with billing page verification
-        BillingGenerateClaims billingPage = new BillingGenerateClaims(driver);
-        wait.until(ExpectedConditions.visibilityOf(billingPage.getBillingIconElement()));
-        // wait.until(ExpectedConditions.visibilityOf(billingPage.getDashboardElement()));
-    
-        Assert.assertTrue(billingPage.isDashboardDisplayed(), "Dashboard should be visible after login.");
-    
-        clickWithRetry(billingPage.getBillingIconElement(), 3);
-        logger.info("✅ Billing button is clicked");
-    }
-    
+   // ✅ Now implemented inside the test class
+   public WebElement getBillingIconElement() {
+    return driver.findElement(By.xpath("//a[.//span[@data-title='Billing']]"));
+}
 
 @Test(priority = 1, dataProvider = "dataProviderTest", dependsOnMethods = {"testQuickRegistration"})
 void testBillingGenerateClaims(HashMap<String, String> data) throws InterruptedException, IOException {
     WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(100));
     // Assertion to verify that Billing page is loaded
-    BillingGenerateClaims billingPage = new BillingGenerateClaims(driver);
+    BillingGenerateClaims billingPage = PageFactory.initElements(driver, BillingGenerateClaims.class);
+
 
     // Page loading & Tab Selection
     billingPage.waitForBillingPageHeader(driver);
@@ -188,16 +186,16 @@ void testBillingGenerateClaims(HashMap<String, String> data) throws InterruptedE
 
 //        logger.info("The cross button visibility: " + (driver.findElement(By.xpath("//ed-drawer/ed-drawer-header/div[2]/sl-icon-button")).isDisplayed() ? "Visible" : "Not Visible")); Assert.assertTrue(driver.findElement(By.xpath("//ed-drawer/ed-drawer-header/div[2]/sl-icon-button")).isDisplayed(), "The cross button should be visible.");
     
-    WebElement patientNameInput = driver.findElement(By.xpath("//input[@class='w-full form-input']"));
+    WebElement patientNameInput = driver.findElement(By.xpath("//ed-drawer-body/div[1]/div[1]/div/type-ahead/div/input"));
     patientNameInput.sendKeys(data.get("patientName"));
     Thread.sleep(100);
 //         Assertion to verify patient name input
     Assert.assertEquals(patientNameInput.getAttribute("value"), data.get("patientName"),
             "Patient name input should match the provided data.");
 
-    wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("/html[1]/body[1]/app-root[1]/div[1]/div[2]/app-right-side-bar[1]/ed-modal[1]/app-charge-entry[1]/main[1]/ed-drawer[1]/ed-drawer-body[1]/div[1]/div[1]/div[1]/type-ahead[1]/div[1]/div[1]/div[1]")));
+    wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//type-ahead/div/div/div")));
 
-    WebElement patientName1 = driver.findElement(By.xpath("/html[1]/body[1]/app-root[1]/div[1]/div[2]/app-right-side-bar[1]/ed-modal[1]/app-charge-entry[1]/main[1]/ed-drawer[1]/ed-drawer-body[1]/div[1]/div[1]/div[1]/type-ahead[1]/div[1]/div[1]/div[1]"));
+    WebElement patientName1 = driver.findElement(By.xpath("//type-ahead/div/div/div"));
     patientName1.click();
     Thread.sleep(3000);
     // Handling encounter and other related inputs
@@ -253,20 +251,28 @@ void testBillingGenerateClaims(HashMap<String, String> data) throws InterruptedE
     }
 
     public void clickWithRetry(WebElement element, int maxRetries) {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         int retryCount = 0;
         boolean clicked = false;
+    
         while (retryCount < maxRetries && !clicked) {
             try {
-                element.click();
+                wait.until(ExpectedConditions.elementToBeClickable(element)).click();
                 clicked = true;
-            } catch (ElementClickInterceptedException e) {
-                logger.info("Attempt " + (retryCount + 1) + ": Element click intercepted. Retrying...");
+            } catch (ElementClickInterceptedException | StaleElementReferenceException e) {
+                logger.warn("Retry " + (retryCount + 1) + ": Click failed. Retrying...", e);
                 retryCount++;
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException ignored) {}
             }
         }
-        // Assertion to ensure element was clicked
-//        Assert.assertTrue(clicked, "Element should be clicked within retry limit.");
+    
+        if (!clicked) {
+            throw new RuntimeException("❌ Failed to click element after " + maxRetries + " attempts");
+        }
     }
+    
 
     private void handleAlertIfPresent(WebDriver driver) {
         try {

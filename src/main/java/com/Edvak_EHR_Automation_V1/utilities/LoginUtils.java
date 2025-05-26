@@ -26,7 +26,7 @@ public class LoginUtils {
             lp.setUserName(username);
             lp.setPassword(password);
     
-            WebElement loginButton = driver.findElement(By.xpath("/html/body/app-root/div/div/app-login/section/div/div/form/div[3]/sl-button"))
+            WebElement loginButton = driver.findElement(By.xpath("//sl-button[contains(text(), ' Login ')]"))
                     .getShadowRoot().findElement(By.cssSelector("button"));
             new Actions(driver).moveToElement(loginButton).click().build().perform();
     

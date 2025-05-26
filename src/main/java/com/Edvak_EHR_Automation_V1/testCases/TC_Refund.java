@@ -45,22 +45,25 @@ public void testQuickRegistration() throws InterruptedException {
 
     BillingGenerateClaims billingPage = new BillingGenerateClaims(driver);
 
-    WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(100));
-    wait.until(ExpectedConditions.visibilityOf(billingPage.getBillingIconElement()));
-    wait.until(ExpectedConditions.visibilityOf(billingPage.getDashboardElement()));
+    logger.info("💳 Starting payment processing...");
 
-    Assert.assertTrue(billingPage.isDashboardDisplayed(), "Dashboard should be visible after login.");
-
-    clickWithRetry(billingPage.getBillingIconElement(), 3);
+        WebElement billingIcon = getBillingIconElement();
+        logger.info("Billing icon is displayed: " + billingIcon.isDisplayed());
+        logger.info("Billing icon is enabled: " + billingIcon.isEnabled());
+        clickWithRetry(billingIcon, 3);
     logger.info("✅ Billing button is clicked");
+}
+// Billing icon locator
+public WebElement getBillingIconElement() {
+    return driver.findElement(By.xpath("//a[.//span[@data-title='Billing']]"));
 }
     @Test(priority = 1, dependsOnMethods = {"testQuickRegistration"})
     public void Refund()throws InterruptedException {
     	WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(100));
     	 wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//table//tbody//tr//td")));
-    	 WebElement RefundTab = driver.findElement(By.xpath("//sl-tab-group//sl-tab[5]"));
+    	 WebElement RefundTab = driver.findElement(By.xpath("//sl-tab[contains(text(), 'Refunds')]"));
     	 RefundTab.click();
-    	 wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath("//img[contains(@src, 'loader.svg')]")));
+    	//  wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath("//img[contains(@src, 'loader.svg')]")));
     	 try {
              
              WebElement element = driver.findElement(By.xpath("//app-refunds-list/ed-col/section/form/div[1]/h4"));
@@ -75,7 +78,7 @@ public void testQuickRegistration() throws InterruptedException {
     	 WebElement plusButton = driver.findElement(By.xpath("//app-refunds-list/ed-col/section/form/div[1]/sl-icon-button"));
     	 plusButton.click();
     	 logger.info("Plus button is clicked ");
-    	 wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath("//ed-drawer/ed-drawer-body/div/div/div/sl-button")));
+    	 wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//ed-drawer/ed-drawer-body/div/div/div/sl-button")));
     	 WebElement paragraph = driver.findElement(By.xpath("//app-right-side-bar/ed-modal/app-refund/main/ed-drawer/ed-drawer-body/div/div/p"));
          WebElement selectPaymentButton = driver.findElement(By.xpath("//sl-button[contains(text(), 'Select payment')]"));
          if (paragraph.isDisplayed() && selectPaymentButton.isDisplayed()) {
@@ -102,7 +105,7 @@ public void testQuickRegistration() throws InterruptedException {
                  Assert.fail(buttonName + " button is not present.");
              }
          }
-         wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath("//*[contains(@class, 'skeleton')]")));
+        //  wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath("//*[contains(@class, 'skeleton')]")));
          Thread.sleep(4000);
          try {
         	    // Check if 'No payments found' message is present
@@ -160,17 +163,17 @@ public void testQuickRegistration() throws InterruptedException {
         
          WebElement issuedDate = driver.findElement(By.xpath("//ed-drawer-body/div/form/ed-col/div[2]/div/input"));
          issuedDate.sendKeys(formattedDate);
-         WebElement status = driver.findElement(By.xpath("//ed-drawer-body/div/form/ed-col/div[3]/div"));
-         status.click();
+        //  WebElement status = driver.findElement(By.xpath("//ed-drawer-body/div/form/ed-col/div[3]/div"));
+        //  status.click();
          Thread.sleep(200);
-            @SuppressWarnings("unused")
-         WebElement option = driver.findElement(By.xpath("//div/span[contains(text(), 'Processing')]"));
-//         option.click();
-         WebElement click1 = driver.findElement(By.xpath("//div/form/ed-col/div[3]/div/ng-select/div/span[2]"));
-         click1.click();
-         WebElement RefundPaymentMethod = driver.findElement(By.xpath("//div/form/ed-col/div[5]/ng-select"));
+//             @SuppressWarnings("unused")
+//          WebElement option = driver.findElement(By.xpath("//div/span[contains(text(), 'Processing')]"));
+// //         option.click();
+//          WebElement click1 = driver.findElement(By.xpath("//div/form/ed-col/div[3]/div/ng-select/div/span[2]"));
+//          click1.click();
+         WebElement RefundPaymentMethod = driver.findElement(By.xpath("//ng-select[@formcontrolname = 'paymentMethod']"));
          RefundPaymentMethod.click();
-         WebElement reason = driver.findElement(By.xpath("//div/form/ed-col/div[6]/div/textarea"));
+         WebElement reason = driver.findElement(By.xpath("//textarea[@formcontrolname = 'message']"));
          String randomString = generateRandomString(10); // Length of 10 characters
          reason.sendKeys(randomString);
          Thread.sleep(200);

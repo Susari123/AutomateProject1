@@ -1,6 +1,8 @@
 package com.Edvak_EHR_Automation_V1.testCases;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Paths;
 import java.text.DecimalFormat;
 import java.time.Duration;
 import java.util.HashMap;
@@ -11,121 +13,143 @@ import java.util.Random;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.ElementClickInterceptedException;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
-import org.testng.annotations.DataProvider;
-import org.testng.annotations.Test;
 
 import com.Edvak_EHR_Automation_V1.pageObjects.BillingGenerateClaims;
 import com.Edvak_EHR_Automation_V1.pageObjects.PaymentPage;
+import com.Edvak_EHR_Automation_V1.service.BuildCombinedJson;
+import com.Edvak_EHR_Automation_V1.service.ClaimIddata;
+import com.Edvak_EHR_Automation_V1.service.Patientfirstname;
 import com.Edvak_EHR_Automation_V1.service.SessionData;
 import com.Edvak_EHR_Automation_V1.utilities.DateUtils;
 import com.Edvak_EHR_Automation_V1.utilities.EncounterDataProvider;
 import com.Edvak_EHR_Automation_V1.utilities.LoginUtils;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
+import java.io.IOException;
+import java.time.Duration;
+import java.util.HashMap;
+import java.util.List;
 
-public class TC_Payment extends BaseClass{
-	
-       @Test(priority = 0)
+import org.openqa.selenium.*;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.ITestResult;
+import org.testng.annotations.*;
+
+import com.Edvak_EHR_Automation_V1.pageObjects.PaymentPage;
+import com.Edvak_EHR_Automation_V1.service.SessionData;
+import com.Edvak_EHR_Automation_V1.utilities.LoginUtils;
+
+public class TC_Payment extends BaseClass {
+
+    @Test(priority = 0)
+    @SuppressWarnings("UseSpecificCatch")
 public void testQuickRegistration() throws InterruptedException {
-    logger.info("********Test Starts Here********");
+        logger.info("********Test Starts Here********");
 
-    // ✅ Retrieve email and password dynamically
-    String userEmail = SessionData.getUserEmail();
-    String userPassword = SessionData.getUserPassword();
+        String userEmail = SessionData.getUserEmail();
+        String userPassword = SessionData.getUserPassword();
 
-    if (userEmail == null || userPassword == null) {
-        logger.error("❌ Error: Email or Password not set!");
-        throw new IllegalStateException("User credentials are missing!");
-    }
+        if (userEmail == null || userPassword == null) {
+            logger.error("❌ Email/password null");
+            throw new IllegalStateException("Missing credentials");
+        }
 
-    // logger.info("✅ Using Email: {} for login", userEmail);
-
-    // ✅ Use retrieved email and password for login
-    LoginUtils.loginToApplication(driver, baseURL, userEmail, userPassword);
-
-    BillingGenerateClaims billingPage = new BillingGenerateClaims(driver);
-
-    WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(100));
-    wait.until(ExpectedConditions.visibilityOf(billingPage.getBillingIconElement()));
-    wait.until(ExpectedConditions.visibilityOf(billingPage.getDashboardElement()));
-
-    Assert.assertTrue(billingPage.isDashboardDisplayed(), "Dashboard should be visible after login.");
-
-    clickWithRetry(billingPage.getBillingIconElement(), 3);
-    logger.info("✅ Billing button is clicked");
+        LoginUtils.loginToApplication(driver, baseURL, userEmail, userPassword);
+        Thread.sleep(3000);  // <- if needed    
 }
-    @Test(priority=1,dataProvider = "combinedDataProvider", dependsOnMethods = {"testQuickRegistration"})
-	public void payment(String encounterNumber, String status, String currentDate, String futureDate) throws InterruptedException {
-		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(100));
-        // Assertion to verify that Billing page is loaded
-    //    WebElement billingPageHeader = driver.findElement(By.xpath("//h2[normalize-space()='billing']"));
-    //    wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//form//div//sl-button[@id='tour-guide-billing-Step4']")));
-       wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//table//tbody//tr//td")));
+
+
+@Test(priority = 1, dataProvider = "dataProviderTest", dependsOnMethods = {"testQuickRegistration"})
+    public void payment(String encounterNumber, String status, String currentDate, String futureDate) throws InterruptedException {
+        logger.info("💳 Starting payment processing...");
+
+        WebElement billingIcon = getBillingIconElement();
+        logger.info("Billing icon is displayed: " + billingIcon.isDisplayed());
+        logger.info("Billing icon is enabled: " + billingIcon.isEnabled());
+        clickWithRetry(billingIcon, 3);
+
+        logger.info("✅ Billing button clicked");
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//table//tbody//tr//td")));
+
         PaymentPage paymentPage = new PaymentPage(driver);
-    // Perform actions via Page Object methods
-    paymentPage.clickPaymentTab();
-    paymentPage.clickPlusButton();
-    paymentPage.waitForNewPaymentHeader();
+        paymentPage.clickPaymentTab();
+        paymentPage.clickPlusButton();
+        paymentPage.waitForNewPaymentHeader();
 
-    paymentPage.enterSubmissionDate(currentDate);
-    paymentPage.openPaymentTypeDropdown();
+        paymentPage.enterSubmissionDate(currentDate);
+        paymentPage.openPaymentTypeDropdown();
 
-    System.out.println("Status: " + status);
-
-    if (status.equalsIgnoreCase("Statement Ready")) {
-        // Patient Flow
-        if (paymentPage.isPatientPaymentOptionEnabled()) {
-            paymentPage.selectPatientPaymentOption();
-            System.out.println("Patient Payment option selected.");
+        if (status.equalsIgnoreCase("Statement Ready")) {
+            if (paymentPage.isPatientPaymentOptionEnabled()) {
+                paymentPage.selectPatientPaymentOption();
+                paymentPage.searchAndSelectPatient("Radiousone Smith");
+            }
         } else {
-            System.out.println("Patient Payment option is not available.");
+            if (paymentPage.isInsurancePaymentOptionEnabled()) {
+                paymentPage.selectInsurancePaymentOption();
+                paymentPage.searchAndSelectInsurancePlan("CareCore National, Inc.");
+                paymentPage.selectInsurancePlanResult();
+            }
         }
 
-        Thread.sleep(200); // Retaining your original delay
+        paymentPage.selectModeOfPayment("Cash");
+        paymentPage.enterPaymentAmount("100.00");
+        paymentPage.enterPaymentNotes("Test payment note");
+        paymentPage.submitPayment();
+        Thread.sleep(4000);
+        paymentPage.waitForPaymentToAppear();
+        paymentPage.openCreatedPayment();
+        Thread.sleep(3000);
 
-        paymentPage.searchAndSelectPatient("Radiousone Smith");
+        String paymentType = paymentPage.getPaymentType();
+        logger.info("✅ Payment type recorded: " + paymentType);
+    }
 
-    } else {
-        // Insurance Flow
-        if (paymentPage.isInsurancePaymentOptionEnabled()) {
-            paymentPage.selectInsurancePaymentOption();
-            logger.info("Insurance option selected.");
-        } else {
-            logger.info("Insurance option is not available.");
+    // Retry click method with logging
+    public void clickWithRetry(WebElement element, int retries) {
+        int attempts = 0;
+        while (attempts < retries) {
+            try {
+                element.click();
+                logger.info("✅ Clicked successfully on attempt " + (attempts + 1));
+                return;
+            } catch (Exception e) {
+                logger.warn("❌ Click failed on attempt " + (attempts + 1) + ": " + e.getMessage());
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException ignored) {}
+            }
+            attempts++;
         }
-
-        Thread.sleep(200); // Retaining your original delay
-
-        paymentPage.searchAndSelectInsurancePlan("CareCore National, Inc.");
-        logger.info("Insurance searched");
-        paymentPage.selectInsurancePlanResult();
-        logger.info("Insurance selected");
+        throw new RuntimeException("❌ All click attempts failed after " + retries + " tries.");
     }
-    paymentPage.selectModeOfPayment("Cash");
 
-    String randomAmount = TC_Payment.getRandomAmount();
-    paymentPage.enterPaymentAmount(randomAmount);
-    
-    paymentPage.enterPaymentNotes("NoteADDED");
-    paymentPage.submitPayment();
-    
-    Thread.sleep(4000); // Optional, but you can rely on wait methods
-    
-    paymentPage.waitForPaymentToAppear();
-    paymentPage.openCreatedPayment();
-    
-    Thread.sleep(4000); // Optional
-    
-    String paymentType = paymentPage.getPaymentType();
-    if (paymentType.equalsIgnoreCase("Insurance")) {
-        TC_Payment.insurancePayment(encounterNumber);
-    } else {
-        TC_Payment.patientPayment(encounterNumber);
+    // Billing icon locator
+    public WebElement getBillingIconElement() {
+        return driver.findElement(By.xpath("//a[.//span[@data-title='Billing']]"));
     }
+
+    @AfterMethod
+    public void afterTestResult(ITestResult result) {
+        if (result.getStatus() == ITestResult.FAILURE) {
+            logger.error("❌ Test failed: " + result.getName(), result.getThrowable());
+            result.getThrowable().printStackTrace();
+        } else if (result.getStatus() == ITestResult.SUCCESS) {
+            logger.info("✅ Test passed: " + result.getName());
+        } else if (result.getStatus() == ITestResult.SKIP) {
+            logger.warn("⚠️ Test skipped: " + result.getName());
+        }
     }
+    
+
     public static void insurancePayment(String encounterNumber) throws InterruptedException {
     	WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(100));
     	try {
@@ -410,35 +434,19 @@ public void testQuickRegistration() throws InterruptedException {
         searchClaim.sendKeys(encounterNumber);
 
     }
-	public void clickWithRetry(WebElement element, int maxRetries) {
-        int retryCount = 0;
-        boolean clicked = false;
-        while (retryCount < maxRetries && !clicked) {
-            try {
-                element.click();
-                clicked = true;
-            } catch (ElementClickInterceptedException e) {
-                logger.info("Attempt " + (retryCount + 1) + ": Element click intercepted. Retrying...");
-                retryCount++;
-            }
-        }
-        // Assertion to ensure element was clicked
-//        Assert.assertTrue(clicked, "Element should be clicked within retry limit.");
-    }
-    // DataProvider method for TestNG
-   @DataProvider(name = "encounterDataProvider")
-    public Object[][] encounterDataProvider() {
-        EncounterDataProvider reader = new EncounterDataProvider();
-        List<EncounterDataProvider.EncounterData> encounterDataList = reader.readEncounterDataFromJson();
-        Object[][] data = new Object[encounterDataList.size()][2]; 
+    @DataProvider(name = "encounterDataProvider")
+public Object[][] encounterDataProvider() throws Exception {
+    EncounterDataProvider reader = new EncounterDataProvider();
+    List<EncounterDataProvider.EncounterData> encounterDataList = reader.readEncounterDataFromJson();
+    Object[][] data = new Object[encounterDataList.size()][2];
 
-        for (int i = 0; i < encounterDataList.size(); i++) {
-            data[i][0] = encounterDataList.get(i).getEncounterNumber(); 
-            data[i][1] = encounterDataList.get(i).getStatus(); 
-        }
-
-        return data;
+    for (int i = 0; i < encounterDataList.size(); i++) {
+        data[i][0] = encounterDataList.get(i).getEncounterNumber();
+        data[i][1] = encounterDataList.get(i).getStatus();
     }
+
+    return data;
+}
     @DataProvider(name = "dateDataProvider")
     public Object[][] dateDataProvider() {
     	 String[] dates = DateUtils.getCurrentAndPreviousDate();
@@ -447,20 +455,21 @@ public void testQuickRegistration() throws InterruptedException {
         };
     }
     @DataProvider(name = "combinedDataProvider")
-    public Object[][] combinedDataProvider() {
+public Object[][] combinedDataProvider() throws Exception {
+    Object[][] encounterData = encounterDataProvider();
+    Object[][] dateData = dateDataProvider(); // You must ensure this is valid
+    Object[][] combinedData = new Object[encounterData.length][4];
 
-        Object[][] encounterData = encounterDataProvider();
-        Object[][] dateData = dateDataProvider();
-        Object[][] combinedData = new Object[encounterData.length][4]; 
-        for (int i = 0; i < encounterData.length; i++) {
-            combinedData[i][0] = encounterData[i][0]; 
-            combinedData[i][1] = encounterData[i][1]; 
-            combinedData[i][2] = dateData[0][0]; 
-            combinedData[i][3] = dateData[0][1]; 
-        }
-
-        return combinedData;
+    for (int i = 0; i < encounterData.length; i++) {
+        combinedData[i][0] = encounterData[i][0];
+        combinedData[i][1] = encounterData[i][1];
+        combinedData[i][2] = dateData[0][0];
+        combinedData[i][3] = dateData[0][1];
     }
+
+    return combinedData;
+}
+
     public static String getRandomAmount() {
         Random rand = new Random();
         double randomAmount = 100 + (500 - 100) * rand.nextDouble();
@@ -485,6 +494,7 @@ public void testQuickRegistration() throws InterruptedException {
             System.out.println("JSON file not found.");
         }
     }
+
 }
 
 

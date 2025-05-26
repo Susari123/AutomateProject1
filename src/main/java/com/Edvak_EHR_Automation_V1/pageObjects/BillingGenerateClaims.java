@@ -9,13 +9,10 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+
 public class BillingGenerateClaims {
     WebDriver ldriver;
-
-    public BillingGenerateClaims(WebDriver rdriver) {
-        ldriver = rdriver;
-        PageFactory.initElements(rdriver, this);
-    }
+    private WebDriver driver;
 
     // ==================== Billing Page Locators ====================
 
@@ -25,11 +22,12 @@ public class BillingGenerateClaims {
     @FindBy(xpath = "//h4[normalize-space()='billing']")
     private WebElement billingPageHeaderText;
 
-    @FindBy(xpath = "//app-header/header/h4")
+    @FindBy(xpath = "//app-header//h4")
     private WebElement dashboardElement;
 
-    @FindBy(xpath = "//nav/a[5]/span[1]/sl-icon")
+    @FindBy(xpath = "//a[.//span[@data-title='Billing']]")
     private WebElement billingIcon;
+
 
     // ==================== New Charge Panel ====================
     @FindBy(xpath = "//form//div//sl-button[@id='tour-guide-billing-Step4']")
@@ -45,10 +43,10 @@ public class BillingGenerateClaims {
     private WebElement crossButton;
 
     // ==================== Charge Entry Inputs ====================
-    @FindBy(xpath = "//input[@class='w-full form-input']")
+    @FindBy(xpath = "//ed-drawer-body/div[1]/div[1]/div/type-ahead/div/input")
     private WebElement patientNameInput;
 
-    @FindBy(xpath = "/html/body/app-root/div/div[2]/app-right-side-bar/ed-modal/app-charge-entry/main/ed-drawer/ed-drawer-body/div[1]/div[1]/div/type-ahead/div/div/div")
+    @FindBy(xpath = "/html/body/app-root/div/div[2]/app-right-side-bar/ed-modal/app-charge-entry/main/ed-drawer/ed-drawer-body/div[1]/div[1]/div/type-ahead/div/div/div[1]")
     private WebElement patientNameDropdown;
 
     @FindBy(xpath = "//div[@class='border border-[#CBD5E1] flex form-select w-full bg-white']")
@@ -57,10 +55,10 @@ public class BillingGenerateClaims {
     @FindBy(xpath = "//div/sl-button-group/sl-button[2]")
     private WebElement newEncounterOption;
 
-    @FindBy(xpath = "/html/body/app-root/div/div[2]/app-right-side-bar/ed-modal/app-charge-entry/main/ed-drawer/ed-drawer-body/div[4]/div[1]/div[1]/div/input")
+    @FindBy(xpath = "//input[@formcontrolname='searchIcd']")
     private WebElement icdInput;
 
-    @FindBy(xpath = "/html/body/app-root/div/div[2]/app-right-side-bar/ed-modal/app-charge-entry/main/ed-drawer/ed-drawer-body/div[4]/div[2]/div[1]/div/div/input")
+    @FindBy(xpath = "//input[@formcontrolname='searchCpt']")
     private WebElement cptInput;
 
     @FindBy(xpath = "//tbody//tr//td[8]//input")
@@ -131,25 +129,25 @@ public class BillingGenerateClaims {
     private WebElement locationOptions;
 
 // Service Dropdown (2nd select)
-    @FindBy(xpath = "/html[1]/body[1]/app-root[1]/div[1]/div[2]/app-right-side-bar[1]/ed-modal[1]/app-charge-entry[1]/main[1]/ed-drawer[1]/ed-drawer-body[1]/div[1]/div[2]/app-encounter-selection[1]/sl-dropdown[1]/main[1]/div[2]/div[1]/div[2]/div[2]/ng-select[1]/div[1]/div[1]/div[2]/input[1]")
+    @FindBy(xpath = "//ng-select[@formcontrolname='visitType']")
     private WebElement serviceDropdown;
 
 // Date Input Field
-    @FindBy(xpath = "/html[1]/body[1]/app-root[1]/div[1]/div[2]/app-right-side-bar[1]/ed-modal[1]/app-charge-entry[1]/main[1]/ed-drawer[1]/ed-drawer-body[1]/div[1]/div[2]/app-encounter-selection[1]/sl-dropdown[1]/main[1]/div[2]/div[1]/div[2]/div[3]/input[1]")
+    @FindBy(xpath = "//input[@formcontrolname='date']")
     private WebElement encounterDateInput;
 
 // Create Encounter Button
-    @FindBy(xpath = "/html/body/app-root/div/div[2]/app-right-side-bar/ed-modal/app-charge-entry/main/ed-drawer/ed-drawer-body/div[1]/div[2]/app-encounter-selection/sl-dropdown/main/div[2]/div/div[3]/sl-button")
+    @FindBy(xpath = "//sl-button[contains(text(),' Create Encounter ')]")
     private WebElement createEncounterButton;
 
 // Encounter Number Display
-    @FindBy(xpath = "/html/body/app-root/div/div[2]/app-right-side-bar/ed-modal/app-charge-entry/main/ed-drawer/ed-drawer-body/div[1]/div[2]/app-encounter-selection/sl-dropdown/div/div")
+    @FindBy(xpath = "//app-encounter-selection/sl-dropdown/div/div")
     private WebElement encounterNumberDiv;
 
-    @FindBy(xpath = "/html/body/app-root/div/div[2]/app-right-side-bar/ed-modal/app-charge-entry/main/ed-drawer/ed-drawer-body/div[4]/div[1]/div[2]/div/div[1]/div")
+    @FindBy(xpath = "//ed-drawer-body/div[4]/div[1]/div[2]/div/div[1]/div")
     private WebElement icdSuggestionOption;
 
-    @FindBy(xpath = "/html/body/app-root/div/div[2]/app-right-side-bar/ed-modal/app-charge-entry/main/ed-drawer/ed-drawer-body/div[4]/div[2]/div[1]/div[2]/div/div/div")
+    @FindBy(xpath = "//ed-drawer-body/div[4]/div[2]/div[1]/div[2]/div/div[1]/div")
     private WebElement cptSuggestionOption;
 
     
@@ -199,9 +197,14 @@ public class BillingGenerateClaims {
         return dashboardElement;
     }
 
-    public WebElement getBillingIconElement() {
-        return billingIcon;
+    public BillingGenerateClaims(WebDriver driver) {
+        this.driver = driver;
     }
+
+    public WebElement getBillingIconElement() {
+        return driver.findElement(By.xpath("//a[.//span[@data-title='Billing']]"));
+    }
+    
 
     // ==================== Actions (Methods) ====================
     public void clickBillingButton() {
