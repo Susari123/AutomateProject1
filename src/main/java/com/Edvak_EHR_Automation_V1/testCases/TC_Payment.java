@@ -66,7 +66,7 @@ public void testQuickRegistration() throws InterruptedException {
 }
 
 
-@Test(priority = 1, dataProvider = "dataProviderTest", dependsOnMethods = {"testQuickRegistration"})
+@Test(priority = 1, dataProvider = "combinedDataProvider", dependsOnMethods = {"testQuickRegistration"})
     public void payment(String encounterNumber, String status, String currentDate, String futureDate) throws InterruptedException {
         logger.info("💳 Starting payment processing...");
 
@@ -95,13 +95,15 @@ public void testQuickRegistration() throws InterruptedException {
         } else {
             if (paymentPage.isInsurancePaymentOptionEnabled()) {
                 paymentPage.selectInsurancePaymentOption();
+                Thread.sleep(3000);
                 paymentPage.searchAndSelectInsurancePlan("CareCore National, Inc.");
                 paymentPage.selectInsurancePlanResult();
             }
         }
 
         paymentPage.selectModeOfPayment("Cash");
-        paymentPage.enterPaymentAmount("100.00");
+         String randomAmount = TC_Payment.getRandomAmount();
+        paymentPage.enterPaymentAmount(randomAmount);
         paymentPage.enterPaymentNotes("Test payment note");
         paymentPage.submitPayment();
         Thread.sleep(4000);
@@ -110,7 +112,11 @@ public void testQuickRegistration() throws InterruptedException {
         Thread.sleep(3000);
 
         String paymentType = paymentPage.getPaymentType();
-        logger.info("✅ Payment type recorded: " + paymentType);
+    if (paymentType.equalsIgnoreCase("Insurance")) {
+        TC_Payment.insurancePayment(encounterNumber);
+    } else {
+        TC_Payment.patientPayment(encounterNumber);
+    }
     }
 
     // Retry click method with logging
@@ -153,7 +159,7 @@ public void testQuickRegistration() throws InterruptedException {
     public static void insurancePayment(String encounterNumber) throws InterruptedException {
     	WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(100));
     	try {
-            WebElement firstButton = driver.findElement(By.xpath("//html/body/app-root/div/div[2]/app-patient-payments/div/div[2]/div[1]/div/table/tbody/tr/td/div/sl-tooltip/sl-button"));
+            WebElement firstButton = driver.findElement(By.xpath("//sl-button[contains(text(),'Select Claim')]"));
             if (firstButton != null && firstButton.isDisplayed()) {
                 firstButton.click();
                 logger.info("First button clicked successfully.");
@@ -183,9 +189,9 @@ public void testQuickRegistration() throws InterruptedException {
     	WebElement includeClaim = driver.findElement(By.xpath("//sl-button[contains(text(), 'Include Claims')]"));
     	includeClaim.click();
     	logger.info("claim selected");
-    	wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//html/body/app-root/div/div[2]/app-patient-payments/div/div[2]/div[2]/div[1]//h5")));
-    	wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath("//html/body/app-root/div/div[2]/app-patient-payments/div/div[2]/div[2]/div[1]/h5/sl-tooltip/span")));
-    	WebElement claimElement = driver.findElement(By.xpath("//html/body/app-root/div/div[2]/app-patient-payments/div/div[2]/div[2]/div[1]/h5/sl-tooltip/span"));
+    	wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h5[contains(text(),'Claim Info ')]")));
+    	wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath("//h5[contains(text(),'Claim Info ')]/sl-tooltip/span")));
+    	WebElement claimElement = driver.findElement(By.xpath("//h5[contains(text(),'Claim Info ')]/sl-tooltip/span"));
     	String claimID = claimElement.getText();
     	String trimmedClaimID = claimID.replace("#", "").trim();
     	logger.info("Encounter Number: " + encounterNumber);
@@ -249,7 +255,7 @@ public void testQuickRegistration() throws InterruptedException {
                }
            }
            
-           WebElement voidPaymentButton = driver.findElement(By.xpath("/html/body/app-root/div/div[2]/app-patient-payments/div/div[1]/div[2]/div[1]/div[2]/sl-tooltip[2]/sl-button"));
+           WebElement voidPaymentButton = driver.findElement(By.xpath("//sl-button[contains(text(),'Void Payment')]"));
            String isDisabled1 = voidPaymentButton.getAttribute("disabled");
            if (refundAmount > 0) {
                if (isDisabled1 != null) {
@@ -267,7 +273,7 @@ public void testQuickRegistration() throws InterruptedException {
                }
            }
            Thread.sleep(2000);
-           WebElement refundbutton = driver.findElement(By.xpath("//app-patient-payments/div/div[1]/div[1]/div[3]/div[2]/div[2]//sl-button"));
+           WebElement refundbutton = driver.findElement(By.xpath("//sl-button[contains(text(),'Refund')]"));
            String isDisabled2 = refundbutton.getAttribute("disabled");
            if (unappliedAmount == 0) {
                if (isDisabled2 != null) {

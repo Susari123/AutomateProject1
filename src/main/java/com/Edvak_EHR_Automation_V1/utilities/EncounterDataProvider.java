@@ -40,11 +40,17 @@ public class EncounterDataProvider {
             JsonArray encounterArray = gson.fromJson(reader, JsonArray.class);
 
             for (JsonElement element : encounterArray) {
-                JsonObject obj = element.getAsJsonObject();
-                String encounterNumber = obj.get("encounter_number").getAsString();
-                String status = obj.get("status").getAsString();
-                encounterDataList.add(new EncounterData(encounterNumber, status));
-            }
+    try {
+        JsonObject obj = element.getAsJsonObject();
+        String encounterNumber = obj.get("encounter_number").getAsString();
+        String status = obj.get("status").getAsString();
+        encounterDataList.add(new EncounterData(encounterNumber, status));
+    } catch (Exception ex) {
+        System.err.println("Failed to parse element: " + element);
+        ex.printStackTrace();
+    }
+}
+
 
         } catch (IOException e) {
             System.err.println("Error reading encounter JSON file:");

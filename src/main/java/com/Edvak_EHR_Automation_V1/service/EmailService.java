@@ -21,7 +21,7 @@ public class EmailService {
 
     // ✅ Use Gmail credentials
     private static final String SENDER_EMAIL = "souravsusari311@gmail.com";
-    private static final String SENDER_PASSWORD = "djjd dvne aeji tvil"; // Replace with an App Password
+    private static final String SENDER_PASSWORD = "bxee ctmc tlum dirh"; 
 
     // ✅ Gmail SMTP settings
     private static final String SMTP_HOST = "smtp.gmail.com";

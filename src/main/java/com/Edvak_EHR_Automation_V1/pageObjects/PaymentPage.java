@@ -56,7 +56,7 @@ public class PaymentPage {
 
     public void clickPatientPayment() {
         driver.findElement(selectPatientPayment).click();
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
     
         // Wait for skeleton loader to disappear, and loader to appear
         wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath("//*[contains(@class, 'skeleton')]")));
@@ -68,16 +68,16 @@ public class PaymentPage {
     
             if (!noPaymentsFoundPresent) {
                 // ✅ Case 1: Primary Table - Data present, hover and click
-                WebElement hoverArea = driver.findElement(By.xpath("//app-payment-list-table/div/table/tbody/tr[1]/td[5]/div"));
-                hoverAndClickButton(hoverArea, "//app-payment-list-table/div/table/tbody/tr[1]/td[5]/div/sl-button");
+                WebElement hoverArea = driver.findElement(By.xpath("//app-payment-list-table/div/table/tbody/tr[1]/td[6]/div"));
+                hoverAndClickButton(hoverArea, "//app-payment-list-table/div/table/tbody/tr[1]/td[6]/div/sl-button");
     
             } else {
                 // ✅ Case 2: Drawer Table - No data in primary table, fallback to drawer table
                 System.out.println("'No payments found' message is displayed. Clicking from drawer table...");
     
                 // Assuming ed-drawer-body/div[3] is already visible when 'No payments found' is shown.
-                WebElement hoverAreaDrawer = driver.findElement(By.xpath("//ed-drawer-body/div[3]//tbody//tr[1]/td[5]/div"));
-                hoverAndClickButton(hoverAreaDrawer, "//ed-drawer-body/div[3]//tbody//tr[1]/td[5]/div/sl-button");
+                WebElement hoverAreaDrawer = driver.findElement(By.xpath("//ed-drawer-body/div[3]//tbody//tr[1]/td[6]/div"));
+                hoverAndClickButton(hoverAreaDrawer, "//ed-drawer-body/div[3]//tbody//tr[1]/td[6]/div/sl-button");
             }
         } catch (NoSuchElementException e) {
             System.out.println("Element not found: " + e.getMessage());
@@ -86,23 +86,37 @@ public class PaymentPage {
         }
     }  
     public void applyLesserAmount(double patientAppliedAmount) {
-        // Locators
-        By paymentBalanceLocator = By.xpath("//section[3]/div/div/app-apply-patient-balance/ed-col/div[2]/strong");
-        By amountInputLocator = By.xpath("//div/div/app-apply-patient-balance/ed-col/div[3]/input");
-    
-        // Get Payment Balance as Double (Remove all non-numeric characters except digits and ".")
-        String balanceText = driver.findElement(paymentBalanceLocator).getText().replaceAll("[^\\d.]", "");
+    WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
+
+    // Locators
+    By paymentBalanceLocator = By.xpath("//section[3]/div/div/app-apply-patient-balance/ed-col/div[2]/strong");
+    By amountInputLocator = By.xpath("//div/div/app-apply-patient-balance/ed-col/div[3]/input");
+    // By applyButtonLocator = By.xpath("//sl-button[contains(text(),'Apply')]");
+
+    try {
+        // Wait for payment balance to be visible and get the value
+        WebElement balanceElement = wait.until(ExpectedConditions.visibilityOfElementLocated(paymentBalanceLocator));
+        String balanceText = balanceElement.getText().replaceAll("[^\\d.]", "");
         double paymentBalance = Double.parseDouble(balanceText);
-    
-        // Determine the Lesser Amount
+
+        // Calculate amount to apply
         double amountToApply = Math.min(paymentBalance, patientAppliedAmount);
-        
-        // Apply the Amount
-        WebElement inputElement = driver.findElement(amountInputLocator);
+        System.out.println("Applying lesser amount: " + amountToApply + " (min of balance " + paymentBalance + " and patientAppliedAmount " + patientAppliedAmount + ")");
+
+        // Wait for input field and enter amount
+        WebElement inputElement = wait.until(ExpectedConditions.elementToBeClickable(amountInputLocator));
         inputElement.clear();
         inputElement.sendKeys(String.valueOf(amountToApply));
+
+        // Click Apply
         driver.findElement(applyButton).click();
-    }
+
+    } catch (NoSuchElementException e) {
+        System.out.println("❌ One of the elements in applyLesserAmount was not found.");
+        throw e;
+    }   
+}
+
   
     private void hoverAndClickButton(WebElement hoverArea, String buttonXpath) {
         ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", hoverArea);
@@ -179,6 +193,7 @@ public class PaymentPage {
 
     public void searchAndSelectPatient(String patientName) {
         driver.findElement(patientSearchInput).sendKeys(patientName);
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
         wait.until(ExpectedConditions.elementToBeClickable(patientSearchResult)).click();
     }
 
